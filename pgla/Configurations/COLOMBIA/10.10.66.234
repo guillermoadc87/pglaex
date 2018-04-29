@@ -1,0 +1,435 @@
+terminal length 0
+bucaramangap#show configuration
+Using 6255 out of 2095096 bytes, uncompressed size = 11589 bytes
+!
+! Last configuration change at 16:33:06 Co Fri Sep 8 2017 by nlopez
+! NVRAM config last updated at 22:18:55 Co Mon Mar 19 2018
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec localtime
+service timestamps log datetime msec localtime
+service password-encryption
+service compress-config
+no service dhcp
+!
+hostname bucaramangap
+!
+boot-start-marker
+boot system flash disk2:c7200p-spservicesk9-mz.122-33.SRE5.bin
+boot-end-marker
+!
+security passwords min-length 1
+logging buffered 256000
+enable secret 5 $1$n8yI$v1jbc3GHAIWExTmMjoGW70
+enable password 7 00071A150754
+!
+aaa new-model
+!
+!
+aaa authentication login default group tacacs+ local
+aaa authentication enable default group tacacs+ enable
+aaa authorization config-commands
+aaa authorization exec default group tacacs+ local if-authenticated 
+aaa authorization commands 0 default group tacacs+ local if-authenticated 
+aaa authorization commands 1 default group tacacs+ local if-authenticated 
+aaa authorization commands 15 default group tacacs+ local if-authenticated 
+aaa accounting exec default
+ action-type start-stop
+ group tacacs+
+!
+aaa accounting commands 0 default
+ action-type start-stop
+ group tacacs+
+!
+aaa accounting commands 1 default
+ action-type start-stop
+ group tacacs+
+!
+aaa accounting commands 15 default
+ action-type start-stop
+ group tacacs+
+!
+!
+!
+!
+!
+!
+aaa session-id common
+clock timezone Co -5
+no ip source-route
+ip routing protocol purge interface
+ip cef
+!
+!
+!
+!
+ip flow-cache timeout active 1
+no ip bootp server
+ip domain name nms.telmexla.net.co
+ip name-server 172.31.238.91
+no ipv6 cef
+!
+!
+multilink bundle-name authenticated
+no mpls ip propagate-ttl forwarded
+mpls ldp neighbor 10.10.66.35 targeted
+mpls ldp neighbor 10.10.66.237 targeted
+mpls ldp neighbor 10.10.66.253 targeted
+mpls ldp neighbor 10.10.66.34 targeted
+mpls ldp neighbor 10.10.66.3 targeted
+mpls ldp neighbor 10.10.66.236 targeted
+mpls ldp graceful-restart
+mpls ldp igp sync holddown 60000
+mpls label protocol ldp
+!
+!
+username attuser secret 5 $1$MhbO$Hkfj7BTI2s8ZrRscZCE0w1
+username usrtelmex secret 5 $1$XN.7$FqhcgCDVlu9XEEhZwqzmC/
+!
+process-max-time 50
+!
+ip tcp path-mtu-discovery
+ip tftp source-interface Loopback222
+ip ssh version 2
+!
+class-map match-any precedence-5
+  match ip precedence 5 
+class-map match-any VOZ
+  match ip precedence 5 
+  match ip dscp ef 
+  match ip rtp 16384 16383
+class-map match-any Voz
+  match mpls experimental topmost 4  5 
+  match ip precedence 4  5 
+class-map match-any Video
+  match mpls experimental topmost 3 
+  match ip precedence 3 
+class-map match-any VOICE
+  match access-group 2010
+  match ip precedence 5 
+class-map match-any Datos_VPN
+  match mpls experimental topmost 1  2  6  7 
+  match ip precedence 1  2  6  7 
+class-map match-all VOZ-MPLS
+  match mpls experimental topmost 5 
+class-map match-all exp-5
+  match mpls experimental topmost 5 
+class-map match-all VIDEO-MPLS
+  match mpls experimental topmost 4 
+!
+policy-map CAR-150MEGAS
+  class class-default
+    police 150000000 18750000 18750000 conform-action transmit exceed-action drop violate-action drop
+policy-map CORE
+  class exp-5
+    priority percent 25
+  class class-default
+    bandwidth percent 75
+policy-map QoS-MPLS
+  class VOZ-MPLS
+    priority percent 25
+  class VIDEO-MPLS
+    priority percent 25
+  class class-default
+    fair-queue
+policy-map QOS_CORE
+  class Voz
+    priority percent 35
+  class Video
+    bandwidth percent 10
+  class Datos_VPN
+    bandwidth percent 30
+     random-detect
+     random-detect precedence 1 2800 7000 1
+     random-detect precedence 2 4200 7000 1
+     random-detect precedence 6 5600 7000 1
+     random-detect precedence 7 5600 7000 1
+  class class-default
+    fair-queue
+     random-detect
+     random-detect precedence 0 2952 5000 1
+!
+! 
+!
+!
+!
+!
+!
+interface Loopback222
+ ip address 10.10.66.234 255.255.255.255
+!
+interface GigabitEthernet0/1
+ description TRUNK MPLS A9KBUCARAMANGA GE0/0/1/3 - TSO5121 (FIBRA OPTICA LOCAL)
+ mtu 1580
+ ip address 10.14.10.113 255.255.255.252
+ ip mtu 1566
+ ip flow ingress
+ ip ospf network point-to-point
+ ip ospf cost 14000
+ load-interval 30
+ carrier-delay msec 0
+ media-type sfp
+ speed 1000
+ duplex auto
+ negotiation auto
+ mpls ip
+ mpls label protocol ldp
+ bfd interval 250 min_rx 250 multiplier 3
+ hold-queue 1000 in
+!
+interface FastEthernet0/2
+ no ip address
+ shutdown
+ speed auto
+ duplex auto
+!
+interface GigabitEthernet0/2
+ description TRUNK TX-SDH AAC-BUC.DANN-C1 GE1/1/9 - TTU5716 (CONTINGENCIA A1KCUCUTA GE1/0/2 - AAG-CUC.COLEGIO_MAYOR-C1 - 3/2/6)
+ mtu 1580
+ no ip address
+ ip mtu 1566
+ ip flow ingress
+ carrier-delay msec 0
+ media-type sfp
+ speed auto
+ duplex auto
+ negotiation auto
+!
+interface GigabitEthernet0/2.399
+ description TRUNK MPLS A1KCUCUTA GE1/0/2.399 - TTU5716 (CONTINGENCIA ALCATEL)
+ bandwidth 300000
+ encapsulation dot1Q 399
+ ip address 10.14.12.114 255.255.255.252
+ ip mtu 1566
+ ip ospf network point-to-point
+ ip ospf cost 50000
+ mpls ip
+ mpls label protocol ldp
+ bfd interval 250 min_rx 250 multiplier 3
+!
+interface GigabitEthernet0/3
+ description TRUNK MPLS A9KBUCARAMANGA GE1/0/1/3 - TSO5123 (FIBRA OPTICA LOCAL)
+ mtu 1580
+ ip address 10.14.10.158 255.255.255.252
+ ip mtu 1566
+ ip ospf network point-to-point
+ ip ospf cost 14000
+ load-interval 30
+ carrier-delay msec 0
+ media-type sfp
+ speed 1000
+ duplex auto
+ negotiation auto
+ mpls ip
+ mpls label protocol ldp
+ bfd interval 250 min_rx 250 multiplier 3
+ hold-queue 1000 in
+!
+interface ATM1/0
+ description TRUNK TX-SDH 8-651_HOTEL_DANN-MT 19-N1OU08 PORT5 - TSO5125
+ no ip address
+ no atm ilmi-keepalive
+ no atm enable-ilmi-trap
+!
+interface ATM1/0.239130 point-to-point
+ description TRUNK MPLS NACIONALATM ATM3/0.239130 - TSO5125 (TX-SDH 8-651_HOTEL_DANN-MT 2-SEP PORT5)
+ bandwidth 135000
+ ip address 10.14.11.10 255.255.255.252
+ ip ospf network point-to-point
+ ip ospf cost 24000
+ no atm enable-ilmi-trap
+ mpls ip
+ mpls label protocol ldp
+ bfd interval 250 min_rx 250 multiplier 3
+ pvc 239/106 
+  cbr 149760
+  service-policy in CAR-150MEGAS
+  service-policy out QOS_CORE
+ !
+!
+interface ATM2/0
+ description TRUNK TX-SDH 8-651_HOTEL_DANN-MT 3-N1SLT1 PORT12 TSO5129
+ no ip address
+ no atm ilmi-keepalive
+ no atm enable-ilmi-trap
+!
+interface ATM2/0.239106 point-to-point
+ description TRUNK MPLS NACIOANALATM ATM4/0.239106 - TSO5129 (TX-SDH 8-651_HOTEL_DANN-MT 3-N1SLT1 PORT12)
+ bandwidth 135000
+ ip address 10.14.11.2 255.255.255.252
+ ip ospf network point-to-point
+ ip ospf cost 24000
+ no atm enable-ilmi-trap
+ mpls ip
+ mpls label protocol ldp
+ bfd interval 250 min_rx 250 multiplier 3
+ pvc 239/106 
+  cbr 149760
+  service-policy in CAR-150MEGAS
+  service-policy out QOS_CORE
+ !
+!
+interface ATM3/0
+ no ip address
+ no atm ilmi-keepalive
+ no atm enable-ilmi-trap
+!
+interface ATM3/0.239110 point-to-point
+ shutdown
+ no atm enable-ilmi-trap
+!
+interface ATM4/0
+ no ip address
+ no atm ilmi-keepalive
+ no atm enable-ilmi-trap
+!
+interface ATM4/0.239125 point-to-point
+ description TRUNK MPLS NACIOANALATM2 ATM4/0.239125 - TTU1303 (TX-SDH 8-651_HOTEL_DANN 16-N1SLT1 PORT11)
+ bandwidth 135000
+ ip address 10.14.10.69 255.255.255.252
+ ip ospf network point-to-point
+ ip ospf cost 24000
+ no atm enable-ilmi-trap
+ mpls ip
+ mpls label protocol ldp
+ bfd interval 250 min_rx 250 multiplier 3
+ pvc 239/125 
+  cbr 149760
+  service-policy in CAR-150MEGAS
+  service-policy out QOS_CORE
+ !
+!
+router ospf 66
+ router-id 10.10.66.234
+ ispf
+ log-adjacency-changes
+ auto-cost reference-bandwidth 1000000
+ timers throttle spf 50 50 5000
+ timers throttle lsa 0 20 5000
+ timers lsa arrival 15
+ timers pacing flood 15
+ network 10.10.66.234 0.0.0.0 area 0
+ network 10.14.10.69 0.0.0.0 area 0
+ network 10.14.10.113 0.0.0.0 area 0
+ network 10.14.10.158 0.0.0.0 area 0
+ network 10.14.11.2 0.0.0.0 area 0
+ network 10.14.11.10 0.0.0.0 area 0
+ network 10.14.11.110 0.0.0.0 area 0
+ network 10.14.12.114 0.0.0.0 area 0
+ bfd all-interfaces
+ mpls ldp sync
+!
+no ip http server
+no ip http secure-server
+!
+ip bgp-community new-format
+ip community-list 1 permit 28513:285
+ip community-list 2 permit 28513:286
+ip flow-export source Loopback222
+ip flow-export version 5
+ip flow-export destination 172.31.215.139 9996
+!
+ip tacacs source-interface Loopback222
+!
+logging alarm informational
+logging facility local6
+logging source-interface Loopback222
+logging 172.31.238.68
+logging 172.31.215.137
+access-list 1300 permit 172.18.191.75
+access-list 1300 permit 172.18.191.76
+access-list 1300 permit 172.28.9.5
+access-list 1300 permit 172.31.238.0 0.0.1.255
+access-list 1300 permit 10.14.0.0 0.0.255.255
+access-list 1300 permit 10.10.66.0 0.0.0.255
+access-list 1300 permit 172.31.215.0 0.0.0.255
+access-list 1300 permit 172.22.19.0 0.0.0.15
+access-list 1300 permit 10.160.63.36 0.0.0.3
+access-list 1300 permit 10.160.57.60 0.0.0.3
+access-list 1302 permit 172.22.208.21
+access-list 1302 permit 172.22.115.108
+access-list 1302 permit 172.28.9.5
+access-list 1302 permit 172.31.238.0 0.0.1.255
+access-list 1302 permit 172.31.215.0 0.0.0.255
+!
+mpls ldp router-id Loopback222 force
+snmp-server engineID local 0000000902000030F22C5820
+snmp-server view NMS system included
+snmp-server view NMS interfaces included
+snmp-server view NMS snmp included
+snmp-server view NMS ifEntry included
+snmp-server view NMS ipAddrEntry excluded
+snmp-server community BaCkAtT8422 RO 1302
+snmp-server community BonEAtT8422 RW 1302
+snmp-server community C8i1ShcHO1 RO 1302
+snmp-server trap-source Loopback222
+snmp-server location Bucaramanga
+snmp-server enable traps snmp linkdown linkup coldstart warmstart
+snmp-server enable traps tty
+snmp-server enable traps ospf state-change
+snmp-server enable traps ospf errors
+snmp-server enable traps ospf retransmit
+snmp-server enable traps ospf lsa
+snmp-server enable traps ospf cisco-specific state-change nssa-trans-change
+snmp-server enable traps ospf cisco-specific state-change shamlink interface-old
+snmp-server enable traps ospf cisco-specific state-change shamlink neighbor
+snmp-server enable traps ospf cisco-specific errors
+snmp-server enable traps ospf cisco-specific retransmit
+snmp-server enable traps ospf cisco-specific lsa
+snmp-server enable traps envmon
+snmp-server enable traps bgp
+snmp-server enable traps config
+snmp-server enable traps mpls ldp
+snmp-server enable traps rtr
+snmp-server enable traps syslog
+snmp-server enable traps fru-ctrl
+snmp-server enable traps entity
+snmp-server enable traps cpu threshold
+snmp-server enable traps rsvp
+snmp-server enable traps mpls vpn
+snmp-server host 172.22.115.108 BaCkAtT8422 
+snmp-server host 172.22.208.21 BaCkAtT8422 
+snmp-server host 172.31.239.204 c0r31pcl4r0 
+snmp ifmib ifindex persist
+!
+tacacs-server host 172.22.192.5 timeout 2
+tacacs-server host 172.22.192.4 timeout 2
+tacacs-server host 172.31.239.192 timeout 2
+tacacs-server directed-request
+tacacs-server key 7 14141B180F0B272A2A
+!
+control-plane
+!
+banner motd ^CCCC
+*************************************************************
+* ATENCION: Este equipo es propiedad de TELMEX Colombia.    *
+* El uso no autorizado esta estrictamente prohibido.        *
+* Todos los usuarios son legalmente responsables de sus     *
+* acciones sobre el sistema y toda actividad sera registrada*
+*************************************************************^C
+!
+line con 0
+ stopbits 1
+line aux 0
+ transport input all
+ stopbits 1
+line vty 0 4
+ access-class 1300 in
+ exec-timeout 5 0
+ password 7 03290A3B5423727F1A
+ transport input ssh
+line vty 5 15
+ access-class 1300 in
+ exec-timeout 5 0
+ password 7 03290A3B5423727F1A
+ transport input ssh
+!
+ntp clock-period 17180859
+ntp source Loopback222
+ntp update-calendar
+ntp server 172.21.45.5 source Loopback222
+ntp server 172.21.45.70 source Loopback222
+end
+
+bucaramangap#

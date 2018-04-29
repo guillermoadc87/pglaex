@@ -1,0 +1,12 @@
+terminal length 0
+Tue Mar 20 11:43:46.698 COL
+RP/0/RSP0/CPU0:THBANEIVAHOGARES#show configuration running-config
+Tue Mar 20 11:43:47.000 COL
+Building configuration...
+!! IOS XR Configuration 6.2.2
+!! Last configuration change at Thu Mar 15 22:52:54 2018 by gcanon
+!
+configuration display interface slot-order
+end
+
+RP/0/RSP0/CPU0:THBANEIVAHOGARES#

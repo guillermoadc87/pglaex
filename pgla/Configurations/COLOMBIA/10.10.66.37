@@ -1,0 +1,742 @@
+terminal length 0
+NACIONALBK#show configuration
+Using 9885 out of 2095096 bytes, uncompressed size = 23034 bytes
+!
+! Last configuration change at 01:35:23 Co Fri Feb 23 2018 by cisco_noa
+! NVRAM config last updated at 23:31:56 Co Mon Mar 19 2018
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec localtime
+service timestamps log datetime msec localtime
+service password-encryption
+service compress-config
+no service dhcp
+!
+hostname NACIONALBK
+!
+boot-start-marker
+boot system flash disk2:c7200p-spservicesk9-mz.122-33.SRE5.bin
+boot-end-marker
+!
+logging exception 4096
+logging buffered 256000
+enable secret 5 $1$dWrN$1XVRUH1IU8fq/uS8ml6L41
+!
+aaa new-model
+!
+!
+aaa authentication login default group tacacs+ local
+aaa authentication enable default group tacacs+ enable
+aaa authorization config-commands
+aaa authorization exec default group tacacs+ local if-authenticated 
+aaa authorization commands 0 default group tacacs+ local if-authenticated 
+aaa authorization commands 1 default group tacacs+ local if-authenticated 
+aaa authorization commands 15 default group tacacs+ local if-authenticated 
+aaa accounting exec default
+ action-type start-stop
+ group tacacs+
+!
+aaa accounting commands 0 default
+ action-type start-stop
+ group tacacs+
+!
+aaa accounting commands 1 default
+ action-type start-stop
+ group tacacs+
+!
+aaa accounting commands 15 default
+ action-type start-stop
+ group tacacs+
+!
+!
+!
+!
+!
+!
+aaa session-id common
+clock timezone Co -5
+no ip source-route
+ip routing protocol purge interface
+ip cef
+!
+!
+!
+!
+ip flow-cache timeout active 1
+no ip bootp server
+ip domain name nms.telmexla.net.co
+ip name-server 172.31.238.91
+no ipv6 cef
+!
+!
+multilink bundle-name authenticated
+no mpls ip propagate-ttl forwarded
+mpls ldp neighbor 10.10.66.197 targeted
+mpls ldp neighbor 10.10.66.170 targeted
+mpls ldp neighbor 10.10.66.168 targeted
+mpls ldp neighbor 10.10.66.44 targeted
+mpls ldp neighbor 10.10.66.76 targeted
+mpls ldp neighbor 10.10.66.49 targeted
+mpls ldp graceful-restart
+mpls ldp igp sync holddown 60000
+mpls label protocol ldp
+!
+!
+username attuser secret 5 $1$t26A$rwgKdVSG.BNdy2vL6miR2/
+username usrtelmex secret 5 $1$dXGH$gRACuEB4PqygsbXxjqRIx/
+!
+controller SONET 1/0
+ framing sdh
+ !
+ au-4 1 tug-3 1
+  tug-2 1 e1 2 unframed
+  tug-2 1 e1 2 description --- CONEXION MPLS BARRANQUILLA VIA ETB
+  tug-2 2 e1 3 unframed
+  tug-2 2 e1 3 description --- CONEXION MPLS BMANGA 1984 INTERNEXA
+  tug-2 3 e1 1 unframed
+  tug-2 3 e1 1 description --- CONEXION MPLS TUNJA 1984 INTERNEXA
+  tug-2 4 e1 1 unframed
+  tug-2 4 e1 1 description --- CONEXION MPLS BUENAVENTURA VIA INTERNEXA
+  tug-2 4 e1 2 unframed
+  tug-2 4 e1 2 description --- CONEXION MPLS MANIZALES VIA INTERNEXA
+  tug-2 4 e1 3 unframed
+  tug-2 4 e1 3 description --- CONEXION MPLS BARRANQUILLA VIA ETB
+  tug-2 5 e1 1 channel-group 0 timeslots 1-31
+  tug-2 5 e1 1 framing no-crc4
+  tug-2 5 e1 1 description --- CONEXION MPLS MANIZALES
+  tug-2 6 e1 1 unframed
+  tug-2 6 e1 1 description --- CONEXION MPLS TUNJA VIA INTERNEXA E1-4 BOG TUN 04 E1 PTP  - TIENE 2 TRAIL SDH ---
+  tug-2 6 e1 2 unframed
+  tug-2 6 e1 2 description CONEXION NACIONALBK GIRARDOT2
+  tug-2 6 e1 3 unframed
+  tug-2 6 e1 3 description CONEXION NACIONALBK GIRARDOT2
+  tug-2 7 e1 3 channel-group 0 timeslots 1-31
+  tug-2 7 e1 3 framing no-crc4
+  tug-2 7 e1 3 description --- TRUNK MPLS NACIONALBK - TSO3317 ---
+ !
+ au-4 1 tug-3 2
+  tug-2 1 e1 1 channel-group 0 timeslots 1-31
+  tug-2 1 e1 1 framing no-crc4
+  tug-2 1 e1 1 description --- TRUNK MPLS NACIONAL 1984 ETB HCuni-6 8-1-1-13 ---
+  tug-2 1 e1 3 channel-group 0 timeslots 1-31
+  tug-2 1 e1 3 framing no-crc4
+  tug-2 2 e1 1 channel-group 0 timeslots 1-31
+  tug-2 2 e1 1 framing no-crc4
+  tug-2 2 e1 1 description -- LIBRE --
+  tug-2 3 e1 3 channel-group 0 timeslots 1-31
+  tug-2 3 e1 3 framing no-crc4
+  tug-2 3 e1 3 description -- LIBRE --
+  tug-2 5 e1 2 framing no-crc4
+  tug-2 5 e1 2 description TRONCAL MPLS PROVISONAL
+  tug-2 6 e1 2 channel-group 0 timeslots 1-31
+  tug-2 6 e1 2 framing no-crc4
+  tug-2 6 e1 2 description --- TRK MPLS CARTAGENA2 ATR0552 ---
+  tug-2 6 e1 3 channel-group 0 timeslots 1-31
+  tug-2 6 e1 3 framing no-crc4
+ description --- al OSN9500 Aranda-235/17/12 ---
+!
+process-max-time 50
+!
+ip tcp path-mtu-discovery
+ip tftp source-interface Loopback222
+ip ssh version 2
+!
+class-map match-any BANREPUBLICA-SEN-OUT
+  match access-group 151
+class-map match-any MPLS-CS3
+  match mpls experimental topmost 3 
+class-map match-any MPLS-CS1
+  match mpls experimental topmost 1 
+class-map match-any BANREPUBLICA-CEDEC-OUT
+  match access-group 153
+class-map match-any SET-FX-OUT
+  match access-group 179
+class-map match-any CIFIN-OUT
+  match access-group 161
+class-map match-any DIAN-IN
+  match access-group 166
+class-map match-any VIDEOCONFERENCIA-IN
+  match access-group 2002
+class-map match-any BOLSAVALORES-IN
+  match access-group 158
+class-map match-any DATACREDITO-OUT
+  match access-group 163
+class-map match-any REUTERS-OUT
+  match access-group 171
+class-map match-any CREDIBANCO-IN
+  match access-group 176
+class-map match-any TELEFONIA-OUT
+  match access-group 2001
+class-map match-any DECEVAL-OUT
+  match access-group 155
+class-map match-any VOZ
+  match ip precedence 5 
+  match ip dscp ef 
+  match ip rtp 16384 16383
+class-map match-any Voz
+  match mpls experimental topmost 4  5 
+  match ip precedence 4  5 
+class-map match-any BANREPUBLICA-SEN-IN
+  match access-group 150
+class-map match-any Video
+  match mpls experimental topmost 3 
+  match ip precedence 3 
+class-map match-any BANREPUBLICA-CEDEC-IN
+  match access-group 152
+class-map match-any Datos_VPN
+  match mpls experimental topmost 1  2  6  7 
+  match ip precedence 1  2  6  7 
+class-map match-any SET-FX-IN
+  match access-group 178
+class-map match-any BOLSAVALORES-OUT
+  match access-group 159
+class-map match-any CIFIN-IN
+  match access-group 160
+class-map match-any DIAN-OUT
+  match access-group 167
+class-map match-any VIDEOCONFERENCIA-OUT
+  match access-group 2003
+class-map match-all VOZ-MPLS
+  match mpls experimental topmost 5 
+class-map match-any DECEVAL-IN
+  match access-group 154
+class-map match-any DATACREDITO-IN
+  match access-group 162
+class-map match-any REUTERS-IN
+  match access-group 170
+class-map match-any CREDIBANCO-OUT
+  match access-group 177
+class-map match-any TELEFONIA-IN
+  match access-group 2000
+class-map match-all VIDEO-MPLS
+  match mpls experimental topmost 4 
+!
+policy-map CAR-696
+  class class-default
+    police 696000 875000 875000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-128
+  class class-default
+    police 128000 16000 16000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-600
+  class class-default
+    police 600000 75000 75000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-1024
+  class class-default
+    police 1024000 128000 128000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-1400
+  class class-default
+    police 1408000 176000 176000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-Int200k
+  class class-default
+    police 600000 75000 75000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-900
+  class class-default
+    police 904000 113000 113000 conform-action transmit exceed-action drop violate-action drop
+policy-map QoS-MPLS2
+  class VOZ-MPLS
+    priority 768
+  class VIDEO-MPLS
+    priority 768
+  class class-default
+    fair-queue
+policy-map QoS-MPLS-ATM
+  class VOZ-MPLS
+    priority percent 25
+  class VIDEO-MPLS
+    priority percent 15
+  class class-default
+    fair-queue
+policy-map CAR-100
+  class class-default
+    police 104000 13000 13000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-384
+  class class-default
+    police 384000 48000 48000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-4096
+  class class-default
+    police 4096000 512000 512000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-1200
+  class class-default
+    police 1200000 150000 150000 conform-action transmit exceed-action drop violate-action drop
+policy-map QoS-MPLS-LATAM
+  class MPLS-CS3
+    priority 1024
+  class MPLS-CS1
+    bandwidth 512
+     random-detect
+  class class-default
+    fair-queue
+     random-detect
+policy-map CAR-200
+  class class-default
+    police 200000 25000 25000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-1000
+  class class-default
+    police 1000000 1250000 1250000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-6MEGAS
+  class class-default
+    police 6000000 750000 750000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-768
+  class class-default
+    police 768000 96000 96000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-Int300k
+  class class-default
+    police 904000 113000 113000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-2048
+  class class-default
+    police 2048000 256000 256000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-GIGA
+  class class-default
+    police 1000000000 125000000 125000000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-1536
+  class class-default
+    police 1536000 192000 192000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-Contenido
+  class class-default
+    police 10000000 1250000 1250000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-400
+  class class-default
+    police 400000 50000 50000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-2MEGAS
+  class class-default
+    police 2000000 250000 250000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-800
+  class class-default
+    police 800000 100000 100000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-Int600k
+  class class-default
+    police 1800000 225000 225000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-150MEGAS
+  class class-default
+    police 150000000 18750000 18750000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-300
+  class class-default
+    police 304000 37000 37000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-100MEGAS
+  class class-default
+    police 100000000 12500000 conform-action transmit exceed-action drop
+policy-map CAR-Int100k
+  class class-default
+    police 304000 38000 38000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-3MEGAS
+  class class-default
+    police 3000000 375000 375000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-512
+  class class-default
+    police 512000 64000 64000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-4MEGAS
+  class class-default
+    police 4000000 500000 500000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-192
+  class class-default
+    police 192000 24000 24000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-30MEGAS
+  class class-default
+    police 30000000 375000 375000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-1600
+  class class-default
+    police 1600000 200000 200000 conform-action transmit exceed-action drop violate-action drop
+policy-map CAR-64
+  class class-default
+    police 64000 8000 8000 conform-action transmit exceed-action drop violate-action drop
+policy-map QoS-MPLS
+  class VOZ-MPLS
+    priority 512
+  class VIDEO-MPLS
+    priority 768
+  class class-default
+    fair-queue
+policy-map CAR-256
+  class class-default
+    police 256000 32000 32000 conform-action transmit exceed-action drop violate-action drop
+policy-map QOS_CORE
+  class Voz
+    priority percent 35
+  class Video
+    bandwidth percent 10
+  class Datos_VPN
+    bandwidth percent 30
+     random-detect
+     random-detect precedence 1 2800 7000 1
+     random-detect precedence 2 4200 7000 1
+     random-detect precedence 6 5600 7000 1
+     random-detect precedence 7 5600 7000 1
+  class class-default
+    fair-queue
+     random-detect
+     random-detect precedence 0 2952 5000 1
+!
+! 
+!
+!
+!
+!
+!
+interface Loopback222
+ ip address 10.10.66.37 255.255.255.255
+!
+interface GigabitEthernet0/1
+ no ip address
+ shutdown
+ media-type rj45
+ speed 100
+ duplex full
+ negotiation auto
+!
+interface FastEthernet0/2
+ no ip address
+ shutdown
+ speed auto
+ duplex auto
+!
+interface GigabitEthernet0/2
+ description TRUNK MPLS MARANDA GE1/2 - TSO5004 (RED METRO)
+ mtu 1550
+ ip address 10.14.10.66 255.255.255.252
+ ip mtu 1500
+ ip ospf network point-to-point
+ ip ospf cost 7000
+ carrier-delay msec 0
+ media-type sfp
+ speed 1000
+ duplex full
+ negotiation auto
+ mpls ip
+ mpls label protocol ldp
+ bfd interval 250 min_rx 250 multiplier 3
+ service-policy input CAR-GIGA
+ service-policy output CAR-GIGA
+!
+interface GigabitEthernet0/3
+ no ip address
+ media-type rj45
+ speed auto
+ duplex auto
+ negotiation auto
+!
+interface Serial1/0.1/1/1/2:0
+ description TRUNK MPLS SOGAMOSO SE3/0 - TSO5095 (SDH 8-235_ARANDA 17/12 VIA TLC :VC12,2 KLM 1-1-2)
+ mtu 1530
+ bandwidth 1984
+ ip unnumbered Loopback222
+ no ip redirects
+ no ip unreachables
+ ip ospf network point-to-point
+ ip ospf cost 35000
+ mpls ip
+ mpls label protocol ldp
+ no mpls ldp igp sync
+ service-policy input CAR-2048
+ service-policy output QoS-MPLS
+!
+interface Serial1/0.1/1/2/3:0
+ no ip address
+ no ip redirects
+ no ip unreachables
+ shutdown
+!
+interface Serial1/0.1/1/3/1:0
+ no ip address
+ no ip redirects
+ no ip unreachables
+ ip load-sharing per-packet
+ shutdown
+!
+interface Serial1/0.1/1/4/1:0
+ mtu 1530
+ bandwidth 1984
+ no ip address
+ no ip redirects
+ no ip unreachables
+ shutdown
+!
+interface Serial1/0.1/1/4/2:0
+ no ip address
+ no ip redirects
+ no ip unreachables
+!
+interface Serial1/0.1/1/4/3:0
+ no ip address
+!
+interface Serial1/0.1/1/5/1:0
+ no ip address
+!
+interface Serial1/0.1/1/6/1:0
+ no ip address
+ no ip redirects
+ no ip unreachables
+ shutdown
+!
+interface Serial1/0.1/1/6/2:0
+ no ip address
+ shutdown
+!
+interface Serial1/0.1/1/6/3:0
+ no ip address
+ shutdown
+!
+interface Serial1/0.1/1/7/3:0
+ no ip address
+!
+interface Serial1/0.1/2/1/1:0
+ no ip address
+!
+interface Serial1/0.1/2/1/3:0
+ no ip address
+!
+interface Serial1/0.1/2/2/1:0
+ no ip address
+ no ip redirects
+ no ip unreachables
+ shutdown
+!
+interface Serial1/0.1/2/3/3:0
+ no ip address
+ no ip redirects
+ no ip unreachables
+ shutdown
+!
+interface Serial1/0.1/2/6/2:0
+ no ip address
+!
+interface Serial1/0.1/2/6/3:0
+ no ip address
+ shutdown
+!
+router ospf 66
+ router-id 10.10.66.37
+ ispf
+ log-adjacency-changes
+ auto-cost reference-bandwidth 1000000
+ timers throttle spf 50 50 5000
+ timers throttle lsa 0 20 5000
+ timers lsa arrival 15
+ timers pacing flood 15
+ network 10.10.66.37 0.0.0.0 area 0
+ network 10.14.10.53 0.0.0.0 area 0
+ network 10.14.10.66 0.0.0.0 area 0
+ bfd all-interfaces
+ mpls ldp sync
+!
+no ip http server
+no ip http secure-server
+!
+ip flow-export source Loopback222
+ip flow-export version 5
+ip flow-export destination 172.31.215.139 9996
+!
+ip tacacs source-interface Loopback222
+!
+!
+ip prefix-list ASOBANCARIA-CIFIN seq 5 permit 192.168.8.0/24 ge 29
+ip prefix-list ASOBANCARIA-CIFIN seq 10 permit 10.5.5.0/24 ge 29
+!
+ip prefix-list AVV-voz seq 4 permit 10.159.8.0/24 ge 29
+ip prefix-list AVV-voz seq 5 permit 10.9.0.0/16 ge 25
+ip prefix-list AVV-voz seq 8 permit 10.5.30.0/24
+!
+ip prefix-list BANREPUBLICA seq 5 permit 172.30.0.0/16 ge 24
+ip prefix-list BANREPUBLICA seq 10 permit 172.31.0.0/16 ge 24
+ip prefix-list BANREPUBLICA seq 15 permit 172.29.0.0/16 ge 24
+!
+ip prefix-list BOLSA seq 5 permit 172.25.0.0/16 ge 25
+ip prefix-list BOLSA seq 15 permit 200.1.0.0/16 ge 24
+ip prefix-list BOLSA seq 20 permit 10.192.200.0/24 ge 29
+!
+ip prefix-list BOLSA-SETFX seq 5 permit 172.17.0.0/24 ge 29
+ip prefix-list BOLSA-SETFX seq 10 permit 172.17.1.0/24 ge 29
+ip prefix-list BOLSA-SETFX seq 15 permit 172.17.2.0/24 ge 29
+ip prefix-list BOLSA-SETFX seq 20 permit 172.17.3.0/24 ge 29
+ip prefix-list BOLSA-SETFX seq 25 permit 172.17.4.0/24 ge 29
+!
+ip prefix-list BPO-prin seq 5 permit 0.0.0.0/0
+!
+ip prefix-list BPO-voz seq 5 permit 10.159.16.0/24 ge 29
+!
+ip prefix-list CREDIBANCO seq 5 permit 192.168.158.0/24 ge 29
+ip prefix-list CREDIBANCO seq 10 permit 192.168.157.0/24 ge 29
+ip prefix-list CREDIBANCO seq 15 permit 10.2.0.0/16 ge 24
+!
+ip prefix-list DECEVAL seq 5 permit 172.20.0.0/16 ge 24
+!
+ip prefix-list DIAN-SIGLOXXI seq 5 permit 172.40.0.0/16 ge 24
+ip prefix-list DIAN-SIGLOXXI seq 10 permit 172.21.0.0/16 ge 24
+!
+ip prefix-list TELEFONIA seq 5 permit 10.8.0.0/16 ge 29
+ip prefix-list TELEFONIA seq 10 permit 10.9.0.0/16 ge 29
+ip prefix-list TELEFONIA seq 15 permit 10.170.0.0/16 ge 21
+ip prefix-list TELEFONIA seq 51 permit 10.9.0.0/16 ge 24
+!
+ip prefix-list VIDEOCONFERENCIA seq 5 permit 10.12.0.0/16 ge 30
+logging alarm informational
+logging facility local6
+logging source-interface Loopback222
+logging 172.31.238.68
+logging 172.31.215.137
+access-list 2 permit any
+access-list 1300 permit 172.18.191.75
+access-list 1300 permit 172.18.191.76
+access-list 1300 permit 172.28.9.5
+access-list 1300 permit 172.31.238.0 0.0.1.255
+access-list 1300 permit 10.14.0.0 0.0.255.255
+access-list 1300 permit 10.10.66.0 0.0.0.255
+access-list 1300 permit 172.31.215.0 0.0.0.255
+access-list 1300 permit 172.22.19.0 0.0.0.15
+access-list 1300 permit 10.160.63.36 0.0.0.3
+access-list 1300 permit 10.160.57.60 0.0.0.3
+access-list 1302 permit 172.22.208.21
+access-list 1302 permit 172.22.115.108
+access-list 1302 permit 172.28.9.5
+access-list 1302 permit 172.31.238.0 0.0.1.255
+access-list 1302 permit 172.31.215.0 0.0.0.255
+access-list 150 permit ip 172.30.0.0 0.0.255.255 any
+access-list 151 permit ip any 172.30.0.0 0.0.255.255
+access-list 152 permit ip 172.31.0.0 0.0.255.255 any
+access-list 153 permit ip any 172.31.0.0 0.0.255.255
+access-list 154 permit ip 172.20.0.0 0.0.255.255 any
+access-list 155 permit ip any 172.20.0.0 0.0.255.255
+access-list 158 permit ip 172.25.0.0 0.0.255.255 any
+access-list 159 permit ip any 172.25.0.0 0.0.255.255
+access-list 160 permit ip 10.5.5.0 0.0.0.255 any
+access-list 160 permit ip 192.168.8.0 0.0.0.255 any
+access-list 161 permit ip any 10.5.5.0 0.0.0.255
+access-list 161 permit ip any 192.168.8.0 0.0.0.255
+access-list 162 permit ip 192.168.3.0 0.0.0.255 any
+access-list 163 permit ip any 192.168.3.0 0.0.0.255
+access-list 166 permit ip 172.21.0.0 0.0.255.255 any
+access-list 166 permit ip 172.40.0.0 0.0.255.255 any
+access-list 167 permit ip any 172.21.0.0 0.0.255.255
+access-list 167 permit ip any 172.40.0.0 0.0.255.255
+access-list 170 permit ip 172.26.0.0 0.0.255.255 any
+access-list 171 permit ip any 172.26.0.0 0.0.255.255
+access-list 176 permit ip 192.168.157.0 0.0.0.255 any
+access-list 176 permit ip 192.168.158.0 0.0.0.255 any
+access-list 176 permit ip 10.2.0.0 0.0.0.255 any
+access-list 177 permit ip any 192.168.157.0 0.0.0.255
+access-list 177 permit ip any 192.168.158.0 0.0.0.255
+access-list 177 permit ip any 10.2.0.0 0.0.0.255
+access-list 178 permit ip 172.17.0.0 0.0.0.255 any
+access-list 178 permit ip 172.17.1.0 0.0.0.255 any
+access-list 178 permit ip 172.17.2.0 0.0.0.255 any
+access-list 178 permit ip 172.17.3.0 0.0.0.255 any
+access-list 178 permit ip 172.17.4.0 0.0.0.255 any
+access-list 179 permit ip any 172.17.0.0 0.0.0.255
+access-list 179 permit ip any 172.17.1.0 0.0.0.255
+access-list 179 permit ip any 172.17.2.0 0.0.0.255
+access-list 179 permit ip any 172.17.3.0 0.0.0.255
+access-list 179 permit ip any 172.17.4.0 0.0.0.255
+access-list 2000 permit ip 10.8.0.0 0.0.255.255 any
+access-list 2001 permit ip any 10.8.0.0 0.0.255.255
+access-list 2002 permit ip 10.12.0.0 0.0.255.255 any
+access-list 2003 permit ip any 10.12.0.0 0.0.255.255
+!
+route-map VIDEOCONFERENCIA permit 1
+ match ip address prefix-list VIDEOCONFERENCIA
+!
+route-map BACKUP permit 10
+ match ip address 2
+!
+route-map ASP permit 1
+ match ip address prefix-list DECEVAL
+!
+route-map ASP permit 2
+ match ip address prefix-list ASOBANCARIA-CIFIN
+!
+route-map ASP permit 3
+ match ip address prefix-list BANREPUBLICA
+!
+route-map ASP permit 4
+ match ip address prefix-list BOLSA
+!
+route-map ASP permit 5
+ match ip address prefix-list CREDIBANCO
+!
+route-map ASP permit 6
+ match ip address prefix-list BOLSA-SETFX
+!
+route-map ASP permit 7
+ match ip address prefix-list DIAN-SIGLOXXI
+!
+route-map TELEFONIA permit 1
+ match ip address prefix-list TELEFONIA
+!
+mpls ldp router-id Loopback222 force
+snmp-server engineID local 0000000902000030F22C5820
+snmp-server view NMS system included
+snmp-server view NMS interfaces included
+snmp-server view NMS snmp included
+snmp-server view NMS ifEntry included
+snmp-server view NMS ipAddrEntry excluded
+snmp-server community BaCkAtT8422 RO 1302
+snmp-server community BonEAtT8422 RW 1302
+snmp-server community C8i1ShcHO1 RO 1302
+snmp-server trap-source Loopback222
+snmp-server location ARANDA
+snmp-server enable traps snmp linkdown linkup coldstart warmstart
+snmp-server enable traps tty
+snmp-server enable traps ospf state-change
+snmp-server enable traps ospf errors
+snmp-server enable traps ospf retransmit
+snmp-server enable traps ospf lsa
+snmp-server enable traps ospf cisco-specific state-change nssa-trans-change
+snmp-server enable traps ospf cisco-specific state-change shamlink interface-old
+snmp-server enable traps ospf cisco-specific state-change shamlink neighbor
+snmp-server enable traps ospf cisco-specific errors
+snmp-server enable traps ospf cisco-specific retransmit
+snmp-server enable traps ospf cisco-specific lsa
+snmp-server enable traps envmon
+snmp-server enable traps bgp
+snmp-server enable traps config
+snmp-server enable traps mpls ldp
+snmp-server enable traps rtr
+snmp-server enable traps syslog
+snmp-server enable traps fru-ctrl
+snmp-server enable traps entity
+snmp-server enable traps cpu threshold
+snmp-server enable traps rsvp
+snmp-server enable traps mpls vpn
+snmp-server host 172.22.115.108 BaCkAtT8422 
+snmp-server host 172.22.208.21 BaCkAtT8422 
+snmp-server host 172.31.239.204 c0r31pcl4r0 
+snmp ifmib ifindex persist
+!
+tacacs-server host 172.22.192.5 timeout 2
+tacacs-server host 172.22.192.4 timeout 2
+tacacs-server host 172.31.239.192 timeout 2
+tacacs-server directed-request
+tacacs-server key 7 14141B180F0B272A2A
+!
+control-plane
+!
+banner motd ^CCCC
+*************************************************************
+* ATENCION: Este equipo es propiedad de TELMEX Colombia.    *
+* El uso no autorizado esta estrictamente prohibido.        *
+* Todos los usuarios son legalmente responsables de sus     *
+* acciones sobre el sistema y toda actividad sera registrada*
+*************************************************************^C
+!
+line con 0
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ access-class 1300 in
+ exec-timeout 5 0
+ logging synchronous
+ transport input ssh
+line vty 5 15
+ access-class 1300 in
+ exec-timeout 5 0
+ logging synchronous
+ transport input ssh
+!
+ntp clock-period 17181110
+ntp source Loopback222
+ntp update-calendar
+ntp server 172.21.45.5 source Loopback222
+ntp server 172.21.45.70 source Loopback222
+end
+
+NACIONALBK#

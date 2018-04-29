@@ -1,0 +1,7106 @@
+<!-- Manual de PHP -->
+<html>
+<head>
+   <title>LG VPN UniNet</title>
+</head>
+<body>
+
+<!--<table cellpadding="0" cellspacing="0" border="0" width="250" align="center">-->
+<table border="0" width="850">
+  <tr>
+	<td colspan="2">
+		<img src="uninet_top_full.jpg" border="0" alt="VPN UniNet">
+	 
+  </tr>
+  <tr>
+    <td><font size="5" face="Courier" color='#3366FF'>VPN UniNet Looking Glass   
+    <td align="right"><font size="3" face="Courier" color='#3366FF'>Friday 28th of July 2017 11:31:11 AM
+12.145.193.9
+gestionred@reduno.com.mx   
+  </tr>
+</table>
+
+<table border="0" width='850'>
+<tr><td valign='top'><font size="3" face="Courier" color='#3366FF'>
+Available commands:
+
+traceroute a.b.c.d
+traceroute vrf &lt;arguments&gt;
+ping a.b.c.d
+ping vrf &lt;arguments&gt;	 
+ 
+<td><font size="3" face="Courier" color='#3366FF'>
+IOS commands:
+
+show atm pvc
+show policy-map
+show policy-map interface &lt;arguments&gt;
+show route-map
+show ip vrf
+show ip route vrf &lt;arguments&gt;
+show ip bgp vpnv4 &lt;arguments&gt;
+show ip interface brief
+show ip prefix-list
+show ip access-list
+show interface &#91;arguments&#93;
+show interface description
+show controllers &lt;arguments&gt;
+show configuration
+show running-config
+show running-config interface &lt;arguments&gt;
+show running-config | include route-map
+show running-config | include address-family ipv4 vrf
+show running-config | include interface
+show running-config | include class-map
+show running-config | include policy-map
+show running-config | include ip route vrf
+show running-config | include access-list	 
+ 
+<td valign='top'><font size="3" face="Courier" color='#3366FF'>
+IOSXR commands:
+
+show rpl policy-global
+show vrf
+show route vrf &lt;arguments&gt;
+show bgp vpnv4 unicast vrf &lt;arguments&gt;
+show bgp vrf &lt;arguments&gt;
+show prefix-list
+show access-list	 
+ 
+</tr>
+</table>
+
+
+
+<font size="3" face="Courier" color='#3366FF'>
+<form action="lgvpnuninet.php" method="post">
+Source [IP|hostname]:
+<input type="text" name="ip" size="71" maxlength="70"/>
+-l0.uninet.net.mx
+
+
+
+Command             :
+<input type="text" name="cmd" size="71" maxlength="70"/>
+<input type="submit" name='submit' value="Submit" />
+
+</form>
+ 
+
+<font size="-1" face="Courier">
+
+   Granted
+Source IP: 201.125.0.49
+Command  : show running-config
+Equipment model: cisco12410
+
+
+
+ R E S U L T :
+
+Fri Jul 28 11:31:21.441 DST
+Building configuration...
+!! IOS XR Configuration 4.3.2
+!! Last configuration change at Fri Jul 21 23:51:06 2017 by amramos
+!
+hw-module subslot 0/0/0 cardtype e1
+hostname vpn-bcn-bahiaensenad-1
+clock timezone CDT -6
+clock summer-time DST recurring first sunday april 02:00 last sunday october 02:00
+banner motd ^
+!NOTIFICACION IMPORTANTE!
+El acceso a este recurso de Red se encuentra restringido a solo
+Personal Autorizado,  cualquier acceso no permitido repercutira
+en Acciones Juridicas y Legales.
+S.S.I.
+
+^
+logging trap debugging
+logging console disable
+logging buffered 4000000
+logging buffered debugging
+logging 200.33.150.44 vrf default severity info
+logging 200.33.150.74 vrf default severity info
+logging 200.33.150.106 vrf default severity info
+logging 200.33.150.147 vrf default severity info
+logging 201.125.120.160 vrf default severity info
+logging source-interface Loopback0
+service timestamps log datetime localtime
+service timestamps debug datetime localtime
+telnet vrf default ipv4 server max-servers 6 access-list 15
+domain name uninet.net.mx
+domain name-server 200.23.242.193
+domain name-server 200.23.242.201
+domain name-server 200.33.146.203
+domain name-server 200.33.146.196
+domain lookup disable
+taskgroup rootsys
+ inherit taskgroup sysadmin
+ inherit taskgroup root-system
+ inherit taskgroup cisco-support
+!
+tacacs source-interface Loopback0 vrf default
+tacacs-server host 192.100.232.43 port 49
+!
+tacacs-server host 192.100.232.42 port 49
+!
+tacacs-server key 7 055C560B26486F280A314446
+username ssrdivher
+ group operator
+ group root-system
+ group cisco-support
+ password 7 04425C1504270D4D4A
+!
+aaa accounting exec default start-stop group tacacs+
+aaa accounting network default start-stop group tacacs+
+aaa accounting commands default start-stop group tacacs+
+aaa authorization exec default group tacacs+ local
+aaa authorization commands default group tacacs+ none
+aaa authentication login default group tacacs+ local
+aaa default-taskgroup rootsys
+cdp
+selective-vrf-download
+ disable
+!
+vrf prueba
+ address-family ipv4 unicast
+  import route-target
+   8151:1
+   28513:1
+  !
+  export route-target
+   8151:1
+   28513:1
+  !
+ !
+!
+vrf VPN_TELMEX_L2_0
+ address-family ipv4 unicast
+  import route-target
+   8151:42133
+  !
+  export route-target
+   8151:42133
+  !
+ !
+!
+vrf V48678:VPN_AMG_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:1174
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V48678:VPN_AMG_0
+  export route-target
+   8151:1174
+  !
+ !
+!
+vrf V49620:VPN_BBV_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:1040
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V49620:VPN_BBV_0
+  export route-target
+   8151:1040
+  !
+ !
+!
+vrf V60142:VPN_IFE_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:41014
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V60142:VPN_IFE_0
+  export route-target
+   8151:41014
+  !
+ !
+!
+vrf V51203:VPN_UNAM_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:3471
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V51203:VPN_UNAM_0
+  export route-target
+   8151:3471
+  !
+ !
+!
+vrf V59763:VPN_LALA_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:6603
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V59763:VPN_LALA_0
+  export route-target
+   8151:6603
+  !
+ !
+!
+vrf V50519:VPN_INGCA_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:1203
+   28513:51238
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V50519:VPN_INGCA_0
+  export route-target
+   8151:1203
+   28513:51238
+  !
+ !
+!
+vrf V281479:VPN_BOOKS_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:40886
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V281479:VPN_BOOKS_0
+  export route-target
+   8151:40886
+  !
+ !
+!
+vrf V58857:VPN_COMMEX_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:1184
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V58857:VPN_COMMEX_0
+  export route-target
+   8151:1184
+  !
+ !
+!
+vrf V52295:VPN_PGR-MIG_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:42000
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V52295:VPN_PGR-MIG_0
+  export route-target
+   8151:42000
+  !
+ !
+!
+vrf V53255:VPN_WALMART_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:3413
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V53255:VPN_WALMART_0
+  export route-target
+   8151:3413
+  !
+ !
+!
+vrf V56649:VPN_SORIANA_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:1160
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V56649:VPN_SORIANA_0
+  export route-target
+   8151:1160
+  !
+ !
+!
+vrf V57267:VPN_CIFRADO_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:41643
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V57267:VPN_CIFRADO_0
+  export route-target
+   8151:41643
+  !
+ !
+!
+vrf V52710:VPN_IMSS-RPV_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:51550
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V52710:VPN_IMSS-RPV_0
+  export route-target
+   8151:51550
+  !
+ !
+!
+vrf V52825:VPN_EQ-HAPAG_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:47918
+   28513:51321
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V52825:VPN_EQ-HAPAG_0
+  export route-target
+   8151:47918
+   28513:51321
+  !
+ !
+!
+vrf V53038:VPN_FINRURAL_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:1249
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V53038:VPN_FINRURAL_0
+  export route-target
+   8151:1249
+  !
+ !
+!
+vrf V56274:VPN_SEPDGTEC_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:40264
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V56274:VPN_SEPDGTEC_0
+  export route-target
+   8151:40264
+  !
+ !
+!
+vrf V56289:VPN_SEP-SEMS_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:54094
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V56289:VPN_SEP-SEMS_0
+  export route-target
+   8151:54094
+  !
+ !
+!
+vrf V58069:VPN_INAMILIC_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:40832
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V58069:VPN_INAMILIC_0
+  export route-target
+   8151:40832
+  !
+ !
+!
+vrf V58791:VPN_SEMARNAT_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:45605
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V58791:VPN_SEMARNAT_0
+  export route-target
+   8151:45605
+  !
+ !
+!
+vrf V58931:VPN_INVERLAT_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:1039
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V58931:VPN_INVERLAT_0
+  export route-target
+   8151:1039
+  !
+ !
+!
+vrf V59839:VPN_PFEDERAL_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:43631
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V59839:VPN_PFEDERAL_0
+  export route-target
+   8151:43631
+  !
+ !
+!
+vrf V47307:VPN_P1IMSSSAC_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:45828
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V47307:VPN_P1IMSSSAC_0
+  export route-target
+   8151:45828
+  !
+ !
+!
+vrf V47826:VPN_SSALUDSAT_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:46733
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V47826:VPN_SSALUDSAT_0
+  export route-target
+   8151:46733
+  !
+ !
+!
+vrf V47875:VPN_PROFUTURO_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:1232
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V47875:VPN_PROFUTURO_0
+  export route-target
+   8151:1232
+  !
+ !
+!
+vrf V49859:VPN_AFORE-ING_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:40353
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V49859:VPN_AFORE-ING_0
+  export route-target
+   8151:40353
+  !
+ !
+!
+vrf V55704:VPN_BENAVIDES_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:41403
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V55704:VPN_BENAVIDES_0
+  export route-target
+   8151:41403
+  !
+ !
+!
+vrf V60045:VPN_BANCOPPEL_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:6544
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V60045:VPN_BANCOPPEL_0
+  export route-target
+   8151:6544
+  !
+ !
+!
+vrf V281999:VPN_GETBANAMEX_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:42126
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V281999:VPN_GETBANAMEX_0
+  export route-target
+   8151:42126
+  !
+ !
+!
+vrf V52147:VPN_IMSS-VV-DAT_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:40029
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V52147:VPN_IMSS-VV-DAT_0
+  export route-target
+   8151:40029
+  !
+ !
+!
+vrf V57113:VPN_ATT-ROCKWELL_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:42319
+   28513:50611
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V57113:VPN_ATT-ROCKWELL_0
+  export route-target
+   8151:42319
+   28513:50611
+  !
+ !
+!
+vrf V59417:VPN_PLATAFORMAMEX_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:3672
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V59417:VPN_PLATAFORMAMEX_0
+  export route-target
+   8151:3672
+  !
+ !
+!
+line console
+ password 7 005646091052181C4C7509
+ exec-timeout 60 0
+!
+line default
+ password 7 04095E091B285F544A4D40
+ exec-timeout 60 0
+ access-class ingress 15
+!
+line template COU_GPE_INN
+ exec-timeout 20 0
+ access-class ingress 17
+!
+vty-pool default 0 4
+vty-pool COU_GPE_INN 5 5 line-template COU_GPE_INN
+telnet ipv4 client source-interface Loopback0
+snmp-server engineID local 00000009020000603EE23E20
+snmp-server host 148.233.150.211 traps r34d
+snmp-server host 192.100.232.1 traps r34d
+snmp-server host 192.100.232.1 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.2 traps r34d
+snmp-server host 192.100.232.2 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.3 traps r34d
+snmp-server host 192.100.232.3 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.4 traps r34d
+snmp-server host 192.100.232.4 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.5 traps r34d
+snmp-server host 192.100.232.5 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.6 traps r34d
+snmp-server host 192.100.232.6 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.33 traps r34d
+snmp-server host 192.100.232.34 traps r34d
+snmp-server host 192.100.232.37 traps r34d
+snmp-server host 192.100.232.38 traps r34d
+snmp-server host 200.33.150.87 traps r34d
+snmp-server host 200.33.150.87 traps azJ4Zqz6gFKltBde
+snmp-server host 200.33.150.100 traps r34d
+snmp-server host 201.125.120.129 traps azJ4Zqz6gFKltBde
+snmp-server community r34d RO 13
+snmp-server community wr1t3 RW 13
+snmp-server community LFB38gq8nVcVr2sF RW 13
+snmp-server community azJ4Zqz6gFKltBde RO 13
+snmp-server traps rf
+snmp-server traps snmp
+snmp-server traps snmp linkup
+snmp-server traps snmp linkdown
+snmp-server traps snmp coldstart
+snmp-server traps snmp warmstart
+snmp-server traps snmp authentication
+snmp-server traps config
+snmp-server traps entity
+snmp-server traps syslog
+snmp-server trap-source Loopback0
+ntp
+ server 200.33.150.196
+ source Loopback0
+ update-calendar
+!
+service cli indentation disable
+tftp client source-interface Loopback0
+control-plane
+ management-plane
+  inband
+   interface all
+    allow SSH
+    allow SNMP peer
+     address ipv4 187.210.234.67
+     address ipv4 187.210.234.68
+     address ipv4 187.210.234.69
+     address ipv4 187.210.234.70
+     address ipv4 187.210.234.71
+     address ipv4 189.254.31.44
+     address ipv4 189.254.31.45
+     address ipv4 189.254.31.52
+     address ipv4 189.254.31.59
+     address ipv4 192.100.232.1
+     address ipv4 192.100.232.2
+     address ipv4 192.100.232.3
+     address ipv4 192.100.232.4
+     address ipv4 192.100.232.5
+     address ipv4 192.100.232.6
+     address ipv4 192.100.232.7
+     address ipv4 192.100.232.8
+     address ipv4 192.100.232.9
+     address ipv4 192.100.232.10
+     address ipv4 192.100.232.31
+     address ipv4 192.100.232.33
+     address ipv4 192.100.232.34
+     address ipv4 192.100.232.35
+     address ipv4 192.100.232.37
+     address ipv4 192.100.232.38
+     address ipv4 192.100.232.51
+     address ipv4 192.100.232.52
+     address ipv4 192.100.232.53
+     address ipv4 192.100.232.54
+     address ipv4 192.100.232.64
+     address ipv4 200.4.151.13
+     address ipv4 200.33.150.5
+     address ipv4 200.33.150.7
+     address ipv4 200.33.150.8
+     address ipv4 200.33.150.11
+     address ipv4 200.33.150.14
+     address ipv4 200.33.150.15
+     address ipv4 200.33.150.19
+     address ipv4 200.33.150.30
+     address ipv4 200.33.150.31
+     address ipv4 200.33.150.32
+     address ipv4 200.33.150.39
+     address ipv4 200.33.150.46
+     address ipv4 200.33.150.58
+     address ipv4 200.33.150.61
+     address ipv4 200.33.150.66
+     address ipv4 200.33.150.70
+     address ipv4 200.33.150.71
+     address ipv4 200.33.150.74
+     address ipv4 200.33.150.78
+     address ipv4 200.33.150.83
+     address ipv4 200.33.150.84
+     address ipv4 200.33.150.87
+     address ipv4 200.33.150.89
+     address ipv4 200.33.150.94
+     address ipv4 200.33.150.99
+     address ipv4 200.33.150.101
+     address ipv4 200.33.150.102
+     address ipv4 200.33.150.106
+     address ipv4 200.33.150.111
+     address ipv4 200.33.150.112
+     address ipv4 200.33.150.133
+     address ipv4 200.33.150.196
+     address ipv4 200.33.150.202
+     address ipv4 200.33.150.203
+     address ipv4 200.33.150.204
+     address ipv4 201.125.120.129
+     address ipv4 201.125.120.130
+     address ipv4 201.125.120.131
+     address ipv4 201.125.120.132
+     address ipv4 201.125.120.134
+     address ipv4 201.125.120.136
+     address ipv4 201.125.120.137
+     address ipv4 201.125.120.139
+     address ipv4 201.125.120.141
+     address ipv4 201.125.120.143
+     address ipv4 201.125.120.144
+     address ipv4 201.125.120.145
+     address ipv4 201.125.120.146
+     address ipv4 201.125.120.170
+     address ipv4 201.125.120.171
+     address ipv4 201.125.120.172
+     address ipv4 201.125.120.178
+     address ipv4 201.125.120.179
+     address ipv4 201.125.120.180
+     address ipv4 201.125.120.181
+     address ipv4 201.125.120.182
+     address ipv4 201.125.120.183
+     address ipv4 204.124.107.62
+    !
+    allow TFTP
+    allow Telnet
+   !
+  !
+ !
+!
+ipv4 access-list 2
+ 10 deny ipv4 any any
+!
+ipv4 access-list 7
+ 10 deny ipv4 192.168.0.0 0.0.255.255 any
+ 20 permit ipv4 any any
+!
+ipv4 access-list 13
+ 10 permit ipv4 host 192.100.232.1 any
+ 20 permit ipv4 host 192.100.232.10 any
+ 30 permit ipv4 host 192.100.232.2 any
+ 40 permit ipv4 host 192.100.232.3 any
+ 50 permit ipv4 host 192.100.232.31 any
+ 60 permit ipv4 host 192.100.232.33 any
+ 70 permit ipv4 host 192.100.232.34 any
+ 80 permit ipv4 host 192.100.232.35 any
+ 90 permit ipv4 host 192.100.232.37 any
+ 100 permit ipv4 host 192.100.232.38 any
+ 110 permit ipv4 host 192.100.232.4 any
+ 120 permit ipv4 host 192.100.232.5 any
+ 130 permit ipv4 host 192.100.232.51 any
+ 140 permit ipv4 host 192.100.232.52 any
+ 150 permit ipv4 host 192.100.232.53 any
+ 160 permit ipv4 host 192.100.232.54 any
+ 170 permit ipv4 host 192.100.232.6 any
+ 180 permit ipv4 host 192.100.232.64 any
+ 190 permit ipv4 host 192.100.232.7 any
+ 200 permit ipv4 host 192.100.232.8 any
+ 210 permit ipv4 host 192.100.232.9 any
+ 220 permit ipv4 host 200.33.150.101 any
+ 230 permit ipv4 host 200.33.150.102 any
+ 240 permit ipv4 host 200.33.150.106 any
+ 250 permit ipv4 host 200.33.150.11 any
+ 260 permit ipv4 host 200.33.150.111 any
+ 270 permit ipv4 host 200.33.150.112 any
+ 280 permit ipv4 host 200.33.150.14 any
+ 290 permit ipv4 host 200.33.150.15 any
+ 300 permit ipv4 host 200.33.150.19 any
+ 310 permit ipv4 host 200.33.150.196 any
+ 320 permit ipv4 host 200.33.150.202 any
+ 330 permit ipv4 host 200.33.150.203 any
+ 340 permit ipv4 host 200.33.150.204 any
+ 350 permit ipv4 host 200.33.150.30 any
+ 360 permit ipv4 host 200.33.150.31 any
+ 370 permit ipv4 host 200.33.150.32 any
+ 380 permit ipv4 host 200.33.150.39 any
+ 390 permit ipv4 host 200.33.150.46 any
+ 400 permit ipv4 host 200.33.150.5 any
+ 410 permit ipv4 host 200.33.150.58 any
+ 420 permit ipv4 host 200.33.150.61 any
+ 430 permit ipv4 host 200.33.150.66 any
+ 440 permit ipv4 host 200.33.150.7 any
+ 450 permit ipv4 host 200.33.150.70 any
+ 460 permit ipv4 host 200.33.150.71 any
+ 470 permit ipv4 host 200.33.150.74 any
+ 480 permit ipv4 host 200.33.150.78 any
+ 490 permit ipv4 host 200.33.150.8 any
+ 500 permit ipv4 host 200.33.150.84 any
+ 510 permit ipv4 host 200.33.150.87 any
+ 520 permit ipv4 host 200.33.150.89 any
+ 530 permit ipv4 host 200.33.150.94 any
+ 540 permit ipv4 host 200.33.150.99 any
+ 550 permit ipv4 host 200.33.150.133 any
+ 560 permit ipv4 host 200.4.151.13 any
+ 570 permit ipv4 host 201.125.120.129 any
+ 580 permit ipv4 host 201.125.120.130 any
+ 590 permit ipv4 host 201.125.120.131 any
+ 600 permit ipv4 host 201.125.120.132 any
+ 610 permit ipv4 host 201.125.120.134 any
+ 620 permit ipv4 host 201.125.120.136 any
+ 630 permit ipv4 host 201.125.120.137 any
+ 640 permit ipv4 host 201.125.120.139 any
+ 650 permit ipv4 host 201.125.120.141 any
+ 660 permit ipv4 host 201.125.120.143 any
+ 670 permit ipv4 host 201.125.120.144 any
+ 680 permit ipv4 host 201.125.120.145 any
+ 690 permit ipv4 host 201.125.120.146 any
+ 700 permit ipv4 host 201.125.120.170 any
+ 710 permit ipv4 host 201.125.120.171 any
+ 720 permit ipv4 host 201.125.120.172 any
+ 730 permit ipv4 host 201.125.120.178 any
+ 740 permit ipv4 host 201.125.120.179 any
+ 750 permit ipv4 host 201.125.120.180 any
+ 760 permit ipv4 host 201.125.120.181 any
+ 770 permit ipv4 host 201.125.120.182 any
+ 780 permit ipv4 host 201.125.120.183 any
+ 790 permit ipv4 200.33.150.0 0.0.0.255 any
+ 800 deny ipv4 any any log
+!
+ipv4 access-list 15
+ 10 permit ipv4 host 148.223.32.153 any
+ 20 permit ipv4 host 148.223.58.141 any
+ 30 permit ipv4 host 148.223.104.169 any
+ 40 permit ipv4 host 148.223.107.77 any
+ 50 permit ipv4 host 148.223.149.249 any
+ 60 permit ipv4 host 148.223.167.13 any
+ 70 permit ipv4 host 148.223.181.105 any
+ 80 permit ipv4 host 148.223.201.153 any
+ 90 permit ipv4 host 148.223.206.237 any
+ 100 permit ipv4 host 148.223.223.77 any
+ 110 permit ipv4 host 148.223.240.33 any
+ 120 permit ipv4 host 148.223.255.231 any
+ 130 permit ipv4 host 148.233.15.93 any
+ 140 permit ipv4 host 148.233.75.241 any
+ 150 permit ipv4 host 148.233.139.157 any
+ 160 permit ipv4 host 148.233.152.165 any
+ 170 permit ipv4 host 148.233.164.4 any
+ 180 permit ipv4 host 148.233.238.225 any
+ 190 permit ipv4 host 148.235.231.121 any
+ 200 permit ipv4 host 200.23.243.45 any
+ 210 permit ipv4 host 200.36.40.205 any
+ 220 permit ipv4 host 200.38.192.112 any
+ 230 permit ipv4 host 200.38.192.113 any
+ 240 permit ipv4 host 200.38.192.114 any
+ 250 permit ipv4 host 200.38.192.116 any
+ 260 permit ipv4 host 200.38.192.117 any
+ 270 permit ipv4 host 200.38.192.119 any
+ 280 permit ipv4 host 200.38.192.120 any
+ 290 permit ipv4 host 200.38.192.8 any
+ 300 permit ipv4 host 200.38.193.140 any
+ 310 permit ipv4 host 200.38.193.141 any
+ 320 permit ipv4 host 200.38.193.168 any
+ 330 permit ipv4 host 200.38.193.170 any
+ 340 permit ipv4 host 200.38.193.171 any
+ 350 permit ipv4 host 200.38.193.173 any
+ 360 permit ipv4 host 200.38.193.176 any
+ 370 permit ipv4 host 200.38.193.179 any
+ 380 permit ipv4 host 200.38.193.184 any
+ 390 permit ipv4 host 200.38.193.205 any
+ 400 permit ipv4 host 200.38.193.206 any
+ 410 permit ipv4 host 200.38.193.210 any
+ 420 permit ipv4 host 200.38.193.212 any
+ 430 permit ipv4 host 200.38.193.218 any
+ 440 permit ipv4 host 200.38.193.219 any
+ 450 permit ipv4 host 200.38.193.228 any
+ 460 permit ipv4 host 200.38.193.235 any
+ 470 permit ipv4 host 200.38.193.236 any
+ 480 permit ipv4 host 200.38.193.240 any
+ 490 permit ipv4 host 200.38.193.241 any
+ 500 permit ipv4 host 200.38.193.246 any
+ 510 permit ipv4 host 200.38.193.250 any
+ 520 permit ipv4 host 200.38.193.251 any
+ 530 permit ipv4 host 200.38.193.252 any
+ 540 permit ipv4 host 200.38.193.253 any
+ 550 permit ipv4 host 200.38.193.254 any
+ 560 permit ipv4 host 200.38.193.52 any
+ 570 permit ipv4 host 200.38.193.54 any
+ 580 permit ipv4 host 200.38.193.60 any
+ 590 permit ipv4 host 200.38.195.3 any
+ 600 permit ipv4 host 200.38.195.5 any
+ 610 permit ipv4 host 200.38.195.6 any
+ 620 permit ipv4 host 200.38.195.8 any
+ 630 permit ipv4 host 200.38.195.9 any
+ 640 permit ipv4 host 200.38.196.4 any
+ 650 permit ipv4 host 200.38.196.5 any
+ 660 permit ipv4 host 200.38.196.7 any
+ 670 permit ipv4 host 200.38.198.15 any
+ 680 permit ipv4 host 200.38.198.3 any
+ 690 permit ipv4 host 200.38.198.7 any
+ 700 permit ipv4 host 200.38.199.2 any
+ 710 permit ipv4 host 200.38.202.2 any
+ 720 permit ipv4 host 200.38.202.7 any
+ 730 permit ipv4 host 200.79.11.71 any
+ 740 permit ipv4 148.235.159.80 0.0.0.3 any
+ 750 permit ipv4 189.146.77.216 0.0.0.3 any
+ 760 permit ipv4 189.247.172.24 0.0.0.3 any
+ 770 permit ipv4 189.247.172.28 0.0.0.3 any
+ 780 permit ipv4 189.247.172.40 0.0.0.3 any
+ 790 permit ipv4 189.247.172.44 0.0.0.3 any
+ 800 permit ipv4 189.249.88.48 0.0.0.3 any
+ 810 permit ipv4 189.249.88.52 0.0.0.3 any
+ 820 permit ipv4 189.249.88.56 0.0.0.3 any
+ 830 permit ipv4 189.249.88.60 0.0.0.3 any
+ 840 permit ipv4 201.134.146.184 0.0.0.3 any
+ 850 permit ipv4 201.134.146.188 0.0.0.3 any
+ 860 permit ipv4 201.134.146.192 0.0.0.3 any
+ 870 permit ipv4 201.134.146.196 0.0.0.3 any
+ 880 permit ipv4 148.235.127.48 0.0.0.7 any
+ 890 permit ipv4 189.233.1.0 0.0.0.7 any
+ 900 permit ipv4 200.33.146.184 0.0.0.7 any
+ 910 permit ipv4 200.33.146.192 0.0.0.7 any
+ 920 permit ipv4 201.144.94.8 0.0.0.7 any
+ 930 permit ipv4 148.235.159.224 0.0.0.15 any
+ 940 permit ipv4 200.66.128.0 0.0.0.15 any
+ 950 permit ipv4 148.233.229.224 0.0.0.31 any
+ 960 permit ipv4 200.38.131.192 0.0.0.63 any
+ 970 permit ipv4 148.233.188.128 0.0.0.127 any
+ 980 permit ipv4 148.223.15.0 0.0.0.255 any
+ 990 permit ipv4 148.223.31.0 0.0.0.255 any
+ 1000 permit ipv4 148.223.43.0 0.0.0.255 any
+ 1010 permit ipv4 148.223.79.0 0.0.0.255 any
+ 1020 permit ipv4 148.223.84.0 0.0.0.255 any
+ 1030 permit ipv4 148.223.95.0 0.0.0.255 any
+ 1040 permit ipv4 148.223.97.0 0.0.0.255 any
+ 1050 permit ipv4 148.223.121.0 0.0.0.255 any
+ 1060 permit ipv4 148.223.144.0 0.0.0.255 any
+ 1070 permit ipv4 148.223.182.0 0.0.0.255 any
+ 1080 permit ipv4 148.223.184.0 0.0.0.255 any
+ 1090 permit ipv4 148.223.190.0 0.0.0.255 any
+ 1100 permit ipv4 148.223.191.0 0.0.0.255 any
+ 1110 permit ipv4 148.223.202.0 0.0.0.255 any
+ 1120 permit ipv4 148.223.219.0 0.0.0.255 any
+ 1130 permit ipv4 148.223.243.0 0.0.0.255 any
+ 1140 permit ipv4 148.233.23.0 0.0.0.255 any
+ 1150 permit ipv4 148.233.31.0 0.0.0.255 any
+ 1160 permit ipv4 148.233.118.0 0.0.0.255 any
+ 1170 permit ipv4 148.233.131.0 0.0.0.255 any
+ 1180 permit ipv4 148.233.135.0 0.0.0.255 any
+ 1190 permit ipv4 148.233.153.0 0.0.0.255 any
+ 1200 permit ipv4 148.233.158.0 0.0.0.255 any
+ 1210 permit ipv4 148.233.159.0 0.0.0.255 any
+ 1220 permit ipv4 148.233.175.0 0.0.0.255 any
+ 1230 permit ipv4 148.233.187.0 0.0.0.255 any
+ 1240 permit ipv4 148.233.191.0 0.0.0.255 any
+ 1250 permit ipv4 148.233.239.0 0.0.0.255 any
+ 1260 permit ipv4 148.235.14.0 0.0.0.255 any
+ 1270 permit ipv4 148.235.24.0 0.0.0.255 any
+ 1280 permit ipv4 148.235.39.0 0.0.0.255 any
+ 1290 permit ipv4 148.235.58.0 0.0.0.255 any
+ 1300 permit ipv4 148.235.59.0 0.0.0.255 any
+ 1310 permit ipv4 148.235.71.0 0.0.0.255 any
+ 1320 permit ipv4 148.235.75.0 0.0.0.255 any
+ 1330 permit ipv4 148.235.78.0 0.0.0.255 any
+ 1340 permit ipv4 148.235.81.0 0.0.0.255 any
+ 1350 permit ipv4 148.235.85.0 0.0.0.255 any
+ 1360 permit ipv4 148.235.87.0 0.0.0.255 any
+ 1370 permit ipv4 148.235.109.0 0.0.0.255 any
+ 1380 permit ipv4 148.235.110.0 0.0.0.255 any
+ 1390 permit ipv4 148.235.139.0 0.0.0.255 any
+ 1400 permit ipv4 148.235.145.0 0.0.0.255 any
+ 1410 permit ipv4 148.235.149.0 0.0.0.255 any
+ 1420 permit ipv4 148.235.155.0 0.0.0.255 any
+ 1430 permit ipv4 148.235.157.0 0.0.0.255 any
+ 1440 permit ipv4 148.235.165.0 0.0.0.255 any
+ 1450 permit ipv4 148.235.167.0 0.0.0.255 any
+ 1460 permit ipv4 148.235.175.0 0.0.0.255 any
+ 1470 permit ipv4 148.235.186.0 0.0.0.255 any
+ 1480 permit ipv4 192.100.232.0 0.0.0.255 any
+ 1490 permit ipv4 200.33.137.0 0.0.0.255 any
+ 1500 permit ipv4 200.33.150.0 0.0.0.255 any
+ 1510 permit ipv4 200.38.141.0 0.0.0.255 any
+ 1520 permit ipv4 200.79.4.0 0.0.0.255 any
+ 1530 permit ipv4 200.79.21.0 0.0.0.255 any
+ 1540 permit ipv4 200.79.26.0 0.0.0.255 any
+ 1550 permit ipv4 200.79.39.0 0.0.0.255 any
+ 1560 permit ipv4 200.79.44.0 0.0.0.255 any
+ 1570 permit ipv4 200.79.88.0 0.0.0.255 any
+ 1580 permit ipv4 200.79.111.0 0.0.0.255 any
+ 1590 permit ipv4 201.134.5.0 0.0.0.255 any
+ 1600 permit ipv4 201.134.33.0 0.0.0.255 any
+ 1610 permit ipv4 201.134.64.0 0.0.0.255 any
+ 1620 permit ipv4 201.134.105.0 0.0.0.255 any
+ 1630 permit ipv4 201.134.125.0 0.0.0.255 any
+ 1640 permit ipv4 201.134.130.0 0.0.0.255 any
+ 1650 permit ipv4 201.134.163.0 0.0.0.255 any
+ 1660 permit ipv4 201.134.176.0 0.0.0.255 any
+ 1670 permit ipv4 201.134.201.0 0.0.0.255 any
+ 1680 permit ipv4 201.134.208.0 0.0.0.255 any
+ 1690 permit ipv4 201.134.211.0 0.0.0.255 any
+ 1700 permit ipv4 204.124.107.0 0.0.0.255 any
+ 1710 permit ipv4 189.246.0.0 0.0.255.255 any
+ 1720 permit ipv4 201.125.0.0 0.0.255.255 any
+ 1730 permit ipv4 201.154.0.0 0.0.255.255 any
+ 1740 deny ipv4 any any
+!
+ipv4 access-list 17
+ 10 permit ipv4 host 192.100.232.3 any
+!
+ipv4 access-list 179
+ 10 permit ipv4 192.168.34.0 0.0.0.255 any
+ 20 permit ipv4 192.168.33.0 0.0.0.255 any
+ 30 deny ipv4 200.38.207.0 0.0.0.255 any
+ 40 deny ipv4 200.38.208.0 0.0.0.255 any
+ 50 deny ipv4 200.38.210.0 0.0.0.255 any
+ 60 deny ipv4 200.38.214.0 0.0.0.255 any
+ 70 deny ipv4 200.38.219.0 0.0.0.255 any
+ 80 deny ipv4 200.38.220.0 0.0.0.255 any
+ 90 deny ipv4 200.38.221.0 0.0.0.255 any
+ 100 permit ipv4 200.66.128.0 0.0.0.127 any
+ 110 permit ipv4 200.38.192.0 0.0.31.255 any
+ 120 permit ipv4 201.125.0.0 0.0.255.255 any
+ 130 permit ipv4 148.223.0.0 0.0.255.255 any
+ 140 permit ipv4 148.233.0.0 0.0.255.255 any
+ 150 permit ipv4 148.235.0.0 0.0.255.255 any
+ 160 permit ipv4 200.79.0.0 0.0.127.255 any
+ 170 permit ipv4 201.134.0.0 0.0.255.255 any
+ 180 permit ipv4 200.23.240.0 0.0.7.255 any
+ 190 permit ipv4 200.36.40.0 0.0.1.255 any
+ 200 permit ipv4 200.36.50.0 0.0.0.255 any
+ 210 permit ipv4 200.33.144.0 0.0.7.255 any
+ 220 permit ipv4 192.100.232.0 0.0.0.255 any
+ 230 permit ipv4 200.4.157.0 0.0.0.255 any
+ 240 permit ipv4 200.4.155.0 0.0.0.255 any
+ 250 permit ipv4 200.33.137.0 0.0.0.255 any
+ 260 permit ipv4 200.33.150.0 0.0.0.255 any
+ 270 permit ipv4 204.124.106.128 0.0.0.127 any
+ 280 permit ipv4 204.124.107.0 0.0.0.255 any
+ 290 permit ipv4 1.1.0.0 0.0.255.255 any
+ 300 permit ipv4 20.20.20.0 0.0.0.255 any
+ 310 permit ipv4 201.134.8.0 0.0.3.255 any
+ 320 permit ipv4 host 201.134.217.117 any
+ 330 permit ipv4 host 201.134.82.65 any
+ 340 permit ipv4 host 200.79.119.104 any
+ 350 permit ipv4 host 172.25.1.1 any
+ 360 permit ipv4 host 200.79.77.17 any
+ 370 permit ipv4 host 200.79.78.81 any
+ 380 permit ipv4 host 200.79.14.9 any
+ 390 permit ipv4 host 200.79.35.253 any
+ 400 permit ipv4 host 200.79.119.105 any
+ 410 permit ipv4 host 200.79.120.241 any
+ 420 permit ipv4 201.154.0.0 0.0.127.255 any
+ 430 permit ipv4 189.246.0.0 0.0.255.255 any
+ 440 permit tcp any any eq bgp
+ 450 permit tcp any eq bgp any established
+ 460 deny ipv4 any any
+!
+ipv4 access-list Uninet_MDT-SSM
+ 10 permit ipv4 239.0.0.0 0.255.255.255 any
+!
+class-map match-any Voz
+ match mpls experimental topmost 5
+ end-class-map
+!
+class-map match-any Video
+ match mpls experimental topmost 3
+ end-class-map
+!
+class-map match-any DatosVPN
+ match mpls experimental topmost 2
+ end-class-map
+!
+class-map match-any rpvm_voz
+ match dscp cs3 cs5 ef
+ end-class-map
+!
+class-map match-any rpvm_video
+ match dscp af41 af42 af43
+ end-class-map
+!
+class-map match-any Default_VPN
+ match mpls experimental topmost 1
+ end-class-map
+!
+class-map match-all Numero_DLCI
+ match frame-relay dlci 16-1007
+ end-class-map
+!
+class-map match-any rpvm_business
+ match dscp cs1 af21 af22 af23
+ end-class-map
+!
+class-map match-any tofab_queue_0
+ match precedence ipv4 0
+ end-class-map
+!
+class-map match-any tofab_queue_1
+ match precedence ipv4 1 2 3
+ end-class-map
+!
+class-map match-any tofab_queue_2
+ match precedence ipv4 4 6 7
+ end-class-map
+!
+class-map match-any Administracion
+ match mpls experimental topmost 7 6 4
+ end-class-map
+!
+class-map match-any tofab_queue_llq
+ match precedence ipv4 5
+ end-class-map
+!
+class-map match-any BAJA_LATENCIA_LLQ
+ match mpls experimental topmost 5
+ match precedence ipv4 critical
+ match dscp ipv4 ef
+ end-class-map
+!
+class-map match-any rpvm_mgmnt_routing
+ match dscp cs6 cs7
+ end-class-map
+!
+class-map match-any rpvm_datos_criticos
+ match dscp cs2 af31 af32 af33
+ end-class-map
+!
+policy-map tofab
+ class tofab_queue_0
+  bandwidth remaining percent 1
+ !
+ class tofab_queue_1
+  bandwidth remaining percent 59
+ !
+ class tofab_queue_2
+  bandwidth remaining percent 40
+ !
+ class tofab_queue_llq
+  priority level 1
+ !
+ class class-default
+ !
+ end-policy-map
+!
+policy-map GE_bwrem
+ class Administracion
+  bandwidth remaining percent 16
+  random-detect precedence 4,6,7 500 packets 1500 packets
+ !
+ class Voz
+  police rate 350000000 bps
+  !
+  priority level 1
+ !
+ class Video
+  bandwidth remaining percent 16
+  random-detect precedence 3 500 packets 1500 packets
+ !
+ class DatosVPN
+  bandwidth remaining percent 40
+  random-detect precedence 2 1000 packets 4000 packets
+ !
+ class Default_VPN
+  bandwidth remaining percent 24
+  random-detect precedence 1 750 packets 2000 packets
+ !
+ class class-default
+  bandwidth remaining percent 4
+  random-detect precedence 0 500 packets 1500 packets
+ !
+ end-policy-map
+!
+policy-map 10GE_bwrem
+ class Administracion
+  bandwidth remaining percent 16
+  random-detect precedence 4,6,7 5000 packets 20000 packets
+ !
+ class Video
+  bandwidth remaining percent 16
+  random-detect precedence 3 5000 packets 20000 packets
+ !
+ class DatosVPN
+  bandwidth remaining percent 40
+  random-detect precedence 2 10000 packets 30000 packets
+ !
+ class Default_VPN
+  bandwidth remaining percent 24
+  random-detect precedence 1 7000 packets 25000 packets
+ !
+ class Voz
+  police rate percent 35
+  !
+  priority level 1
+ !
+ class class-default
+  bandwidth remaining percent 4
+  random-detect precedence 0 3000 packets 15000 packets
+ !
+ end-policy-map
+!
+policy-map FABRIC_QOS
+ class BAJA_LATENCIA_LLQ
+  priority level 1
+ !
+ class class-default
+ !
+ end-policy-map
+!
+policy-map rpvm_pa01_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class class-default
+  police rate percent 100
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pa02_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 75
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pa03_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_business
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 50
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pa04_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_business
+  police rate percent 75
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 25
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pa05_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 63
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pa06_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 75
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pa07_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 50
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pa08_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 25
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pa09_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 25
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pa10_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 75
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pa11_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pa12_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pa13_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 50
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pb14_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 25
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pb15_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pb16_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pb17_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 50
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pb18_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 50
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pb19_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 35
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class class-default
+  police rate percent 65
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pb20_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_video
+  police rate percent 25
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pb21_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_video
+  police rate percent 25
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pb22_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 13
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_video
+  police rate percent 25
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pb23_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_video
+  police rate percent 25
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pb24_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_video
+  police rate percent 25
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pb25_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 50
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_video
+  police rate percent 25
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pb26_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 50
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 35
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pb27_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_video
+  police rate percent 50
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pb28_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_video
+  police rate percent 50
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pb29_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_video
+  police rate percent 90
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_business
+  police rate percent 15
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pb30_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 90
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_business
+  police rate percent 15
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvm_pa01_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 95
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pa02_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 94
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pa03_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 94
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pa04_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 94
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pa05_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 69
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 25
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pa06_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 30
+  bandwidth percent 19
+ !
+ class rpvm_business
+  bandwidth remaining percent 60
+  bandwidth percent 75
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pa07_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 69
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 25
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pa08_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 44
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 50
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pa09_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 69
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 25
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pa10_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 81
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 13
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pa11_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 52
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 15
+ !
+ class class-default
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pa12_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 52
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 15
+ !
+ class class-default
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pa13_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_voz
+  police rate percent 50
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 35
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 8
+ !
+ class class-default
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pb14_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 40
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 25
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pb15_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 19
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 50
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pb16_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 56
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 10
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pb17_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_voz
+  police rate percent 50
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 16
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 25
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pb18_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_voz
+  police rate percent 50
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 34
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 7
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pb19_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 93
+  bandwidth remaining percent 60
+ !
+ class class-default
+  bandwidth percent 1
+  bandwidth remaining percent 10
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pb20_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_video
+  bandwidth percent 40
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 16
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 38
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pb21_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_video
+  bandwidth percent 40
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 50
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 4
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pb22_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_voz
+  police rate percent 13
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+ !
+ class rpvm_video
+  bandwidth percent 40
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 31
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 10
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pb23_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+ !
+ class rpvm_video
+  bandwidth percent 40
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 22
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 7
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pb24_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+ !
+ class rpvm_video
+  bandwidth percent 40
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 22
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 7
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pb25_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_voz
+  police rate percent 50
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+ !
+ class rpvm_video
+  bandwidth percent 40
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 3
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 2
+ !
+ class class-default
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pb26_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+ !
+ class rpvm_voz
+  priority level 1
+  police rate percent 50
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 44
+  bandwidth remaining percent 60
+ !
+ class class-default
+  bandwidth percent 1
+  bandwidth remaining percent 10
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pb27_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_video
+  bandwidth percent 80
+  police rate percent 50
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 11
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 3
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pb28_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+ !
+ class rpvm_video
+  bandwidth percent 64
+  police rate percent 50
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 3
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 2
+ !
+ class class-default
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pb29_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+ !
+ class rpvm_video
+  bandwidth percent 90
+  police rate percent 90
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 5
+ !
+ class class-default
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvm_pb30_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+ !
+ class rpvm_voz
+  police rate percent 90
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 5
+ !
+ class class-default
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa01_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class class-default
+  police rate percent 100
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa02_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 75
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa03_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_business
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 50
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa04_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_business
+  police rate percent 75
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 25
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa05_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 63
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa06_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 75
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa07_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 50
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa08_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 25
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa09_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 25
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa10_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 75
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa11_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa12_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa13_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 50
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb14_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 25
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb15_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb16_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb17_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 50
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb18_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 50
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb19_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 35
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class class-default
+  police rate percent 65
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb20_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_video
+  police rate percent 25
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb21_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_video
+  police rate percent 25
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb22_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 13
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_video
+  police rate percent 25
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb23_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_video
+  police rate percent 25
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb24_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_video
+  police rate percent 25
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb25_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 50
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_video
+  police rate percent 25
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb26_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 50
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 35
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb27_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_video
+  police rate percent 50
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb28_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_video
+  police rate percent 50
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb29_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_video
+  police rate percent 90
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_business
+  police rate percent 15
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb30_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 90
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_business
+  police rate percent 15
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa01_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 95
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa02_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 94
+  set cos 2
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa03_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 94
+  set cos 2
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa04_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 94
+  set cos 2
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa05_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 69
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 25
+  set cos 2
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa06_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 30
+  bandwidth percent 19
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 60
+  bandwidth percent 75
+  set cos 2
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa07_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 69
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 25
+  set cos 2
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa08_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 44
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 50
+  set cos 2
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa09_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 69
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 25
+  set cos 2
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa10_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 81
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 13
+  set cos 2
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa11_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+  set cos 5
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 52
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 15
+  set cos 2
+ !
+ class class-default
+  set cos 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa12_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+  set cos 5
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 52
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 15
+  set cos 2
+ !
+ class class-default
+  set cos 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa13_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  police rate percent 50
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+  set cos 5
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 35
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 8
+  set cos 2
+ !
+ class class-default
+  set cos 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb14_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+  set cos 5
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 40
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 25
+  set cos 2
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb15_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+  set cos 5
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 19
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 50
+  set cos 2
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb16_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+  set cos 5
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 56
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 10
+  set cos 2
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb17_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  police rate percent 50
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+  set cos 5
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 16
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 25
+  set cos 2
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb18_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  police rate percent 50
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+  set cos 5
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 34
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 7
+  set cos 2
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb19_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 93
+  bandwidth remaining percent 60
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 1
+  bandwidth remaining percent 10
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb20_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_video
+  bandwidth percent 40
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 16
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 38
+  set cos 2
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb21_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_video
+  bandwidth percent 40
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 50
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 4
+  set cos 2
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb22_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  police rate percent 13
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+  set cos 5
+ !
+ class rpvm_video
+  bandwidth percent 40
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 31
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 10
+  set cos 2
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb23_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+  set cos 5
+ !
+ class rpvm_video
+  bandwidth percent 40
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 22
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 7
+  set cos 2
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb24_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+  set cos 5
+ !
+ class rpvm_video
+  bandwidth percent 40
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 22
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 7
+  set cos 2
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb25_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  police rate percent 50
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+  set cos 5
+ !
+ class rpvm_video
+  bandwidth percent 40
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 3
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 2
+  set cos 2
+ !
+ class class-default
+  set cos 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb26_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  priority level 1
+  police rate percent 50
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 5
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 44
+  bandwidth remaining percent 60
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 1
+  bandwidth remaining percent 10
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb27_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_video
+  bandwidth percent 80
+  police rate percent 50
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 11
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 3
+  set cos 2
+ !
+ class class-default
+  bandwidth remaining percent 10
+  bandwidth percent 1
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb28_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 5
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+  set cos 5
+ !
+ class rpvm_video
+  bandwidth percent 64
+  police rate percent 50
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth remaining percent 60
+  bandwidth percent 3
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 2
+  set cos 2
+ !
+ class class-default
+  set cos 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb29_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_video
+  bandwidth percent 90
+  police rate percent 90
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 5
+  set cos 2
+ !
+ class class-default
+  set cos 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb30_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  police rate percent 90
+   conform-action transmit
+   exceed-action drop
+  !
+  priority level 1
+  set cos 5
+ !
+ class rpvm_business
+  bandwidth remaining percent 30
+  bandwidth percent 5
+  set cos 2
+ !
+ class class-default
+  set cos 1
+  queue-limit 32 packets
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa11_2M_in
+ class class-default
+  service-policy rpvmeth_pa11_in
+  police rate 2000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa11_6M_in
+ class class-default
+  service-policy rpvmeth_pa11_in
+  police rate 6000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa12_2M_in
+ class class-default
+  service-policy rpvmeth_pa12_in
+  police rate 2000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa13_2M_in
+ class class-default
+  service-policy rpvmeth_pa13_in
+  police rate 2000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa13_4M_in
+ class class-default
+  service-policy rpvmeth_pa13_in
+  police rate 4000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb14_2M_in
+ class class-default
+  service-policy rpvmeth_pb14_in
+  police rate 2000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb14_4M_in
+ class class-default
+  service-policy rpvmeth_pb14_in
+  police rate 4000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb15_2M_in
+ class class-default
+  service-policy rpvmeth_pb15_in
+  police rate 2000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb15_4M_in
+ class class-default
+  service-policy rpvmeth_pb15_in
+  police rate 4000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb16_2M_in
+ class class-default
+  service-policy rpvmeth_pb16_in
+  police rate 2000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb16_6M_in
+ class class-default
+  service-policy rpvmeth_pb16_in
+  police rate 6000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb20_4M_in
+ class class-default
+  service-policy rpvmeth_pb20_in
+  police rate 4000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb22_2M_in
+ class class-default
+  service-policy rpvmeth_pb22_in
+  police rate 2000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb22_4M_in
+ class class-default
+  service-policy rpvmeth_pb22_in
+  police rate 4000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb23_6M_in
+ class class-default
+  service-policy rpvmeth_pb23_in
+  police rate 6000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb24_2M_in
+ class class-default
+  service-policy rpvmeth_pb24_in
+  police rate 2000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb24_4M_in
+ class class-default
+  service-policy rpvmeth_pb24_in
+  police rate 4000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa11_2M_out
+ class class-default
+  service-policy rpvmeth_pa11_out
+  shape average 2000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa11_6M_out
+ class class-default
+  service-policy rpvmeth_pa11_out
+  shape average 6000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa12_2M_out
+ class class-default
+  service-policy rpvmeth_pa12_out
+  shape average 2000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa13_2M_out
+ class class-default
+  service-policy rpvmeth_pa13_out
+  shape average 2000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa13_4M_out
+ class class-default
+  service-policy rpvmeth_pa13_out
+  shape average 4000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb14_2M_out
+ class class-default
+  service-policy rpvmeth_pb14_out
+  shape average 2000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb14_4M_out
+ class class-default
+  service-policy rpvmeth_pb14_out
+  shape average 4000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb15_2M_out
+ class class-default
+  service-policy rpvmeth_pb15_out
+  shape average 2000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb15_4M_out
+ class class-default
+  service-policy rpvmeth_pb15_out
+  shape average 4000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb16_2M_out
+ class class-default
+  service-policy rpvmeth_pb16_out
+  shape average 2000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb16_6M_out
+ class class-default
+  service-policy rpvmeth_pb16_out
+  shape average 6000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb20_4M_out
+ class class-default
+  service-policy rpvmeth_pb20_out
+  shape average 4000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb22_20M_in
+ class class-default
+  service-policy rpvmeth_pb22_in
+  police rate 20000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb22_2M_out
+ class class-default
+  service-policy rpvmeth_pb22_out
+  shape average 2000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb22_40M_in
+ class class-default
+  service-policy rpvmeth_pb22_in
+  police rate 40000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb22_4M_out
+ class class-default
+  service-policy rpvmeth_pb22_out
+  shape average 4000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb23_6M_out
+ class class-default
+  service-policy rpvmeth_pb23_out
+  shape average 6000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb24_2M_out
+ class class-default
+  service-policy rpvmeth_pb24_out
+  shape average 2000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb24_4M_out
+ class class-default
+  service-policy rpvmeth_pb24_out
+  shape average 4000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb18_100M_in
+ class class-default
+  service-policy rpvmeth_pb18_in
+  police rate 100000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb22_20M_out
+ class class-default
+  service-policy rpvmeth_pb22_out
+  shape average 20000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb22_40M_out
+ class class-default
+  service-policy rpvmeth_pb22_out
+  shape average 40000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb18_100M_out
+ class class-default
+  service-policy rpvmeth_pb18_out
+  shape average 100000000 bps
+ !
+ end-policy-map
+!
+switch-fabric
+ service-policy FABRIC_QOS
+!
+hw-module qos pol-gran 8 location 0/0/CPU0
+hw-module qos pol-gran 8 location 0/5/CPU0
+hw-module qos pol-gran 8 location 0/6/CPU0
+hw-module qos pol-gran 8 location 0/7/CPU0
+interface Loopback0
+ ipv4 address 201.125.0.49 255.255.255.255
+!
+interface Loopback1
+ description VPN Prueba
+ vrf prueba
+ ipv4 address 1.1.2.81 255.255.255.255
+!
+interface MgmtEth0/8/CPU0/0
+ ipv4 redirects
+ shutdown
+!
+interface MgmtEth0/8/CPU0/1
+ ipv4 redirects
+ shutdown
+!
+interface MgmtEth0/8/CPU0/2
+ ipv4 redirects
+!
+interface MgmtEth0/9/CPU0/0
+ ipv4 redirects
+ shutdown
+!
+interface MgmtEth0/9/CPU0/1
+ ipv4 redirects
+ shutdown
+!
+interface MgmtEth0/9/CPU0/2
+ ipv4 redirects
+ shutdown
+!
+interface GigabitEthernet0/0/1/0
+ description ITX GE A CE_BAHOBR_001CNOO_01_BAH_VPNEG CE_TELMEX I10031730A 1000M MGBONILL
+ bandwidth 1000000
+ load-interval 30
+!
+interface GigabitEthernet0/0/1/1
+ description VPN SIU_15_1534_CTL__BAHIA UD1-1510-0062 I03031611A 1000M JSROSAS
+ bandwidth 1000000
+ load-interval 30
+!
+interface GigabitEthernet0/0/1/1.1
+ description VPN FLORESTA_Y_LOYOLA CB2-1704-0006 I26051791A servautom 30/05/17 pa13 31307314
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa13_2M_in
+ service-policy output rpvmeth_shape_pa13_2M_out
+ vrf V55704:VPN_BENAVIDES_0
+ ipv4 address 187.196.155.1 255.255.255.252
+ dot1q vlan 3000
+!
+interface GigabitEthernet0/0/1/1.2
+ description VPN ENSENADA_BCN_TIENDA_265 CB2-1706-0180 I19061720B servautom 23/06/17 pa12 31619619
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa12_2M_in
+ service-policy output rpvmeth_shape_pa12_2M_out
+ vrf V60045:VPN_BANCOPPEL_0
+ ipv4 address 189.255.34.93 255.255.255.252
+ dot1q vlan 2998
+!
+interface GigabitEthernet0/0/1/1.3
+ description VPN ENSENADA_BCN_TIENDA_668 CB2-1706-0028 I23061730B servautom 27/06/17 pa12 31586788
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa12_2M_in
+ service-policy output rpvmeth_shape_pa12_2M_out
+ vrf V60045:VPN_BANCOPPEL_0
+ ipv4 address 187.238.52.5 255.255.255.252
+ dot1q vlan 2999
+!
+interface GigabitEthernet0/0/1/1.4
+ description VPN ENSENADA_BCN_TIENDA_110 CB2-1706-0465 I26061721B servautom 05/07/17 pa12 31667546
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa12_2M_in
+ service-policy output rpvmeth_shape_pa12_2M_out
+ vrf V60045:VPN_BANCOPPEL_0
+ ipv4 address 189.255.148.25 255.255.255.252
+ dot1q vlan 2994
+!
+interface GigabitEthernet0/0/1/1.5
+ description VPN ENSENADA_BCN_TIENDA_077 CB2-1706-0183 I29061781B servautom 05/07/17 pa12 31619595
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa12_2M_in
+ service-policy output rpvmeth_shape_pa12_2M_out
+ vrf V60045:VPN_BANCOPPEL_0
+ ipv4 address 189.255.33.1 255.255.255.252
+ dot1q vlan 2996
+!
+interface GigabitEthernet0/5/0/0
+ description VPN SIU_11_1292_BAHIA_ENSENADA_1 UD1-1110-0006 I10031212A BW 1000M
+ proxy-arp
+ ipv4 redirects
+!
+interface GigabitEthernet0/5/0/0.1
+ description VPN AMH_BOOK_PLAZA_HUSSONGS CB4-1402-0147 I22051409B AJZ 27/05/14 pb20 26425827
+ bandwidth 4000
+ service-policy input rpvmeth_shape_pb20_4M_in
+ service-policy output rpvmeth_shape_pb20_4M_out
+ vrf V281479:VPN_BOOKS_0
+ ipv4 address 187.219.90.197 255.255.255.252
+ dot1q vlan 4000
+!
+interface GigabitEthernet0/5/0/0.2
+ description VPN AMH_BOOK_MACRO_PLAZA_DEL_MAR CB4-1402-0146 I28051420B MDCH 03/06/14 pb20 26425835
+ bandwidth 4000
+ service-policy input rpvmeth_shape_pb20_4M_in
+ service-policy output rpvmeth_shape_pb20_4M_out
+ vrf V281479:VPN_BOOKS_0
+ ipv4 address 187.219.90.117 255.255.255.252
+ dot1q vlan 3999
+!
+interface GigabitEthernet0/5/0/0.3
+ description VPN JUAREZ_ENSENADA CB4-1405-0058 I02071445B JCSP 08/08/14 pb24 26029757
+ bandwidth 4000
+ service-policy input rpvmeth_shape_pb24_4M_in
+ service-policy output rpvmeth_shape_pb24_4M_out
+ vrf V281999:VPN_GETBANAMEX_0
+ ipv4 address 187.219.88.221 255.255.255.252
+ dot1q vlan 3998
+!
+interface GigabitEthernet0/5/0/0.4
+ description VPN SUBDELEG_F_ENSENADA C04-1407-0042 I09101420B IANAYA 28/11/14 pb22 26916215
+ bandwidth 40000
+ service-policy input rpvmeth_shape_pb22_40M_in
+ service-policy output rpvmeth_shape_pb22_40M_out
+ vrf V47307:VPN_P1IMSSSAC_0
+ ipv4 address 187.219.87.1 255.255.255.252
+ dot1q vlan 3996
+!
+interface GigabitEthernet0/5/0/0.5
+ description VPN H_G_Z_M__F_NO_8_ENSENADA_288_2N C04-1407-0038 I09101416B CGV 05/12/14 pb22 26915728
+ bandwidth 40000
+ service-policy input rpvmeth_shape_pb22_40M_in
+ service-policy output rpvmeth_shape_pb22_40M_out
+ vrf V47307:VPN_P1IMSSSAC_0
+ ipv4 address 187.219.86.117 255.255.255.252
+ dot1q vlan 3997
+!
+interface GigabitEthernet0/5/0/0.6
+ description VPN UMF_NO_25_ENSENADA_288 C04-1407-0045 I14101433B LFCF 03/12/14 pb22 26915833
+ bandwidth 40000
+ service-policy input rpvmeth_shape_pb22_40M_in
+ service-policy output rpvmeth_shape_pb22_40M_out
+ vrf V47307:VPN_P1IMSSSAC_0
+ ipv4 address 187.219.88.161 255.255.255.252
+ dot1q vlan 3995
+!
+interface GigabitEthernet0/5/0/0.7
+ description VPN 8_CENTRO_DE_NUEVA_VIDA_CHAPULTEPEC CB6-1409-0054 I17121406B servautom 31/12/14 pb23 27262452
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pb23_6M_in
+ service-policy output rpvmeth_shape_pb23_6M_out
+ vrf V47826:VPN_SSALUDSAT_0
+ ipv4 address 187.219.67.217 255.255.255.252
+ dot1q vlan 3992
+!
+interface GigabitEthernet0/5/0/0.8
+ description VPN 7_CENTRO_NUEVA_VIDA_ZONA_CENTRO_ENSENADA CB6-1409-0055 I23121466A servautom 31/12/14 pb23 27262425
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pb23_6M_in
+ service-policy output rpvmeth_shape_pb23_6M_out
+ vrf V47826:VPN_SSALUDSAT_0
+ ipv4 address 187.238.53.185 255.255.255.252
+ dot1q vlan 3993
+!
+interface GigabitEthernet0/5/0/0.9
+ description VPN 6_CENTRO_NUEVA_VIDA_SAUZAL CB6-1409-0047 I30121489A servautom 09/01/15 pb23 27262398
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pb23_6M_in
+ service-policy output rpvmeth_shape_pb23_6M_out
+ vrf V47826:VPN_SSALUDSAT_0
+ ipv4 address 187.238.55.81 255.255.255.252
+ dot1q vlan 3994
+!
+interface GigabitEthernet0/5/0/0.10
+ description VPN PGR_PROL_ZERTUCHE_ENSENADA_BCN CB4-1410-0075 I13011517B servautom 20/11/15 pb24 26869449
+ bandwidth 4000
+ service-policy input rpvmeth_shape_pb24_4M_in
+ service-policy output rpvmeth_shape_pb24_4M_out
+ vrf V52295:VPN_PGR-MIG_0
+ ipv4 address 187.238.40.225 255.255.255.252
+ dot1q vlan 3990
+!
+interface GigabitEthernet0/5/0/0.11
+ description VPN GRUPO_PROFUTURO_ENSENADA_PLAZA_TERSA CB2-1410-0142 I21011567B servautom 23/01/15 pa11 27304865
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa11_2M_in
+ service-policy output rpvmeth_shape_pa11_2M_out
+ vrf V47875:VPN_PROFUTURO_0
+ ipv4 address 187.238.45.169 255.255.255.252
+ dot1q vlan 3991
+!
+interface GigabitEthernet0/5/0/0.12
+ description VPN 5059_ENSENADA_MISION CB2-1410-0131 I20041532A servautom 22/04/15 pb15 27320534
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pb15_2M_in
+ service-policy output rpvmeth_shape_pb15_2M_out
+ vrf V49620:VPN_BBV_0
+ ipv4 address 189.255.73.145 255.255.255.252
+ dot1q vlan 3987
+!
+interface GigabitEthernet0/5/0/0.13
+ description VPN 661_ENSENADA CB2-1501-0532 I02061522B MAAE 04/06/15 pa12 27819011
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa12_2M_in
+ service-policy output rpvmeth_shape_pa12_2M_out
+ vrf V48678:VPN_AMG_0
+ ipv4 address 187.238.32.145 255.255.255.252
+ dot1q vlan 3989
+!
+interface GigabitEthernet0/5/0/0.14
+ description VPN AFORE_SURA_ENSENADA CB2-1502-0382 I09061593C servautom 12/06/15 pb22 27923211
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pb22_2M_in
+ service-policy output rpvmeth_shape_pb22_2M_out
+ vrf V49859:VPN_AFORE-ING_0
+ ipv4 address 189.255.38.17 255.255.255.252
+ dot1q vlan 3988
+!
+interface GigabitEthernet0/5/0/0.15
+ description VPN 70_CONSULTORIO_PERIFERICO_MENEADERO CB6-1507-0041 I05081557B servautom 05/11/15 pb23 28250919
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pb23_6M_in
+ service-policy output rpvmeth_shape_pb23_6M_out
+ vrf V52710:VPN_IMSS-RPV_0
+ ipv4 address 201.118.45.249 255.255.255.252
+ dot1q vlan 3986
+!
+interface GigabitEthernet0/5/0/0.16
+ description VPN AXA_ENSENADA CB2-1507-2117 I26081598A servautom 09/09/15 pb24 28319039
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pb24_2M_in
+ service-policy output rpvmeth_shape_pb24_2M_out
+ vrf V50519:VPN_INGCA_0
+ ipv4 address 201.118.45.129 255.255.255.252
+ dot1q vlan 3985
+!
+interface GigabitEthernet0/5/0/0.17
+ description VPN 637_OFNA_PRINCIPAL CB4-1609-0111 I07101602B servautom 15/11/16 pb15 30552862
+ bandwidth 4000
+ service-policy input rpvmeth_shape_pb15_4M_in
+ service-policy output rpvmeth_shape_pb15_4M_out
+ vrf V57267:VPN_CIFRADO_0
+ ipv4 address 187.173.69.81 255.255.255.252
+ dot1q vlan 3962
+!
+interface GigabitEthernet0/5/0/0.18
+ description VPN U__M__F__NO__11_EL_SAUZAL_817 CB6-1509-0138 I02101557B servautom 06/11/15 pb23 28722276
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pb23_6M_in
+ service-policy output rpvmeth_shape_pb23_6M_out
+ vrf V52710:VPN_IMSS-RPV_0
+ ipv4 address 187.219.70.245 255.255.255.252
+ dot1q vlan 3983
+!
+interface GigabitEthernet0/5/0/0.19
+ description VPN TIENDA_IMSS_ENSENADA CB6-1510-0154 I13111573B servautom 20/11/15 pb23 28791453
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pb23_6M_in
+ service-policy output rpvmeth_shape_pb23_6M_out
+ vrf V52710:VPN_IMSS-RPV_0
+ ipv4 address 187.219.73.213 255.255.255.252
+ dot1q vlan 3981
+!
+interface GigabitEthernet0/5/0/0.20
+ description VPN 70161_CECEM_ENSENADA CB6-1510-0128 I23111550A servautom 27/11/15 pb23 28791591
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pb23_6M_in
+ service-policy output rpvmeth_shape_pb23_6M_out
+ vrf V52710:VPN_IMSS-RPV_0
+ ipv4 address 189.255.37.21 255.255.255.252
+ dot1q vlan 3979
+!
+interface GigabitEthernet0/5/0/0.21
+ description VPN HAPAG_LLOYD_ENSENADA CB6-1608-0022 I04101636A RGVL 04/10/16 pb16 29167492
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pb16_6M_in
+ service-policy output rpvmeth_shape_pb16_6M_out
+ vrf V52825:VPN_EQ-HAPAG_0
+ ipv4 address 57.212.190.237 255.255.255.252
+ dot1q vlan 3977
+!
+interface GigabitEthernet0/5/0/0.22
+ description VPN U__M__F__NO__22_SAN_VICENTE_817 CB6-1509-0311 I08011618C servautom 15/01/16 pb23 28722377
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pb23_6M_in
+ service-policy output rpvmeth_shape_pb23_6M_out
+ vrf V52710:VPN_IMSS-RPV_0
+ ipv4 address 187.219.78.197 255.255.255.252
+ dot1q vlan 3973
+!
+interface GigabitEthernet0/5/0/0.23
+ description VPN U_M_F_NO_13_SAN_QUINTIN_817 CB6-1509-0146 I14011629B MJVV 02/02/16 pb23 28722285
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pb23_6M_in
+ service-policy output rpvmeth_shape_pb23_6M_out
+ vrf V52710:VPN_IMSS-RPV_0
+ ipv4 address 187.219.164.73 255.255.255.252
+ dot1q vlan 3982
+!
+interface GigabitEthernet0/5/0/0.24
+ description VPN 70160_GUARDERIA_IMSS_ENSENADA CB6-1511-0049 I14011636B FCP 02/02/16 pb23 28791548
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pb23_6M_in
+ service-policy output rpvmeth_shape_pb23_6M_out
+ vrf V52710:VPN_IMSS-RPV_0
+ ipv4 address 187.219.164.69 255.255.255.252
+ dot1q vlan 3980
+!
+interface GigabitEthernet0/5/0/0.25
+ description VPN ENSENADA_203 CB4-1511-0071 I14011653C servautom 27/01/16 pa13 28989038
+ bandwidth 4000
+ service-policy input rpvmeth_shape_pa13_4M_in
+ service-policy output rpvmeth_shape_pa13_4M_out
+ vrf V53038:VPN_FINRURAL_0
+ ipv4 address 187.219.69.205 255.255.255.252
+ dot1q vlan 3974
+!
+interface GigabitEthernet0/5/0/0.26
+ description VPN U__M__F__NO__29_EL_ROSARIO_817 CB6-1509-0143 I10021689B servautom 12/02/16 pb23 28722323
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pb23_6M_in
+ service-policy output rpvmeth_shape_pb23_6M_out
+ vrf V52710:VPN_IMSS-RPV_0
+ ipv4 address 187.219.78.161 255.255.255.252
+ dot1q vlan 3978
+!
+interface GigabitEthernet0/5/0/0.27
+ description VPN SUBNIT_ENSENADA_PM CB4-1601-0109 I15021677B servautom 18/05/17 pb14 29387795
+ bandwidth 4000
+ service-policy input rpvmeth_shape_pb14_4M_in
+ service-policy output rpvmeth_shape_pb14_4M_out
+ vrf V59417:VPN_PLATAFORMAMEX_0
+ ipv4 address 201.134.121.249 255.255.255.252
+ dot1q vlan 3972
+!
+interface GigabitEthernet0/5/0/0.28
+ description VPN SAMS_ENSENADA_6261 CB2-1510-0163 I23021606D servautom 25/02/16 pa11 28793393
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa11_2M_in
+ service-policy output rpvmeth_shape_pa11_2M_out
+ vrf V53255:VPN_WALMART_0
+ ipv4 address 201.118.45.145 255.255.255.252
+ dot1q vlan 3975
+!
+interface GigabitEthernet0/5/0/0.29
+ description VPN 2714_H_R_S_SAN_QUINTIN CB6-1510-0200 I27021613A servautom 01/03/16 pb23 28816152
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pb23_6M_in
+ service-policy output rpvmeth_shape_pb23_6M_out
+ vrf V52710:VPN_IMSS-RPV_0
+ ipv4 address 187.238.56.57 255.255.255.252
+ dot1q vlan 3976
+!
+interface GigabitEthernet0/5/0/0.30
+ description VPN UNAM_CAMPUS_ENSENADA CB4-1612-0030 I13011728A RGVL 13/01/17 pb22 29239200
+ bandwidth 4000
+ service-policy input rpvmeth_shape_pb22_4M_in
+ service-policy output rpvmeth_shape_pb22_4M_out
+ vrf V51203:VPN_UNAM_0
+ ipv4 address 187.196.131.41 255.255.255.252
+ dot1q vlan 3970
+!
+interface GigabitEthernet0/5/0/0.31
+ description VPN 47_UMF__NO__14_V__GUADALUPE_817 CB6-1512-0179 I16031629D FCP 04/04/16 pb23 29301825
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pb23_6M_in
+ service-policy output rpvmeth_shape_pb23_6M_out
+ vrf V52710:VPN_IMSS-RPV_0
+ ipv4 address 187.219.70.137 255.255.255.252
+ dot1q vlan 3971
+!
+interface GigabitEthernet0/5/0/0.32
+ description VPN BENAVIDES_SUCURSAL_CENTRO_ENSENADA CB2-1606-1158 I19071627B servautom 21/07/16 pa13 30339357
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa13_2M_in
+ service-policy output rpvmeth_shape_pa13_2M_out
+ vrf V55704:VPN_BENAVIDES_0
+ ipv4 address 187.196.189.125 255.255.255.252
+ dot1q vlan 3968
+!
+interface GigabitEthernet0/5/0/0.33
+ description VPN BENAVIDES_SUCURSAL_OCTAVA_Y_REFORMA CB2-1607-0280 I25071610B servautom 28/07/16 pa13 30368175
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa13_2M_in
+ service-policy output rpvmeth_shape_pa13_2M_out
+ vrf V55704:VPN_BENAVIDES_0
+ ipv4 address 187.219.83.69 255.255.255.252
+ dot1q vlan 3967
+!
+interface GigabitEthernet0/5/0/0.34
+ description VPN CETMAR_011_BCN CB2-1609-0510 I08111603B IANAYA 08/11/16 pa12 30360561
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa12_2M_in
+ service-policy output rpvmeth_shape_pa12_2M_out
+ vrf V56289:VPN_SEP-SEMS_0
+ ipv4 address 187.196.203.57 255.255.255.252
+ dot1q vlan 3966
+!
+interface GigabitEthernet0/5/0/0.35
+ description VPN 339_SORIANA_MISION_70021416 CB2-1608-0829 I05091616B servautom 28/09/16 pa13 30486695
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa13_2M_in
+ service-policy output rpvmeth_shape_pa13_2M_out
+ vrf V56649:VPN_SORIANA_0
+ ipv4 address 187.196.213.245 255.255.255.252
+ dot1q vlan 3964
+!
+interface GigabitEthernet0/5/0/0.36
+ description VPN TIENDAS_SORIANA_SUC_543_ENTRADA CB2-1608-0413 I06091674A servautom 21/09/16 pa13 30453386
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa13_2M_in
+ service-policy output rpvmeth_shape_pa13_2M_out
+ vrf V56649:VPN_SORIANA_0
+ ipv4 address 187.196.212.45 255.255.255.252
+ dot1q vlan 3965
+!
+interface GigabitEthernet0/5/0/0.37
+ description VPN ENSENADA_CS_R CB4-1605-0114 I21101629B servautom 09/06/17 pb14 30236079
+ bandwidth 4000
+ service-policy input rpvmeth_shape_pb14_4M_in
+ service-policy output rpvmeth_shape_pb14_4M_out
+ vrf V59839:VPN_PFEDERAL_0
+ ipv4 address 187.196.231.249 255.255.255.252
+ dot1q vlan 3960
+!
+interface GigabitEthernet0/5/0/0.38
+ description VPN 384_SORIANA_BAHIA CB2-1610-0376 I26101681B servautom 31/10/16 pa13 30616465
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa13_2M_in
+ service-policy output rpvmeth_shape_pa13_2M_out
+ vrf V56649:VPN_SORIANA_0
+ ipv4 address 187.173.77.93 255.255.255.252
+ dot1q vlan 3959
+!
+interface GigabitEthernet0/5/0/0.39
+ description VPN PGLA_43282_NSR_MXXXM0103321_4_ROCKWELL_ C00-1604-0018 I27101697B servautom 28/10/16 pb18 30158161
+ bandwidth 100000
+ service-policy input rpvmeth_shape_pb18_100M_in
+ service-policy output rpvmeth_shape_pb18_100M_out
+ vrf V57113:VPN_ATT-ROCKWELL_0
+ ipv4 address 10.103.4.158 255.255.255.252
+ dot1q vlan 3955
+!
+interface GigabitEthernet0/5/0/0.40
+ description VPN 387_SORIANA_PIPILA CB2-1610-0351 I27101661B servautom 31/10/16 pa13 30616475
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa13_2M_in
+ service-policy output rpvmeth_shape_pa13_2M_out
+ vrf V56649:VPN_SORIANA_0
+ ipv4 address 187.173.78.65 255.255.255.252
+ dot1q vlan 3961
+!
+interface GigabitEthernet0/5/0/0.41
+ description VPN 385_SORIANA_GASTELUM CB2-1610-0375 I27101688B servautom 31/10/16 pa13 30616441
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa13_2M_in
+ service-policy output rpvmeth_shape_pa13_2M_out
+ vrf V56649:VPN_SORIANA_0
+ ipv4 address 187.173.76.85 255.255.255.252
+ dot1q vlan 3957
+!
+interface GigabitEthernet0/5/0/0.42
+ description VPN 386_SORIANA_LA_PRIMERA CB2-1610-0425 I27101620C servautom 31/10/16 pa13 30616513
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa13_2M_in
+ service-policy output rpvmeth_shape_pa13_2M_out
+ vrf V56649:VPN_SORIANA_0
+ ipv4 address 187.196.155.21 255.255.255.252
+ dot1q vlan 3958
+!
+interface GigabitEthernet0/5/0/0.43
+ description VPN 388_SORIANA_VALLE CB2-1610-0416 I14111649A servautom 26/04/17 pa13 30616586
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa13_2M_in
+ service-policy output rpvmeth_shape_pa13_2M_out
+ vrf V56649:VPN_SORIANA_0
+ ipv4 address 187.196.155.9 255.255.255.252
+ dot1q vlan 3956
+!
+interface GigabitEthernet0/5/0/0.44
+ description VPN BCN_21_AEROPUERTO_INTERNACIONAL_CIPRES_EN_ENSENADA CB2-1609-0667 I11011773A servautom 17/01/17 pa13 30559034
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa13_2M_in
+ service-policy output rpvmeth_shape_pa13_2M_out
+ vrf V58069:VPN_INAMILIC_0
+ ipv4 address 187.196.230.133 255.255.255.252
+ dot1q vlan 3963
+!
+interface GigabitEthernet0/5/0/0.45
+ description VPN SEMARNAT_REG_ENSENADA_70122257 CB4-1612-0111 I17031711B servautom 22/03/17 pb24 30815447
+ bandwidth 4000
+ service-policy input rpvmeth_shape_pb24_4M_in
+ service-policy output rpvmeth_shape_pb24_4M_out
+ vrf V58791:VPN_SEMARNAT_0
+ ipv4 address 189.255.76.53 255.255.255.252
+ dot1q vlan 3953
+!
+interface GigabitEthernet0/5/0/0.46
+ description VPN 131002_PLAZA_DEL_MAR CB2-1609-0185 I23031783B servautom 03/04/17 pa12 30531320
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa12_2M_in
+ service-policy output rpvmeth_shape_pa12_2M_out
+ vrf V58931:VPN_INVERLAT_0
+ ipv4 address 187.196.223.41 255.255.255.252
+ dot1q vlan 3954
+!
+interface GigabitEthernet0/5/0/0.47
+ description VPN TCM_SUC_TRANSPENINSULAR_SORIANA CB2-1702-0134 I24031739C servautom 27/03/17 pa12 31092704
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa12_2M_in
+ service-policy output rpvmeth_shape_pa12_2M_out
+ vrf V58857:VPN_COMMEX_0
+ ipv4 address 187.196.142.233 255.255.255.252
+ dot1q vlan 3952
+!
+interface GigabitEthernet0/5/0/0.48
+ description VPN JD03_BC_MPLS CB2-1703-0169 I10041771A servautom 26/06/17 pb14 31136373
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pb14_2M_in
+ service-policy output rpvmeth_shape_pb14_2M_out
+ vrf V60142:VPN_IFE_0
+ ipv4 address 187.238.50.69 255.255.255.252
+ dot1q vlan 3951
+!
+interface GigabitEthernet0/5/0/0.49
+ description VPN LALA_CEDIS_ENSENADA CB6-1703-0089 I02061703B servautom 07/06/17 pa11 31175469
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pa11_6M_in
+ service-policy output rpvmeth_shape_pa11_6M_out
+ vrf V59763:VPN_LALA_0
+ ipv4 address 189.255.77.33 255.255.255.252
+ dot1q vlan 3950
+!
+interface GigabitEthernet0/5/0/1
+ description INTERCONEXION GE A CE_BAHOBR_001CNOO_01 BAH L2 CE_TELMEX G1INLOC-1203-1555 I30051283C JCC 02/12/12
+ bandwidth 1000000
+ mtu 2014
+ service-policy output GE_bwrem
+ vrf VPN_TELMEX_L2_0
+ ipv4 mtu 1500
+ ipv4 address 187.238.90.105 255.255.255.252
+ mpls
+  mtu 2000
+ !
+ load-interval 30
+!
+interface TenGigE0/6/0/0
+ description CONEXION TGE A sec-bcn-bahiaensenad-4-Te0-0-0-4 BTB SMM 25/08/11
+ bandwidth 10000000
+ cdp
+ mtu 2014
+ service-policy output 10GE_bwrem
+ ipv4 mtu 1500
+ ipv4 address 201.125.20.58 255.255.255.252
+ ipv4 redirects
+ mpls
+  mtu 2000
+ !
+ load-interval 30
+!
+interface TenGigE0/7/0/0
+ description CONEXION TGE A sec-bcn-bahiaensenad-4-Te0-7-0-4 BTB SMM 25/08/11
+ bandwidth 10000000
+ cdp
+ mtu 2014
+ service-policy output 10GE_bwrem
+ ipv4 mtu 1500
+ ipv4 address 201.125.20.62 255.255.255.252
+ ipv4 redirects
+ mpls
+  mtu 2000
+ !
+ load-interval 30
+!
+controller E1 0/0/0/0
+ description ENLACE TIPO PMP E1-1509-0077 NODO 36170 baia ESC 2 UNIT 5 INT 12 GAF I28091502A
+ framing no-crc4
+ clock source line
+!
+controller E1 0/0/0/1
+ clock source line
+!
+controller E1 0/0/0/2
+ clock source line
+!
+controller E1 0/0/0/3
+ clock source line
+!
+controller E1 0/0/0/4
+ clock source line
+!
+controller E1 0/0/0/5
+ clock source line
+!
+controller E1 0/0/0/6
+ clock source line
+!
+controller E1 0/0/0/7
+ clock source line
+!
+prefix-set 1
+  0.0.0.0/0 le 32
+end-set
+!
+prefix-set VPNSC_GREY_MGMT_ACL
+  189.246.232.33/32,
+  187.238.90.104/30 le 32,
+  187.219.90.196/30 le 32,
+  187.219.90.116/30 le 32,
+  187.219.88.220/30 le 32,
+  187.219.87.0/30 le 32,
+  187.219.88.160/30 le 32,
+  187.219.86.116/30 le 32,
+  187.238.53.184/30 le 32,
+  187.219.67.216/30 le 32,
+  187.238.55.80/30 le 32,
+  187.238.45.168/30 le 32,
+  189.255.73.144/30 le 32,
+  187.238.32.144/30 le 32,
+  189.255.38.16/30 le 32,
+  201.118.45.128/30 le 32,
+  201.118.45.248/30 le 32,
+  187.219.70.244/30 le 32,
+  187.219.73.212/30 le 32,
+  187.238.40.224/30 le 32,
+  189.255.37.20/30 le 32,
+  187.219.78.196/30 le 32,
+  57.212.190.236/30 le 32,
+  187.219.164.72/30 le 32,
+  187.219.164.68/30 le 32,
+  187.219.69.204/30 le 32,
+  187.219.78.160/30 le 32,
+  201.118.45.144/30 le 32,
+  187.238.56.56/30 le 32,
+  187.196.131.40/30 le 32,
+  187.219.70.136/30 le 32,
+  187.196.189.124/30 le 32,
+  187.219.83.68/30 le 32,
+  187.196.203.56/30 le 32,
+  187.196.212.44/30 le 32,
+  187.196.213.244/30 le 32,
+  187.173.76.84/30 le 32,
+  187.173.77.92/30 le 32,
+  187.173.78.64/30 le 32,
+  187.196.155.20/30 le 32,
+  10.103.4.156/30 le 32,
+  187.173.69.80/30 le 32,
+  187.196.230.132/30 le 32,
+  189.255.76.52/30 le 32,
+  187.196.142.232/30 le 32,
+  187.196.223.40/30 le 32,
+  187.196.155.8/30 le 32,
+  201.134.121.248/30 le 32,
+  187.196.155.0/30 le 32,
+  189.255.77.32/30 le 32,
+  187.196.231.248/30 le 32,
+  189.255.34.92/30 le 32,
+  187.238.50.68/30 le 32,
+  187.238.52.4/30 le 32,
+  189.255.33.0/30 le 32,
+  189.255.148.24/30 le 32
+end-set
+!
+community-set 1
+  8151:285
+end-set
+!
+community-set 2
+  8151:286
+end-set
+!
+community-set 3
+  8151:287
+end-set
+!
+community-set 4
+  8151:288
+end-set
+!
+community-set 5
+  8151:289
+end-set
+!
+community-set 6
+  8151:1025
+end-set
+!
+community-set 7
+  8151:1026
+end-set
+!
+community-set 8
+  8151:1027
+end-set
+!
+community-set 9
+  8151:1028
+end-set
+!
+community-set 10
+  8151:1030
+end-set
+!
+community-set 11
+  8151:1031
+end-set
+!
+community-set 12
+  8151:1032
+end-set
+!
+community-set 15
+  8151:1029
+end-set
+!
+community-set 16
+  8151:321
+end-set
+!
+community-set 17
+  8151:322
+end-set
+!
+community-set 18
+  8151:326
+end-set
+!
+community-set 19
+  8151:327
+end-set
+!
+community-set 20
+  8151:331
+end-set
+!
+community-set 21
+  8151:332
+end-set
+!
+community-set 100
+  8151:1075
+end-set
+!
+community-set 101
+  8151:1076
+end-set
+!
+community-set 102
+  8151:1077
+end-set
+!
+community-set 103
+  8151:1078
+end-set
+!
+community-set 104
+  8151:1079
+end-set
+!
+community-set 105
+  ios-regex '8151:105[5-9]',
+  ios-regex '8151:10[6-7][0-9]'
+end-set
+!
+community-set 106
+  ios-regex '8151:105[5-9]',
+  ios-regex '8151:10[6-7][0-9]'
+end-set
+!
+community-set 1055
+  *
+end-set
+!
+route-policy MED
+  set med igp-cost
+  pass
+end-policy
+!
+route-policy PASS
+  pass
+end-policy
+!
+route-policy SMED
+  if (destination in 1) then
+    set med igp-cost
+  endif
+end-policy
+!
+route-policy VPN-INT
+  if (destination in 1) then
+    set community (28513:1281)
+  endif
+end-policy
+!
+route-policy DUAL_HOMED
+  if (community matches-any 1) then
+    set local-preference 100
+  elseif (community matches-any 2) then
+    set local-preference 98
+  elseif (community matches-any 3) then
+    set local-preference 96
+  elseif (community matches-any 4) then
+    set local-preference 94
+  elseif (community matches-any 5) then
+    set local-preference 92
+  elseif (community matches-any 6) then
+    set local-preference 110
+  elseif (community matches-any 7) then
+    set local-preference 108
+  elseif (community matches-any 8) then
+    set local-preference 106
+  elseif (community matches-any 9) then
+    set local-preference 104
+  elseif (community matches-any 15) then
+    set local-preference 102
+  elseif (community matches-any 16) then
+    set local-preference 90
+  elseif (community matches-any 17) then
+    set local-preference 88
+  elseif (community matches-any 18) then
+    set local-preference 80
+  elseif (community matches-any 19) then
+    set local-preference 78
+  elseif (community matches-any 20) then
+    set local-preference 70
+  elseif (community matches-any 21) then
+    set local-preference 68
+  endif
+end-policy
+!
+route-policy MAXAS_LIMIT
+  if (as-path length ge 30) then
+    drop
+  else
+    pass
+  endif
+end-policy
+!
+route-policy COMUNIDAD_L2
+  set community (28513:419)
+  pass
+end-policy
+!
+route-policy REDES-A-REMOTOS
+  if (community matches-any 10) then
+    pass
+  elseif (community matches-any 11) then
+    pass
+  elseif (community matches-any 12) then
+    pass
+  endif
+end-policy
+!
+route-policy TRAFICO_CPE_ZONA
+  if (community matches-any 106) then
+    set local-preference 110
+  else
+    pass
+  endif
+end-policy
+!
+route-policy TRAFICO_CONTROL_ZONA
+  if (community matches-any 100) then
+    set local-preference 110
+  elseif (community matches-any 101) then
+    set local-preference 108
+  elseif (community matches-any 102) then
+    set local-preference 106
+  elseif (community matches-any 103) then
+    set local-preference 104
+  elseif (community matches-any 104) then
+    set local-preference 102
+  elseif not (community matches-any 105) then
+    pass
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V48678:VPN_AMG_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:1174)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V49620:VPN_BBV_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:1040)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V60142:VPN_IFE_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:41014)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V51203:VPN_UNAM_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:3471)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V59763:VPN_LALA_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:6603)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V50519:VPN_INGCA_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:1203, 28513:51238)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V281479:VPN_BOOKS_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:40886)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V58857:VPN_COMMEX_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:1184)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V52295:VPN_PGR-MIG_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:42000)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V53255:VPN_WALMART_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:3413)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V56649:VPN_SORIANA_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:1160)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V57267:VPN_CIFRADO_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:41643)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V52710:VPN_IMSS-RPV_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:51550)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V52825:VPN_EQ-HAPAG_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:47918, 28513:51321)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V53038:VPN_FINRURAL_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:1249)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V56274:VPN_SEPDGTEC_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:40264)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V56289:VPN_SEP-SEMS_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:54094)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V58069:VPN_INAMILIC_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:40832)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V58791:VPN_SEMARNAT_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:45605)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V58931:VPN_INVERLAT_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:1039)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V59839:VPN_PFEDERAL_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:43631)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V47307:VPN_P1IMSSSAC_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:45828)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V47659:VPN_SRIASALUD_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:3543)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V47826:VPN_SSALUDSAT_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:46733)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V47875:VPN_PROFUTURO_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:1232)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V49859:VPN_AFORE-ING_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:40353)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V55704:VPN_BENAVIDES_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:41403)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V60045:VPN_BANCOPPEL_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:6544)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V281999:VPN_GETBANAMEX_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:42126)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V52147:VPN_IMSS-VV-DAT_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:40029)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V57113:VPN_ATT-ROCKWELL_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:42319, 28513:50611)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V59417:VPN_PLATAFORMAMEX_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:3672)
+  endif
+end-policy
+!
+router static
+ address-family ipv4 unicast
+  127.0.0.0/8 Null0
+  148.233.150.210/32 TenGigE0/6/0/0 201.125.20.57
+  148.233.150.210/32 TenGigE0/7/0/0 201.125.20.61
+  148.233.150.211/32 TenGigE0/6/0/0 201.125.20.57
+  148.233.150.211/32 TenGigE0/7/0/0 201.125.20.61
+  148.233.150.212/32 TenGigE0/6/0/0 201.125.20.57
+  148.233.150.212/32 TenGigE0/7/0/0 201.125.20.61
+  148.235.54.161/32 TenGigE0/6/0/0 201.125.20.57
+  148.235.54.161/32 TenGigE0/7/0/0 201.125.20.61
+  172.30.9.0/24 TenGigE0/6/0/0 201.125.20.57
+  172.30.9.0/24 TenGigE0/7/0/0 201.125.20.61
+  192.100.232.0/25 TenGigE0/6/0/0 201.125.20.57
+  192.100.232.0/25 TenGigE0/7/0/0 201.125.20.61
+  200.4.153.0/24 TenGigE0/6/0/0 201.125.20.57
+  200.4.153.0/24 TenGigE0/7/0/0 201.125.20.61
+  200.4.155.0/24 TenGigE0/6/0/0 201.125.20.57
+  200.4.155.0/24 TenGigE0/7/0/0 201.125.20.61
+  200.4.157.0/24 TenGigE0/6/0/0 201.125.20.57
+  200.4.157.0/24 TenGigE0/7/0/0 201.125.20.61
+  200.33.137.0/24 TenGigE0/6/0/0 201.125.20.57
+  200.33.137.0/24 TenGigE0/7/0/0 201.125.20.61
+  200.33.137.128/25 TenGigE0/6/0/0 201.125.20.57
+  200.33.137.128/25 TenGigE0/7/0/0 201.125.20.61
+  204.124.104.0/24 TenGigE0/6/0/0 201.125.20.57
+  204.124.104.0/24 TenGigE0/7/0/0 201.125.20.61
+  204.124.106.0/24 TenGigE0/6/0/0 201.125.20.57
+  204.124.106.0/24 TenGigE0/7/0/0 201.125.20.61
+  204.124.107.0/24 TenGigE0/6/0/0 201.125.20.57
+  204.124.107.0/24 TenGigE0/7/0/0 201.125.20.61
+ !
+ vrf VPN_TELMEX_L2_0
+  address-family ipv4 unicast
+   187.238.90.106/32 GigabitEthernet0/5/0/1
+  !
+ !
+!
+router ospf 64512
+ log adjacency changes
+ router-id 201.125.0.49
+ passive enable
+ auto-cost reference-bandwidth 1000000
+ area 9.3.54.1
+  authentication message-digest
+  nssa
+  interface Loopback0
+  !
+  interface TenGigE0/6/0/0
+   cost 1100
+   message-digest-key 1 md5 encrypted 052D574A041F654C1B0700
+   network point-to-point
+   passive disable
+  !
+  interface TenGigE0/7/0/0
+   cost 1100
+   message-digest-key 1 md5 encrypted 052D574A041F654C1B0700
+   network point-to-point
+   passive disable
+  !
+ !
+!
+snmp-server traps bgp
+router bgp 8151
+ bgp router-id 201.125.0.49
+ address-family ipv4 unicast
+  table-policy MAXAS_LIMIT
+ !
+ address-family vpnv4 unicast
+ !
+ address-family ipv6 unicast
+ !
+ address-family vpnv6 unicast
+ !
+ address-family ipv4 mdt
+ !
+ neighbor 201.154.112.117
+  remote-as 8151
+  password encrypted 08344247074A1146100C1C
+  description rr-bcn-arbol-28
+  update-source Loopback0
+  address-family vpnv4 unicast
+   route-policy TRAFICO_CONTROL_ZONA in
+  !
+  address-family vpnv6 unicast
+   next-hop-self
+  !
+  address-family ipv4 mdt
+  !
+ !
+ neighbor 201.154.112.118
+  remote-as 8151
+  password encrypted 14021C0202573E7A262F23
+  description rr-bcn-piopico-43
+  update-source Loopback0
+  address-family vpnv4 unicast
+   route-policy TRAFICO_CONTROL_ZONA in
+  !
+  address-family vpnv6 unicast
+   next-hop-self
+  !
+  address-family ipv4 mdt
+  !
+ !
+ vrf prueba
+  rd 8151:1
+  address-family ipv4 unicast
+   redistribute connected route-policy VPN-INT
+  !
+ !
+ vrf VPN_TELMEX_L2_0
+  rd 8151:33694
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   maximum-paths ebgp 6
+   dynamic-med interval 1
+   redistribute connected route-policy COMUNIDAD_L2
+   redistribute static
+   allocate-label all
+  !
+  neighbor 187.238.90.106
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 100
+   update-source GigabitEthernet0/5/0/1
+   address-family ipv4 labeled-unicast
+    send-community-ebgp
+    route-policy COMUNIDAD_L2 in
+    route-policy MED out
+    as-override
+    send-extended-community-ebgp
+    soft-reconfiguration inbound
+   !
+  !
+ !
+ vrf V48678:VPN_AMG_0
+  rd 8151:48678
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.238.32.146
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V49620:VPN_BBV_0
+  rd 8151:49620
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 189.255.73.146
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V60142:VPN_IFE_0
+  rd 8151:60142
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.238.50.70
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V51203:VPN_UNAM_0
+  rd 8151:51203
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.196.131.42
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V59763:VPN_LALA_0
+  rd 8151:59763
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 189.255.77.34
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V50519:VPN_INGCA_0
+  rd 8151:50519
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected route-policy VPN-INT
+   redistribute static route-policy VPN-INT
+  !
+  neighbor 201.118.45.130
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V281479:VPN_BOOKS_0
+  rd 8151:281479
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.219.90.118
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy DUAL_HOMED in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.219.90.198
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy DUAL_HOMED in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V58857:VPN_COMMEX_0
+  rd 8151:58857
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.196.142.234
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V52295:VPN_PGR-MIG_0
+  rd 8151:52295
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.238.40.226
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V53255:VPN_WALMART_0
+  rd 8151:53255
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 201.118.45.146
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V56649:VPN_SORIANA_0
+  rd 8151:56649
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.173.76.86
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.173.77.94
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.173.78.66
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.196.155.10
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.196.155.22
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.196.212.46
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.196.213.246
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V57267:VPN_CIFRADO_0
+  rd 8151:57267
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.173.69.82
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy DUAL_HOMED in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V52710:VPN_IMSS-RPV_0
+  rd 8151:52710
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.238.56.58
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 189.255.37.22
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.219.164.70
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.219.164.74
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.219.70.138
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.219.70.246
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.219.73.214
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.219.78.162
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.219.78.198
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 201.118.45.250
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V52825:VPN_EQ-HAPAG_0
+  rd 8151:52825
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected route-policy VPN-INT
+   redistribute static route-policy VPN-INT
+  !
+  neighbor 57.212.190.238
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V53038:VPN_FINRURAL_0
+  rd 8151:53038
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.219.69.206
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V56274:VPN_SEPDGTEC_0
+  rd 8151:56274
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf V56289:VPN_SEP-SEMS_0
+  rd 8151:56289
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.196.203.58
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V58069:VPN_INAMILIC_0
+  rd 8151:58069
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.196.230.134
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V58791:VPN_SEMARNAT_0
+  rd 8151:58791
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 189.255.76.54
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V58931:VPN_INVERLAT_0
+  rd 8151:58931
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.196.223.42
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy DUAL_HOMED in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V59839:VPN_PFEDERAL_0
+  rd 8151:59839
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.196.231.250
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V47307:VPN_P1IMSSSAC_0
+  rd 8151:47307
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.219.87.2
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.219.86.118
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.219.88.162
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V47826:VPN_SSALUDSAT_0
+  rd 8151:47826
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.238.55.82
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 5000 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.219.67.218
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 5000 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.238.53.186
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 5000 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V47875:VPN_PROFUTURO_0
+  rd 8151:47875
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.238.45.170
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V49859:VPN_AFORE-ING_0
+  rd 8151:49859
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 189.255.38.18
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V55704:VPN_BENAVIDES_0
+  rd 8151:55704
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.196.155.2
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.219.83.70
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.196.189.126
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V60045:VPN_BANCOPPEL_0
+  rd 8151:60045
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.238.52.6
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 189.255.33.2
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 189.255.34.94
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 189.255.148.26
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V281999:VPN_GETBANAMEX_0
+  rd 8151:281999
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.219.88.222
+   remote-as 65088
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 5000 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V52147:VPN_IMSS-VV-DAT_0
+  rd 8151:52147
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf V57113:VPN_ATT-ROCKWELL_0
+  rd 8151:57113
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected route-policy VPN-INT
+   redistribute static route-policy VPN-INT
+  !
+  neighbor 10.103.4.157
+   remote-as 65133
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy DUAL_HOMED in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V59417:VPN_PLATAFORMAMEX_0
+  rd 8151:59417
+  label mode per-vrf
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 201.134.121.250
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+!
+snmp-server traps frame-relay pvc interval 30
+mpls oam
+!
+snmp-server traps mpls ldp up
+snmp-server traps mpls ldp down
+snmp-server traps mpls ldp threshold
+snmp-server traps mpls l3vpn all
+mpls ldp
+ router-id 201.125.0.49
+ interface TenGigE0/6/0/0
+ !
+ interface TenGigE0/7/0/0
+ !
+!
+multicast-routing
+ address-family ipv4
+  interface Loopback0
+   enable
+  !
+  interface TenGigE0/6/0/0
+   enable
+  !
+  interface TenGigE0/7/0/0
+   enable
+  !
+  nsf
+  mdt source Loopback0
+  multipath
+  ssm range Uninet_MDT-SSM
+  rate-per-route
+ !
+!
+mpls ip-ttl-propagate disable forwarded
+router pim
+ address-family ipv4
+  maximum routes 100
+  interface Loopback0
+   enable
+  !
+  interface TenGigE0/6/0/0
+  !
+  interface TenGigE0/7/0/0
+  !
+ !
+!
+end
+
+   
+</body>
+</html>
+

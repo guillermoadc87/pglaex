@@ -1,0 +1,4844 @@
+<!-- Manual de PHP -->
+<html>
+<head>
+   <title>LG VPN UniNet</title>
+</head>
+<body>
+
+<!--<table cellpadding="0" cellspacing="0" border="0" width="250" align="center">-->
+<table border="0" width="850">
+  <tr>
+	<td colspan="2">
+		<img src="uninet_top_full.jpg" border="0" alt="VPN UniNet">
+	 
+  </tr>
+  <tr>
+    <td><font size="5" face="Courier" color='#3366FF'>VPN UniNet Looking Glass   
+    <td align="right"><font size="3" face="Courier" color='#3366FF'>Friday 28th of July 2017 11:05:40 AM
+12.145.193.9
+gestionred@reduno.com.mx   
+  </tr>
+</table>
+
+<table border="0" width='850'>
+<tr><td valign='top'><font size="3" face="Courier" color='#3366FF'>
+Available commands:
+
+traceroute a.b.c.d
+traceroute vrf &lt;arguments&gt;
+ping a.b.c.d
+ping vrf &lt;arguments&gt;	 
+ 
+<td><font size="3" face="Courier" color='#3366FF'>
+IOS commands:
+
+show atm pvc
+show policy-map
+show policy-map interface &lt;arguments&gt;
+show route-map
+show ip vrf
+show ip route vrf &lt;arguments&gt;
+show ip bgp vpnv4 &lt;arguments&gt;
+show ip interface brief
+show ip prefix-list
+show ip access-list
+show interface &#91;arguments&#93;
+show interface description
+show controllers &lt;arguments&gt;
+show configuration
+show running-config
+show running-config interface &lt;arguments&gt;
+show running-config | include route-map
+show running-config | include address-family ipv4 vrf
+show running-config | include interface
+show running-config | include class-map
+show running-config | include policy-map
+show running-config | include ip route vrf
+show running-config | include access-list	 
+ 
+<td valign='top'><font size="3" face="Courier" color='#3366FF'>
+IOSXR commands:
+
+show rpl policy-global
+show vrf
+show route vrf &lt;arguments&gt;
+show bgp vpnv4 unicast vrf &lt;arguments&gt;
+show bgp vrf &lt;arguments&gt;
+show prefix-list
+show access-list	 
+ 
+</tr>
+</table>
+
+
+
+<font size="3" face="Courier" color='#3366FF'>
+<form action="lgvpnuninet.php" method="post">
+Source [IP|hostname]:
+<input type="text" name="ip" size="71" maxlength="70"/>
+-l0.uninet.net.mx
+
+
+
+Command             :
+<input type="text" name="cmd" size="71" maxlength="70"/>
+<input type="submit" name='submit' value="Submit" />
+
+</form>
+ 
+
+<font size="-1" face="Courier">
+
+   Granted
+Source IP: 200.38.193.245
+Command  : show running-config
+Equipment model: cisco7609
+
+
+
+ R E S U L T :
+
+Building configuration...
+
+Current configuration : 157290 bytes
+!
+! Last configuration change at 04:57:17 DST Sat Jul 22 2017 by jspedill-n
+! NVRAM config last updated at 08:42:08 DST Fri Jul 28 2017 by ssrcsu
+!
+version 12.2
+service timestamps debug datetime localtime
+service timestamps log datetime localtime
+service password-encryption
+service internal
+service compress-config
+service counters max age 10
+!
+hostname vpn-nvl-triara-18
+!
+boot-start-marker
+boot system disk0:c7600s72033-advipservices-mz.122-33.SRE9.bin
+boot-end-marker
+!
+logging buffered 140000
+enable secret 5 $1$rQGt$puH8IbnrGURKzaW5DSUap/
+enable password 7 011E57051508420940
+!
+aaa new-model
+!
+!
+aaa authentication login default group tacacs+ local enable
+aaa authentication enable default group tacacs+ enable
+aaa authentication ppp default none
+aaa authorization config-commands
+aaa authorization commands 15 default group tacacs+ none
+aaa accounting exec default
+ action-type start-stop
+ group tacacs+
+!
+aaa accounting commands 1 default
+ action-type none
+!
+aaa accounting commands 15 default
+ action-type start-stop
+ group tacacs+
+!
+aaa accounting network default
+ action-type start-stop
+ group tacacs+
+!
+!
+!
+!
+!
+!
+aaa session-id common
+!
+!
+!
+clock timezone CDT -6
+clock summer-time DST recurring
+no logging event link-status boot
+ip source-route
+ip vrf V11180:VPN_DANONE_0
+ rd 8151:11180
+ export map grey_mgmt_vpn_Uninet_V11180:VPN_DANONE_0
+ route-target export 8151:8772
+ route-target import 8151:8772
+ route-target import 8151:1029
+!
+ip vrf V11357:VPN_FONATUR_0
+ rd 8151:11357
+ export map grey_mgmt_vpn_Uninet_V11356:VPN_FONATUR_0
+ route-target export 8151:8773
+ route-target import 8151:8773
+ route-target import 8151:1029
+!
+ip vrf V12039:VPN_HD_0
+ rd 8151:12039
+ export map grey_mgmt_vpn_Uninet_V12039:VPN_HD_0
+ route-target export 8151:3432
+ route-target import 8151:3432
+ route-target import 8151:1029
+!
+ip vrf V12110:VPN_TLMXNHEROES_0
+ rd 8151:12110
+ export map grey_mgmt_vpn_Uninet_V12110:VPN_TLMXNHEROES_0
+ route-target export 8151:40187
+ route-target import 8151:40187
+ route-target import 8151:1029
+!
+ip vrf V12121:VPN_TLMXCASGDL_0
+ rd 8151:12121
+ export map grey_mgmt_vpn_Uninet_V12121:VPN_TLMXCASGDL_0
+ route-target export 8151:40188
+ route-target import 8151:40188
+ route-target import 8151:1029
+!
+ip vrf V12468:VPN_DESC_0
+ rd 8151:12468
+ export map grey_mgmt_vpn_Uninet_V12468:VPN_DESC_0
+ route-target export 8151:1192
+ route-target export 28513:50073
+ route-target import 8151:1192
+ route-target import 8151:1029
+ route-target import 28513:50073
+!
+ip vrf V12650:VPN_AFORE-ING_0
+ rd 8151:12650
+ export map grey_mgmt_vpn_Uninet_V12650:VPN_AFORE-ING_0
+ route-target export 8151:40353
+ route-target import 8151:40353
+ route-target import 8151:1029
+!
+ip vrf V12899:VPN_TIENDASCOPPEL_0
+ rd 8151:12899
+ export map grey_mgmt_vpn_Uninet_V12899:VPN_TIENDASCOPPEL_0
+ route-target export 8151:8735
+ route-target export 28513:50280
+ route-target import 8151:8735
+ route-target import 8151:1029
+ route-target import 28513:50280
+!
+ip vrf V12902:VPN_ATX_GESTION_0
+ rd 8151:12902
+ route-target export 8151:40040
+ route-target export 28513:50332
+ route-target import 8151:40040
+ route-target import 28513:50332
+!
+ip vrf V13027:VPN_HOSTEDIPPBX_0
+ rd 8151:13027
+ export map grey_mgmt_vpn_Uninet_V13027:VPN_HOSTEDIPPBX_0
+ route-target export 8151:40686
+ route-target import 8151:40686
+ route-target import 8151:1029
+!
+ip vrf V13099:VPN_COSTCO_0
+ rd 8151:13099
+ export map grey_mgmt_vpn_Uninet_V13099:VPN_COSTCO_0
+ route-target export 8151:8751
+ route-target import 8151:8751
+ route-target import 8151:1029
+!
+ip vrf V13552:VPN_UNISOLUCIONES_0
+ rd 8151:13552
+ export map grey_mgmt_vpn_Uninet_V13552:VPN_UNISOLUCIONES_0
+ route-target export 8151:40896
+ route-target import 8151:40896
+ route-target import 8151:1029
+!
+ip vrf V13749:VPN_GNP_0
+ rd 8151:13749
+ export map grey_mgmt_vpn_Uninet_V13749:VPN_GNP_0
+ route-target export 8151:1213
+ route-target import 8151:1213
+ route-target import 8151:1029
+!
+ip vrf V14150:VPN_JAFRA-TRIARA_0
+ rd 8151:14150
+ export map grey_mgmt_vpn_Uninet_V14150:VPN_JAFRA-TRIARA_0
+ route-target export 8151:41141
+ route-target import 8151:41141
+ route-target import 8151:1029
+!
+ip vrf V14566:VPN_HPNMP_0
+ rd 8151:14566
+ export map grey_mgmt_vpn_Uninet_V14566:VPN_HPNMP_0
+ route-target export 8151:41279
+ route-target export 28513:50541
+ route-target import 8151:41279
+ route-target import 8151:1029
+ route-target import 28513:50541
+!
+ip vrf V14802:VPN_SEARS_0
+ rd 8151:14802
+ export map grey_mgmt_vpn_Uninet_V14802:VPN_SEARS_0
+ route-target export 8151:41353
+ route-target import 8151:41353
+ route-target import 8151:1029
+!
+ip vrf V15623:VPN_ATX_CORPRCDT_0
+ rd 8151:15623
+ route-target export 8151:41163
+ route-target import 8151:41163
+!
+ip vrf V15636:VPN_INTBUSSSOL_0
+ rd 8151:15636
+ export map grey_mgmt_vpn_Uninet_V15636:VPN_INTBUSSSOL_0
+ route-target export 8151:8739
+ route-target import 8151:8739
+ route-target import 8151:1029
+!
+ip vrf V15738:VPN_TOKS_0
+ rd 8151:15738
+ export map grey_mgmt_vpn_Uninet_V15738:VPN_TOKS_0
+ route-target export 8151:3550
+ route-target import 8151:3550
+ route-target import 8151:1029
+!
+ip vrf V15779:VPN_CNOC_0
+ rd 8151:15779
+ export map grey_mgmt_vpn_Uninet_V15779:VPN_CNOC_0
+ route-target export 8151:41422
+ route-target import 8151:41422
+ route-target import 8151:1029
+!
+ip vrf V16489:VPN_IBMGNSI_0
+ rd 8151:16489
+ export map grey_mgmt_vpn_Uninet_V16489:VPN_IBMGNSI_0
+ route-target export 8151:41648
+ route-target import 8151:41648
+ route-target import 8151:1029
+!
+ip vrf V17301:VPN_GRUPOSENDA_0
+ rd 8151:17301
+ export map grey_mgmt_vpn_Uninet_V17301:VPN_GRUPOSENDA_0
+ route-target export 8151:41287
+ route-target export 28513:50358
+ route-target import 8151:41287
+ route-target import 8151:1029
+ route-target import 28513:50358
+!
+ip vrf V17380:VPN_SATMAC3_0
+ rd 8151:17380
+ export map grey_mgmt_vpn_Uninet_V17380:VPN_SATMAC3_0
+ route-target export 8151:41505
+ route-target import 8151:41505
+ route-target import 8151:1029
+!
+ip vrf V17530:VPN_FERROMEX_0
+ rd 8151:17530
+ export map grey_mgmt_vpn_Uninet_V17530:VPN_FERROMEX_0
+ route-target export 8151:8803
+ route-target import 8151:8803
+ route-target import 8151:1029
+!
+ip vrf V17787:VPN_ATX_SINCDAT_0
+ rd 8151:17787
+ route-target export 8151:41166
+ route-target import 8151:41166
+!
+ip vrf V17996:VPN_AIGVIDAMPLS_0
+ rd 8151:17996
+ export map grey_mgmt_vpn_Uninet_V17996:VPN_AIGVIDAMPLS_0
+ route-target export 8151:41446
+ route-target import 8151:41446
+ route-target import 8151:1029
+!
+ip vrf V28495:VPN_7-ELEVEN_0
+ rd 8151:28495
+ export map grey_mgmt_vpn_Uninet_V28495:VPN_7-ELEVEN_0
+ route-target export 8151:41895
+ route-target import 8151:41895
+ route-target import 8151:1029
+!
+ip vrf V29001:VPN_INVERLAT_0
+ rd 8151:29001
+ export map grey_mgmt_vpn_Uninet_V29001:VPN_INVERLAT_0
+ route-target export 8151:1039
+ route-target import 8151:1039
+ route-target import 8151:1029
+!
+ip vrf V30370:VPN_ARCA_0
+ rd 8151:30370
+ export map grey_mgmt_vpn_Uninet_V30370:VPN_ARCA_0
+ route-target export 8151:1188
+ route-target export 28513:50113
+ route-target import 8151:1188
+ route-target import 8151:1029
+ route-target import 28513:50113
+!
+ip vrf V31530:VPN_SCOTIA3EROS_0
+ rd 8151:31530
+ export map grey_mgmt_vpn_Uninet_V31530:VPN_SCOTIA3EROS_0
+ route-target export 8151:42034
+ route-target import 8151:42034
+ route-target import 8151:1029
+!
+ip vrf V32579:VPN_REPSOL_0
+ rd 8151:32579
+ export map grey_mgmt_vpn_Uninet_V32579:VPN_REPSOL_0
+ route-target export 8151:42003
+ route-target export 28513:50451
+ route-target import 8151:42003
+ route-target import 8151:1029
+ route-target import 28513:50451
+!
+ip vrf V33254:VPN_PEMSA_0
+ rd 8151:33254
+ export map grey_mgmt_vpn_Uninet_V33254:VPN_PEMSA_0
+ route-target export 8151:42019
+ route-target import 8151:42019
+ route-target import 8151:1029
+!
+ip vrf V34757:VPN_IDEAL_0
+ rd 8151:34757
+ export map grey_mgmt_vpn_Uninet_V34757:VPN_IDEAL_0
+ route-target export 8151:40119
+ route-target import 8151:40119
+ route-target import 8151:1029
+!
+ip vrf V34897:VPN_BANCOAUTOFIN_0
+ rd 8151:34897
+ export map grey_mgmt_vpn_Uninet_V34897:VPN_BANCOAUTOFIN_0
+ route-target export 8151:3583
+ route-target import 8151:3583
+ route-target import 8151:1029
+!
+ip vrf V37020:VPN_PEPSICO_0
+ rd 8151:37020
+ export map grey_mgmt_vpn_Uninet_V37020:VPN_PEPSICO_0
+ route-target export 8151:3455
+ route-target export 28513:50020
+ route-target import 8151:3455
+ route-target import 28513:50020
+ route-target import 8151:1029
+!
+ip vrf V38284:VPN_PORCELANITE_0
+ rd 8151:38284
+ export map grey_mgmt_vpn_Uninet_V38284:VPN_PORCELANITE_0
+ route-target export 8151:1295
+ route-target export 28513:51232
+ route-target import 8151:1295
+ route-target import 8151:1029
+ route-target import 28513:51232
+!
+ip vrf V42475:VPN_CMHNK_0
+ rd 8151:42475
+ export map grey_mgmt_vpn_Uninet_V42475:VPN_CMHNK_0
+ route-target export 8151:42334
+ route-target import 8151:42334
+ route-target import 8151:1029
+!
+ip vrf V45194:VPN_CC_0
+ rd 8151:45194
+ export map grey_mgmt_vpn_Uninet_V45194:VPN_CC_0
+ route-target export 8151:1197
+ route-target export 28513:50263
+ route-target import 8151:1197
+ route-target import 8151:1029
+ route-target import 28513:50263
+!
+ip vrf V45289:VPN_GESTION-AMX_0
+ rd 8151:45289
+ export map grey_mgmt_vpn_Uninet_V45289:VPN_GESTION-AMX_0
+ route-target export 8151:45203
+ route-target import 8151:45203
+ route-target import 8151:1029
+!
+ip vrf V46316:VPN_FIRA1_0
+ rd 8151:46316
+ export map grey_mgmt_vpn_Uninet_V46316:VPN_FIRA1_0
+ route-target export 8151:45793
+ route-target import 8151:1029
+ route-target import 8151:45793
+!
+ip vrf V46486:VPN_GRUMA_0
+ rd 8151:46486
+ export map grey_mgmt_vpn_Uninet_V46486:VPN_GRUMA_0
+ route-target export 8151:3631
+ route-target export 28513:51346
+ route-target import 8151:3631
+ route-target import 8151:1029
+ route-target import 28513:51346
+!
+ip vrf V47361:VPN_GESTCDN_0
+ rd 8151:47361
+ export map grey_mgmt_vpn_Uninet_V47361:VPN_GESTCDN_0
+ route-target export 8151:47287
+ route-target import 8151:47287
+ route-target import 8151:1029
+!
+ip vrf V47493:VPN_IBMMET_0
+ rd 8151:47493
+ export map grey_mgmt_vpn_Uninet_V47493:VPN_IBMMET_0
+ route-target export 8151:3438
+ route-target import 8151:3438
+ route-target import 8151:1029
+!
+ip vrf V47602:VPN_CDNGES-AMX_0
+ rd 8151:47602
+ export map grey_mgmt_vpn_Uninet_V47602:VPN_CDNGES-AMX_0
+ route-target export 8151:46770
+ route-target import 8151:46770
+ route-target import 8151:1029
+!
+ip vrf V48383:VPN_MOLMEXTRIMEX_0
+ rd 8151:48383
+ export map grey_mgmt_vpn_Uninet_V48383:VPN_MOLMEXTRIMEX_0
+ route-target export 8151:47881
+ route-target import 8151:47881
+ route-target import 8151:1029
+!
+ip vrf V48823:VPN_ENELSOCIOS_0
+ rd 8151:48823
+ export map grey_mgmt_vpn_Uninet_V48823:VPN_ENELSOCIOS_0
+ route-target export 8151:48807
+ route-target import 8151:48807
+ route-target import 8151:1029
+!
+ip vrf V50591:VPN_FAMOSACROWN_0
+ rd 8151:50591
+ export map grey_mgmt_vpn_Uninet_V50591:VPN_FAMOSACROWN_0
+ route-target export 8151:50158
+ route-target import 8151:50158
+ route-target import 8151:1029
+!
+ip vrf V5121:VPN_BBVA_0
+ rd 8151:5121
+ export map grey_mgmt_vpn_Uninet_V5121:VPN_BBVA_0
+ route-target export 8151:1040
+ route-target import 8151:1040
+ route-target import 8151:1029
+!
+ip vrf V5171:VPN_CECYTEN_0
+ rd 8151:5171
+ export map grey_mgmt_vpn_Uninet_V5171:VPN_CECYTEN_0
+ route-target export 8151:1246
+ route-target import 8151:1246
+ route-target import 8151:1029
+!
+ip vrf V53162:VPN_SATFMT_0
+ rd 8151:53162
+ export map grey_mgmt_vpn_Uninet_V53162:VPN_SATFMT_0
+ route-target export 8151:53058
+ route-target import 8151:53058
+ route-target import 8151:1029
+!
+ip vrf V5320:VPN_ALCATEL_0
+ rd 8151:5320
+ export map grey_mgmt_vpn_Uninet_V5320:VPN_ALCATEL_0
+ route-target export 8151:3525
+ route-target import 8151:3525
+ route-target import 8151:1029
+!
+ip vrf V5322:VPN_CISCO_0
+ rd 8151:5322
+ export map grey_mgmt_vpn_Uninet_V5322:VPN_CISCO_0
+ route-target export 8151:3524
+ route-target import 8151:3524
+ route-target import 8151:1029
+!
+ip vrf V5327:VPN_AVAYA_0
+ rd 8151:5327
+ export map grey_mgmt_vpn_Uninet_V5327:VPN_AVAYA_0
+ route-target export 8151:3527
+ route-target import 8151:3527
+ route-target import 8151:1029
+!
+ip vrf V56386:VPN_KALTEX_0
+ rd 8151:56386
+ export map grey_mgmt_vpn_Uninet_V56386:VPN_KALTEX_0
+ route-target export 8151:41679
+ route-target export 28513:51200
+ route-target import 8151:41679
+ route-target import 8151:1029
+ route-target import 28513:51200
+!
+ip vrf V56954:VPN_BUROYCIRCRED_0
+ rd 8151:56954
+ export map grey_mgmt_vpn_Uninet_V56954:VPN_BUROYCIRCRED_0
+ route-target export 8151:40725
+ route-target import 8151:40725
+ route-target import 8151:1029
+!
+ip vrf V57187:VPN_OXXO_TELCEL_0
+ rd 8151:11605
+ export map grey_mgmt_vpn_Uninet_V57187:VPN_OXXO_TELCEL_0
+ route-target export 8151:54122
+ route-target import 8151:54122
+ route-target import 8151:1029
+!
+ip vrf V57432:VPN_FARMACON_0
+ rd 8151:57432
+ export map grey_mgmt_vpn_Uninet_V57432:VPN_FARMACON_0
+ route-target export 8151:54135
+ route-target import 8151:54135
+ route-target import 8151:1029
+!
+ip vrf V60709:VPN_KALTEX2_0
+ rd 8151:60709
+ export map grey_mgmt_vpn_Uninet_V60709:VPN_KALTEX2_0
+ route-target export 8151:53847
+ route-target import 8151:53847
+ route-target import 8151:1029
+!
+ip vrf V6333:VPN_SAT_0
+ rd 8151:6333
+ export map grey_mgmt_vpn_Uninet_V6332:VPN_SAT_0
+ route-target export 8151:1034
+ route-target import 8151:1034
+ route-target import 8151:1029
+!
+ip vrf V6413:VPN_MULTIVALORES_0
+ rd 8151:6413
+ export map grey_mgmt_vpn_Uninet_V6413:VPN_MULTIVALORES_0
+ route-target export 8151:3616
+ route-target import 8151:3616
+ route-target import 8151:1029
+!
+ip vrf V6824:VPN_COPPEL_0
+ rd 8151:6824
+ export map grey_mgmt_vpn_Uninet_V6824:VPN_COPPEL_0
+ route-target export 8151:1279
+ route-target import 8151:1279
+ route-target import 8151:1029
+!
+ip vrf V7256:VPN_PJFSCJN_0
+ rd 8151:7256
+ export map grey_mgmt_vpn_Uninet_V7256:VPN_PJFSCJN_0
+ route-target export 8151:7141
+ route-target import 8151:7141
+ route-target import 8151:1029
+ route-target import 8151:7234
+!
+ip vrf V7516:VPN_HCYC_0
+ rd 8151:7516
+ export map grey_mgmt_vpn_Uninet_V7516:VPN_HCYC_0
+ route-target export 8151:1238
+ route-target import 8151:1238
+ route-target import 8151:1029
+!
+ip vrf V7786:VPN_AJEMEX_0
+ rd 8151:7786
+ export map grey_mgmt_vpn_Uninet_V7786:VPN_AJEMEX_0
+ route-target export 8151:3526
+ route-target import 8151:3526
+ route-target import 8151:1029
+!
+ip vrf V7894:VPN_ATX_INFRA_0
+ rd 8151:7894
+ route-target export 8151:6847
+ route-target import 8151:6847
+!
+ip vrf V8600:VPN_2CFEMORELOS_0
+ rd 8151:8600
+ export map grey_mgmt_vpn_Uninet_V8600:VPN_2CFEMORELOS_0
+ route-target export 8151:3475
+ route-target import 8151:3475
+ route-target import 8151:1029
+!
+ip vrf V9098:VPN_LIVERPOOL_0
+ rd 8151:9098
+ export map grey_mgmt_vpn_Uninet_V9098:VPN_LIVERPOOL_0
+ route-target export 8151:1274
+ route-target import 8151:1274
+ route-target import 8151:1029
+!
+ip vrf V9103:VPN_BANCOPPEL_0
+ rd 8151:9103
+ export map grey_mgmt_vpn_Uninet_V9103:VPN_BANCOPPEL_0
+ route-target export 8151:6544
+ route-target import 8151:6544
+ route-target import 8151:1029
+!
+ip vrf V9115:VPN_SOLUCIONREDCORP_0
+ rd 8151:9115
+ export map grey_mgmt_vpn_Uninet_V9115:VPN_SOLUCIONREDCORP_0
+ route-target export 8151:6878
+ route-target export 28513:50034
+ route-target import 8151:6878
+ route-target import 8151:1029
+ route-target import 28513:50034
+!
+ip vrf V9218:VPN_PJFCJF_0
+ rd 8151:9218
+ export map grey_mgmt_vpn_Uninet_V9218:VPN_PJFCJF_0
+ route-target export 8151:8656
+ route-target import 8151:8656
+ route-target import 8151:1029
+ route-target import 8151:7234
+!
+ip vrf V9304:VPN_INGCA_0
+ rd 8151:9304
+ export map grey_mgmt_vpn_Uninet_V9303:VPN_INGCA_0
+ route-target export 8151:1203
+ route-target import 8151:1203
+ route-target import 8151:1029
+!
+ip vrf grey_mgmt_vpn_Uninet
+ rd 8151:1028
+ route-target export 8151:1029
+ route-target export 8151:41169
+ route-target import 8151:1029
+ route-target import 8151:1030
+ route-target import 8151:1021
+!
+ip vrf prueba
+ rd 8151:1
+ route-target export 8151:1
+ route-target export 28513:1
+ route-target import 8151:1
+ route-target import 28513:1
+!
+!
+!
+no ip bootp server
+no ip domain lookup
+ip domain name uninet.net.mx
+ip name-server 200.33.148.196
+ip name-server 200.33.148.202
+!
+!
+!
+!
+vtp mode transparent
+!
+track 6 ip sla 1 reachability
+!
+track 7 ip sla 2 reachability
+!
+track 8 ip sla 3 reachability
+!
+track 9 ip sla 4 reachability
+!
+track 10 ip sla 5 reachability
+no mpls ip propagate-ttl forwarded
+no mpls traffic-eng auto-bw timers
+mpls label protocol ldp
+no mls flow ip
+no mls flow ipv6
+mls qos
+no mls acl tcam share-global
+mls cef error action freeze
+frame-relay switching
+multilink bundle-name authenticated
+!
+!
+!
+spanning-tree mode pvst
+no spanning-tree optimize bpdu transmission
+spanning-tree extend system-id
+diagnostic cns publish cisco.cns.device.diag_results
+diagnostic cns subscribe cisco.cns.device.diag_commands
+username ssrdivmty password 7 13151B46040441266F
+!
+redundancy
+ main-cpu
+  auto-sync running-config
+ mode sso
+!
+vlan internal allocation policy ascending
+vlan access-log ratelimit 2000
+!
+vlan 6,220,400-600,800-999
+!
+ip telnet source-interface Loopback0
+ip tftp source-interface Loopback0
+!
+!
+class-map match-all Precedence3_ACT
+  match access-group 1
+class-map match-any rpvm_mgmnt_routing
+  match ip dscp cs6
+  match ip dscp cs7
+class-map match-all Precedence1
+  match ip precedence 1
+class-map match-all Precedence2
+  match ip precedence 2
+class-map match-all Precedence3
+  match ip precedence 3
+class-map match-all drop-ldp-class
+  match access-group 152
+class-map match-any rpvm_voz
+  match ip dscp cs3
+  match ip dscp cs5
+  match ip dscp ef
+class-map match-any rpvm_video
+  match ip dscp af41
+  match ip dscp af42
+  match ip dscp af43
+class-map match-any rpvm_business
+  match ip dscp cs1
+  match ip dscp af21
+  match ip dscp af22
+  match ip dscp af23
+class-map match-all P1
+  match access-group 1
+class-map match-all P2
+  match access-group 2
+class-map match-any rpvm_datos_criticos
+  match ip dscp cs2
+  match ip dscp af31
+  match ip dscp af32
+  match ip dscp af33
+!
+policy-map BW_100000_P1_20000
+  class Precedence1
+    police cir 20000000 bc 625000 be 625000 conform-action set-mpls-exp-imposition-transmit 1 exceed-action drop violate-action drop
+policy-map rpvm_pa06_ESmas_CL_in
+  class rpvm_mgmnt_routing
+    police cir percent 5 conform-action set-mpls-exp-imposition-transmit 4 exceed-action set-mpls-exp-imposition-transmit 4
+  class rpvm_datos_criticos
+    police cir percent 13 conform-action set-mpls-exp-imposition-transmit 2 exceed-action set-mpls-exp-imposition-transmit 2
+  class rpvm_business
+    police cir percent 75 conform-action set-mpls-exp-imposition-transmit 2 exceed-action set-mpls-exp-imposition-transmit 1
+  class class-default
+    police cir percent 13 conform-action set-mpls-exp-imposition-transmit 1 exceed-action set-mpls-exp-imposition-transmit 1
+policy-map rpvm_shape_pa06_40M_ESmas_CL_in
+  class class-default
+    police cir 40000000
+   service-policy rpvm_pa06_ESmas_CL_in
+policy-map control-plane-policy
+  class drop-ldp-class
+    police 32000 1500 1500 conform-action drop exceed-action drop violate-action drop
+policy-map rpvm_pb15_out
+  class rpvm_mgmnt_routing
+    police cir percent 5
+  class rpvm_voz
+    police cir percent 25 conform-action transmit exceed-action drop violate-action drop
+    priority
+  class rpvm_datos_criticos
+    bandwidth percent 49
+  class rpvm_business
+    bandwidth percent 20
+  class class-default
+    bandwidth percent 1
+    queue-limit 32 packets
+policy-map BW_1000000_P2_150000
+  class Precedence2
+    police cir 150000000 conform-action set-mpls-exp-imposition-transmit 2 exceed-action drop
+policy-map rpvm_pa06_out
+  class rpvm_mgmnt_routing
+    bandwidth percent 5
+    queue-limit 32 packets
+  class rpvm_datos_criticos
+    bandwidth percent 71
+  class rpvm_business
+    bandwidth percent 23
+  class class-default
+    bandwidth percent 1
+    queue-limit 32 packets
+policy-map rpvm_shape_pa06_100M_out
+  class class-default
+    shape average 100000000
+   service-policy rpvm_pa06_out
+policy-map rpvm_pb23_out
+  class rpvm_mgmnt_routing
+    bandwidth percent 5
+    queue-limit 32 packets
+  class rpvm_voz
+    police cir percent 25 conform-action transmit exceed-action drop violate-action drop
+    priority
+  class rpvm_video
+    police cir percent 25 conform-action transmit exceed-action drop violate-action drop
+    priority
+  class rpvm_datos_criticos
+    bandwidth percent 22
+  class rpvm_business
+    bandwidth percent 7
+  class class-default
+    bandwidth percent 1
+    queue-limit 32 packets
+policy-map rpvm_shape_pb23_40M_out
+  class class-default
+    shape average 40000000
+   service-policy rpvm_pb23_out
+policy-map rpvm_pa10_out
+  class rpvm_mgmnt_routing
+    bandwidth percent 5
+    queue-limit 32 packets
+  class rpvm_datos_criticos
+    bandwidth percent 81
+  class rpvm_business
+    bandwidth percent 13
+  class class-default
+    bandwidth percent 1
+    queue-limit 32 packets
+policy-map rpvm_shape_pa10_100M_out
+  class class-default
+    shape average 100000000
+   service-policy rpvm_pa10_out
+policy-map rpvm_shape_pa06_40M_out
+  class class-default
+    shape average 40000000
+   service-policy rpvm_pa06_out
+policy-map rpvm_pa10_ESmas_CL__in
+  class rpvm_mgmnt_routing
+    police cir percent 5 conform-action set-mpls-exp-imposition-transmit 4 exceed-action set-mpls-exp-imposition-transmit 4
+  class rpvm_datos_criticos
+    police cir percent 75 conform-action set-mpls-exp-imposition-transmit 2 exceed-action set-mpls-exp-imposition-transmit 2
+  class rpvm_business
+    police cir percent 13 conform-action set-mpls-exp-imposition-transmit 2 exceed-action set-mpls-exp-imposition-transmit 1
+  class class-default
+    police cir percent 13 conform-action set-mpls-exp-imposition-transmit 1 exceed-action set-mpls-exp-imposition-transmit 1
+policy-map rpvm_shape_pa10_30M_ESmas_CL_in
+  class class-default
+    police cir 30000000
+   service-policy rpvm_pa10_ESmas_CL__in
+policy-map BW_155000_P1_155000
+  class Precedence1
+    police 155000000 conform-action set-mpls-exp-imposition-transmit 1 exceed-action drop
+policy-map rpvm_pa12_out
+  class rpvm_mgmnt_routing
+    bandwidth percent 5
+    queue-limit 32 packets
+  class rpvm_datos_criticos
+    bandwidth percent 81
+  class rpvm_business
+    bandwidth percent 13
+  class class-default
+    bandwidth percent 1
+    queue-limit 32 packets
+policy-map rpvm_shape_pa12_10M_out
+  class class-default
+    shape average 10000000
+   service-policy rpvm_pa12_out
+policy-map BW_10000_P1_10000
+  class Precedence1
+    police cir 10000000 bc 1875000 be 1875000 conform-action set-mpls-exp-imposition-transmit 1 exceed-action drop violate-action drop
+policy-map BW_30000_P3_20000
+  class Precedence3
+    police 20000000 conform-action set-mpls-exp-imposition-transmit 3 exceed-action drop
+policy-map BW_20000_P1_20000
+  class Precedence1
+    police 20000000 conform-action set-mpls-exp-imposition-transmit 1 exceed-action drop
+policy-map rpvm_pb28_out
+  class rpvm_mgmnt_routing
+    bandwidth percent 4
+    queue-limit 32 packets
+  class rpvm_voz
+    police cir percent 25 conform-action transmit exceed-action drop violate-action drop
+    priority
+  class rpvm_video
+    police cir percent 50 conform-action transmit exceed-action drop violate-action drop
+    priority
+  class rpvm_datos_criticos
+    bandwidth percent 4
+  class rpvm_business
+    bandwidth percent 1
+  class class-default
+    bandwidth percent 1
+policy-map rpvm_shape_pb28_10M_out
+  class class-default
+    shape average 10000000
+   service-policy rpvm_pb28_out
+policy-map rpvm_pa09_out
+  class rpvm_mgmnt_routing
+    bandwidth percent 5
+    queue-limit 32 packets
+  class rpvm_voz
+  class rpvm_video
+  class rpvm_datos_criticos
+    bandwidth percent 71
+  class rpvm_business
+    bandwidth percent 23
+  class class-default
+    bandwidth percent 1
+    queue-limit 32 packets
+policy-map BW_100000_P1_60000
+  class Precedence1
+    police cir 60000000 bc 1875000 be 1875000 conform-action set-mpls-exp-imposition-transmit 1 exceed-action drop violate-action drop
+policy-map rpvm_pb30_out
+  class rpvm_mgmnt_routing
+    bandwidth percent 5
+    queue-limit 32 packets
+  class rpvm_voz
+    police cir percent 90 conform-action transmit exceed-action drop
+  class rpvm_business
+    bandwidth percent 94
+  class class-default
+    queue-limit 32 packets
+    bandwidth percent 1
+policy-map BW_100000_P1_100000
+  class P1
+    police cir 100000000 conform-action set-mpls-exp-imposition-transmit 1 exceed-action drop
+policy-map rpvm_pb14_out
+  class rpvm_mgmnt_routing
+    bandwidth percent 5
+    queue-limit 32 packets
+  class rpvm_voz
+    police cir percent 25 conform-action transmit exceed-action drop violate-action drop
+    priority
+  class rpvm_datos_criticos
+    bandwidth percent 52
+  class rpvm_business
+    bandwidth percent 17
+  class class-default
+    bandwidth percent 1
+    queue-limit 32 packets
+policy-map rpvm_shape_pb14_20M_out
+  class class-default
+    shape average 20000000
+   service-policy rpvm_pb14_out
+policy-map rpvm_shape_pa10_20M_ESmas_CL_in
+  class class-default
+    police cir 20000000
+   service-policy rpvm_pa10_ESmas_CL__in
+policy-map rpvm_pb23_ESmas_CL_in
+  class rpvm_mgmnt_routing
+    police cir percent 5 conform-action set-mpls-exp-imposition-transmit 4 exceed-action set-mpls-exp-imposition-transmit 4
+  class rpvm_voz
+    police cir percent 25 conform-action set-mpls-exp-imposition-transmit 5 exceed-action drop
+  class rpvm_video
+    police cir percent 25 conform-action set-mpls-exp-imposition-transmit 3 exceed-action drop
+  class rpvm_datos_criticos
+    police cir percent 13 conform-action set-mpls-exp-imposition-transmit 2 exceed-action set-mpls-exp-imposition-transmit 2
+  class rpvm_business
+    police cir percent 25 conform-action set-mpls-exp-imposition-transmit 2 exceed-action set-mpls-exp-imposition-transmit 1
+  class class-default
+    police cir percent 13 conform-action set-mpls-exp-imposition-transmit 1 exceed-action set-mpls-exp-imposition-transmit 1
+policy-map rpvm_shape_pb23_300M_ESmas_CL_in
+  class class-default
+    police cir 300000000
+   service-policy rpvm_pb23_ESmas_CL_in
+policy-map BW_100000_P1_4000
+  class Precedence1
+    police cir 4000000 bc 64000 be 64000 conform-action set-mpls-exp-imposition-transmit 1 exceed-action drop violate-action drop
+policy-map rpvm_shape_pa06_100M_ESmas_CL_in
+  class class-default
+    police cir 100000000
+   service-policy rpvm_pa06_ESmas_CL_in
+policy-map rpvm_pb15_ESmas_CL_in
+  class rpvm_mgmnt_routing
+    police cir percent 5 conform-action set-mpls-exp-imposition-transmit 4 exceed-action set-mpls-exp-imposition-transmit 4
+  class rpvm_voz
+    police cir percent 25 conform-action set-mpls-exp-imposition-transmit 5 exceed-action drop
+  class rpvm_datos_criticos
+    police cir percent 13 conform-action set-mpls-exp-imposition-transmit 2 exceed-action set-mpls-exp-imposition-transmit 2
+  class rpvm_business
+    police cir percent 50 conform-action set-mpls-exp-imposition-transmit 2 exceed-action set-mpls-exp-imposition-transmit 1
+  class class-default
+    police cir percent 13 conform-action set-mpls-exp-imposition-transmit 1 exceed-action set-mpls-exp-imposition-transmit 1
+policy-map BW_100000_P3_60000
+  class Precedence3
+    police cir 60000000 bc 1875000 be 1875000 conform-action transmit exceed-action drop violate-action drop
+policy-map BW_50000_P3_20000
+  class Precedence3
+    police 20000000 conform-action set-mpls-exp-imposition-transmit 3 exceed-action drop
+policy-map BW_1000000_P2_10000
+  class Precedence2
+    police 10000000 conform-action set-mpls-exp-imposition-transmit 2 exceed-action drop
+policy-map rpvm_shape_pa10_4M_out
+  class class-default
+    shape average 4000000
+   service-policy rpvm_pa10_out
+policy-map rpvm_shape_pb23_80M_out
+  class class-default
+    shape average 80000000
+   service-policy rpvm_pb23_out
+policy-map rpvm_shape_pa10_400M_out
+  class class-default
+    shape average 400000000
+   service-policy rpvm_pa10_out
+policy-map rpvm_pa09_ESmas_CL_in
+  class rpvm_mgmnt_routing
+    police cir percent 5 conform-action set-mpls-exp-imposition-transmit 4 exceed-action set-mpls-exp-imposition-transmit 4
+  class rpvm_voz
+  class rpvm_video
+  class rpvm_datos_criticos
+    police cir percent 50 conform-action set-mpls-exp-imposition-transmit 2 exceed-action set-mpls-exp-imposition-transmit 2
+  class rpvm_business
+    police cir percent 25 conform-action set-mpls-exp-imposition-transmit 2 exceed-action set-mpls-exp-imposition-transmit 1
+  class class-default
+    police cir percent 25 conform-action set-mpls-exp-imposition-transmit 1 exceed-action set-mpls-exp-imposition-transmit 1
+policy-map rpvm_shape_pa09_20M_ESmas_CL_in
+  class class-default
+    police cir 20000000
+   service-policy rpvm_pa09_ESmas_CL_in
+policy-map BW_10000_P2_7500
+  class Precedence2
+    police cir 7500000 conform-action set-mpls-exp-imposition-transmit 2 exceed-action drop violate-action drop
+policy-map rpvm_pb28_in
+  class rpvm_mgmnt_routing
+    police cir percent 5 conform-action set-mpls-exp-imposition-transmit 4 exceed-action set-mpls-exp-imposition-transmit 4
+  class rpvm_voz
+    police cir percent 25 conform-action set-mpls-exp-imposition-transmit 5 exceed-action drop
+  class rpvm_video
+    police cir percent 50 conform-action set-mpls-exp-imposition-transmit 3 exceed-action drop
+  class rpvm_datos_criticos
+    police cir percent 13 conform-action set-mpls-exp-imposition-transmit 2 exceed-action set-mpls-exp-imposition-transmit 2
+  class rpvm_business
+    police cir percent 13 conform-action set-mpls-exp-imposition-transmit 2 exceed-action set-mpls-exp-imposition-transmit 1
+  class class-default
+    police cir percent 13 conform-action set-mpls-exp-imposition-transmit 1 exceed-action set-mpls-exp-imposition-transmit 1
+policy-map rpvm_shape_pb28_10M_ESmas_CL_in
+  class class-default
+    police cir 10000000
+   service-policy rpvm_pb28_in
+policy-map rpvm_shape_pb28_50M_out
+  class class-default
+    shape average 50000000
+   service-policy rpvm_pb28_out
+policy-map BW_100000_P2_6000
+  class Precedence2
+    police cir 6000000 bc 187500 be 187500 conform-action set-mpls-exp-imposition-transmit 2 exceed-action drop violate-action drop
+policy-map rpvm_pb14_in
+  class rpvm_mgmnt_routing
+    police cir percent 5 conform-action set-mpls-exp-imposition-transmit 4 exceed-action set-mpls-exp-imposition-transmit 4
+  class rpvm_voz
+    police cir percent 25 conform-action set-mpls-exp-imposition-transmit 5 exceed-action drop
+  class rpvm_datos_criticos
+    police cir percent 25 conform-action set-mpls-exp-imposition-transmit 2 exceed-action set-mpls-exp-imposition-transmit 2
+  class rpvm_business
+    police cir percent 25 conform-action set-mpls-exp-imposition-transmit 2 exceed-action set-mpls-exp-imposition-transmit 1
+  class class-default
+    police cir percent 25 conform-action set-mpls-exp-imposition-transmit 1 exceed-action set-mpls-exp-imposition-transmit 1
+policy-map rpvm_shape_pb14_20M_ESmas_CL_in
+  class class-default
+    police cir 20000000
+   service-policy rpvm_pb14_in
+policy-map rpvm_pb29_out
+  class rpvm_mgmnt_routing
+    bandwidth percent 5
+    queue-limit 32 packets
+  class rpvm_video
+    bandwidth percent 90
+    police cir percent 90 conform-action transmit exceed-action drop
+  class rpvm_business
+    bandwidth percent 5
+  class class-default
+    queue-limit 32 packets
+policy-map rpvm_shape_pa09_40M_out
+  class class-default
+    shape average 40000000
+   service-policy rpvm_pa09_out
+policy-map BW_100000_P1_10000
+  class Precedence1
+    police cir 10000000 bc 312500 be 312500 conform-action set-mpls-exp-imposition-transmit 1 exceed-action drop violate-action drop
+policy-map BW_1000000_P2_70000
+  class Precedence2
+    police cir 70000000 conform-action set-mpls-exp-imposition-transmit 2 exceed-action drop
+policy-map rpvm_shape_pa09_40M_ESmas_CL_in
+  class class-default
+    police cir 40000000
+   service-policy rpvm_pa09_ESmas_CL_in
+policy-map rpvm_pa04_out
+  class rpvm_mgmnt_routing
+    bandwidth percent 5
+    queue-limit 32 packets
+  class rpvm_business
+    bandwidth percent 94
+  class class-default
+    bandwidth percent 1
+    queue-limit 32 packets
+policy-map rpvm_shape_pa10_4M_ESmas_CL_in
+  class class-default
+    police cir 4000000
+   service-policy rpvm_pa10_ESmas_CL__in
+policy-map BW_1000000_P2_100000
+  class Precedence2
+    police cir 100000000 conform-action set-mpls-exp-imposition-transmit 2 exceed-action drop
+policy-map rpvm_shape_pa09_10M_out
+  class class-default
+    shape average 10000000
+   service-policy rpvm_pa09_out
+policy-map rpvm_shape_pb30_900M_out_ST2N
+  class class-default
+    shape average 900000000
+policy-map rpvm_shape_pb23_250M_out
+  class class-default
+    shape average 250000000
+   service-policy rpvm_pb23_out
+policy-map rpvm_shape_pb28_150M_ESmas_CL_in
+  class class-default
+    police cir 150000000
+   service-policy rpvm_pb28_in
+policy-map rpvm_shape_pa09_4M_ESmas_CL_in
+  class class-default
+    police cir 4000000
+   service-policy rpvm_pa09_ESmas_CL_in
+policy-map rpvm_shape_pa10_250M_ESmas_CL_in
+  class class-default
+    police cir 250000000
+   service-policy rpvm_pa10_ESmas_CL__in
+policy-map rpvm_pa04_ESmas_CL_in
+  class rpvm_mgmnt_routing
+    police cir percent 5 conform-action set-mpls-exp-imposition-transmit 4 exceed-action set-mpls-exp-imposition-transmit 4
+  class rpvm_business
+    police cir percent 75 conform-action set-mpls-exp-imposition-transmit 2 exceed-action set-mpls-exp-imposition-transmit 1
+  class class-default
+    police cir percent 25 conform-action set-mpls-exp-imposition-transmit 1 exceed-action set-mpls-exp-imposition-transmit 1
+policy-map rpvm_shape_pa04_20M_ESmas_CL_in
+  class class-default
+    police cir 20000000
+   service-policy rpvm_pa04_ESmas_CL_in
+policy-map rpvm_shape_pa10_8M_out
+  class class-default
+    shape average 8000000
+   service-policy rpvm_pa10_out
+policy-map BW_20000_P3_20000
+  class Precedence3
+    police 20000000 conform-action set-mpls-exp-imposition-transmit 3 exceed-action drop
+policy-map rpvm_shape_pa04_6M_out
+  class class-default
+    shape average 6000000
+   service-policy rpvm_pa04_out
+policy-map rpvm_shape_pb29_80M_out
+  class class-default
+    shape average 80000000
+   service-policy rpvm_pb29_out
+policy-map rpvm_shape_pb23_400M_out
+  class class-default
+    shape average 400000000
+   service-policy rpvm_pb23_out
+policy-map rpvm_shape_pb15_500M_ESmas_CL_in
+  class class-default
+    police cir 500000000
+   service-policy rpvm_pb15_ESmas_CL_in
+policy-map rpvm_shape_pb23_20M_out
+  class class-default
+    shape average 20000000
+   service-policy rpvm_pb23_out
+policy-map 420M_exp5_in
+  class class-default
+    police 420000000 conform-action set-mpls-exp-imposition-transmit 5 exceed-action drop
+policy-map rpvm_shape_pa09_10M_ESmas_CL_in
+  class class-default
+    police cir 10000000
+   service-policy rpvm_pa09_ESmas_CL_in
+policy-map BW_100000_P2_10000
+  class Precedence2
+    police 10000000 conform-action set-mpls-exp-imposition-transmit 2 exceed-action drop violate-action drop
+policy-map rpvm_shape_pb23_100M_out
+  class class-default
+    shape average 100000000
+   service-policy rpvm_pb23_out
+policy-map rpvm_shape_pb15_150M_out
+  class class-default
+    shape average 150000000
+   service-policy rpvm_pb15_out
+policy-map BW_100000_P2_40000
+  class Precedence2
+    police 40000000 conform-action set-mpls-exp-imposition-transmit 2 exceed-action drop
+policy-map rpvm_pb16_ESmas_CL_in
+  class rpvm_mgmnt_routing
+    police cir percent 5 conform-action set-mpls-exp-imposition-transmit 4 exceed-action set-mpls-exp-imposition-transmit 4
+  class rpvm_voz
+    police cir percent 25 conform-action set-mpls-exp-imposition-transmit 5 exceed-action drop
+  class rpvm_datos_criticos
+    police cir percent 50 conform-action set-mpls-exp-imposition-transmit 2 exceed-action set-mpls-exp-imposition-transmit 2
+  class rpvm_business
+    police cir percent 13 conform-action set-mpls-exp-imposition-transmit 2 exceed-action set-mpls-exp-imposition-transmit 1
+  class class-default
+    police cir percent 13 conform-action set-mpls-exp-imposition-transmit 1 exceed-action set-mpls-exp-imposition-transmit 1
+policy-map rpvm_shape_pb16_150M_ESmas_CL_in
+  class class-default
+    police cir 150000000
+   service-policy rpvm_pb16_ESmas_CL_in
+policy-map rpvm_pa12_ESmas_CL_in
+  class rpvm_mgmnt_routing
+    police cir percent 5 conform-action set-mpls-exp-imposition-transmit 4 exceed-action set-mpls-exp-imposition-transmit 4
+  class rpvm_datos_criticos
+    police cir percent 75 conform-action set-mpls-exp-imposition-transmit 2 exceed-action set-mpls-exp-imposition-transmit 2
+  class rpvm_business
+    police cir percent 13 conform-action set-mpls-exp-imposition-transmit 2 exceed-action set-mpls-exp-imposition-transmit 1
+  class class-default
+    police cir percent 13 conform-action set-mpls-exp-imposition-transmit 1 exceed-action set-mpls-exp-imposition-transmit 1
+policy-map rpvm_shape_pa10_30M_out
+  class class-default
+    shape average 30000000
+   service-policy rpvm_pa10_out
+policy-map rpvm_shape_pa10_20M_out
+  class class-default
+    shape average 20000000
+   service-policy rpvm_pa10_out
+policy-map rpvm_shape_pb23_300M_out
+  class class-default
+    shape average 300000000
+   service-policy rpvm_pb23_out
+policy-map rpvm_shape_pa04_40M_out
+  class class-default
+    shape average 40000000
+   service-policy rpvm_pa04_out
+policy-map rpvm_shape_pb15_500M_out
+  class class-default
+    shape average 500000000
+   service-policy rpvm_pb15_out
+policy-map rpvm_shape_pa10_150M_out
+  class class-default
+    shape average 150000000
+   service-policy rpvm_pa10_out
+policy-map rpvm_shape_pa10_4M_ESmas_CL__in
+  class class-default
+    police cir 4000000
+   service-policy rpvm_pa10_ESmas_CL__in
+policy-map BW_100000_P3_10000
+  class Precedence3
+    police 10000000 conform-action set-mpls-exp-imposition-transmit 3 exceed-action drop
+policy-map BW_50000_P3_50000
+  class Precedence3
+    police 50000000 conform-action set-mpls-exp-imposition-transmit 3 exceed-action drop
+policy-map rpvm_shape_pb23_150M_out
+  class class-default
+    shape average 150000000
+   service-policy rpvm_pb23_out
+policy-map ST2N_TEST
+  class class-default
+    police 400000000 conform-action set-mpls-exp-imposition-transmit 5 exceed-action drop
+policy-map rpvm_shape_pb23_20M_ESmas_CL_in
+  class class-default
+    police cir 20000000
+   service-policy rpvm_pb23_ESmas_CL_in
+policy-map rpvm_shape_pa04_30M_out
+  class class-default
+    shape average 30000000
+   service-policy rpvm_pa04_out
+policy-map BW_100000_P1_2000
+  class Precedence1
+    police cir 2000000 bc 1250000 be 1250000 conform-action set-mpls-exp-imposition-transmit 1 exceed-action drop violate-action drop
+policy-map BW_1000000_P1_133000
+  class Precedence1
+    police cir 133000000 bc 4156250 be 4156250 conform-action set-mpls-exp-imposition-transmit 1 exceed-action drop violate-action drop
+policy-map rpvm_shape_pa04_6M_ESmas_CL_in
+  class class-default
+    police cir 6000000
+   service-policy rpvm_pa04_ESmas_CL_in
+policy-map rpvm_pb29_in
+  class rpvm_mgmnt_routing
+    police cir percent 5 conform-action set-mpls-exp-imposition-transmit 4 exceed-action set-mpls-exp-imposition-transmit 4
+  class rpvm_video
+    police cir percent 90 conform-action set-mpls-exp-imposition-transmit 3 exceed-action drop
+  class rpvm_business
+    police cir percent 10 conform-action set-mpls-exp-imposition-transmit 2 exceed-action set-mpls-exp-imposition-transmit 1
+  class class-default
+    police cir percent 13 conform-action set-mpls-exp-imposition-transmit 1 exceed-action set-mpls-exp-imposition-transmit 1
+policy-map rpvm_shape_pb29_80M_ESmas_CL_in
+  class class-default
+    police cir 80000000
+   service-policy rpvm_pb29_in
+policy-map rpvm_shape_pb23_400M_ESmas_CL_in
+  class class-default
+    police cir 400000000
+   service-policy rpvm_pb23_ESmas_CL_in
+policy-map BW_4000_P2_4000
+  class Precedence2
+    police 4000000 312500 312500 conform-action set-mpls-exp-imposition-transmit 2 exceed-action drop violate-action drop
+policy-map rpvm_shape_pa12_10M_ESmas_CL_in
+  class class-default
+    police cir 10000000
+   service-policy rpvm_pa12_ESmas_CL_in
+policy-map rpvm_shape_pa10_150M_ESmas_CL_in
+  class class-default
+    police cir 150000000
+   service-policy rpvm_pa10_ESmas_CL__in
+policy-map rpvm_shape_pa10_100M_ESmas_CL__in
+  class class-default
+    police cir 100000000
+   service-policy rpvm_pa10_ESmas_CL__in
+policy-map BW_100000_P2_2000
+  class Precedence2
+    police 2000000 conform-action set-mpls-exp-imposition-transmit 2 exceed-action drop
+policy-map BW_1000000_P2_90000
+  class Precedence2
+    police cir 90000000 conform-action set-mpls-exp-imposition-transmit 2 exceed-action drop
+policy-map rpvm_shape_pa04_20M_out
+  class class-default
+    shape average 20000000
+   service-policy rpvm_pa04_out
+policy-map rpvm_shape_pb28_50M_ESmas_CL_in
+  class class-default
+    police cir 50000000
+   service-policy rpvm_pb28_in
+policy-map rpvm_shape_pa10_200M_ESmas_CL_in
+  class class-default
+    police cir 200000000
+   service-policy rpvm_pa10_ESmas_CL__in
+policy-map rpvm_shape_pa10_8M_ESmas_CL_in
+  class class-default
+    police cir 8000000
+   service-policy rpvm_pa10_ESmas_CL__in
+policy-map rpvm_shape_pa04_2M_out
+  class class-default
+    shape average 2000000
+   service-policy rpvm_pa04_out
+policy-map rpvm_pb16_out
+  class rpvm_mgmnt_routing
+    bandwidth percent 5
+    queue-limit 32 packets
+  class rpvm_voz
+    police cir percent 25 conform-action transmit exceed-action drop violate-action drop
+    priority
+  class rpvm_datos_criticos
+    bandwidth percent 56
+  class rpvm_business
+    bandwidth percent 13
+  class class-default
+    bandwidth percent 1
+    queue-limit 32 packets
+policy-map rpvm_shape_pa10_10M_ESmas_CL_in
+  class class-default
+    police cir 10000000
+   service-policy rpvm_pa10_ESmas_CL__in
+policy-map rpvm_pb30_in
+  class rpvm_mgmnt_routing
+    police cir percent 5 conform-action set-mpls-exp-imposition-transmit 4 exceed-action set-mpls-exp-imposition-transmit 4
+  class rpvm_voz
+    police cir percent 90 conform-action set-mpls-exp-imposition-transmit 5 exceed-action drop
+  class rpvm_business
+    police cir percent 10 conform-action set-mpls-exp-imposition-transmit 2 exceed-action set-mpls-exp-imposition-transmit 1
+  class class-default
+    police cir percent 13 conform-action set-mpls-exp-imposition-transmit 1 exceed-action set-mpls-exp-imposition-transmit 1
+policy-map rpvm_shape_pb16_150M_out
+  class class-default
+    shape average 150000000
+   service-policy rpvm_pb16_out
+policy-map rpvm_shape_pb23_250M_ESmas_CL_in
+  class class-default
+    police cir 250000000
+   service-policy rpvm_pb23_ESmas_CL_in
+policy-map rpvm_shape_pa04_40M_ESmas_CL_in
+  class class-default
+    police cir 40000000
+   service-policy rpvm_pa04_ESmas_CL_in
+policy-map rpvm_shape_pb23_150M_ESmas_CL_in
+  class class-default
+    police cir 150000000
+   service-policy rpvm_pb23_ESmas_CL_in
+policy-map rpvm_shape_pa04_30M_ESmas_CL_in
+  class class-default
+    police cir 30000000
+   service-policy rpvm_pa04_ESmas_CL_in
+policy-map rpvm_shape_pa10_10M_out
+  class class-default
+    shape average 10000000
+   service-policy rpvm_pa10_out
+policy-map BW_100000_P3_6000
+  class Precedence3
+    police 6000000 conform-action set-mpls-exp-imposition-transmit 3 exceed-action drop
+policy-map BW_100000_P3_20000
+  class Precedence3
+    police 20000000 conform-action set-mpls-exp-imposition-transmit 3 exceed-action drop
+policy-map rpvm_shape_pa09_4M_out
+  class class-default
+    shape average 4000000
+   service-policy rpvm_pa09_out
+policy-map rpvm_shape_pa10_250M_out
+  class class-default
+    shape average 250000000
+   service-policy rpvm_pa10_out
+policy-map rpvm_shape_pb23_40M_ESmas_CL_in
+  class class-default
+    police cir 40000000
+   service-policy rpvm_pb23_ESmas_CL_in
+policy-map BW_100000_P3_2000
+  class Precedence3
+    police 2000000 conform-action set-mpls-exp-imposition-transmit 3 exceed-action drop
+policy-map rpvm_shape_pa10_200M_ESmas_CL__in
+  class class-default
+    police cir 200000000
+   service-policy rpvm_pa10_ESmas_CL__in
+policy-map BWe2_364810_P3_364810
+  class Precedence3
+    police 364808000 1074000 1074000 conform-action set-mpls-exp-imposition-transmit 3 exceed-action drop violate-action drop
+policy-map BW_200000_P1_160000
+  class Precedence1
+    police cir 160000000 conform-action set-mpls-exp-imposition-transmit 1 exceed-action drop violate-action drop
+policy-map rpvm_shape_pb23_100M_ESmas_CL_in
+  class class-default
+    police cir 100000000
+   service-policy rpvm_pb23_ESmas_CL_in
+policy-map rpvm_shape_pb15_150M_ESmas_CL_in
+  class class-default
+    police cir 150000000
+policy-map 350M_exp3_in
+  class class-default
+    police 350000000 conform-action set-mpls-exp-imposition-transmit 3 exceed-action drop
+policy-map BW_100000_P1_40000
+  class Precedence1
+    police cir 40000000 bc 1250000 be 1250000 conform-action set-mpls-exp-imposition-transmit 1 exceed-action drop violate-action drop
+policy-map rpvm_shape_pa04_2M_ESmas_CL_in
+  class class-default
+    police cir 2000000
+   service-policy rpvm_pa04_ESmas_CL_in
+policy-map rpvm_shape_pa10_200M_out
+  class class-default
+    shape average 200000000
+   service-policy rpvm_pa10_out
+policy-map BW_4000_P3_4000
+  class Precedence3
+    police 4000000 conform-action set-mpls-exp-imposition-transmit 3 exceed-action drop
+policy-map rpvm_shape_pa09_20M_out
+  class class-default
+    shape average 20000000
+   service-policy rpvm_pa09_out
+policy-map BW_100000_P3_40000
+  class Precedence3
+    police 40000000 conform-action set-mpls-exp-imposition-transmit 3 exceed-action drop
+policy-map rpvm_shape_pa10_400M_ESmas_CL__in
+  class class-default
+    police cir 400000000
+   service-policy rpvm_pa10_ESmas_CL__in
+policy-map rpvm_shape_pb23_80M_ESmas_CL_in
+  class class-default
+    police cir 80000000
+   service-policy rpvm_pb23_ESmas_CL_in
+policy-map BW_100000_P2_60000
+  class Precedence2
+    police cir 60000000 bc 1875000 be 1875000 conform-action set-mpls-exp-imposition-transmit 2 exceed-action drop violate-action drop
+policy-map BW_100000_P2_20000
+  class Precedence2
+    police cir 20000000 bc 625000 be 625000 conform-action set-mpls-exp-imposition-transmit 2 exceed-action drop violate-action drop
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 200.38.193.245 255.255.255.255
+!
+interface Loopback1
+ description VPN Prueba
+ ip vrf forwarding prueba
+ ip address 1.1.1.82 255.255.255.255
+!
+interface Loopback5
+ no ip address
+!
+interface Loopback42
+ ip address 201.154.253.169 255.255.255.255
+!
+interface GigabitEthernet1/1
+ description VPN_TRIARA_RCDT_MEX RVP-0702-0002 I15030780K SMM080307 5696787
+ bandwidth 1000000
+ ip vrf forwarding V9115:VPN_SOLUCIONREDCORP_0
+ ip address 201.147.41.38 255.255.255.252
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+ service-policy input BW_1000000_P1_133000
+!
+interface GigabitEthernet1/2
+ description VPN_CEICOS FILA-4 RACK-1 PP-8 POS-2 GMC281106
+ bandwidth 100000
+ ip vrf forwarding V7894:VPN_ATX_INFRA_0
+ ip address 172.29.64.4 255.255.255.248
+ logging event link-status
+ load-interval 30
+ speed nonegotiate
+ no cdp enable
+ standby 1 ip 172.29.64.6
+ standby 1 preempt
+ service-policy input BW_100000_P2_10000
+!
+interface GigabitEthernet1/3
+ description CONEXION GE A lansw-nvl-triara-12-ge7-2 BTB FHH 19/04/17
+ mtu 1526
+ bandwidth 1000000
+ ip address 189.246.101.50 255.255.255.252
+ no ip redirects
+ no ip proxy-arp
+ ip mtu 1500
+ ip ospf message-digest-key 1 md5 7 0943490C5A0B1C420D1B54
+ ip ospf network point-to-point
+ ip ospf cost 5000
+ logging event link-status
+ load-interval 30
+ speed nonegotiate
+ mpls ip
+ mpls label protocol ldp
+ mls qos trust dscp
+ hold-queue 4020 in
+!
+interface GigabitEthernet1/4
+ description VPN_LATAM_TRIARA_INFRA TELMEX RPV-0710-0002 JLHP11/08/08 P2 6854812
+ bandwidth 100000
+ ip vrf forwarding V12902:VPN_ATX_GESTION_0
+ ip address 201.112.167.37 255.255.255.252
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+ service-policy input BW_100000_P2_20000
+!
+interface GigabitEthernet1/5
+ description VPN_DANONE RPV-0711-0002 I04010819C RMDIAZ 04/01/08 6301159-1
+ bandwidth 100000
+ ip vrf forwarding V11180:VPN_DANONE_0
+ ip address 201.118.252.149 255.255.255.252
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+ service-policy input BW_100000_P2_40000
+!
+interface GigabitEthernet1/6
+ description VPN_GRUMA RPV-1701-0016 I24051712A FFR 24/05/17 P3 SIDPERFIL
+ bandwidth 50000
+ ip vrf forwarding V46486:VPN_GRUMA_0
+ ip address 201.134.63.89 255.255.255.252
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+ service-policy input BW_50000_P3_50000
+!
+interface GigabitEthernet1/7
+ description VPN TRIARA_IBMGNSI RPV-1006-0103 FVAZQ 06/09/10 P1 7215447
+ bandwidth 10000
+ ip vrf forwarding V16489:VPN_IBMGNSI_0
+ ip address 187.173.104.77 255.255.255.252
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+ service-policy input BW_10000_P1_10000
+!
+interface GigabitEthernet1/8
+ description VPN TRIARA_MONTERREY_1_RESPALDO RPV-1006-0107 II13081105A JBMIRAFU 13/08/11 7120242-1
+ bandwidth 100000
+ ip vrf forwarding V14802:VPN_SEARS_0
+ ip address 187.173.105.69 255.255.255.252
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+ service-policy input BW_100000_P3_2000
+!
+interface GigabitEthernet1/9
+ description PRUEBA DE LOOP OK, FILA-4 RACK-1 PP-10 POS-9 GMC281106
+ no ip address
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet1/9.1
+ description VoIP IMS_TRIARA-MTY SECUNDARIO dc_triara_swe_16-g1-6
+ bandwidth 350000
+ encapsulation dot1Q 230
+ ip vrf forwarding V17787:VPN_ATX_SINCDAT_0
+ ip address 192.168.31.124 255.255.255.224
+ standby 230 ip 192.168.31.126
+ standby 230 timers msec 300 msec 900
+ standby 230 preempt
+ service-policy input 350M_exp3_in
+!
+interface GigabitEthernet1/9.2
+ description VoIP IMS_TRIARA-MTY SECUNDARIO dc_triara_swe_16-g1-6
+ bandwidth 420000
+ encapsulation dot1Q 604
+ ip vrf forwarding V7894:VPN_ATX_INFRA_0
+ ip address 172.29.232.253 255.255.255.252
+ service-policy input 420M_exp5_in
+!
+interface GigabitEthernet1/10
+ description CONEXION GE A lansw-nvl-triara-13-ge7-2 BTB FHH 19/04/17
+ mtu 1526
+ bandwidth 1000000
+ ip address 189.246.101.54 255.255.255.252
+ no ip redirects
+ no ip proxy-arp
+ ip mtu 1500
+ ip ospf message-digest-key 1 md5 7 0943490C5A0B1C420D1B54
+ ip ospf network point-to-point
+ ip ospf cost 5000
+ logging event link-status
+ load-interval 30
+ speed nonegotiate
+ mpls ip
+ mpls label protocol ldp
+ mls qos trust dscp
+ no cdp enable
+ hold-queue 4020 in
+!
+interface GigabitEthernet1/11
+ description VPN HOME_DEPOT_MEXICO_S_DE_RL_DE_C_V RPV-1501-0007 I28011515A JCSP 28/01/15
+ bandwidth 200000
+ ip vrf forwarding V12039:VPN_HD_0
+ ip address 201.112.156.237 255.255.255.252
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+ service-policy input BW_200000_P1_160000
+!
+interface GigabitEthernet1/12
+ description VPN_COSTCO RPV-0802-0014 MMN26/09/08
+ bandwidth 100000
+ ip vrf forwarding V13099:VPN_COSTCO_0
+ ip address 201.112.167.53 255.255.255.252
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+ service-policy input BW_100000_P1_10000
+!
+interface GigabitEthernet1/13
+ description CONEXION A dc_triara_ae_2.nvl.mty SECUNDARIO
+ bandwidth 364810
+ ip vrf forwarding V15623:VPN_ATX_CORPRCDT_0
+ ip address 201.129.199.205 255.255.255.252
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+ service-policy input BWe2_364810_P3_364810
+!
+interface GigabitEthernet1/14
+ bandwidth 100000
+ ip vrf forwarding V15738:VPN_TOKS_0
+ ip address 201.147.2.82 255.255.255.248
+ logging event link-status
+ speed nonegotiate
+ service-policy input BW_100000_P2_2000
+!
+interface GigabitEthernet1/15
+ description VPN LATAM_DESC_CORPORATIVO_RESPALDO RPV-0805-0016 CMG31/05/08 P2 6858467
+ bandwidth 100000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+ service-policy input BW_100000_P1_10000
+!
+interface GigabitEthernet1/15.1
+ description ENLACE VPN_DESC_CORPORATIVO_RESPALDO RPV-0805-0016 CMG31/05/08 P1 6858467
+ bandwidth 10000
+ encapsulation dot1Q 609
+ ip vrf forwarding V12468:VPN_DESC_0
+ ip address 201.112.162.173 255.255.255.252
+!
+interface GigabitEthernet1/15.2
+ description ENLACE VPN_DESC_CORPORATIVO_RESPALDO RPV-0805-0016 CMG31/05/08 P2 6858467
+ bandwidth 10000
+ encapsulation dot1Q 610
+ ip vrf forwarding V32579:VPN_REPSOL_0
+ ip address 201.112.162.57 255.255.255.252
+!
+interface GigabitEthernet1/16
+ description ENLACE VPN_TRIARA_INFRA_TELMEX RPV-0901-0103 SBM28/3/09 P2 6854812
+ bandwidth 100000
+ ip vrf forwarding V12902:VPN_ATX_GESTION_0
+ ip address 201.112.167.165 255.255.255.252
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+ service-policy input BW_100000_P2_2000
+!
+interface GigabitEthernet1/17
+ description IBM RPV-0902-0103 MACC06/03/09
+ bandwidth 100000
+ ip vrf forwarding V13749:VPN_GNP_0
+ ip address 201.112.167.149 255.255.255.252
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+ service-policy input BW_100000_P1_10000
+!
+interface GigabitEthernet1/18
+ description TRIARA-MONTERREY RPV-0907-0105 JAGT 7095384
+ bandwidth 20000
+ ip vrf forwarding V14566:VPN_HPNMP_0
+ ip address 201.129.152.221 255.255.255.252
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+ service-policy input BW_20000_P1_20000
+!
+interface GigabitEthernet1/19
+ description TRIARA-MONTERREY RPV-0907-0107 JATORRES 7095390
+ bandwidth 1000000
+ ip vrf forwarding V14566:VPN_HPNMP_0
+ ip address 201.129.152.229 255.255.255.252
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+ service-policy input BW_1000000_P2_10000
+!
+interface GigabitEthernet1/20
+ description CONEXION A dc_triara_ai_2.nvl.mty SECUNDARIO
+ bandwidth 364810
+ ip vrf forwarding V15623:VPN_ATX_CORPRCDT_0
+ ip address 201.129.190.117 255.255.255.252
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+ service-policy input BWe2_364810_P3_364810
+!
+interface GigabitEthernet1/21
+ description CONEXION A dc_triara_nas_2.nvl.mty SECUNDARIO
+ bandwidth 364810
+ ip vrf forwarding V15623:VPN_ATX_CORPRCDT_0
+ ip address 201.129.199.197 255.255.255.252
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+ service-policy input BWe2_364810_P3_364810
+!
+interface GigabitEthernet1/22
+ description VPN SEARS RPV-0910-0111 LGB 09/11/09
+ bandwidth 100000
+ ip vrf forwarding V14802:VPN_SEARS_0
+ ip address 201.129.152.197 255.255.255.252
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+ service-policy input BW_100000_P3_2000
+!
+interface GigabitEthernet1/23
+ description INTERNATIONAL_BUSSISNES RPV-1001-0105 PPO 7163395-1
+ bandwidth 100000
+ ip vrf forwarding V15636:VPN_INTBUSSSOL_0
+ ip address 201.129.152.50 255.255.255.248
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+ standby 1 ip 201.129.152.51
+ standby 1 preempt
+ service-policy input BW_100000_P1_2000
+!
+interface GigabitEthernet1/24
+ description VPN CNOC RPV-1004-0103 LPM 27/05/10 P1 SINSID
+ bandwidth 10000
+ ip vrf forwarding V15779:VPN_CNOC_0
+ ip address 187.173.112.18 255.255.255.240
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+ standby 1 ip 187.173.112.19
+ standby 1 preempt
+ service-policy input BW_10000_P1_10000
+!
+interface GigabitEthernet2/1
+ description PRUEBAS DE FIBRA OK,FILA4 PP10 POS9,NOG 10/02/11
+ no ip address
+ no logging event link-status
+ shutdown
+ no cdp enable
+!
+interface GigabitEthernet2/2
+ description VPN FERROMEX RPV-1012-0109 AJZ 17/02/11 pa04 22681497
+ bandwidth 2000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet2/2.1
+ description VPN FERROMEX RPV-1012-0109 AJZ 17/02/11 pa04 22681497
+ bandwidth 1999
+ encapsulation dot1Q 601
+ ip vrf forwarding V17530:VPN_FERROMEX_0
+ ip address 187.173.104.181 255.255.255.252
+ no cdp enable
+ service-policy input rpvm_shape_pa04_2M_ESmas_CL_in
+ service-policy output rpvm_shape_pa04_2M_out
+!
+interface GigabitEthernet2/3
+ description AIGVIDAMPLS RPV-1102-0105 JMLL pa04 SID SIDPERFIL
+ bandwidth 6000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet2/3.1
+ description AIGVIDAMPLS RPV-1102-0105 JMLL pa04 SID SIDPERFIL
+ bandwidth 6000
+ encapsulation dot1Q 602
+ ip vrf forwarding V17996:VPN_AIGVIDAMPLS_0
+ ip address 187.173.104.189 255.255.255.252
+ no cdp enable
+ service-policy input rpvm_shape_pa04_6M_ESmas_CL_in
+ service-policy output rpvm_shape_pa04_6M_out
+!
+interface GigabitEthernet2/4
+ description VPN 7-ELEVEN RPV-1103-0107 JAGT PB23
+ bandwidth 100000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet2/4.1
+ description VPN 7-ELEVEN RPV-1103-0107 JAGT PB23
+ bandwidth 100000
+ encapsulation dot1Q 605
+ ip vrf forwarding V28495:VPN_7-ELEVEN_0
+ ip address 187.173.104.237 255.255.255.252
+ no cdp enable
+ service-policy input rpvm_shape_pb23_100M_ESmas_CL_in
+ service-policy output rpvm_shape_pb23_100M_out
+!
+interface GigabitEthernet2/5
+ description VPN SCOTIANBANK RPV-1101-0103 CDOR 11/07/15 pb16 SIDPERFIL
+ bandwidth 150000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet2/5.1
+ description VPN SCOTIANBANK RPV-1101-0103 CDOR 11/07/15 pb16 SIDPERFI
+ bandwidth 150000
+ encapsulation dot1Q 606
+ ip vrf forwarding V29001:VPN_INVERLAT_0
+ ip address 187.173.104.253 255.255.255.252
+ no cdp enable
+ service-policy input rpvm_shape_pb16_150M_ESmas_CL_in
+ service-policy output rpvm_shape_pb16_150M_out
+!
+interface GigabitEthernet2/6
+ description VPN VPN_FIRA1_0 RPV-1511-0006 I08121506A FCP 08/12/15 PA04 SIDPERFIL
+ bandwidth 40000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet2/6.1
+ description VPN VPN_FIRA1_0 RPV-1511-0006 I08121506A FCP 08/12/15 PA04 SIDPERFIL
+ bandwidth 40000
+ encapsulation dot1Q 612
+ ip vrf forwarding V46316:VPN_FIRA1_0
+ ip address 187.219.162.117 255.255.255.252
+ no cdp enable
+ service-policy input rpvm_shape_pa04_40M_ESmas_CL_in
+ service-policy output rpvm_shape_pa04_40M_out
+!
+interface GigabitEthernet2/7
+ description VPN CENTRAL_QUERETARO RPV-1412-0025 I05121403A JCSP 05/12/14 pa10 SIDPERFIL
+ bandwidth 100000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet2/7.1
+ description VPN CENTRAL_QUERETARO RPV-1412-0025 I05121403A JCSP 05/12/14 pa10 SIDPERFIL
+ bandwidth 100000
+ encapsulation dot1Q 625
+ ip vrf forwarding V47602:VPN_CDNGES-AMX_0
+ ip address 201.147.2.154 255.255.255.248
+ standby 1 ip 201.147.2.155
+ service-policy input rpvm_shape_pa10_100M_ESmas_CL__in
+ service-policy output rpvm_shape_pa10_100M_out
+!
+interface GigabitEthernet2/8
+ description VPN LIVERPOOL RPV-1107-0101 CSANCHEL 03/10/12 pa10
+ bandwidth 250000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet2/8.1
+ description VPN LIVERPOOL RPV-1107-0101 CSANCHEL 03/10/12 pa10
+ bandwidth 250000
+ encapsulation dot1Q 613
+ ip vrf forwarding V9098:VPN_LIVERPOOL_0
+ ip address 187.196.106.249 255.255.255.252
+ no cdp enable
+ service-policy input rpvm_shape_pa10_250M_ESmas_CL_in
+ service-policy output rpvm_shape_pa10_250M_out
+!
+interface GigabitEthernet2/9
+ description VPN LATAM NODO_CENTRAL_TRIARA_MTY_SCOTIABANK RPV-1607-0004 I20081601A RGVL 20/08/16 pa09
+ bandwidth 20000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet2/9.1
+ description VPN LATAM NODO_CENTRAL_TRIARA_MTY_SCOTIABANK RPV-1607-0004 I20081601A RGVL 20/08/16 pa09
+ bandwidth 10000
+ encapsulation dot1Q 607
+ ip vrf forwarding V31530:VPN_SCOTIA3EROS_0
+ ip address 187.173.105.93 255.255.255.252
+ no cdp enable
+ service-policy input rpvm_shape_pa09_10M_ESmas_CL_in
+ service-policy output rpvm_shape_pa09_10M_out
+!
+interface GigabitEthernet2/9.2
+ description VPN LATAM NODO_CENTRAL_TRIARA_MTY_SCOTIABANK RPV-1607-0004 I22101604A IANAYA 22/10/16 pa09
+ bandwidth 10000
+ encapsulation dot1Q 610
+ ip vrf forwarding V56954:VPN_BUROYCIRCRED_0
+ ip address 187.173.111.97 255.255.255.252
+ no cdp enable
+ service-policy input rpvm_shape_pa09_10M_ESmas_CL_in
+ service-policy output rpvm_shape_pa09_10M_out
+!
+interface GigabitEthernet2/10
+ description PINTURA_ESTAMPADO_Y_MONTAJE_SA RPV-1108-0103 I01021271A ATLAGUNA 08/12/11
+ bandwidth 10000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet2/10.1
+ description PINTURA_ESTAMPADO_Y_MONTAJE_SA RPV-1108-0103 I01021271A ATLAGUNA 08/12/11
+ bandwidth 10000
+ encapsulation dot1Q 608
+ ip vrf forwarding V33254:VPN_PEMSA_0
+ ip address 187.173.105.129 255.255.255.252
+ service-policy input rpvm_shape_pa09_10M_ESmas_CL_in
+ service-policy output rpvm_shape_pa09_10M_out
+!
+interface GigabitEthernet2/11
+ description DELL_MONTE_DE_PIEDAD RPV-1206-0004 JVALCANT 27/06/12 pa12 SIDPERFIL
+ bandwidth 10000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet2/11.1
+ description DELL_MONTE_DE_PIEDAD RPV-1206-0004 JVALCANT 27/06/12 pa12 SIDPERFIL
+ bandwidth 10000
+ encapsulation dot1Q 609
+ ip vrf forwarding V14566:VPN_HPNMP_0
+ ip address 187.173.105.205 255.255.255.252
+ no cdp enable
+ service-policy input rpvm_shape_pa12_10M_ESmas_CL_in
+ service-policy output rpvm_shape_pa12_10M_out
+!
+interface GigabitEthernet2/12
+ description VPN TRIARA-MONTERREY-2-ENEL RPV-1505-0004 I25071501A JCSP 24/07/15 pa10 SIDPERFIL
+ bandwidth 4000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet2/12.1
+ description VPN TRIARA-MONTERREY-2-ENEL RPV-1505-0004 I25071501A JCSP 24/07/15 pa10 SIDPERFIL
+ bandwidth 4000
+ encapsulation dot1Q 629
+ ip vrf forwarding V48823:VPN_ENELSOCIOS_0
+ ip address 201.112.196.129 255.255.255.252
+ no cdp enable
+ service-policy input rpvm_shape_pa10_4M_ESmas_CL__in
+ service-policy output rpvm_shape_pa10_4M_out
+!
+interface GigabitEthernet2/13
+ description VPN PORCELANITE RPV-1606-0006 I13081601A JMLL 12/08/16 pa09 SIDPERFIL
+ bandwidth 40000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet2/13.1
+ description VPN PORCELANITE RPV-1606-0006 I13081601A JMLL 12/08/16 pa09 SIDPERFIL
+ bandwidth 40000
+ encapsulation dot1Q 630
+ ip vrf forwarding V38284:VPN_PORCELANITE_0
+ ip address 187.238.104.9 255.255.255.252
+ no cdp enable
+ service-policy input rpvm_shape_pa09_40M_ESmas_CL_in
+ service-policy output rpvm_shape_pa09_40M_out
+!
+interface GigabitEthernet2/14
+ description VPN VPN_IDEAL_RESPALDO RPV-1203-0002 JMLOPEZL pa04 SIDPERFIL
+ bandwidth 20000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet2/14.1
+ description VPN VPN_IDEAL_RESPALDO RPV-1203-0002 JMLOPEZL pa04 SIDPERFIL
+ bandwidth 20000
+ encapsulation dot1Q 611
+ ip vrf forwarding V34757:VPN_IDEAL_0
+ ip address 187.173.105.221 255.255.255.252
+ service-policy input rpvm_shape_pa04_20M_ESmas_CL_in
+ service-policy output rpvm_shape_pa04_20M_out
+!
+interface GigabitEthernet2/15
+ description PRUEBAS DE FIBRA OK,FILA4 PP11 POS11,NOG 10/02/11
+ no ip address
+ shutdown
+!
+interface GigabitEthernet2/16
+ description PRUEBAS DE FIBRA OK,FILA4 PP11 POS12,NOG 10/02/11
+ no ip address
+ shutdown
+!
+interface GigabitEthernet2/17
+ description VPN VPN_PEPSICO_0 RPV-1410-0006 CSANCHEL 05/11/12 pb28 7129938
+ bandwidth 50000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet2/17.1
+ description VPN VPN_PEPSICO_0 RPV-1410-0006 CSANCHEL 05/11/12 pb28 7129938
+ bandwidth 50000
+ encapsulation dot1Q 614
+ ip vrf forwarding V37020:VPN_PEPSICO_0
+ ip address 187.173.107.189 255.255.255.252
+ no cdp enable
+ service-policy input rpvm_shape_pb28_50M_ESmas_CL_in
+ service-policy output rpvm_shape_pb28_50M_out
+!
+interface GigabitEthernet2/18
+ description VPN GRUPO_CUAUTHEMOC_MOCTEZUMA RPV-1505-0002 I28111501A JCSP 28/11/15 pb15 SIDPERFIL
+ bandwidth 500000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet2/18.1
+ description VPN GRUPO_CUAUTHEMOC_MOCTEZUMA RPV-1505-0002 I28111501A JCSP 28/11/15 pb15 SIDPERFIL
+ bandwidth 500000
+ encapsulation dot1Q 616
+ ip vrf forwarding V42475:VPN_CMHNK_0
+ ip address 187.196.109.61 255.255.255.252
+ no cdp enable
+ service-policy input rpvm_shape_pb15_500M_ESmas_CL_in
+ service-policy output rpvm_shape_pb15_500M_out
+!
+interface GigabitEthernet2/19
+ description VPN TRIARA_OXXO_TELCEL RPV-1608-1952 I08111601A MJVV 07/11/16 pa10 SIDPERFIL
+ bandwidth 4000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet2/19.1
+ description VPN TRIARA_OXXO_TELCEL RPV-1608-1952 I08111601A MJVV 07/11/16 pa10 SIDPERFIL
+ bandwidth 4000
+ encapsulation dot1Q 634
+ ip vrf forwarding V57187:VPN_OXXO_TELCEL_0
+ ip address 200.79.117.217 255.255.255.252
+ no cdp enable
+ service-policy input rpvm_shape_pa10_4M_ESmas_CL_in
+ service-policy output rpvm_shape_pa10_4M_out
+!
+interface GigabitEthernet2/20
+ description VPN RPV-1604-0002 I08051602A JAC 08/05/16 pb23 SIDPERFIL
+ bandwidth 300000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet2/20.1
+ description VPN RPV-1604-0002 I08051602A JAC 08/05/16 pb23 SIDPERFIL
+ bandwidth 300000
+ encapsulation dot1Q 618
+ ip vrf forwarding V45194:VPN_CC_0
+ ip address 187.238.231.217 255.255.255.252
+ service-policy input rpvm_shape_pb23_300M_ESmas_CL_in
+ service-policy output rpvm_shape_pb23_300M_out
+!
+interface GigabitEthernet3/1
+ description VPN VPN_GRUMA_0 RPV-1503-0009 I14031508A JCSP 14/03/15 pb14 SIDPERFIL
+ bandwidth 20000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet3/1.1
+ description VPN VPN_GRUMA_0 RPV-1503-0009 I14031508A JCSP 14/03/15 pb14 SIDPERFIL
+ bandwidth 20000
+ encapsulation dot1Q 627
+ ip vrf forwarding V48383:VPN_MOLMEXTRIMEX_0
+ ip address 201.129.152.93 255.255.255.252
+ no cdp enable
+ service-policy input rpvm_shape_pb14_20M_ESmas_CL_in
+ service-policy output rpvm_shape_pb14_20M_out
+!
+interface GigabitEthernet3/2
+ description PRUEBA DE LOOP OK FILA 4 RACK 1 PP 15 POS 2 JAU 22/11/12
+ no ip address
+ shutdown
+!
+interface GigabitEthernet3/3
+ description VPN AMERICA_MOVIL RPV-1308-0002 RESPALDO JOVILLAN 26/08/13
+ bandwidth 30000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet3/3.1
+ description VPN AMERICA_MOVIL RESPALDO RPV-1308-0002 I26081399Z JOVILLAN 26/08/13
+ bandwidth 30000
+ encapsulation dot1Q 617
+ ip vrf forwarding V45289:VPN_GESTION-AMX_0
+ ip address 187.238.104.173 255.255.255.252
+ no cdp enable
+ service-policy input rpvm_shape_pa04_30M_ESmas_CL_in
+ service-policy output rpvm_shape_pa04_30M_out
+!
+interface GigabitEthernet3/4
+ description VPN VPN_TRIARA_COPPEL_MTY RPV-1606-0020 I15071604A JMLL 14/07/17 pa10 SIDPERFIL
+ bandwidth 200000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet3/4.1
+ description VPN VPN_TRIARA_COPPEL_MTY RPV-1606-0020 I15071604A JMLL 14/07/17 pa10 SIDPERFIL
+ bandwidth 200000
+ encapsulation dot1Q 619
+ ip vrf forwarding V9103:VPN_BANCOPPEL_0
+ ip address 201.147.41.65 255.255.255.252
+ no cdp enable
+ service-policy input rpvm_shape_pa10_200M_ESmas_CL_in
+ service-policy output rpvm_shape_pa10_200M_out
+!
+interface GigabitEthernet3/5
+ description ENLACE COPPEL_NODO_TRIARA_MTY RPV-1404-0004 I06061487M CSANCHEL 06/06/14 pa10 SIDPERFIL
+ bandwidth 100000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet3/5.1
+ description ENLACE COPPEL_NODO_TRIARA_MTY RPV-1404-0004 I06061487M CSANCHEL 06/06/14 pa10 SIDPERFIL
+ bandwidth 100000
+ encapsulation dot1Q 621
+ ip vrf forwarding V6824:VPN_COPPEL_0
+ ip address 201.112.167.137 255.255.255.252
+ no cdp enable
+ service-policy input rpvm_shape_pa10_100M_ESmas_CL__in
+ service-policy output rpvm_shape_pa10_100M_out
+!
+interface GigabitEthernet3/6
+ description VPN COPPEL_TRIARA RPV-1612-0002 I10011700A VHGA 09/01/16 pa10 6939156-7
+ bandwidth 250000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet3/6.1
+ description VPN COPPEL_TRIARA RPV-1612-0002 I10011700A VHGA 09/01/16 pa10 6939156-7
+ bandwidth 250000
+ encapsulation dot1Q 620
+ ip vrf forwarding V12899:VPN_TIENDASCOPPEL_0
+ ip address 201.112.167.21 255.255.255.252
+ no cdp enable
+ service-policy input rpvm_shape_pa10_250M_ESmas_CL_in
+ service-policy output rpvm_shape_pa10_250M_out
+!
+interface GigabitEthernet3/7
+ description VPN_TRIARA_METLIFE RPV-1512-0002 I16011658A CGV 16/01/16 pa06 SIDPERFIL
+ bandwidth 100000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet3/7.1
+ description VPN_TRIARA_METLIFE RPV-1512-0002 I16011658A CGV 16/01/16 pa06 SIDPERFIL
+ bandwidth 100000
+ encapsulation dot1Q 626
+ ip vrf forwarding V47493:VPN_IBMMET_0
+ ip address 201.129.152.117 255.255.255.252
+ no cdp enable
+ service-policy input rpvm_shape_pa06_100M_ESmas_CL_in
+ service-policy output rpvm_shape_pa06_100M_out
+!
+interface GigabitEthernet3/8
+ description VPN_GRUMA_PRINCIPAL RPV-1407-0002 I02091410A JMLL 01/09/14 pa10 SIDPERFIL
+ bandwidth 4000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet3/8.1
+ description VPN_GRUMA_PRINCIPAL RPV-1407-0002 I02091410A JMLL 01/09/14 pa10 SIDPERFIL
+ bandwidth 4000
+ encapsulation dot1Q 624
+ ip vrf forwarding V46486:VPN_GRUMA_0
+ ip address 187.238.240.149 255.255.255.252
+ no cdp enable
+ service-policy input rpvm_shape_pa10_4M_ESmas_CL__in
+ service-policy output rpvm_shape_pa10_4M_out
+!
+interface GigabitEthernet3/9
+ description PRUEBA DE LOOP OK FILA 4 RACK 1 PP 15 POS 9 JAU 22/11/12
+ no ip address
+ shutdown
+!
+interface GigabitEthernet3/10
+ description PRUEBA DE LOOP OK FILA 4 RACK 1 PP 15 POS 10 JAU 22/11/12
+ no ip address
+ shutdown
+!
+interface GigabitEthernet3/11
+ description VPN DSC RPV-1510-0018 I04111505A JCSP 04/11/15 pa10 SIDPERFIL
+ bandwidth 100000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet3/11.1
+ description VPN DSC RPV-1510-0018 I04111505A JCSP 04/11/15 pa10 SIDPERFIL
+ bandwidth 100000
+ encapsulation dot1Q 628
+ ip vrf forwarding V12468:VPN_DESC_0
+ ip address 201.112.196.105 255.255.255.252
+ no cdp enable
+ service-policy input rpvm_shape_pa10_100M_ESmas_CL__in
+ service-policy output rpvm_shape_pa10_100M_out
+!
+interface GigabitEthernet3/12
+ description VPN TRIARA_FAMOSA RPV-1703-0002 I31031700A JCSP 30/03/17 pb23 SIDPERFIL
+ bandwidth 40000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet3/12.1
+ description VPN TRIARA_FAMOSA RPV-1703-0002 I31031700A JCSP 30/03/17 pb23 SIDPERFIL
+ bandwidth 40000
+ encapsulation dot1Q 629
+ ip vrf forwarding V50591:VPN_FAMOSACROWN_0
+ ip address 187.196.61.169 255.255.255.252
+ service-policy input rpvm_shape_pb23_40M_ESmas_CL_in
+ service-policy output rpvm_shape_pb23_40M_out
+!
+interface GigabitEthernet3/13
+ description VPN ARCA CONTINENTAL CORPORATIVO RPV-1701-0008 I05031702A KMM 05/03/17 pb23 SIDPERFIL
+ bandwidth 400000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet3/13.1
+ description VPN ARCA CONTINENTAL CORPORATIVO RPV-1701-0008 I05031702A KMM 05/03/17 pb23 SIDPERFIL
+ bandwidth 400000
+ encapsulation dot1Q 853
+ ip vrf forwarding V30370:VPN_ARCA_0
+ ip address 187.173.105.9 255.255.255.252
+ service-policy input rpvm_shape_pb23_400M_ESmas_CL_in
+ service-policy output rpvm_shape_pb23_400M_out
+!
+interface GigabitEthernet3/14
+ description VPN TRIARA_KALTEX RPV-1706-0004 I16071701A FFR 16/07/17 pa10 SIDPERFIL
+ bandwidth 20000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet3/14.1
+ description VPN TRIARA_KALTEX RPV-1706-0004 I16071701A FFR 15/07/17 pa10 SIDPERFIL
+ bandwidth 20000
+ encapsulation dot1Q 633
+ ip vrf forwarding V56386:VPN_KALTEX_0
+ ip address 187.238.104.21 255.255.255.252
+ service-policy input rpvm_shape_pa10_20M_ESmas_CL_in
+ service-policy output rpvm_shape_pa10_20M_out
+!
+interface GigabitEthernet3/15
+ description VPN AJEMEX RPV-1605-1831 I09061608A AJZ 09/06/16 pb28 SIDPERFIL
+ bandwidth 10000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet3/15.1
+ description VPN AJEMEX RPV-1605-1831 I09061608A AJZ 09/06/16 pb28 SIDPERFIL
+ bandwidth 10000
+ encapsulation dot1Q 633
+ ip vrf forwarding V7786:VPN_AJEMEX_0
+ ip address 187.196.158.25 255.255.255.252
+ service-policy input rpvm_shape_pb28_10M_ESmas_CL_in
+ service-policy output rpvm_shape_pb28_10M_out
+!
+interface GigabitEthernet3/16
+ description VPN MTYB1JDR12/N29 RPV-1610-2017 I29111603A VHGA 20/01/17 pb23 30602904
+ no ip address
+ logging event link-status
+ speed nonegotiate
+!
+interface GigabitEthernet3/16.1
+ description VPN MTYB1JDR12/N29 RPV-1610-2017 I29111603A VHGA 20/01/17 pb23 30602904
+ bandwidth 80000
+ encapsulation dot1Q 635
+ ip vrf forwarding V57432:VPN_FARMACON_0
+ ip address 187.196.158.145 255.255.255.252
+ service-policy input rpvm_shape_pb23_80M_ESmas_CL_in
+ service-policy output rpvm_shape_pb23_80M_out
+!
+interface GigabitEthernet3/17
+ description VPN MTYB1JDR6/N38 RPV-1610-2045 I21121602A MJVV 21/12/16 pb23 SIDPERFIL
+ bandwidth 100000
+ no ip address
+ logging event link-status
+ speed nonegotiate
+ no cdp enable
+!
+interface GigabitEthernet3/17.1
+ description VPN MTYB1JDR6/N38 RPV-1610-2045 I21121602A MJVV 21/12/16 pb23 SIDPERFIL
+ bandwidth 100000
+ encapsulation dot1Q 636
+ ip vrf forwarding V45194:VPN_CC_0
+ ip address 187.196.158.193 255.255.255.252
+ no cdp enable
+ service-policy input rpvm_shape_pb23_100M_ESmas_CL_in
+ service-policy output rpvm_shape_pb23_100M_out
+!
+interface GigabitEthernet3/18
+ description PRUEBA DE LOOP OK FILA 4 RACK 1 PP 2 POS 6 JAU 22/11/12
+ no ip address
+ shutdown
+!
+interface GigabitEthernet3/19
+ description PRUEBA DE LOOP OK FILA 4 RACK 1 PP 2 POS 7 JAU 22/11/12
+ no ip address
+ shutdown
+!
+interface GigabitEthernet3/20
+ description PRUEBA DE LOOP OK FILA 4 RACK 1 PP 2 POS 8 JAU 22/11/12
+ no ip address
+ shutdown
+!
+interface GigabitEthernet5/1
+ description CONEXION GE A lansw-nvl-triara-12-g-9-3 LAN_SEC_TRABAJO SCG 17/11/06
+ mtu 1526
+ ip address 189.246.101.82 255.255.255.252
+ no ip redirects
+ no ip proxy-arp
+ ip mtu 1500
+ ip ospf message-digest-key 1 md5 7 11061E00541C005C023D7B
+ ip ospf network point-to-point
+ ip ospf cost 5000
+ logging event link-status
+ load-interval 30
+ speed nonegotiate
+ mpls ip
+ mpls label protocol ldp
+ mls qos trust dscp
+ hold-queue 4020 in
+!
+interface GigabitEthernet5/2
+ no ip address
+ logging event link-status
+ shutdown
+ speed nonegotiate
+!
+interface GigabitEthernet6/1
+ description INTERCONEXION GE A lansw-nvl-triara-13-pto9-4 LAN_NGN_RESPALDO ALD 26/04/11
+ mtu 1526
+ bandwidth 100000
+ ip address 189.246.101.86 255.255.255.252
+ no ip redirects
+ no ip proxy-arp
+ ip mtu 1500
+ ip ospf message-digest-key 1 md5 7 130A101748020F7A2D3378
+ ip ospf network point-to-point
+ ip ospf cost 5000
+ logging event link-status
+ load-interval 30
+ speed nonegotiate
+ mpls ip
+ mpls label protocol ldp
+ mls qos trust dscp
+ hold-queue 4020 in
+!
+interface GigabitEthernet6/2
+ no ip address
+ logging event link-status
+ load-interval 30
+ shutdown
+ speed nonegotiate
+!
+interface GigabitEthernet9/1
+ description VPN VPN_BBVA_BANCOMER_IP_PBX_TRIARA RPV-0601-0002 I20010602S LGB200106 SID_PENDIENTE
+ bandwidth 100000
+ ip vrf forwarding V5121:VPN_BBVA_0
+ ip address 201.112.167.253 255.255.255.248
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ standby 1 ip 201.112.167.254
+ standby 1 preempt
+ service-policy input BW_100000_P3_6000
+!
+interface GigabitEthernet9/2
+ description VPN VPN_TRIARA_IP_PBX_RED_UNO RPV-0601-0006 KMM010206 SID_PENDIENTE
+ bandwidth 100000
+ ip vrf forwarding V5171:VPN_CECYTEN_0
+ ip address 201.147.2.34 255.255.255.248
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ standby 1 ip 201.147.2.35
+ standby 1 preempt
+ service-policy input BW_100000_P3_6000
+!
+interface GigabitEthernet9/3
+ description VPN VPN_CISCO_CANCUN RPV-0602-0002 MGM230205  4855302
+ bandwidth 100000
+ ip vrf forwarding V5322:VPN_CISCO_0
+ ip address 201.147.2.50 255.255.255.248
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ standby 1 ip 201.147.2.51
+ standby 1 preempt
+ service-policy input BW_100000_P3_20000
+!
+interface GigabitEthernet9/4
+ description VPN VPN_AVAYA_0 RPV-0602-0004 GVP23/02/06 4855283
+ bandwidth 100000
+ ip vrf forwarding V5327:VPN_AVAYA_0
+ ip address 201.147.2.58 255.255.255.248
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ standby 1 ip 201.147.2.59
+ standby 1 preempt
+ service-policy input BW_100000_P3_20000
+!
+interface GigabitEthernet9/5
+ description VPN VPN_ALCATEL_CANCUN RPV-0602-0006 KMM230206 4855258
+ bandwidth 100000
+ ip vrf forwarding V5320:VPN_ALCATEL_0
+ ip address 201.147.2.178 255.255.255.240
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ standby 1 ip 201.147.2.179
+ standby 1 preempt
+ service-policy input BW_100000_P3_20000
+!
+interface GigabitEthernet9/6
+ no ip address
+ logging event link-status
+ shutdown
+ speed 1000
+ duplex full
+ no cdp enable
+!
+interface GigabitEthernet9/7
+ description VPN_CFE_TRIARA_MONTERRREY_NL_IP_PBX RPV-0607-0002 JCG03/11/06 5050433
+ bandwidth 100000
+ ip vrf forwarding V8600:VPN_2CFEMORELOS_0
+ ip address 201.147.2.130 255.255.255.248
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ standby 1 ip 201.147.2.131
+ standby 1 preempt
+ service-policy input BW_100000_P2_10000
+!
+interface GigabitEthernet9/8
+ no ip address
+ shutdown
+!
+interface GigabitEthernet9/9
+ description VPN_SAT_MAC_TRIARA_APODACA_NL RPV-0608-0002APA09/08/06 P3 5069466
+ bandwidth 100000
+ ip vrf forwarding V6333:VPN_SAT_0
+ ip address 201.147.2.98 255.255.255.248
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ standby 1 ip 201.147.2.99
+ standby 1 preempt
+ service-policy input BW_100000_P3_10000
+!
+interface GigabitEthernet9/10
+ description NODO_TRIARA_MONTERREY_2_RESPALDO RPV-1101-0109 mjesusv 08/07/11 23008878
+ bandwidth 100000
+ ip vrf forwarding V30370:VPN_ARCA_0
+ ip address 187.173.105.45 255.255.255.252
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ service-policy input BW_100000_P3_2000
+!
+interface GigabitEthernet9/11
+ description VPN_MILTIVALORES_TRIARA_NL RPV-0608-0008 APA22/09/06 P3 5089967
+ bandwidth 100000
+ ip vrf forwarding V6413:VPN_MULTIVALORES_0
+ ip address 201.147.2.122 255.255.255.248
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ standby 1 ip 201.147.2.123
+ standby 1 preempt
+ service-policy input BW_100000_P2_10000
+!
+interface GigabitEthernet9/12
+ description VPN_BANCOAUTOFIN_0 RPV-1112-0116 EMJAIME 16/04/12 23866648
+ bandwidth 4000
+ ip vrf forwarding V34897:VPN_BANCOAUTOFIN_0
+ ip address 187.173.105.229 255.255.255.252
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ service-policy input BW_4000_P3_4000
+!
+interface GigabitEthernet9/13
+ no ip address
+ no cdp enable
+!
+interface GigabitEthernet9/14
+ no ip address
+ load-interval 30
+ shutdown
+ speed 100
+ duplex full
+ no cdp enable
+!
+interface GigabitEthernet9/15
+ switchport
+ no logging event link-status
+ speed 100
+ no cdp enable
+!
+interface GigabitEthernet9/16
+ no ip address
+ no logging event link-status
+ shutdown
+ no cdp enable
+!
+interface GigabitEthernet9/17
+ description VPN INGCA_TRIARA  RPV-0704-0014 JLHP14/05/07 P2 5912680
+ bandwidth 100000
+ ip vrf forwarding V9304:VPN_INGCA_0
+ ip address 201.118.239.225 255.255.255.252
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ service-policy input BW_100000_P2_40000
+!
+interface GigabitEthernet9/18
+ description VPN FONATUR_TRIARA  RPV-0801-0018 JLHP18/01/07 P2 6332741
+ bandwidth 100000
+ ip vrf forwarding V11357:VPN_FONATUR_0
+ ip address 201.118.196.45 255.255.255.252
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ service-policy input BW_100000_P2_40000
+!
+interface GigabitEthernet9/19
+ description VPN_TRIARA_PJFCJF RPV-0703-0007 CTG 26/04/07 P1 5830269
+ bandwidth 155000
+ ip vrf forwarding V9218:VPN_PJFCJF_0
+ ip address 201.118.239.21 255.255.255.252
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ service-policy input BW_155000_P1_155000
+!
+interface GigabitEthernet9/20
+ description VPN_TRIARA_PJFCJF RPV-0703-0008 CTG26/04/07 P3 5830290
+ bandwidth 100000
+ ip vrf forwarding V9218:VPN_PJFCJF_0
+ ip address 201.118.239.25 255.255.255.252
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ service-policy input BW_100000_P3_40000
+!
+interface GigabitEthernet9/21
+ description VPN_TRIARA_PJFSCJN_MTY RPV-0703-0009 APA26/04/07 P1 5830259
+ bandwidth 100000
+ ip vrf forwarding V7256:VPN_PJFSCJN_0
+ ip address 201.147.41.98 255.255.255.248
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ standby 1 ip 201.147.41.99
+ standby 1 preempt
+ service-policy input BW_100000_P1_40000
+!
+interface GigabitEthernet9/22
+ description VPN_TRIARA_PJFSCJN_MTY RPV-0703-0010 APA26/04/07 P1 5830264
+ bandwidth 100000
+ ip vrf forwarding V7256:VPN_PJFSCJN_0
+ ip address 201.147.41.106 255.255.255.248
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ standby 1 ip 201.147.41.107
+ standby 1 preempt
+ service-policy input BW_100000_P3_40000
+!
+interface GigabitEthernet9/23
+ no ip address
+ shutdown
+!
+interface GigabitEthernet9/24
+ no ip address
+ shutdown
+!
+interface GigabitEthernet9/25
+ no ip address
+ no logging event link-status
+ shutdown
+ no cdp enable
+!
+interface GigabitEthernet9/26
+ description VPN NODO_TRIARA_CREDITO_Y_CASA RPV-0706-0006 I06070749K CMG06/07/07 5922685
+ bandwidth 100000
+ ip vrf forwarding V7516:VPN_HCYC_0
+ ip address 201.129.152.165 255.255.255.252
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ service-policy input BW_100000_P1_40000
+!
+interface GigabitEthernet9/27
+ description VPN_AJEMEX_RES RPV-0902-0111 CMG31/07/07 P1 6072145
+ bandwidth 100000
+ ip vrf forwarding V7786:VPN_AJEMEX_0
+ ip address 201.147.41.181 255.255.255.252
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ service-policy input BW_100000_P1_10000
+!
+interface GigabitEthernet9/28
+ no ip address
+ shutdown
+!
+interface GigabitEthernet9/29
+ description VPN_TRIARA_TELEFONOS_DE_MEX_CAS_GDL_SEC RPV-0712-0004 APA07/04/08 P3 6385247
+ bandwidth 100000
+ ip vrf forwarding V12121:VPN_TLMXCASGDL_0
+ ip address 201.118.196.76 255.255.255.248
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ standby 1 ip 201.118.196.75
+ standby 1 preempt
+ service-policy input BW_100000_P3_10000
+!
+interface GigabitEthernet9/30
+ description VPN_TRIARA_TELEFONOS_DE_MEXICO_NIQOS_HEROES_SEC RPV-0804-0010 APA05/04/08 P3 6384153
+ bandwidth 100000
+ ip vrf forwarding V12110:VPN_TLMXNHEROES_0
+ ip address 201.147.41.252 255.255.255.248
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ standby 1 ip 201.147.41.251
+ standby 1 preempt
+ service-policy input BW_100000_P3_10000
+!
+interface GigabitEthernet9/31
+ no ip address
+ shutdown
+!
+interface GigabitEthernet9/32
+ no ip address
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+!
+interface GigabitEthernet9/33
+ no ip address
+ shutdown
+ no cdp enable
+!
+interface GigabitEthernet9/34
+ description VPN_TRIARA_TELMEXDEMO_SEC RPV-0804-0002 APA08/04/08 P3 6803558
+ bandwidth 100000
+ ip vrf forwarding V13027:VPN_HOSTEDIPPBX_0
+ ip address 201.118.196.83 255.255.255.248
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ standby 1 ip 201.118.196.85
+ standby 1 preempt
+ service-policy input BW_100000_P3_60000
+!
+interface GigabitEthernet9/35
+ no ip address
+ shutdown
+ no cdp enable
+!
+interface GigabitEthernet9/36
+ description ENLACE VPN_INGCA_RESPALDO RPV-1410-0023 MJVV 23/10/14 6797834-1
+ bandwidth 100000
+ ip vrf forwarding V12650:VPN_AFORE-ING_0
+ ip address 201.147.41.13 255.255.255.252
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ service-policy input BW_100000_P1_100000
+!
+interface GigabitEthernet9/37
+ no ip address
+ shutdown
+ no cdp enable
+!
+interface GigabitEthernet9/38
+ description VPN_TRIARA_LIVERPOOL RPV-0805-0014 APA29/05/08 P2 6304453
+ bandwidth 100000
+ ip vrf forwarding V9098:VPN_LIVERPOOL_0
+ ip address 201.147.141.138 255.255.255.248
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ standby 1 ip 201.147.141.139
+ standby 1 preempt
+ service-policy input BW_100000_P2_60000
+!
+interface GigabitEthernet9/39
+ no ip address
+ no logging event link-status
+ shutdown
+ no cdp enable
+!
+interface GigabitEthernet9/40
+ no ip address
+ shutdown
+ no cdp enable
+!
+interface GigabitEthernet9/41
+ no ip address
+ shutdown
+ no cdp enable
+!
+interface GigabitEthernet9/42
+ no ip address
+ no logging event link-status
+ no cdp enable
+!
+interface GigabitEthernet9/43
+ no ip address
+ no logging event link-status
+ shutdown
+ no cdp enable
+!
+interface GigabitEthernet9/44
+ no ip address
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+!
+interface GigabitEthernet9/45
+ no ip address
+ shutdown
+ no cdp enable
+!
+interface GigabitEthernet9/46
+ description VPN GRUPO_SENDA_TRIARA_MONTERREY_2 RPV-1012-0101 LGB 03/01/11
+ bandwidth 10000
+ ip vrf forwarding V17301:VPN_GRUPOSENDA_0
+ ip address 187.173.104.125 255.255.255.252
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+ service-policy input BW_10000_P2_7500
+!
+interface GigabitEthernet9/47
+ no ip address
+ shutdown
+ no cdp enable
+!
+interface GigabitEthernet9/48
+ description SATMAC3 RPV-1012-0113 JAGT18/01/11 P3 22950069
+ bandwidth 50000
+ no ip address
+ logging event link-status
+ speed 100
+ duplex full
+ no cdp enable
+!
+interface GigabitEthernet9/48.1
+ description SATMAC3 RPV-1012-0113 JMLL 10/02/16 P3 22950069
+ bandwidth 30000
+ encapsulation dot1Q 631
+ ip vrf forwarding V17380:VPN_SATMAC3_0
+ ip address 187.173.104.149 255.255.255.252
+ no cdp enable
+ service-policy input BW_30000_P3_20000
+!
+interface GigabitEthernet9/48.2
+ description SATMAC3 RPV-1012-0113 JMLL 10/02/16 P3 22950069
+ bandwidth 20000
+ encapsulation dot1Q 632
+ ip vrf forwarding V53162:VPN_SATFMT_0
+ ip address 201.134.63.61 255.255.255.252
+ no cdp enable
+ service-policy input BW_20000_P3_20000
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router ospf 64512
+ router-id 200.38.193.245
+ log-adjacency-changes
+ auto-cost reference-bandwidth 1000000
+ area 3.3.21.1 authentication message-digest
+ area 3.3.21.1 nssa
+ passive-interface default
+ no passive-interface GigabitEthernet1/3
+ no passive-interface GigabitEthernet1/10
+ no passive-interface GigabitEthernet5/1
+ no passive-interface GigabitEthernet6/1
+ network 189.246.101.48 0.0.0.3 area 3.3.21.1
+ network 189.246.101.52 0.0.0.3 area 3.3.21.1
+ network 189.246.101.80 0.0.0.3 area 3.3.21.1
+ network 189.246.101.84 0.0.0.3 area 3.3.21.1
+ network 200.38.193.245 0.0.0.0 area 3.3.21.1
+ network 201.154.253.169 0.0.0.0 area 3.3.21.1
+!
+router bgp 8151
+ no bgp default ipv4-unicast
+ bgp log-neighbor-changes
+ bgp maxas-limit 30
+ neighbor 201.125.0.156 remote-as 8151
+ neighbor 201.125.0.156 description rr-nvl-revolucion-60
+ neighbor 201.125.0.156 password 7 150705050A793F752A3425
+ neighbor 201.125.0.156 update-source Loopback0
+ neighbor 201.125.0.229 remote-as 8151
+ neighbor 201.125.0.229 description rr-nvl-mayo-73
+ neighbor 201.125.0.229 password 7 0106080D5558125E234B5E
+ neighbor 201.125.0.229 update-source Loopback0
+ neighbor 201.154.253.5 remote-as 8151
+ neighbor 201.154.253.5 description rratx-nvl-mayo-95
+ neighbor 201.154.253.5 password 7 1310191B055F107B292338
+ neighbor 201.154.253.5 update-source Loopback42
+ neighbor 201.154.253.6 remote-as 8151
+ neighbor 201.154.253.6 description rratx-nvl-revolucion-73
+ neighbor 201.154.253.6 password 7 1310191B055F107B292338
+ neighbor 201.154.253.6 update-source Loopback42
+ !
+ address-family ipv4
+  no synchronization
+  no auto-summary
+ exit-address-family
+ !
+ address-family vpnv4
+  bgp dampening 1 625 10000 5
+  neighbor 201.125.0.156 activate
+  neighbor 201.125.0.156 send-community both
+  neighbor 201.125.0.156 route-map trafico-control-zona in
+  neighbor 201.125.0.156 route-map NORTVOIP out
+  neighbor 201.125.0.229 activate
+  neighbor 201.125.0.229 send-community both
+  neighbor 201.125.0.229 route-map trafico-control-zona in
+  neighbor 201.125.0.229 route-map NORTVOIP out
+  neighbor 201.154.253.5 activate
+  neighbor 201.154.253.5 send-community both
+  neighbor 201.154.253.5 route-map RTVOIP out
+  neighbor 201.154.253.6 activate
+  neighbor 201.154.253.6 send-community both
+  neighbor 201.154.253.6 route-map RTVOIP out
+ exit-address-family
+ !
+ address-family ipv4 vrf V11180:VPN_DANONE_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 201.118.252.150 remote-as 65194
+  neighbor 201.118.252.150 activate
+  neighbor 201.118.252.150 send-community
+  neighbor 201.118.252.150 as-override
+  neighbor 201.118.252.150 route-map dualhome in
+  neighbor 201.118.252.150 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V11357:VPN_FONATUR_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 201.118.196.46 remote-as 65194
+  neighbor 201.118.196.46 activate
+  neighbor 201.118.196.46 send-community
+  neighbor 201.118.196.46 as-override
+  neighbor 201.118.196.46 route-map dualhome in
+  neighbor 201.118.196.46 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V12039:VPN_HD_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 201.112.156.238 remote-as 65197
+  neighbor 201.112.156.238 activate
+  neighbor 201.112.156.238 send-community
+  neighbor 201.112.156.238 route-map dualhome in
+  neighbor 201.112.156.238 maximum-prefix 1000 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V12110:VPN_TLMXNHEROES_0
+  no synchronization
+  redistribute static
+  redistribute connected
+ exit-address-family
+ !
+ address-family ipv4 vrf V12121:VPN_TLMXCASGDL_0
+  no synchronization
+  redistribute static
+  redistribute connected
+ exit-address-family
+ !
+ address-family ipv4 vrf V12468:VPN_DESC_0
+  no synchronization
+  redistribute static route-map VPN-INT
+  redistribute connected route-map VPN-INT
+  neighbor 201.112.162.174 remote-as 65194
+  neighbor 201.112.162.174 activate
+  neighbor 201.112.162.174 send-community
+  neighbor 201.112.162.174 as-override
+  neighbor 201.112.162.174 route-map dualhome in
+  neighbor 201.112.162.174 maximum-prefix 5000 80 restart 1
+  neighbor 201.112.196.106 remote-as 65194
+  neighbor 201.112.196.106 timers 10 30
+  neighbor 201.112.196.106 activate
+  neighbor 201.112.196.106 send-community
+  neighbor 201.112.196.106 as-override
+  neighbor 201.112.196.106 route-map dualhome in
+  neighbor 201.112.196.106 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V12650:VPN_AFORE-ING_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 201.147.41.14 remote-as 65194
+  neighbor 201.147.41.14 activate
+  neighbor 201.147.41.14 send-community
+  neighbor 201.147.41.14 as-override
+  neighbor 201.147.41.14 route-map dualhome in
+  neighbor 201.147.41.14 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V12899:VPN_TIENDASCOPPEL_0
+  no synchronization
+  redistribute static route-map VPN-INT
+  redistribute connected route-map VPN-INT
+  neighbor 201.112.167.22 remote-as 65194
+  neighbor 201.112.167.22 activate
+  neighbor 201.112.167.22 send-community
+  neighbor 201.112.167.22 as-override
+  neighbor 201.112.167.22 route-map dualhome in
+  neighbor 201.112.167.22 maximum-prefix 5000 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V12902:VPN_ATX_GESTION_0
+  no synchronization
+  redistribute static route-map VOIP_INT
+  redistribute connected route-map VOIP_INT
+  neighbor 201.112.167.38 remote-as 65194
+  neighbor 201.112.167.38 activate
+  neighbor 201.112.167.38 send-community
+  neighbor 201.112.167.38 as-override
+  neighbor 201.112.167.38 route-map dualhome in
+  neighbor 201.112.167.38 maximum-prefix 100 80 restart 1
+  neighbor 201.112.167.166 remote-as 65194
+  neighbor 201.112.167.166 activate
+  neighbor 201.112.167.166 send-community
+  neighbor 201.112.167.166 as-override
+  neighbor 201.112.167.166 route-map dualhome in
+  neighbor 201.112.167.166 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V13027:VPN_HOSTEDIPPBX_0
+  no synchronization
+  redistribute static
+  redistribute connected
+ exit-address-family
+ !
+ address-family ipv4 vrf V13099:VPN_COSTCO_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 201.112.167.54 remote-as 65194
+  neighbor 201.112.167.54 activate
+  neighbor 201.112.167.54 send-community
+  neighbor 201.112.167.54 as-override
+  neighbor 201.112.167.54 route-map dualhome in
+  neighbor 201.112.167.54 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V13552:VPN_UNISOLUCIONES_0
+  no synchronization
+  redistribute static
+  redistribute connected
+ exit-address-family
+ !
+ address-family ipv4 vrf V13749:VPN_GNP_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 201.112.167.150 remote-as 65194
+  neighbor 201.112.167.150 activate
+  neighbor 201.112.167.150 send-community
+  neighbor 201.112.167.150 as-override
+  neighbor 201.112.167.150 route-map dualhome in
+  neighbor 201.112.167.150 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V14150:VPN_JAFRA-TRIARA_0
+  no synchronization
+  redistribute static
+  redistribute connected
+ exit-address-family
+ !
+ address-family ipv4 vrf V14566:VPN_HPNMP_0
+  no synchronization
+  redistribute static route-map VPN-INT
+  redistribute connected route-map VPN-INT
+  neighbor 187.173.105.206 remote-as 65194
+  neighbor 187.173.105.206 activate
+  neighbor 187.173.105.206 send-community
+  neighbor 187.173.105.206 as-override
+  neighbor 187.173.105.206 route-map dualhome in
+  neighbor 187.173.105.206 maximum-prefix 5000 80 restart 1
+  neighbor 201.129.152.222 remote-as 65194
+  neighbor 201.129.152.222 activate
+  neighbor 201.129.152.222 send-community
+  neighbor 201.129.152.222 as-override
+  neighbor 201.129.152.222 route-map dualhome in
+  neighbor 201.129.152.222 maximum-prefix 100 80 restart 1
+  neighbor 201.129.152.230 remote-as 65194
+  neighbor 201.129.152.230 activate
+  neighbor 201.129.152.230 send-community
+  neighbor 201.129.152.230 as-override
+  neighbor 201.129.152.230 route-map dualhome in
+  neighbor 201.129.152.230 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V14802:VPN_SEARS_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 187.173.105.70 remote-as 65194
+  neighbor 187.173.105.70 activate
+  neighbor 187.173.105.70 send-community
+  neighbor 187.173.105.70 as-override
+  neighbor 187.173.105.70 route-map dualhome in
+  neighbor 187.173.105.70 maximum-prefix 100 80 restart 1
+  neighbor 201.129.152.198 remote-as 65194
+  neighbor 201.129.152.198 activate
+  neighbor 201.129.152.198 send-community
+  neighbor 201.129.152.198 as-override
+  neighbor 201.129.152.198 route-map dualhome in
+  neighbor 201.129.152.198 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V15623:VPN_ATX_CORPRCDT_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 201.129.190.118 remote-as 65001
+  neighbor 201.129.190.118 timers 10 30
+  neighbor 201.129.190.118 activate
+  neighbor 201.129.190.118 send-community both
+  neighbor 201.129.190.118 as-override
+  neighbor 201.129.190.118 allowas-in
+  neighbor 201.129.190.118 route-map dualhome in
+  neighbor 201.129.190.118 maximum-prefix 2500 80 restart 1
+  neighbor 201.129.199.198 remote-as 65500
+  neighbor 201.129.199.198 timers 10 30
+  neighbor 201.129.199.198 activate
+  neighbor 201.129.199.198 send-community both
+  neighbor 201.129.199.198 as-override
+  neighbor 201.129.199.198 allowas-in
+  neighbor 201.129.199.198 route-map dualhome in
+  neighbor 201.129.199.198 maximum-prefix 2500 80 restart 1
+  neighbor 201.129.199.206 remote-as 65013
+  neighbor 201.129.199.206 timers 10 30
+  neighbor 201.129.199.206 activate
+  neighbor 201.129.199.206 send-community both
+  neighbor 201.129.199.206 as-override
+  neighbor 201.129.199.206 allowas-in
+  neighbor 201.129.199.206 route-map dualhome in
+  neighbor 201.129.199.206 maximum-prefix 2500 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V15636:VPN_INTBUSSSOL_0
+  no synchronization
+  redistribute static route-map static_connected_98
+  redistribute connected route-map static_connected_98
+ exit-address-family
+ !
+ address-family ipv4 vrf V15738:VPN_TOKS_0
+  no synchronization
+  redistribute static route-map static_connected_98
+  redistribute connected route-map static_connected_98
+  neighbor 201.147.2.85 remote-as 65194
+  neighbor 201.147.2.85 activate
+  neighbor 201.147.2.85 send-community
+  neighbor 201.147.2.85 as-override
+  neighbor 201.147.2.85 route-map dualhome in
+  neighbor 201.147.2.85 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V15779:VPN_CNOC_0
+  no synchronization
+  redistribute static route-map static_connected_98
+  redistribute connected route-map static_connected_98
+ exit-address-family
+ !
+ address-family ipv4 vrf V16489:VPN_IBMGNSI_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 187.173.104.78 remote-as 65194
+  neighbor 187.173.104.78 password 7 106E1D54163943454A2D282929
+  neighbor 187.173.104.78 activate
+  neighbor 187.173.104.78 send-community
+  neighbor 187.173.104.78 as-override
+  neighbor 187.173.104.78 route-map dualhome in
+  neighbor 187.173.104.78 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V17301:VPN_GRUPOSENDA_0
+  no synchronization
+  redistribute static route-map VPN-INT
+  redistribute connected route-map VPN-INT
+  neighbor 187.173.104.126 remote-as 65194
+  neighbor 187.173.104.126 activate
+  neighbor 187.173.104.126 send-community
+  neighbor 187.173.104.126 as-override
+  neighbor 187.173.104.126 route-map dualhome in
+  neighbor 187.173.104.126 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V17380:VPN_SATMAC3_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 187.173.104.150 remote-as 65100
+  neighbor 187.173.104.150 activate
+  neighbor 187.173.104.150 send-community
+  neighbor 187.173.104.150 as-override
+  neighbor 187.173.104.150 route-map dualhome in
+  neighbor 187.173.104.150 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V17530:VPN_FERROMEX_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 187.173.104.182 remote-as 65194
+  neighbor 187.173.104.182 activate
+  neighbor 187.173.104.182 send-community
+  neighbor 187.173.104.182 as-override
+  neighbor 187.173.104.182 route-map dualhome in
+ exit-address-family
+ !
+ address-family ipv4 vrf V17787:VPN_ATX_SINCDAT_0
+  no synchronization
+  network 192.168.31.96 mask 255.255.255.224 route-map IMSCORP_CTRLRESP_MGW
+  redistribute static
+  redistribute connected
+ exit-address-family
+ !
+ address-family ipv4 vrf V17996:VPN_AIGVIDAMPLS_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 187.173.104.190 remote-as 65194
+  neighbor 187.173.104.190 activate
+  neighbor 187.173.104.190 send-community
+  neighbor 187.173.104.190 as-override
+  neighbor 187.173.104.190 route-map dualhome in
+  neighbor 187.173.104.190 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V28495:VPN_7-ELEVEN_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 187.173.104.238 remote-as 65194
+  neighbor 187.173.104.238 activate
+  neighbor 187.173.104.238 send-community
+  neighbor 187.173.104.238 as-override
+  neighbor 187.173.104.238 route-map dualhome in
+  neighbor 187.173.104.238 maximum-prefix 1000 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V29001:VPN_INVERLAT_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 187.173.104.254 remote-as 65194
+  neighbor 187.173.104.254 activate
+  neighbor 187.173.104.254 send-community
+  neighbor 187.173.104.254 as-override
+  neighbor 187.173.104.254 route-map trafico-cpe-zona in
+  neighbor 187.173.104.254 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V30370:VPN_ARCA_0
+  no synchronization
+  redistribute static route-map VPN-INT
+  redistribute connected route-map VPN-INT
+  neighbor 187.173.105.10 remote-as 65194
+  neighbor 187.173.105.10 activate
+  neighbor 187.173.105.10 send-community
+  neighbor 187.173.105.10 as-override
+  neighbor 187.173.105.10 route-map dualhome in
+  neighbor 187.173.105.10 maximum-prefix 1000 80 restart 1
+  neighbor 187.173.105.46 remote-as 65194
+  neighbor 187.173.105.46 activate
+  neighbor 187.173.105.46 send-community
+  neighbor 187.173.105.46 as-override
+  neighbor 187.173.105.46 route-map dualhome in
+  neighbor 187.173.105.46 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V31530:VPN_SCOTIA3EROS_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 187.173.105.94 remote-as 65194
+  neighbor 187.173.105.94 activate
+  neighbor 187.173.105.94 send-community
+  neighbor 187.173.105.94 as-override
+  neighbor 187.173.105.94 route-map dualhome in
+ exit-address-family
+ !
+ address-family ipv4 vrf V32579:VPN_REPSOL_0
+  no synchronization
+  redistribute static route-map SC_VPN-INT
+  redistribute connected route-map SC_VPN-INT
+  neighbor 201.112.162.58 remote-as 65194
+  neighbor 201.112.162.58 activate
+  neighbor 201.112.162.58 send-community
+  neighbor 201.112.162.58 as-override
+  neighbor 201.112.162.58 route-map dualhome in
+  neighbor 201.112.162.58 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V33254:VPN_PEMSA_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 187.173.105.130 remote-as 65194
+  neighbor 187.173.105.130 timers 10 30
+  neighbor 187.173.105.130 activate
+  neighbor 187.173.105.130 send-community
+  neighbor 187.173.105.130 as-override
+  neighbor 187.173.105.130 route-map dualhome in
+  neighbor 187.173.105.130 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V34757:VPN_IDEAL_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 187.173.105.222 remote-as 65194
+  neighbor 187.173.105.222 activate
+  neighbor 187.173.105.222 send-community
+  neighbor 187.173.105.222 as-override
+  neighbor 187.173.105.222 route-map dualhome in
+  neighbor 187.173.105.222 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V34897:VPN_BANCOAUTOFIN_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 187.173.105.230 remote-as 65194
+  neighbor 187.173.105.230 activate
+  neighbor 187.173.105.230 send-community
+  neighbor 187.173.105.230 as-override
+  neighbor 187.173.105.230 route-map dualhome in
+  neighbor 187.173.105.230 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V37020:VPN_PEPSICO_0
+  no synchronization
+  redistribute static route-map VPN-INT
+  redistribute connected route-map VPN-INT
+  neighbor 187.173.107.190 remote-as 62559
+  neighbor 187.173.107.190 activate
+  neighbor 187.173.107.190 send-community
+  neighbor 187.173.107.190 as-override
+  neighbor 187.173.107.190 route-map dualhome in
+  neighbor 187.173.107.190 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V38284:VPN_PORCELANITE_0
+  no synchronization
+  redistribute static route-map VPN_INT
+  redistribute connected route-map VPN_INT
+  neighbor 187.238.104.10 remote-as 65194
+  neighbor 187.238.104.10 timers 10 30
+  neighbor 187.238.104.10 activate
+  neighbor 187.238.104.10 send-community
+  neighbor 187.238.104.10 as-override
+  neighbor 187.238.104.10 route-map dualhome in
+  neighbor 187.238.104.10 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V42475:VPN_CMHNK_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 187.196.109.62 remote-as 65194
+  neighbor 187.196.109.62 activate
+  neighbor 187.196.109.62 send-community
+  neighbor 187.196.109.62 as-override
+  neighbor 187.196.109.62 route-map dualhome in
+  neighbor 187.196.109.62 maximum-prefix 5000 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V45194:VPN_CC_0
+  no synchronization
+  redistribute static route-map VPN-INT
+  redistribute connected route-map VPN-INT
+  neighbor 187.196.158.194 remote-as 65194
+  neighbor 187.196.158.194 timers 10 30
+  neighbor 187.196.158.194 activate
+  neighbor 187.196.158.194 send-community
+  neighbor 187.196.158.194 as-override
+  neighbor 187.196.158.194 route-map dualhome in
+  neighbor 187.196.158.194 maximum-prefix 100 80 restart 1
+  neighbor 187.238.231.218 remote-as 65194
+  neighbor 187.238.231.218 activate
+  neighbor 187.238.231.218 send-community
+  neighbor 187.238.231.218 as-override
+  neighbor 187.238.231.218 route-map dualhome in
+  neighbor 187.238.231.218 maximum-prefix 1000 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V45289:VPN_GESTION-AMX_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 187.238.104.174 remote-as 65194
+  neighbor 187.238.104.174 activate
+  neighbor 187.238.104.174 send-community
+  neighbor 187.238.104.174 as-override
+  neighbor 187.238.104.174 route-map dualhome in
+  neighbor 187.238.104.174 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V46316:VPN_FIRA1_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 187.219.162.118 remote-as 65194
+  neighbor 187.219.162.118 activate
+  neighbor 187.219.162.118 send-community
+  neighbor 187.219.162.118 as-override
+  neighbor 187.219.162.118 route-map dualhome in
+  neighbor 187.219.162.118 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V46486:VPN_GRUMA_0
+  no synchronization
+  redistribute static route-map VPN-INT
+  redistribute connected route-map VPN-INT
+  neighbor 187.238.240.150 remote-as 65194
+  neighbor 187.238.240.150 activate
+  neighbor 187.238.240.150 send-community
+  neighbor 187.238.240.150 as-override
+  neighbor 187.238.240.150 route-map dualhome in
+  neighbor 187.238.240.150 maximum-prefix 100 80 restart 1
+  neighbor 201.134.63.90 remote-as 65194
+  neighbor 201.134.63.90 activate
+  neighbor 201.134.63.90 send-community
+  neighbor 201.134.63.90 as-override
+  neighbor 201.134.63.90 route-map dualhome in
+ exit-address-family
+ !
+ address-family ipv4 vrf V47361:VPN_GESTCDN_0
+  no synchronization
+  redistribute static
+  redistribute connected
+ exit-address-family
+ !
+ address-family ipv4 vrf V47493:VPN_IBMMET_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 201.129.152.118 remote-as 65194
+  neighbor 201.129.152.118 timers 10 30
+  neighbor 201.129.152.118 activate
+  neighbor 201.129.152.118 send-community
+  neighbor 201.129.152.118 as-override
+  neighbor 201.129.152.118 route-map dualhome in
+ exit-address-family
+ !
+ address-family ipv4 vrf V47602:VPN_CDNGES-AMX_0
+  no synchronization
+  redistribute static
+  redistribute connected
+ exit-address-family
+ !
+ address-family ipv4 vrf V48383:VPN_MOLMEXTRIMEX_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 201.129.152.94 remote-as 65194
+  neighbor 201.129.152.94 activate
+  neighbor 201.129.152.94 send-community
+  neighbor 201.129.152.94 as-override
+  neighbor 201.129.152.94 route-map dualhome in
+  neighbor 201.129.152.94 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V48823:VPN_ENELSOCIOS_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 201.112.196.130 remote-as 65194
+  neighbor 201.112.196.130 timers 10 30
+  neighbor 201.112.196.130 activate
+  neighbor 201.112.196.130 send-community
+  neighbor 201.112.196.130 as-override
+  neighbor 201.112.196.130 route-map dualhome in
+  neighbor 201.112.196.130 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V50591:VPN_FAMOSACROWN_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 187.196.61.170 remote-as 65194
+  neighbor 187.196.61.170 activate
+  neighbor 187.196.61.170 send-community
+  neighbor 187.196.61.170 as-override
+  neighbor 187.196.61.170 route-map dualhome in
+  neighbor 187.196.61.170 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V5121:VPN_BBVA_0
+  no synchronization
+  redistribute static route-map V5121:VPN_BBVA_0
+  redistribute connected
+ exit-address-family
+ !
+ address-family ipv4 vrf V5171:VPN_CECYTEN_0
+  no synchronization
+  redistribute static route-map NORTEL_IP_PBX
+  redistribute connected
+ exit-address-family
+ !
+ address-family ipv4 vrf V53162:VPN_SATFMT_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 201.134.63.62 remote-as 65100
+  neighbor 201.134.63.62 activate
+  neighbor 201.134.63.62 send-community
+  neighbor 201.134.63.62 as-override
+  neighbor 201.134.63.62 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V5320:VPN_ALCATEL_0
+  no synchronization
+  redistribute static route-map V5320:VPN_ALCATEL_0
+  redistribute connected
+ exit-address-family
+ !
+ address-family ipv4 vrf V5322:VPN_CISCO_0
+  no synchronization
+  redistribute static route-map V5322:VPN_CISCO_0
+  redistribute connected
+ exit-address-family
+ !
+ address-family ipv4 vrf V5327:VPN_AVAYA_0
+  no synchronization
+  redistribute static route-map V5327:VPN_AVAYA_0
+  redistribute connected
+ exit-address-family
+ !
+ address-family ipv4 vrf V56386:VPN_KALTEX_0
+  no synchronization
+  redistribute static route-map VPN-INT
+  redistribute connected route-map VPN-INT
+  neighbor 187.238.104.22 remote-as 65194
+  neighbor 187.238.104.22 activate
+  neighbor 187.238.104.22 send-community
+  neighbor 187.238.104.22 as-override
+  neighbor 187.238.104.22 route-map dualhome in
+  neighbor 187.238.104.22 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V56954:VPN_BUROYCIRCRED_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 187.173.111.98 remote-as 65194
+  neighbor 187.173.111.98 activate
+  neighbor 187.173.111.98 send-community
+  neighbor 187.173.111.98 as-override
+  neighbor 187.173.111.98 route-map dualhome in
+ exit-address-family
+ !
+ address-family ipv4 vrf V57187:VPN_OXXO_TELCEL_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 200.79.117.218 remote-as 65194
+  neighbor 200.79.117.218 timers 10 30
+  neighbor 200.79.117.218 activate
+  neighbor 200.79.117.218 send-community
+  neighbor 200.79.117.218 as-override
+  neighbor 200.79.117.218 route-map dualhome in
+  neighbor 200.79.117.218 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V57432:VPN_FARMACON_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 187.196.158.146 remote-as 65194
+  neighbor 187.196.158.146 activate
+  neighbor 187.196.158.146 send-community
+  neighbor 187.196.158.146 as-override
+  neighbor 187.196.158.146 route-map dualhome in
+  neighbor 187.196.158.146 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V60709:VPN_KALTEX2_0
+  no synchronization
+  redistribute static
+  redistribute connected
+ exit-address-family
+ !
+ address-family ipv4 vrf V6333:VPN_SAT_0
+  no synchronization
+  redistribute static route-map V6333:VPN_SAT_0
+  redistribute connected
+ exit-address-family
+ !
+ address-family ipv4 vrf V6413:VPN_MULTIVALORES_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 201.147.2.126 remote-as 65194
+  neighbor 201.147.2.126 activate
+  neighbor 201.147.2.126 send-community
+  neighbor 201.147.2.126 as-override
+  neighbor 201.147.2.126 route-map dualhome in
+  neighbor 201.147.2.126 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V6824:VPN_COPPEL_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 201.112.167.138 remote-as 65194
+  neighbor 201.112.167.138 activate
+  neighbor 201.112.167.138 send-community
+  neighbor 201.112.167.138 as-override
+  neighbor 201.112.167.138 route-map dualhome in
+  neighbor 201.112.167.138 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V7256:VPN_PJFSCJN_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 201.147.41.101 remote-as 65194
+  neighbor 201.147.41.101 activate
+  neighbor 201.147.41.101 send-community
+  neighbor 201.147.41.101 as-override
+  neighbor 201.147.41.101 route-map dualhome in
+  neighbor 201.147.41.101 maximum-prefix 100 80 restart 1
+  neighbor 201.147.41.109 remote-as 65194
+  neighbor 201.147.41.109 activate
+  neighbor 201.147.41.109 send-community
+  neighbor 201.147.41.109 as-override
+  neighbor 201.147.41.109 route-map dualhome in
+  neighbor 201.147.41.109 maximum-prefix 5000 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V7516:VPN_HCYC_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 201.129.152.166 remote-as 65194
+  neighbor 201.129.152.166 activate
+  neighbor 201.129.152.166 send-community
+  neighbor 201.129.152.166 as-override
+  neighbor 201.129.152.166 route-map dualhome in
+  neighbor 201.129.152.166 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V7786:VPN_AJEMEX_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 187.196.158.26 remote-as 65194
+  neighbor 187.196.158.26 activate
+  neighbor 187.196.158.26 send-community
+  neighbor 187.196.158.26 as-override
+  neighbor 187.196.158.26 route-map dualhome in
+  neighbor 187.196.158.26 maximum-prefix 100 80 restart 1
+  neighbor 201.147.41.182 remote-as 65194
+  neighbor 201.147.41.182 activate
+  neighbor 201.147.41.182 send-community
+  neighbor 201.147.41.182 as-override
+  neighbor 201.147.41.182 route-map dualhome in
+  neighbor 201.147.41.182 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V7894:VPN_ATX_INFRA_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 172.29.232.254 remote-as 65013
+  neighbor 172.29.232.254 activate
+  neighbor 172.29.232.254 send-community
+  neighbor 172.29.232.254 as-override
+  neighbor 172.29.232.254 route-map dualhome in
+ exit-address-family
+ !
+ address-family ipv4 vrf V8600:VPN_2CFEMORELOS_0
+  no synchronization
+  redistribute static
+  redistribute connected
+ exit-address-family
+ !
+ address-family ipv4 vrf V9098:VPN_LIVERPOOL_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 187.196.106.250 remote-as 65194
+  neighbor 187.196.106.250 activate
+  neighbor 187.196.106.250 send-community
+  neighbor 187.196.106.250 as-override
+  neighbor 187.196.106.250 route-map dualhome in
+  neighbor 187.196.106.250 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V9103:VPN_BANCOPPEL_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 201.147.41.66 remote-as 65194
+  neighbor 201.147.41.66 timers 10 30
+  neighbor 201.147.41.66 activate
+  neighbor 201.147.41.66 send-community
+  neighbor 201.147.41.66 as-override
+  neighbor 201.147.41.66 route-map dualhome in
+  neighbor 201.147.41.66 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V9115:VPN_SOLUCIONREDCORP_0
+  no synchronization
+  redistribute static route-map VPN-INT
+  redistribute connected route-map VPN-INT
+  neighbor 201.147.41.37 remote-as 65194
+  neighbor 201.147.41.37 activate
+  neighbor 201.147.41.37 send-community
+  neighbor 201.147.41.37 as-override
+  neighbor 201.147.41.37 route-map dualhome in
+  neighbor 201.147.41.37 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V9218:VPN_PJFCJF_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 201.118.239.22 remote-as 65194
+  neighbor 201.118.239.22 activate
+  neighbor 201.118.239.22 send-community
+  neighbor 201.118.239.22 as-override
+  neighbor 201.118.239.22 route-map dualhome in
+  neighbor 201.118.239.22 maximum-prefix 100 80 restart 1
+  neighbor 201.118.239.26 remote-as 65194
+  neighbor 201.118.239.26 activate
+  neighbor 201.118.239.26 send-community
+  neighbor 201.118.239.26 as-override
+  neighbor 201.118.239.26 route-map dualhome in
+  neighbor 201.118.239.26 maximum-prefix 100 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf V9304:VPN_INGCA_0
+  no synchronization
+  redistribute static
+  redistribute connected
+  neighbor 201.118.239.226 remote-as 65194
+  neighbor 201.118.239.226 activate
+  neighbor 201.118.239.226 send-community
+  neighbor 201.118.239.226 as-override
+  neighbor 201.118.239.226 route-map dualhome in
+  neighbor 201.118.239.226 maximum-prefix 1000 80 restart 1
+ exit-address-family
+ !
+ address-family ipv4 vrf prueba
+  no synchronization
+  redistribute connected route-map VPN-INT
+ exit-address-family
+!
+!
+ip extcommunity-list 1 permit rt 8151:6847
+ip extcommunity-list 1 permit rt 8151:3494
+ip extcommunity-list 1 permit rt 8151:3539
+ip extcommunity-list 1 permit rt 8151:41162
+ip extcommunity-list 1 permit rt 8151:41163
+ip extcommunity-list 1 permit rt 8151:41164
+ip extcommunity-list 1 permit rt 8151:41165
+ip extcommunity-list 1 permit rt 8151:41166
+ip extcommunity-list 1 permit rt 8151:41167
+ip extcommunity-list 1 permit rt 8151:41168
+ip extcommunity-list 1 permit rt 8151:41169
+ip extcommunity-list 1 permit rt 8151:41170
+ip extcommunity-list 1 permit rt 8151:41171
+ip extcommunity-list 1 permit rt 28513:41164
+ip extcommunity-list 1 permit rt 28513:50002
+ip extcommunity-list 1 permit rt 28513:50240
+ip extcommunity-list 1 permit rt 28513:303
+ip extcommunity-list 1 permit rt 28513:50273
+ip extcommunity-list 1 permit rt 28513:50333
+ip extcommunity-list 1 permit rt 28513:50334
+ip extcommunity-list 1 permit rt 28513:50335
+ip extcommunity-list 1 permit rt 28513:50336
+ip extcommunity-list 1 permit rt 28513:50337
+ip extcommunity-list 1 permit rt 8151:40040
+ip extcommunity-list 1 permit rt 28513:50332
+ip bgp-community new-format
+ip community-list 1 permit 8151:285
+ip community-list 2 permit 8151:286
+ip community-list 3 permit 8151:287
+ip community-list 4 permit 8151:288
+ip community-list 5 permit 8151:289
+ip community-list 6 permit 8151:1025
+ip community-list 7 permit 8151:1026
+ip community-list 8 permit 8151:1027
+ip community-list 9 permit 8151:1028
+ip community-list 10 permit 8151:1030
+ip community-list 11 permit 8151:1031
+ip community-list 12 permit 8151:1032
+ip community-list 15 permit 8151:1029
+ip community-list 16 permit 8151:321
+ip community-list 17 permit 8151:322
+ip community-list 18 permit 8151:326
+ip community-list 19 permit 8151:327
+ip community-list 20 permit 8151:331
+ip community-list 21 permit 8151:332
+ip community-list 100 permit 8151:1065
+ip community-list 101 permit 8151:1066
+ip community-list 102 permit 8151:1067
+ip community-list 103 permit 8151:1068
+ip community-list 104 permit 8151:1069
+ip community-list 105 deny 8151:105[5-9]
+ip community-list 105 deny 8151:10[6-7][0-9]
+ip community-list 105 permit .*
+ip community-list 106 permit 8151:105[5-9]
+ip community-list 106 permit 8151:10[6-7][0-9]
+no ip http server
+ip tacacs source-interface Loopback0
+ip route 127.0.0.0 255.0.0.0 Null0
+ip route 148.233.150.212 255.255.255.255 GigabitEthernet5/1 189.246.101.81
+ip route 148.233.150.212 255.255.255.255 GigabitEthernet1/3 189.246.101.49
+ip route 148.233.150.212 255.255.255.255 GigabitEthernet6/1 189.246.101.85 10
+ip route 148.233.150.212 255.255.255.255 GigabitEthernet1/10 189.246.101.53 10
+ip route 148.235.54.161 255.255.255.255 GigabitEthernet5/1 189.246.101.81
+ip route 148.235.54.161 255.255.255.255 GigabitEthernet1/3 189.246.101.49
+ip route 148.235.54.161 255.255.255.255 GigabitEthernet6/1 189.246.101.85 10
+ip route 148.235.54.161 255.255.255.255 GigabitEthernet1/10 189.246.101.53 10
+ip route 192.100.232.0 255.255.255.128 GigabitEthernet5/1 189.246.101.81
+ip route 192.100.232.0 255.255.255.128 GigabitEthernet1/3 189.246.101.49
+ip route 192.100.232.0 255.255.255.128 GigabitEthernet6/1 189.246.101.85 10
+ip route 192.100.232.0 255.255.255.128 GigabitEthernet1/10 189.246.101.53 10
+ip route 200.4.153.0 255.255.255.0 GigabitEthernet5/1 189.246.101.81
+ip route 200.4.153.0 255.255.255.0 GigabitEthernet1/3 189.246.101.49
+ip route 200.4.153.0 255.255.255.0 GigabitEthernet6/1 189.246.101.85 10
+ip route 200.4.153.0 255.255.255.0 GigabitEthernet1/10 189.246.101.53 10
+ip route 200.4.155.0 255.255.255.0 GigabitEthernet5/1 189.246.101.81
+ip route 200.4.155.0 255.255.255.0 GigabitEthernet1/3 189.246.101.49
+ip route 200.4.155.0 255.255.255.0 GigabitEthernet6/1 189.246.101.85 10
+ip route 200.4.155.0 255.255.255.0 GigabitEthernet1/10 189.246.101.53 10
+ip route 200.4.157.0 255.255.255.0 GigabitEthernet5/1 189.246.101.81
+ip route 200.4.157.0 255.255.255.0 GigabitEthernet1/3 189.246.101.49
+ip route 200.4.157.0 255.255.255.0 GigabitEthernet6/1 189.246.101.85 10
+ip route 200.4.157.0 255.255.255.0 GigabitEthernet1/10 189.246.101.53 10
+ip route 204.124.106.0 255.255.255.0 GigabitEthernet5/1 189.246.101.81
+ip route 204.124.106.0 255.255.255.0 GigabitEthernet1/3 189.246.101.49
+ip route 204.124.106.0 255.255.255.0 GigabitEthernet6/1 189.246.101.85 10
+ip route 204.124.106.0 255.255.255.0 GigabitEthernet1/10 189.246.101.53 10
+ip route 204.124.107.0 255.255.255.0 GigabitEthernet5/1 189.246.101.81
+ip route 204.124.107.0 255.255.255.0 GigabitEthernet1/3 189.246.101.49
+ip route 204.124.107.0 255.255.255.0 GigabitEthernet6/1 189.246.101.85 10
+ip route 204.124.107.0 255.255.255.0 GigabitEthernet1/10 189.246.101.53 10
+ip route vrf V12110:VPN_TLMXNHEROES_0 201.147.135.0 255.255.255.0 GigabitEthernet9/30 201.147.41.253
+ip route vrf V12121:VPN_TLMXCASGDL_0 201.147.135.0 255.255.255.0 GigabitEthernet9/29 201.118.196.78
+ip route vrf V13027:VPN_HOSTEDIPPBX_0 10.0.0.0 255.0.0.0 GigabitEthernet9/34 201.118.196.86
+ip route vrf V13027:VPN_HOSTEDIPPBX_0 201.147.135.0 255.255.255.0 GigabitEthernet9/34 201.118.196.86
+ip route vrf V15636:VPN_INTBUSSSOL_0 10.76.56.0 255.255.254.0 GigabitEthernet1/23 201.129.152.54
+ip route vrf V15636:VPN_INTBUSSSOL_0 10.76.58.0 255.255.254.0 GigabitEthernet1/23 201.129.152.54
+ip route vrf V15636:VPN_INTBUSSSOL_0 10.77.56.0 255.255.254.0 GigabitEthernet1/23 201.129.152.54
+ip route vrf V15636:VPN_INTBUSSSOL_0 10.77.58.0 255.255.254.0 GigabitEthernet1/23 201.129.152.54
+ip route vrf V15636:VPN_INTBUSSSOL_0 10.77.212.0 255.255.254.0 GigabitEthernet1/23 201.129.152.54
+ip route vrf V15636:VPN_INTBUSSSOL_0 10.77.212.75 255.255.255.255 GigabitEthernet1/23 201.129.152.54
+ip route vrf V15636:VPN_INTBUSSSOL_0 10.170.0.0 255.255.0.0 GigabitEthernet1/23 201.129.152.54
+ip route vrf V15636:VPN_INTBUSSSOL_0 172.18.154.64 255.255.255.192 GigabitEthernet1/23 201.129.152.54
+ip route vrf V15636:VPN_INTBUSSSOL_0 172.18.184.71 255.255.255.255 GigabitEthernet1/23 201.129.152.54
+ip route vrf V15779:VPN_CNOC_0 148.235.16.40 255.255.255.255 GigabitEthernet1/24 187.173.112.20
+ip route vrf V47602:VPN_CDNGES-AMX_0 10.128.128.0 255.255.255.0 GigabitEthernet2/7.1 201.147.2.158
+ip route vrf V5121:VPN_BBVA_0 194.29.73.0 255.255.255.0 GigabitEthernet9/1 201.112.167.250
+ip route vrf V5171:VPN_CECYTEN_0 172.16.0.0 255.255.255.0 GigabitEthernet9/2 201.147.2.38
+ip route vrf V5171:VPN_CECYTEN_0 201.147.135.64 255.255.255.224 GigabitEthernet9/2 201.147.2.38
+ip route vrf V5171:VPN_CECYTEN_0 201.147.135.96 255.255.255.224 GigabitEthernet9/2 201.147.2.38
+ip route vrf V5171:VPN_CECYTEN_0 201.147.135.128 255.255.255.248 GigabitEthernet9/2 201.147.2.38
+ip route vrf V5320:VPN_ALCATEL_0 172.16.0.0 255.255.255.0 GigabitEthernet9/5 201.147.2.182
+ip route vrf V5320:VPN_ALCATEL_0 192.168.9.0 255.255.255.0 GigabitEthernet9/5 201.147.2.182
+ip route vrf V5320:VPN_ALCATEL_0 201.147.135.0 255.255.255.224 GigabitEthernet9/5 201.147.2.182
+ip route vrf V5320:VPN_ALCATEL_0 201.147.135.64 255.255.255.224 GigabitEthernet9/5 201.147.2.182
+ip route vrf V5320:VPN_ALCATEL_0 201.147.135.96 255.255.255.224 GigabitEthernet9/5 201.147.2.182
+ip route vrf V5322:VPN_CISCO_0 223.255.254.0 255.255.255.0 GigabitEthernet9/3 201.147.2.54
+ip route vrf V5327:VPN_AVAYA_0 192.168.3.0 255.255.255.0 GigabitEthernet9/4 201.147.2.62
+ip route vrf V6333:VPN_SAT_0 10.255.251.0 255.255.255.192 GigabitEthernet9/9 201.147.2.102
+ip route vrf V6333:VPN_SAT_0 10.255.251.64 255.255.255.192 GigabitEthernet9/9 201.147.2.102
+ip route vrf V6333:VPN_SAT_0 10.255.251.128 255.255.255.192 GigabitEthernet9/9 201.147.2.102
+ip route vrf V6333:VPN_SAT_0 10.255.251.192 255.255.255.192 GigabitEthernet9/9 201.147.2.102
+ip route vrf V7786:VPN_AJEMEX_0 201.147.41.192 255.255.255.240 201.147.41.194
+ip route vrf V7894:VPN_ATX_INFRA_0 10.94.233.12 255.255.255.255 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.94.233.13 255.255.255.255 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.94.233.28 255.255.255.255 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.94.233.77 255.255.255.255 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.94.233.95 255.255.255.255 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.94.233.96 255.255.255.255 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.94.233.97 255.255.255.255 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.94.233.98 255.255.255.255 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.94.233.114 255.255.255.255 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.94.233.115 255.255.255.255 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.94.234.3 255.255.255.255 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.94.234.4 255.255.255.255 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.104.1.0 255.255.255.0 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.104.1.35 255.255.255.255 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.104.4.0 255.255.255.0 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.104.7.0 255.255.255.0 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.104.7.56 255.255.255.255 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.104.11.138 255.255.255.255 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.192.2.0 255.255.255.0 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.192.13.4 255.255.255.255 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.192.13.5 255.255.255.255 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.192.16.0 255.255.255.0 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.192.16.42 255.255.255.255 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.192.16.53 255.255.255.255 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 10.192.16.84 255.255.255.255 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 13.52.53.0 255.255.255.0 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 13.52.100.0 255.255.255.0 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 13.52.210.0 255.255.255.0 GigabitEthernet1/2 172.29.64.1
+ip route vrf V7894:VPN_ATX_INFRA_0 147.15.101.0 255.255.255.0 GigabitEthernet1/2 172.29.64.1
+ip route vrf V9098:VPN_LIVERPOOL_0 172.19.3.0 255.255.255.0 GigabitEthernet9/38 201.147.141.141
+!
+ip access-list extended EXTRANET-1_ACL
+ permit ip 201.134.28.176 0.0.0.7 any
+ip access-list extended VPNSC_GREY_MGMT_ACL
+ permit ip host 201.112.162.172 any
+ permit ip host 201.112.162.56 any
+ permit ip host 187.173.104.180 any
+ permit ip host 187.173.104.188 any
+ permit ip host 187.173.104.236 any
+ permit ip host 187.173.104.252 any
+ permit ip host 187.196.106.248 any
+ permit ip host 187.173.105.92 any
+ permit ip host 187.173.105.128 any
+ permit ip host 187.173.105.204 any
+ permit ip host 187.173.105.220 any
+ permit ip host 187.173.107.188 any
+ permit ip host 187.196.109.60 any
+ permit ip host 201.147.41.64 any
+ permit ip host 201.147.41.36 any
+ permit ip host 201.118.239.20 any
+ permit ip host 201.118.239.24 any
+ permit ip host 201.118.239.224 any
+ permit ip host 201.129.152.164 any
+ permit ip host 201.147.41.180 any
+ permit ip host 201.118.252.148 any
+ permit ip host 201.118.196.44 any
+ permit ip host 201.112.156.236 any
+ permit ip host 201.147.41.12 any
+ permit ip host 201.112.167.20 any
+ permit ip host 201.112.167.52 any
+ permit ip host 201.112.167.148 any
+ permit ip host 201.112.167.136 any
+ permit ip host 201.129.152.220 any
+ permit ip host 201.129.152.228 any
+ permit ip host 201.129.152.196 any
+ permit ip host 187.173.104.76 any
+ permit ip host 187.173.104.124 any
+ permit ip host 187.173.104.148 any
+ permit ip host 187.173.105.8 any
+ permit ip host 187.173.105.44 any
+ permit ip host 187.173.105.68 any
+ permit ip host 187.173.105.228 any
+ permit ip 187.173.112.16 0.0.0.15 any
+ permit ip 201.147.2.176 0.0.0.15 any
+ permit ip host 187.238.231.216 any
+ permit ip host 187.238.104.172 any
+ permit ip host 187.219.162.116 any
+ permit ip host 187.238.240.148 any
+ permit ip host 201.129.152.116 any
+ permit ip host 201.129.152.92 any
+ permit ip host 201.112.196.104 any
+ permit ip host 201.112.196.128 any
+ permit ip host 187.196.61.168 any
+ permit ip host 187.238.104.8 any
+ permit ip host 201.134.63.88 any
+ permit ip host 187.196.158.24 any
+ permit ip host 187.238.104.20 any
+ permit ip host 201.134.63.60 any
+ permit ip host 187.173.111.96 any
+ permit ip host 200.79.117.216 any
+ permit ip host 187.196.158.144 any
+ permit ip host 187.196.158.192 any
+!
+ip sla 1
+ icmp-echo 172.29.226.249 source-ip 172.29.64.4
+ tos 184
+ timeout 300
+ threshold 1000
+ vrf V7894:VPN_ATX_INFRA_0
+ tag WAN_VPN_ATX_INFRA_0_vip-jal-ctg-76
+ frequency 1
+ip sla schedule 1 life forever start-time now
+ip sla 2
+ icmp-echo 172.29.226.253 source-ip 172.29.64.4
+ tos 184
+ timeout 300
+ threshold 1000
+ vrf V7894:VPN_ATX_INFRA_0
+ tag WAN_VPN_ATX_INFRA_0_vip-jal-ctg-77
+ frequency 1
+ip sla schedule 2 life forever start-time now
+ip sla 3
+ icmp-echo 172.29.224.249 source-ip 172.29.64.4
+ tos 184
+ timeout 300
+ threshold 1000
+ vrf V7894:VPN_ATX_INFRA_0
+ tag WAN_VPN_ATX_INFRA_0_vip-nvl-mayo-96
+ frequency 1
+ip sla schedule 3 life forever start-time now
+ip sla 4
+ icmp-echo 172.29.189.138 source-ip 172.29.64.4
+ tos 184
+ timeout 300
+ threshold 1000
+ vrf V7894:VPN_ATX_INFRA_0
+ tag WAN_VPN_ATX_INFRA_0_vip-nvl-mayo-97
+ frequency 1
+ip sla schedule 4 life forever start-time now
+ip sla 5
+ icmp-echo 172.29.232.254 source-ip 172.29.232.253
+ tos 184
+ timeout 300
+ threshold 1000
+ vrf V7894:VPN_ATX_INFRA_0
+ tag SVI_VLAN604_dc_triara_swe_16
+ frequency 1
+ip sla schedule 5 life forever start-time now
+logging trap debugging
+logging source-interface Loopback0
+logging 200.33.150.74
+logging 200.33.150.106
+logging 201.125.120.160
+logging 200.33.150.147
+access-list 1 permit any
+access-list 2 deny   any
+access-list 13 permit 192.100.232.64
+access-list 13 permit 200.33.150.112
+access-list 13 permit 200.33.150.111
+access-list 13 permit 200.33.150.106
+access-list 13 permit 200.33.150.102
+access-list 13 permit 200.33.150.101
+access-list 13 permit 200.33.150.99
+access-list 13 permit 200.33.150.94
+access-list 13 permit 200.33.150.89
+access-list 13 permit 200.33.150.87
+access-list 13 permit 200.33.150.84
+access-list 13 permit 200.33.150.78
+access-list 13 permit 200.33.150.74
+access-list 13 permit 200.33.150.71
+access-list 13 permit 200.33.150.70
+access-list 13 permit 200.33.150.66
+access-list 13 permit 201.125.120.141
+access-list 13 permit 200.33.150.61
+access-list 13 permit 201.125.120.143
+access-list 13 permit 192.100.232.8
+access-list 13 permit 201.125.120.136
+access-list 13 permit 201.125.120.137
+access-list 13 permit 192.100.232.9
+access-list 13 permit 200.33.150.58
+access-list 13 permit 192.100.232.10
+access-list 13 permit 201.125.120.139
+access-list 13 permit 201.125.120.132
+access-list 13 permit 192.100.232.4
+access-list 13 permit 192.100.232.5
+access-list 13 permit 201.125.120.134
+access-list 13 permit 192.100.232.6
+access-list 13 permit 192.100.232.7
+access-list 13 permit 201.125.120.129
+access-list 13 permit 192.100.232.1
+access-list 13 permit 192.100.232.2
+access-list 13 permit 201.125.120.130
+access-list 13 permit 192.100.232.3
+access-list 13 permit 201.125.120.131
+access-list 13 permit 200.33.150.46
+access-list 13 permit 192.100.232.31
+access-list 13 permit 200.4.151.13
+access-list 13 permit 200.33.150.39
+access-list 13 permit 201.125.120.144
+access-list 13 permit 201.125.120.145
+access-list 13 permit 201.125.120.146
+access-list 13 permit 200.33.150.32
+access-list 13 permit 201.125.120.172
+access-list 13 permit 200.33.150.31
+access-list 13 permit 200.33.150.30
+access-list 13 permit 201.125.120.170
+access-list 13 permit 201.125.120.171
+access-list 13 permit 192.100.232.37
+access-list 13 permit 192.100.232.38
+access-list 13 permit 200.33.150.19
+access-list 13 permit 192.100.232.33
+access-list 13 permit 192.100.232.34
+access-list 13 permit 192.100.232.35
+access-list 13 permit 200.33.150.15
+access-list 13 permit 200.33.150.14
+access-list 13 permit 200.33.150.11
+access-list 13 permit 200.33.150.8
+access-list 13 permit 201.125.120.180
+access-list 13 permit 192.100.232.52
+access-list 13 permit 200.33.150.7
+access-list 13 permit 201.125.120.181
+access-list 13 permit 192.100.232.53
+access-list 13 permit 201.125.120.182
+access-list 13 permit 192.100.232.54
+access-list 13 permit 200.33.150.5
+access-list 13 permit 201.125.120.183
+access-list 13 permit 201.125.120.178
+access-list 13 permit 201.125.120.179
+access-list 13 permit 192.100.232.51
+access-list 13 permit 200.33.150.204
+access-list 13 permit 200.33.150.203
+access-list 13 permit 200.33.150.202
+access-list 13 permit 200.33.150.196
+access-list 13 permit 200.33.150.133
+access-list 13 permit 200.33.150.0 0.0.0.255
+access-list 13 deny   any log
+access-list 15 permit 200.23.243.45
+access-list 15 permit 200.36.40.205
+access-list 15 permit 200.38.193.60
+access-list 15 permit 200.38.193.54
+access-list 15 permit 148.223.201.153
+access-list 15 permit 200.38.193.52
+access-list 15 permit 200.38.202.7
+access-list 15 permit 200.38.195.9
+access-list 15 permit 200.38.195.8
+access-list 15 permit 200.38.192.8
+access-list 15 permit 200.38.202.2
+access-list 15 permit 148.223.149.249
+access-list 15 permit 200.38.198.15
+access-list 15 permit 200.38.195.5
+access-list 15 permit 200.38.195.6
+access-list 15 permit 200.38.198.3
+access-list 15 permit 200.38.199.2
+access-list 15 permit 200.38.196.7
+access-list 15 permit 200.38.195.3
+access-list 15 permit 200.38.196.4
+access-list 15 permit 148.233.15.93
+access-list 15 permit 200.38.196.5
+access-list 15 permit 200.38.198.7
+access-list 15 permit 148.233.152.165
+access-list 15 permit 148.223.255.231
+access-list 15 permit 200.38.192.120
+access-list 15 permit 200.38.192.119
+access-list 15 permit 200.38.192.116
+access-list 15 permit 200.38.192.117
+access-list 15 permit 200.38.192.114
+access-list 15 permit 200.38.192.112
+access-list 15 permit 200.38.192.113
+access-list 15 permit 148.223.206.237
+access-list 15 permit 148.233.139.157
+access-list 15 permit 148.223.107.77
+access-list 15 permit 148.233.238.225
+access-list 15 permit 200.38.193.173
+access-list 15 permit 200.38.193.171
+access-list 15 permit 200.38.193.170
+access-list 15 permit 200.38.193.168
+access-list 15 permit 148.223.104.169
+access-list 15 permit 148.223.181.105
+access-list 15 permit 200.38.193.184
+access-list 15 permit 148.223.240.33
+access-list 15 permit 200.38.193.179
+access-list 15 permit 200.38.193.176
+access-list 15 permit 200.38.193.141
+access-list 15 permit 200.38.193.140
+access-list 15 permit 200.38.193.236
+access-list 15 permit 200.38.193.235
+access-list 15 permit 148.233.75.241
+access-list 15 permit 200.38.193.228
+access-list 15 permit 200.79.11.71
+access-list 15 permit 200.38.193.254
+access-list 15 permit 200.38.193.253
+access-list 15 permit 200.38.193.252
+access-list 15 permit 200.38.193.251
+access-list 15 permit 200.38.193.250
+access-list 15 permit 148.223.223.77
+access-list 15 permit 200.38.193.246
+access-list 15 permit 148.233.164.4
+access-list 15 permit 200.38.193.241
+access-list 15 permit 200.38.193.240
+access-list 15 permit 148.223.167.13
+access-list 15 permit 148.235.231.121
+access-list 15 permit 200.38.193.206
+access-list 15 permit 200.38.193.205
+access-list 15 permit 148.223.32.153
+access-list 15 permit 200.38.193.219
+access-list 15 permit 200.38.193.218
+access-list 15 permit 200.38.193.212
+access-list 15 permit 148.223.58.141
+access-list 15 permit 200.38.193.210
+access-list 15 permit 148.235.159.80 0.0.0.3
+access-list 15 permit 189.146.77.216 0.0.0.3
+access-list 15 permit 189.247.172.24 0.0.0.3
+access-list 15 permit 189.247.172.28 0.0.0.3
+access-list 15 permit 189.247.172.40 0.0.0.3
+access-list 15 permit 189.247.172.44 0.0.0.3
+access-list 15 permit 189.249.88.48 0.0.0.3
+access-list 15 permit 189.249.88.52 0.0.0.3
+access-list 15 permit 189.249.88.56 0.0.0.3
+access-list 15 permit 189.249.88.60 0.0.0.3
+access-list 15 permit 201.134.146.184 0.0.0.3
+access-list 15 permit 201.134.146.188 0.0.0.3
+access-list 15 permit 201.134.146.192 0.0.0.3
+access-list 15 permit 201.134.146.196 0.0.0.3
+access-list 15 permit 148.235.127.48 0.0.0.7
+access-list 15 permit 189.233.1.0 0.0.0.7
+access-list 15 permit 200.33.146.184 0.0.0.7
+access-list 15 permit 200.33.146.192 0.0.0.7
+access-list 15 permit 201.144.94.8 0.0.0.7
+access-list 15 permit 148.235.159.224 0.0.0.15
+access-list 15 permit 200.66.128.0 0.0.0.15
+access-list 15 permit 148.233.229.224 0.0.0.31
+access-list 15 permit 200.38.131.192 0.0.0.63
+access-list 15 permit 148.233.188.128 0.0.0.127
+access-list 15 permit 148.223.15.0 0.0.0.255
+access-list 15 permit 148.223.31.0 0.0.0.255
+access-list 15 permit 148.223.43.0 0.0.0.255
+access-list 15 permit 148.223.79.0 0.0.0.255
+access-list 15 permit 148.223.84.0 0.0.0.255
+access-list 15 permit 148.223.95.0 0.0.0.255
+access-list 15 permit 148.223.97.0 0.0.0.255
+access-list 15 permit 148.223.121.0 0.0.0.255
+access-list 15 permit 148.223.144.0 0.0.0.255
+access-list 15 permit 148.223.182.0 0.0.0.255
+access-list 15 permit 148.223.184.0 0.0.0.255
+access-list 15 permit 148.223.190.0 0.0.0.255
+access-list 15 permit 148.223.191.0 0.0.0.255
+access-list 15 permit 148.223.202.0 0.0.0.255
+access-list 15 permit 148.223.219.0 0.0.0.255
+access-list 15 permit 148.223.243.0 0.0.0.255
+access-list 15 permit 148.233.23.0 0.0.0.255
+access-list 15 permit 148.233.31.0 0.0.0.255
+access-list 15 permit 148.233.118.0 0.0.0.255
+access-list 15 permit 148.233.131.0 0.0.0.255
+access-list 15 permit 148.233.135.0 0.0.0.255
+access-list 15 permit 148.233.153.0 0.0.0.255
+access-list 15 permit 148.233.158.0 0.0.0.255
+access-list 15 permit 148.233.159.0 0.0.0.255
+access-list 15 permit 148.233.175.0 0.0.0.255
+access-list 15 permit 148.233.187.0 0.0.0.255
+access-list 15 permit 148.233.191.0 0.0.0.255
+access-list 15 permit 148.233.239.0 0.0.0.255
+access-list 15 permit 148.235.14.0 0.0.0.255
+access-list 15 permit 148.235.24.0 0.0.0.255
+access-list 15 permit 148.235.39.0 0.0.0.255
+access-list 15 permit 148.235.58.0 0.0.0.255
+access-list 15 permit 148.235.59.0 0.0.0.255
+access-list 15 permit 148.235.71.0 0.0.0.255
+access-list 15 permit 148.235.75.0 0.0.0.255
+access-list 15 permit 148.235.78.0 0.0.0.255
+access-list 15 permit 148.235.81.0 0.0.0.255
+access-list 15 permit 148.235.85.0 0.0.0.255
+access-list 15 permit 148.235.87.0 0.0.0.255
+access-list 15 permit 148.235.109.0 0.0.0.255
+access-list 15 permit 148.235.110.0 0.0.0.255
+access-list 15 permit 148.235.139.0 0.0.0.255
+access-list 15 permit 148.235.145.0 0.0.0.255
+access-list 15 permit 148.235.149.0 0.0.0.255
+access-list 15 permit 148.235.155.0 0.0.0.255
+access-list 15 permit 148.235.157.0 0.0.0.255
+access-list 15 permit 148.235.165.0 0.0.0.255
+access-list 15 permit 148.235.167.0 0.0.0.255
+access-list 15 permit 148.235.175.0 0.0.0.255
+access-list 15 permit 148.235.186.0 0.0.0.255
+access-list 15 permit 192.100.232.0 0.0.0.255
+access-list 15 permit 200.33.137.0 0.0.0.255
+access-list 15 permit 200.33.150.0 0.0.0.255
+access-list 15 permit 200.38.141.0 0.0.0.255
+access-list 15 permit 200.79.4.0 0.0.0.255
+access-list 15 permit 200.79.21.0 0.0.0.255
+access-list 15 permit 200.79.26.0 0.0.0.255
+access-list 15 permit 200.79.39.0 0.0.0.255
+access-list 15 permit 200.79.44.0 0.0.0.255
+access-list 15 permit 200.79.88.0 0.0.0.255
+access-list 15 permit 200.79.111.0 0.0.0.255
+access-list 15 permit 201.134.5.0 0.0.0.255
+access-list 15 permit 201.134.33.0 0.0.0.255
+access-list 15 permit 201.134.64.0 0.0.0.255
+access-list 15 permit 201.134.105.0 0.0.0.255
+access-list 15 permit 201.134.125.0 0.0.0.255
+access-list 15 permit 201.134.130.0 0.0.0.255
+access-list 15 permit 201.134.163.0 0.0.0.255
+access-list 15 permit 201.134.176.0 0.0.0.255
+access-list 15 permit 201.134.201.0 0.0.0.255
+access-list 15 permit 201.134.208.0 0.0.0.255
+access-list 15 permit 201.134.211.0 0.0.0.255
+access-list 15 permit 204.124.107.0 0.0.0.255
+access-list 15 permit 189.246.0.0 0.0.255.255
+access-list 15 permit 201.125.0.0 0.0.255.255
+access-list 15 permit 201.154.0.0 0.0.255.255
+access-list 15 deny   any
+access-list 1400 permit 201.147.135.64 0.0.0.31
+access-list 1400 permit 201.147.135.96 0.0.0.31
+access-list 1400 permit 172.16.0.0 0.0.0.255
+access-list 1401 permit 194.25.186.64 0.0.0.63
+access-list 152 deny   udp host 189.246.101.49 any eq 646
+access-list 152 deny   udp host 189.246.101.53 any eq 646
+access-list 152 deny   udp host 189.246.101.81 any eq 646
+access-list 152 deny   udp host 189.246.101.85 any eq 646
+access-list 152 deny   udp 201.125.121.192 0.0.0.31 any eq 646
+access-list 152 deny   udp 201.125.121.224 0.0.0.31 any eq 646
+access-list 152 deny   udp 201.125.36.64 0.0.0.31 any eq 646
+access-list 152 deny   udp 201.125.36.32 0.0.0.31 any eq 646
+access-list 152 permit udp any any eq 646
+access-list 152 permit 46 any any
+access-list 152 permit udp any any eq 1698
+!
+route-map V5121:VPN_BBVA_0 permit 10
+ match ip address 1401
+ set local-preference 98
+!
+route-map grey_mgmt_vpn_Uninet_V7256:VPN_PJFSCJN_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:7141
+!
+route-map grey_mgmt_vpn_Uninet_V5327:VPN_AVAYA_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:3527
+!
+route-map RTVOIP permit 10
+ match extcommunity 1
+!
+route-map grey_mgmt_vpn_Uninet_V9304:VPN_INGCA_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:1203
+!
+route-map NORTVOIP deny 10
+ match extcommunity 1
+!
+route-map NORTVOIP permit 20
+!
+route-map grey_mgmt_vpn_Uninet_V6333:VPN_SAT_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:1034
+!
+route-map grey_mgmt_vpn_Uninet_V9103:VPN_BANCOPPEL_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:6544
+!
+route-map trafico-cpe-zona permit 10
+ match community 106
+ set local-preference 110
+!
+route-map trafico-cpe-zona permit 20
+!
+route-map grey_mgmt_vpn_Uninet_V5171:VPN_CECYTEN_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:1246
+!
+route-map IMSCORP_COMUNIDAD_RCDT permit 10
+ match ip address 1
+ set community 65013:202
+!
+route-map IMSCORP_CTRLPRIM_MGW permit 10
+ match ip address 1
+ set local-preference 110
+ set community 65013:202
+!
+route-map VOIP_INT permit 10
+ match ip address 1
+ set community 28513:305 28513:1281
+!
+route-map dualhome permit 10
+ match community 1
+ set local-preference 100
+!
+route-map dualhome permit 20
+ match community 2
+ set local-preference 98
+!
+route-map dualhome permit 30
+ match community 3
+ set local-preference 96
+!
+route-map dualhome permit 40
+ match community 4
+ set local-preference 94
+!
+route-map dualhome permit 50
+ match community 5
+ set local-preference 92
+!
+route-map dualhome permit 60
+ match community 6
+ set local-preference 110
+!
+route-map dualhome permit 70
+ match community 7
+ set local-preference 108
+!
+route-map dualhome permit 80
+ match community 8
+ set local-preference 106
+!
+route-map dualhome permit 90
+ match community 9
+ set local-preference 104
+!
+route-map dualhome permit 100
+ match community 15
+ set local-preference 102
+!
+route-map dualhome permit 110
+ match community 16
+ set local-preference 90
+!
+route-map dualhome permit 120
+ match community 17
+ set local-preference 88
+!
+route-map dualhome permit 130
+ match community 18
+ set local-preference 80
+!
+route-map dualhome permit 140
+ match community 19
+ set local-preference 78
+!
+route-map dualhome permit 150
+ match community 20
+ set local-preference 70
+!
+route-map dualhome permit 160
+ match community 21
+ set local-preference 68
+!
+route-map grey_mgmt_vpn_Uninet_V9115:VPN_SOLUCIONREDCORP_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:6878 28513:50034
+!
+route-map grey_mgmt_vpn_Uninet_V14150:VPN_JAFRA-TRIARA_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:41141
+!
+route-map grey_mgmt_vpn_Uninet_V5322:VPN_CISCO_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:3524
+!
+route-map IMSCORP_CTRLRESP_MGW permit 10
+ match ip address 1
+ set local-preference 90
+ set community 65013:202
+!
+route-map trafico-control-zona permit 10
+ match community 100
+ set local-preference 110
+!
+route-map trafico-control-zona permit 20
+ match community 101
+ set local-preference 108
+!
+route-map trafico-control-zona permit 30
+ match community 102
+ set local-preference 106
+!
+route-map trafico-control-zona permit 40
+ match community 103
+ set local-preference 104
+!
+route-map trafico-control-zona permit 50
+ match community 104
+ set local-preference 102
+!
+route-map trafico-control-zona permit 60
+ match community 105
+!
+route-map grey_mgmt_vpn_Uninet_V9098:VPN_LIVERPOOL_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:1274
+!
+route-map grey_mgmt_vpn_Uninet_V5320:VPN_ALCATEL_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:3525
+!
+route-map grey_mgmt_vpn_Uninet_V47602:VPN_CDNGES-AMX_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:46770
+!
+route-map grey_mgmt_vpn_Uninet_V14802:VPN_SEARS_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:41353
+!
+route-map VOIP-SASO permit 10
+ match ip address 1
+ set community 65013:201
+!
+route-map grey_mgmt_vpn_Uninet_V50591:VPN_FAMOSACROWN_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:50158
+!
+route-map grey_mgmt_vpn_Uninet_V13749:VPN_GNP_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:1213
+!
+route-map grey_mgmt_vpn_Uninet_V16489:VPN_IBMGNSI_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:41648
+!
+route-map grey_mgmt_vpn_Uninet_V17996:VPN_AIGVIDAMPLS_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:41446
+!
+route-map grey_mgmt_vpn_Uninet_V13027:VPN_HOSTEDIPPBX_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:40686
+!
+route-map grey_mgmt_vpn_Uninet_V37020:VPN_PEPSICO_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:3455 28513:50020
+!
+route-map grey_mgmt_vpn_Uninet_V38284:VPN_PORCELANITE_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:1295 28513:51232
+!
+route-map grey_mgmt_vpn_Uninet_V11357:VPN_FONATUR_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:8773
+!
+route-map grey_mgmt_vpn_Uninet_V14566:VPN_HPNMP_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:41279 28513:50541
+!
+route-map grey_mgmt_vpn_Uninet_V47361:VPN_GESTCDN_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:47287
+!
+route-map grey_mgmt_vpn_Uninet_V13552:VPN_UNISOLUCIONES_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:40896
+!
+route-map grey_mgmt_vpn_Uninet_V33254:VPN_PEMSA_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:42019
+!
+route-map grey_mgmt_vpn_Uninet_V12899:VPN_TIENDASCOPPEL_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:8735 28513:50280
+!
+route-map VPN-INT permit 10
+ match ip address 1
+ set community 28513:1281
+!
+route-map grey_mgmt_vpn_Uninet_V42475:VPN_CMHNK_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:42334
+!
+route-map grey_mgmt_vpn_Uninet_V34757:VPN_IDEAL_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:40119
+!
+route-map grey_mgmt_vpn_Uninet_V12110:VPN_TLMXNHEROES_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:40187
+!
+route-map grey_mgmt_vpn_Uninet_V46486:VPN_GRUMA_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:3631 28513:51346
+!
+route-map grey_mgmt_vpn_Uninet_V57187:VPN_OXXO_TELCEL_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:54122
+!
+route-map grey_mgmt_vpn_Uninet_V31530:VPN_SCOTIA3EROS_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:42034
+!
+route-map grey_mgmt_vpn_Uninet_V6824:VPN_COPPEL_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:1279
+!
+route-map grey_mgmt_vpn_Uninet_V12650:VPN_AFORE-ING_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:40353
+!
+route-map V5864:VPN_PHI_0 permit 10
+ match ip address 96
+ set local-preference 98
+!
+route-map grey_mgmt_vpn_Uninet_V17380:VPN_SATMAC3_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:41505
+!
+route-map grey_mgmt_vpn_Uninet_V45289:VPN_GESTION-AMX_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:45203
+!
+route-map grey_mgmt_vpn_Uninet_V60709:VPN_KALTEX2_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:53847
+!
+route-map grey_mgmt_vpn_Uninet_V46316:VPN_FIRA1_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:45793
+!
+route-map grey_mgmt_vpn_Uninet_V6413:VPN_MULTIVALORES_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:3616
+!
+route-map V6333:VPN_SAT_0 permit 10
+ match ip address 95
+ set local-preference 98
+!
+route-map grey_mgmt_vpn_Uninet_V9218:VPN_PJFCJF_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:8656
+!
+route-map grey_mgmt_vpn_Uninet_V5121:VPN_BBVA_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:1040
+!
+route-map grey_mgmt_vpn_Uninet_V7786:VPN_AJEMEX_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:3526
+!
+route-map NORTEL_IP_PBX permit 10
+ match ip address 1400
+ set local-preference 98
+!
+route-map grey_mgmt_vpn_Uninet_V7516:VPN_HCYC_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:1238
+!
+route-map grey_mgmt_vpn_Uninet_V53162:VPN_SATFMT_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:53058
+!
+route-map grey_mgmt_vpn_Uninet_V12468:VPN_DESC_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:1192 28513:50073
+!
+route-map static_connected_98 permit 10
+ match ip address 1
+ set local-preference 98
+!
+route-map grey_mgmt_vpn_Uninet_V32579:VPN_REPSOL_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:42003 28513:50451
+!
+route-map grey_mgmt_vpn_Uninet_V17530:VPN_FERROMEX_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:8803
+!
+route-map grey_mgmt_vpn_Uninet_V57432:VPN_FARMACON_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:54135
+!
+route-map grey_mgmt_vpn_Uninet_V15636:VPN_INTBUSSSOL_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:8739
+!
+route-map grey_mgmt_vpn_Uninet_V12121:VPN_TLMXCASGDL_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:40188
+!
+route-map grey_mgmt_vpn_Uninet_V56954:VPN_BUROYCIRCRED_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:40725
+!
+route-map grey_mgmt_vpn_Uninet_V47493:VPN_IBMMET_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:3438
+!
+route-map grey_mgmt_vpn_Uninet_V30370:VPN_ARCA_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:1188 28513:50113
+!
+route-map grey_mgmt_vpn_Uninet_V29001:VPN_INVERLAT_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:1039
+!
+route-map grey_mgmt_vpn_Uninet_V15738:VPN_TOKS_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:3550
+!
+route-map grey_mgmt_vpn_Uninet_V8600:VPN_2CFEMORELOS_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:3475
+!
+route-map grey_mgmt_vpn_Uninet_V28495:VPN_7-ELEVEN_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:41895
+!
+route-map grey_mgmt_vpn_Uninet_V34897:VPN_BANCOAUTOFIN_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:3583
+!
+route-map grey_mgmt_vpn_Uninet_V45194:VPN_CC_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:1197 28513:50263
+!
+route-map grey_mgmt_vpn_Uninet_V48823:VPN_ENELSOCIOS_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:48807
+!
+route-map grey_mgmt_vpn_Uninet_V15779:VPN_CNOC_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:41422
+!
+route-map SC_VPN-INT permit 10
+ match ip address 1
+ set local-preference 98
+ set community 28513:1281
+!
+route-map grey_mgmt_vpn_Uninet_V56386:VPN_KALTEX_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:41679 28513:51200
+!
+route-map grey_mgmt_vpn_Uninet_V11180:VPN_DANONE_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:8772
+!
+route-map grey_mgmt_vpn_Uninet_V17301:VPN_GRUPOSENDA_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:41287 28513:50358
+!
+route-map grey_mgmt_vpn_Uninet_V12039:VPN_HD_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:3432
+!
+route-map grey_mgmt_vpn_Uninet_V13099:VPN_COSTCO_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:8751
+!
+route-map grey_mgmt_vpn_Uninet_V48383:VPN_MOLMEXTRIMEX_0 permit 10
+ match ip address VPNSC_GREY_MGMT_ACL
+ set extcommunity rt  8151:1030 8151:47881
+!
+mpls ldp router-id Loopback0 force
+snmp-server engineID local 00000009020000603EE23E20
+snmp-server community r34d RO 13
+snmp-server community wr1t3 RW 13
+snmp-server community azJ4Zqz6gFKltBde RO 13
+snmp-server community LFB38gq8nVcVr2sF RW 13
+snmp-server trap-source Loopback0
+snmp-server enable traps snmp authentication linkdown linkup coldstart warmstart
+snmp-server enable traps bgp
+snmp-server enable traps frame-relay multilink bundle-mismatch
+snmp-server enable traps frame-relay
+snmp-server enable traps frame-relay subif
+snmp-server enable traps rf
+snmp-server enable traps syslog
+snmp-server enable traps mpls ldp
+snmp-server enable traps entity
+snmp-server enable traps envmon fan shutdown supply temperature status
+snmp-server enable traps mpls vpn
+snmp-server host 192.100.232.1 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.2 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.3 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.33 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.34 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.37 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.38 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.4 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.5 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.6 azJ4Zqz6gFKltBde
+snmp-server host 200.33.150.87 azJ4Zqz6gFKltBde
+snmp-server host 201.125.120.129 azJ4Zqz6gFKltBde
+snmp-server host 148.233.150.211 r34d
+snmp-server host 192.100.232.1 r34d
+snmp-server host 192.100.232.2 r34d
+snmp-server host 192.100.232.3 r34d
+snmp-server host 192.100.232.33 r34d
+snmp-server host 192.100.232.34 r34d
+snmp-server host 192.100.232.37 r34d
+snmp-server host 192.100.232.38 r34d
+snmp-server host 192.100.232.4 r34d
+snmp-server host 192.100.232.5 r34d
+snmp-server host 192.100.232.6 r34d
+snmp-server host 200.33.150.100 r34d
+snmp-server host 200.33.150.87 r34d
+snmp ifmib ifalias long
+!
+tacacs-server host 200.33.150.68
+tacacs-server host 192.100.232.42
+tacacs-server key 7 03530B0F010B006D5D3D4A51
+!
+control-plane
+ service-policy input control-plane-policy
+!
+banner motd ^C
+
+!NOTIFICACION IMPORTANTE!
+El acceso a este recurso de Red se encuentra restringido a solo
+Personal Autorizado,  cualquier acceso no permitido repercutira
+en Acciones Juridicas y Legales.
+S.S.I.
+^C
+!
+line con 0
+ exec-timeout 60 0
+ password 7 00140A560D165351501445
+ logging synchronous
+line vty 0 4
+ access-class 15 in
+ exec-timeout 60 0
+ password 7 111900551E175E5947386A
+ transport input lat pad udptn telnet rlogin
+!
+scheduler runtime netinput 300
+ntp clock-period 17179996
+ntp source Loopback0
+ntp update-calendar
+ntp server 200.33.150.196
+!
+end
+
+   
+</body>
+</html>
+

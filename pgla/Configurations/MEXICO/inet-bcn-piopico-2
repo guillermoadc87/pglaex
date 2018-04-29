@@ -1,0 +1,1150 @@
+<!-- Manual de PHP -->
+<html>
+<head>
+   <title>LG VPN UniNet</title>
+</head>
+<body>
+
+<!--<table cellpadding="0" cellspacing="0" border="0" width="250" align="center">-->
+<table border="0" width="850">
+  <tr>
+	<td colspan="2">
+		<img src="uninet_top_full.jpg" border="0" alt="VPN UniNet">
+	 
+  </tr>
+  <tr>
+    <td><font size="5" face="Courier" color='#3366FF'>VPN UniNet Looking Glass   
+    <td align="right"><font size="3" face="Courier" color='#3366FF'>Friday 12th of January 2018 03:15:31 PM
+12.145.193.9
+gestionred@reduno.com.mx   
+  </tr>
+</table>
+
+<table border="0" width='850'>
+<tr><td valign='top'><font size="3" face="Courier" color='#3366FF'>
+Available commands:
+
+traceroute a.b.c.d
+traceroute vrf &lt;arguments&gt;
+ping a.b.c.d
+ping vrf &lt;arguments&gt;	 
+ 
+<td><font size="3" face="Courier" color='#3366FF'>
+IOS commands:
+
+show atm pvc
+show policy-map
+show policy-map interface &lt;arguments&gt;
+show route-map
+show ip vrf
+show ip route vrf &lt;arguments&gt;
+show ip bgp vpnv4 &lt;arguments&gt;
+show ip interface brief
+show ip prefix-list
+show ip access-list
+show interface &#91;arguments&#93;
+show interface description
+show controllers &lt;arguments&gt;
+show configuration
+show running-config
+show running-config interface &lt;arguments&gt;
+show running-config | include route-map
+show running-config | include address-family ipv4 vrf
+show running-config | include interface
+show running-config | include class-map
+show running-config | include policy-map
+show running-config | include ip route vrf
+show running-config | include access-list	 
+ 
+<td valign='top'><font size="3" face="Courier" color='#3366FF'>
+IOSXR commands:
+
+show rpl policy-global
+show vrf
+show route vrf &lt;arguments&gt;
+show bgp vpnv4 unicast vrf &lt;arguments&gt;
+show bgp vrf &lt;arguments&gt;
+show prefix-list
+show access-list	 
+ 
+</tr>
+</table>
+
+
+
+<font size="3" face="Courier" color='#3366FF'>
+<form action="lgvpnuninet.php" method="post">
+Source [IP|hostname]:
+<input type="text" name="ip" size="71" maxlength="70"/>
+-l0.uninet.net.mx
+
+
+
+Command             :
+<input type="text" name="cmd" size="71" maxlength="70"/>
+<input type="submit" name='submit' value="Submit" />
+
+</form>
+ 
+
+<font size="-1" face="Courier">
+
+   Granted
+Source IP: 148.235.85.41
+Command  : show running-config
+Equipment model: cisco7507z
+
+
+
+ R E S U L T :
+
+Building configuration...
+
+Current configuration : 45314 bytes
+!
+! Last configuration change at 01:30:48 CDT Tue Dec 12 2017 by frluna
+! NVRAM config last updated at 04:53:57 CDT Fri Jan 12 2018 by ssrcsu
+!
+version 12.0
+service tcp-keepalives-in
+service tcp-keepalives-out
+service timestamps debug datetime localtime
+service timestamps log datetime localtime
+service password-encryption
+service compress-config
+service single-slot-reload-enable
+!
+hostname inet-bcn-piopico-2
+!
+boot-start-marker
+boot system flash slot0:rsp-pv-mz.120-32.S10.bin
+boot bootldr bootflash:rsp-boot-mz.120-32.S10.bin
+boot-end-marker
+!
+redundancy
+ no keepalive-enable
+ mode rpr-plus
+logging buffered 1000000 debugging
+no logging console
+aaa new-model
+aaa authentication login default tacacs+ local enable
+aaa authentication enable default tacacs+ enable
+aaa authentication ppp default none
+aaa authorization commands 15 default tacacs+ none
+aaa accounting exec default start-stop tacacs+
+aaa accounting commands 1 default start-stop tacacs+
+aaa accounting commands 15 default start-stop tacacs+
+aaa accounting network default start-stop tacacs+
+enable secret 5 $1$NwD8$lVnKRqT0WWVWHJ3nkfaoQ0
+enable password 7 10584F00401D43095B
+!
+username ssrdivher password 7 0716765F450F580654
+clock timezone CDT -6
+clock summer-time DST recurring 1 Sun Apr 2:00 last Sun Oct 2:00
+ip subnet-zero
+ip cef distributed
+no ip finger
+ip telnet source-interface Loopback0
+ip tftp source-interface Loopback0
+no ip bootp server
+no ip domain-lookup
+ip domain-name uninet.net.mx
+ip name-server 200.23.242.193
+ip name-server 200.33.146.201
+ip receive access-list 156
+!
+class-map match-any DatosVPN
+  match mpls experimental  2
+class-map match-any Administracion
+  match mpls experimental  7
+  match mpls experimental  6
+  match mpls experimental  4
+class-map match-any p1
+  match ip precedence 1
+class-map match-any p2
+  match ip precedence 2
+class-map match-any p3
+  match ip precedence 3
+class-map match-any Voz
+  match mpls experimental  5
+class-map match-any Video
+  match mpls experimental  3
+class-map match-any Default_VPN
+  match mpls experimental  1
+!
+!
+policy-map QOS-STM-1
+  class p3
+    bandwidth percent 20
+    fair-queue
+    fair-queue queue-limit 3875
+    random-detect
+    random-detect precedence 3 4000 19375 10
+  class p2
+    bandwidth percent 20
+    fair-queue
+    fair-queue queue-limit 7750
+    random-detect
+    random-detect precedence 2 1000 19375 10
+  class p1
+    bandwidth percent 20
+    fair-queue
+    fair-queue queue-limit 11625
+    random-detect
+    random-detect precedence 1 500 19375 10
+  class class-default
+    fair-queue
+    fair-queue queue-limit 15500
+    random-detect
+    random-detect precedence 0 50 3875 10
+policy-map QOS_GE_bw
+  class Administracion
+    bandwidth percent 10
+    random-detect
+    random-detect precedence 4 500 1500 1
+    random-detect precedence 6 500 1500 1
+    random-detect precedence 7 500 1500 1
+  class Voz
+   police 350000000 10937500 10937500
+  class Video
+    bandwidth percent 10
+    random-detect
+    random-detect precedence 3 500 1500 1
+  class DatosVPN
+    bandwidth percent 25
+    random-detect
+    random-detect precedence 2 1000 4000 1
+  class Default_VPN
+    bandwidth percent 15
+    random-detect
+    random-detect precedence 1 750 2000 1
+  class class-default
+    bandwidth percent 5
+    random-detect
+    random-detect precedence 0 500 1500 1
+policy-map QOS_FE_bw
+  class Administracion
+    bandwidth percent 10
+    random-detect
+    random-detect precedence 4 256 600 1
+    random-detect precedence 6 256 600 1
+    random-detect precedence 7 256 600 1
+  class Voz
+   police 35000000
+  class Video
+    bandwidth percent 10
+    random-detect
+    random-detect precedence 3 256 600 1
+  class DatosVPN
+    bandwidth percent 25
+    random-detect
+    random-detect precedence 2 300 900 1
+  class Default_VPN
+    bandwidth percent 15
+    random-detect
+    random-detect precedence 1 300 900 1
+  class class-default
+    bandwidth percent 5
+    random-detect
+    random-detect precedence 0 128 300 1
+!
+mpls label protocol ldp
+no mpls traffic-eng auto-bw timers frequency 0
+no tag-switching ip propagate-ttl forwarded
+hw-module slot 2 image slot0:rsp-pv-mz.120-32.S10.bin
+hw-module slot 3 image slot0:rsp-pv-mz.120-32.S10.bin
+!
+!
+!
+interface Loopback0
+ description inet-bcn-piopico-2-l0
+ ip address 148.235.85.41 255.255.255.255
+ no ip directed-broadcast
+!
+interface Serial0/0/0
+ no ip address
+ no ip directed-broadcast
+ no ip mroute-cache
+ shutdown
+ fair-queue
+ serial restart-delay 0
+ no cdp enable
+!
+interface Serial0/0/1
+ no ip address
+ no ip directed-broadcast
+ shutdown
+ serial restart-delay 0
+ no cdp enable
+!
+interface Serial0/0/2
+ no ip address
+ no ip directed-broadcast
+ shutdown
+ serial restart-delay 0
+ no cdp enable
+!
+interface Serial0/0/3
+ no ip address
+ no ip directed-broadcast
+ shutdown
+ serial restart-delay 0
+ no cdp enable
+!
+interface Serial0/1/0
+ no ip address
+ no ip directed-broadcast
+ shutdown
+ serial restart-delay 0
+ no cdp enable
+!
+interface Serial0/1/1
+ no ip address
+ no ip directed-broadcast
+ shutdown
+ serial restart-delay 0
+ no cdp enable
+!
+interface Serial0/1/2
+ no ip address
+ no ip directed-broadcast
+ shutdown
+ serial restart-delay 0
+ no cdp enable
+!
+interface Serial0/1/3
+ no ip address
+ no ip directed-broadcast
+ shutdown
+ serial restart-delay 0
+ no cdp enable
+!
+interface GigabitEthernet1/0/0
+ description CONEXION GE A lansw-bcn-piopico-4-g3-2 LANSW_RESPALDO NOG 30/07/07
+ bandwidth 1000000
+ ip address 201.154.106.237 255.255.255.240
+ ip access-group 2014 in
+ no ip directed-broadcast
+ no ip proxy-arp
+ ip ospf message-digest-key 1 md5 7 070B64581B305D31072A0F
+ ip ospf cost 5000
+ ip ospf priority 0
+ load-interval 30
+ no negotiation auto
+ mpls label protocol ldp
+ tag-switching mtu 1526
+ tag-switching ip
+!
+interface FastEthernet4/0/0
+ description CONEXION FT A nsa-bcn-piopico-1 LANSW_TRABAJO AAU 02/02/12
+ ip address 187.141.190.238 255.255.255.248
+ ip access-group 2004 out
+ no ip directed-broadcast
+ no ip proxy-arp
+ ip ospf priority 0
+ load-interval 30
+ duplex full
+ speed auto
+ full-duplex
+!
+interface FastEthernet4/0/1
+ description CONEXION FT A nsc-bcn-piopico-2 LANSW_TRABAJO JMD 18/12/09
+ ip address 187.141.190.246 255.255.255.248
+ ip access-group 2004 out
+ no ip directed-broadcast
+ no ip proxy-arp
+ ip ospf priority 0
+ speed auto
+!
+interface POS4/1/0
+ no ip address
+ no ip directed-broadcast
+ shutdown
+!
+interface GigabitEthernet5/0/0
+ description CONEXION GE A lansw-bcn-piopico-3-g3-2 LANSW_TRABAJO FOGG 26/04/03
+ ip address 201.154.106.253 255.255.255.240
+ ip access-group 2014 in
+ no ip directed-broadcast
+ no ip proxy-arp
+ ip ospf message-digest-key 1 md5 7 06024A3519774D2D152F16
+ ip ospf cost 5000
+ ip ospf priority 0
+ load-interval 30
+ no negotiation auto
+ mpls label protocol ldp
+ tag-switching mtu 1526
+ tag-switching ip
+ hold-queue 4020 in
+!
+interface POS6/0/0
+ no ip address
+ no ip directed-broadcast
+ shutdown
+!
+interface Serial6/1/0
+ mtu 1500
+ no ip address
+ no ip directed-broadcast
+ shutdown
+ framing g751
+ dsu bandwidth 34010
+ serial restart-delay 0
+ no cdp enable
+!
+interface Serial6/1/1
+ mtu 1500
+ no ip address
+ no ip directed-broadcast
+ load-interval 30
+ shutdown
+ framing g751
+ dsu bandwidth 34010
+ clock source internal
+ serial restart-delay 0
+ no cdp enable
+!
+router ospf 64512
+ router-id 148.235.85.41
+ log-adjacency-changes
+ auto-cost reference-bandwidth 1000000
+ area 9.2.53.1 authentication message-digest
+ area 9.2.53.1 nssa
+ passive-interface default
+ no passive-interface GigabitEthernet1/0/0
+ no passive-interface GigabitEthernet5/0/0
+ network 148.235.85.41 0.0.0.0 area 9.2.53.1
+ network 201.154.106.224 0.0.0.15 area 9.2.53.1
+ network 201.154.106.240 0.0.0.15 area 9.2.53.1
+!
+router bgp 8151
+ no synchronization
+ bgp router-id 148.235.85.41
+ bgp log-neighbor-changes
+ network 187.141.190.232 mask 255.255.255.248 route-map seriales-guadalajara
+ network 187.141.190.240 mask 255.255.255.248 route-map seriales-guadalajara
+ redistribute static route-map ESTATICAS_CLIENTES_IDE
+ neighbor 201.125.0.152 remote-as 8151
+ neighbor 201.125.0.152 description rride-bcn-piopico-19
+ neighbor 201.125.0.152 update-source Loopback0
+ neighbor 201.125.0.152 send-community
+ neighbor 201.125.0.152 route-map SAMECLUSTER in
+ neighbor 201.125.0.152 route-map MARCA_REGION out
+ neighbor 201.125.0.163 remote-as 8151
+ neighbor 201.125.0.163 description rride-bcn-arbol-9
+ neighbor 201.125.0.163 update-source Loopback0
+ neighbor 201.125.0.163 send-community
+ neighbor 201.125.0.163 route-map OTHERCLUSTER in
+ neighbor 201.125.0.163 route-map MARCA_REGION out
+ distance bgp 180 200 200
+ no auto-summary
+!
+ip classless
+ip route 127.0.0.0 255.0.0.0 Null0
+ip route 192.168.250.0 255.255.255.0 Null0
+ip tacacs source-interface Loopback0
+!
+ip bgp-community new-format
+ip community-list 1 permit 8151:277 8151:285
+ip community-list 2 permit 8151:277 8151:286
+ip community-list 3 permit 8151:277 8151:287
+ip community-list 4 permit 8151:277 8151:288
+ip community-list 5 permit 8151:278 8151:285
+ip community-list 6 permit 8151:278 8151:286
+ip community-list 7 permit 8151:278 8151:287
+ip community-list 8 permit 8151:278 8151:288
+ip community-list 102 permit ^$
+ip community-list 102 permit ^[0-9]+:[0-9]+$
+ip community-list 102 permit ^[0-9]+:[0-9]+_[0-9]+:[0-9]+$
+ip community-list 102 permit ^[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+$
+ip community-list 102 permit ^[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+$
+ip community-list 102 permit ^[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+$
+ip community-list 102 permit ^[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+$
+ip community-list 102 permit ^[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+$
+ip community-list 102 permit ^[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+$
+ip community-list 102 permit ^[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+$
+ip community-list 102 permit ^[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+$
+ip community-list 102 permit ^[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+$
+ip community-list 102 permit ^[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+$
+ip community-list standard SAMECLUSTER permit 8151:1013
+ip community-list standard SEGUNDORESPALDO permit 8151:1014
+ip as-path access-list 99 deny _21576_
+ip as-path access-list 99 deny _3356_
+ip as-path access-list 99 deny _1239_
+ip as-path access-list 99 deny _7911_
+ip as-path access-list 99 deny _7132_
+ip as-path access-list 99 deny _701_
+ip as-path access-list 99 deny _7018_
+ip as-path access-list 99 deny _3549_
+ip as-path access-list 99 deny _2914_
+ip as-path access-list 99 deny _15169_
+ip as-path access-list 99 deny _22822_
+ip as-path access-list 99 deny _8075_
+ip as-path access-list 99 permit .*
+!
+!
+ip prefix-list BGP_IPS_00_CLIENTE seq 40 permit 192.168.255.253/32
+!
+ip prefix-list BGP_IPS_00_UNINET seq 40 permit 192.168.255.254/32
+!
+ip prefix-list ESTATICAS_IPS_CLIENTE seq 40 permit 192.168.255.253/32
+!
+ip prefix-list ESTATICAS_IPS_UNINET seq 40 permit 192.168.255.254/32
+!
+ip prefix-list REDES_PRIVADAS seq 10 permit 10.0.0.0/8 le 32
+ip prefix-list REDES_PRIVADAS seq 20 permit 172.16.0.0/12 le 32
+ip prefix-list REDES_PRIVADAS seq 30 permit 192.168.0.0/16 le 32
+!
+ip prefix-list RTBHR seq 10 permit 192.168.250.0/24
+ip prefix-list RTBHR seq 20 permit 192.168.252.0/24
+ip prefix-list RTBHR seq 30 permit 192.168.251.0/24
+!
+ip prefix-list RUTA_CERO seq 10 permit 0.0.0.0/0
+logging trap debugging
+logging source-interface Loopback0
+logging 200.33.150.74
+logging 200.33.150.106
+logging 200.33.150.14
+logging 201.125.120.160
+logging 200.33.150.147
+access-list compiled
+access-list 1 permit any
+access-list 2 deny   any
+access-list 13 permit 187.210.234.0 0.0.0.255
+access-list 13 permit 189.254.31.0 0.0.0.63
+access-list 13 permit 192.100.232.0 0.0.0.127
+access-list 13 permit 200.33.150.0 0.0.0.63
+access-list 13 permit 200.33.150.128 0.0.0.63
+access-list 13 permit 200.33.150.192 0.0.0.63
+access-list 13 permit 200.33.150.64 0.0.0.63
+access-list 13 permit 201.125.120.128 0.0.0.7
+access-list 13 permit 201.125.120.136 0.0.0.3
+access-list 13 permit 201.125.120.140 0.0.0.3
+access-list 13 permit 201.125.120.144 0.0.0.3
+access-list 13 permit 201.125.120.148 0.0.0.3
+access-list 13 permit 201.125.120.152 0.0.0.3
+access-list 13 permit 201.125.120.160 0.0.0.31
+access-list 13 permit 201.125.120.192 0.0.0.63
+access-list 13 deny   any
+access-list 15 permit 201.134.77.2
+access-list 15 permit 200.36.40.205
+access-list 15 permit 192.100.232.64
+access-list 15 permit 148.223.54.105
+access-list 15 permit 148.223.201.153
+access-list 15 permit 192.100.232.81
+access-list 15 permit 148.235.143.209
+access-list 15 permit 148.223.149.249
+access-list 15 permit 148.233.15.93
+access-list 15 permit 148.233.152.165
+access-list 15 permit 201.125.120.141
+access-list 15 permit 201.125.120.143
+access-list 15 permit 201.125.120.136
+access-list 15 permit 192.100.232.10
+access-list 15 permit 201.125.120.139
+access-list 15 permit 201.125.120.129
+access-list 15 permit 192.100.232.31
+access-list 15 permit 200.33.144.45
+access-list 15 permit 148.233.142.165
+access-list 15 permit 201.125.120.146
+access-list 15 permit 201.125.120.172
+access-list 15 permit 201.125.120.170
+access-list 15 permit 148.223.206.237
+access-list 15 permit 192.100.232.38
+access-list 15 permit 148.233.139.157
+access-list 15 permit 148.223.107.77
+access-list 15 permit 192.100.232.60
+access-list 15 permit 148.233.238.225
+access-list 15 permit 192.100.232.59
+access-list 15 permit 192.100.232.54
+access-list 15 permit 192.100.232.51
+access-list 15 permit 148.223.104.169
+access-list 15 permit 148.223.181.105
+access-list 15 permit 148.223.240.33
+access-list 15 permit 200.36.50.121
+access-list 15 permit 200.79.68.6
+access-list 15 permit 148.233.75.241
+access-list 15 permit 200.79.11.71
+access-list 15 permit 148.223.210.65
+access-list 15 permit 148.223.223.77
+access-list 15 permit 148.233.164.4
+access-list 15 permit 148.223.167.13
+access-list 15 permit 148.235.231.121
+access-list 15 permit 148.223.32.153
+access-list 15 permit 148.223.58.141
+access-list 15 permit 192.100.232.0 0.0.0.7
+access-list 15 permit 192.100.232.8 0.0.0.1
+access-list 15 permit 192.100.232.32 0.0.0.3
+access-list 15 permit 192.100.232.36 0.0.0.1
+access-list 15 permit 192.100.232.52 0.0.0.1
+access-list 15 permit 192.100.232.82 0.0.0.1
+access-list 15 permit 192.100.232.84 0.0.0.3
+access-list 15 permit 200.33.150.0 0.0.0.255
+access-list 15 permit 201.125.120.144 0.0.0.1
+access-list 15 permit 200.66.128.0 0.0.0.15
+access-list 15 permit 189.246.0.0 0.0.255.255
+access-list 15 permit 201.125.0.0 0.0.255.255
+access-list 15 permit 201.154.0.0 0.0.255.255
+access-list 15 permit 148.223.15.0 0.0.0.255
+access-list 15 permit 148.223.31.0 0.0.0.255
+access-list 15 permit 148.223.43.0 0.0.0.255
+access-list 15 permit 148.223.79.0 0.0.0.255
+access-list 15 permit 148.223.84.0 0.0.0.255
+access-list 15 permit 148.223.95.0 0.0.0.255
+access-list 15 permit 148.223.97.0 0.0.0.255
+access-list 15 permit 148.223.121.0 0.0.0.255
+access-list 15 permit 148.223.144.0 0.0.0.255
+access-list 15 permit 148.223.182.0 0.0.0.255
+access-list 15 permit 148.223.184.0 0.0.0.255
+access-list 15 permit 148.223.190.0 0.0.0.255
+access-list 15 permit 148.223.191.0 0.0.0.255
+access-list 15 permit 148.223.202.0 0.0.0.255
+access-list 15 permit 148.223.219.0 0.0.0.255
+access-list 15 permit 148.223.243.0 0.0.0.255
+access-list 15 permit 148.233.23.0 0.0.0.255
+access-list 15 permit 148.233.31.0 0.0.0.255
+access-list 15 permit 148.233.118.0 0.0.0.255
+access-list 15 permit 148.233.131.0 0.0.0.255
+access-list 15 permit 148.233.135.0 0.0.0.255
+access-list 15 permit 148.233.153.0 0.0.0.255
+access-list 15 permit 148.233.158.0 0.0.0.255
+access-list 15 permit 148.233.159.0 0.0.0.255
+access-list 15 permit 148.233.175.0 0.0.0.255
+access-list 15 permit 148.233.187.0 0.0.0.255
+access-list 15 permit 148.233.191.0 0.0.0.255
+access-list 15 permit 148.233.229.224 0.0.0.31
+access-list 15 permit 148.233.239.0 0.0.0.255
+access-list 15 permit 148.235.14.0 0.0.0.255
+access-list 15 permit 148.235.24.0 0.0.0.255
+access-list 15 permit 148.235.39.0 0.0.0.255
+access-list 15 permit 148.235.58.0 0.0.0.255
+access-list 15 permit 148.235.59.0 0.0.0.255
+access-list 15 permit 148.235.71.0 0.0.0.255
+access-list 15 permit 148.235.75.0 0.0.0.255
+access-list 15 permit 148.235.78.0 0.0.0.255
+access-list 15 permit 148.235.81.0 0.0.0.255
+access-list 15 permit 148.235.85.0 0.0.0.255
+access-list 15 permit 148.235.87.0 0.0.0.255
+access-list 15 permit 148.235.109.0 0.0.0.255
+access-list 15 permit 148.235.110.0 0.0.0.255
+access-list 15 permit 148.235.127.48 0.0.0.7
+access-list 15 permit 148.235.139.0 0.0.0.255
+access-list 15 permit 148.235.145.0 0.0.0.255
+access-list 15 permit 148.235.149.0 0.0.0.255
+access-list 15 permit 148.235.155.0 0.0.0.255
+access-list 15 permit 148.235.157.0 0.0.0.255
+access-list 15 permit 148.235.159.224 0.0.0.15
+access-list 15 permit 148.235.165.0 0.0.0.255
+access-list 15 permit 148.235.167.0 0.0.0.255
+access-list 15 permit 148.235.175.0 0.0.0.255
+access-list 15 permit 148.235.186.0 0.0.0.255
+access-list 15 permit 200.79.4.0 0.0.0.255
+access-list 15 permit 200.79.21.0 0.0.0.255
+access-list 15 permit 200.79.26.0 0.0.0.255
+access-list 15 permit 200.79.39.0 0.0.0.255
+access-list 15 permit 200.79.44.0 0.0.0.255
+access-list 15 permit 200.79.88.0 0.0.0.255
+access-list 15 permit 200.79.111.0 0.0.0.255
+access-list 15 permit 201.134.5.0 0.0.0.255
+access-list 15 permit 201.134.33.0 0.0.0.255
+access-list 15 permit 201.134.64.0 0.0.0.255
+access-list 15 permit 201.134.105.0 0.0.0.255
+access-list 15 permit 201.134.125.0 0.0.0.255
+access-list 15 permit 201.134.130.0 0.0.0.255
+access-list 15 permit 201.134.163.0 0.0.0.255
+access-list 15 permit 201.134.176.0 0.0.0.255
+access-list 15 permit 201.134.201.0 0.0.0.255
+access-list 15 permit 201.134.208.0 0.0.0.255
+access-list 15 permit 201.134.211.0 0.0.0.255
+access-list 15 permit 204.124.107.0 0.0.0.255
+access-list 15 deny   any
+access-list 17 permit 192.100.232.3
+access-list 156 deny   ip 200.38.207.0 0.0.0.255 any
+access-list 156 deny   ip 200.38.208.0 0.0.0.255 any
+access-list 156 deny   ip 200.38.210.0 0.0.0.255 any
+access-list 156 deny   ip 200.38.214.0 0.0.0.255 any
+access-list 156 deny   ip 200.38.219.0 0.0.0.255 any
+access-list 156 deny   ip 200.38.220.0 0.0.0.255 any
+access-list 156 deny   ip 200.38.221.0 0.0.0.255 any
+access-list 156 permit ip 200.66.128.0 0.0.0.127 any
+access-list 156 permit ip 200.38.192.0 0.0.31.255 any
+access-list 156 permit ip 201.125.0.0 0.0.255.255 any
+access-list 156 permit ip 148.223.0.0 0.0.255.255 any
+access-list 156 permit ip 148.233.0.0 0.0.255.255 any
+access-list 156 permit ip 148.235.0.0 0.0.255.255 any
+access-list 156 permit ip 200.79.0.0 0.0.127.255 any
+access-list 156 permit ip 201.134.0.0 0.0.255.255 any
+access-list 156 permit ip 200.23.240.0 0.0.7.255 any
+access-list 156 permit ip 200.36.40.0 0.0.1.255 any
+access-list 156 permit ip 200.33.144.0 0.0.7.255 any
+access-list 156 permit ip 200.4.144.0 0.0.0.255 any
+access-list 156 permit ip 192.100.232.0 0.0.0.255 any
+access-list 156 permit ip 204.124.106.128 0.0.0.127 any
+access-list 156 permit ip 204.124.107.0 0.0.0.255 any
+access-list 156 permit ip 200.4.157.0 0.0.0.255 any
+access-list 156 permit ip 200.4.155.0 0.0.0.255 any
+access-list 156 permit ip 200.33.137.0 0.0.0.255 any
+access-list 156 permit ip 201.154.0.0 0.0.127.255 any
+access-list 156 permit ip 201.145.111.0 0.0.0.255 any
+access-list 156 permit ip 187.141.65.0 0.0.0.248 any
+access-list 156 permit ip 187.141.30.0 0.0.0.255 any
+access-list 156 permit ip 201.116.137.144 0.0.0.7 any
+access-list 156 permit ip 201.144.94.0 0.0.0.255 any
+access-list 156 permit ip 201.116.191.0 0.0.0.255 any
+access-list 156 permit ip 201.144.127.0 0.0.0.255 any
+access-list 156 permit ip 187.141.158.0 0.0.0.255 any
+access-list 156 permit ip 187.141.190.0 0.0.0.255 any
+access-list 156 permit ip any 200.36.50.0 0.0.0.255
+access-list 156 permit ip 189.246.0.0 0.0.255.255 any
+access-list 156 permit ip 189.254.31.0 0.0.0.63 any
+access-list 156 permit tcp any any eq bgp
+access-list 156 permit tcp any eq bgp any established
+access-list 156 deny   ip any any
+access-list 2004 deny   tcp any eq domain 187.141.190.232 0.0.0.7 eq domain
+access-list 2004 deny   udp any eq domain 187.141.190.232 0.0.0.7 eq domain
+access-list 2004 permit udp any eq nameserver 187.141.190.232 0.0.0.7
+access-list 2004 permit tcp any eq domain 187.141.190.232 0.0.0.7
+access-list 2004 permit udp any eq domain 187.141.190.232 0.0.0.7
+access-list 2004 permit udp any host 187.141.190.233 eq nameserver
+access-list 2004 permit tcp any host 187.141.190.233 eq domain
+access-list 2004 permit udp any host 187.141.190.233 eq domain
+access-list 2004 permit ip host 200.33.150.5 187.141.190.232 0.0.0.7
+access-list 2004 permit ip host 200.33.150.7 187.141.190.232 0.0.0.7
+access-list 2004 permit ip host 200.33.150.11 187.141.190.232 0.0.0.7
+access-list 2004 permit ip host 200.33.150.30 187.141.190.232 0.0.0.7
+access-list 2004 permit ip host 200.33.150.42 187.141.190.232 0.0.0.7
+access-list 2004 permit ip host 200.33.150.61 187.141.190.232 0.0.0.7
+access-list 2004 permit ip host 200.33.150.106 187.141.190.232 0.0.0.7
+access-list 2004 permit ip host 200.33.150.196 187.141.190.232 0.0.0.7
+access-list 2004 permit tcp 200.34.220.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 187.250.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.23.248.0 0.0.3.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.38.0.0 0.0.31.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.56.96.0 0.0.15.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.76.224.0 0.0.31.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.79.128.0 0.0.31.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.130.96.0 0.0.31.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.130.128.0 0.0.31.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.130.160.0 0.0.31.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.142.128.0 0.0.127.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.143.0.0 0.0.63.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.143.64.0 0.0.63.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.143.128.0 0.0.63.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.143.192.0 0.0.63.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.170.0.0 0.0.127.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.170.128.0 0.0.127.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.171.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 189.222.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 189.223.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.23.243.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.23.245.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.33.140.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.33.142.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.33.143.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.33.151.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 132.248.3.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 132.248.4.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 132.248.5.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 148.204.125.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 148.231.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 158.122.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 158.97.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 192.100.193.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 192.148.175.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.139.192.0 0.0.15.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.139.208.0 0.0.7.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 66.181.32.0 0.0.31.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 216.20.208.0 0.0.15.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 204.250.155.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.23.171.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.34.220.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 187.250.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.23.248.0 0.0.3.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.38.0.0 0.0.31.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.56.96.0 0.0.15.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.76.224.0 0.0.31.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.79.128.0 0.0.31.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.130.96.0 0.0.31.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.130.128.0 0.0.31.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.130.160.0 0.0.31.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.142.128.0 0.0.127.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.143.0.0 0.0.63.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.143.64.0 0.0.63.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.143.128.0 0.0.63.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.143.192.0 0.0.63.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.170.0.0 0.0.127.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.170.128.0 0.0.127.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.171.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 189.222.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 189.223.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.23.243.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.23.245.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.33.140.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.33.142.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.33.143.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.33.151.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 132.248.3.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 132.248.4.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 132.248.5.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 148.204.125.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 148.231.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 158.122.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 158.97.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 192.100.193.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 192.148.175.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.139.192.0 0.0.15.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.139.208.0 0.0.7.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 66.181.32.0 0.0.31.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 216.20.208.0 0.0.15.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 204.250.155.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.23.171.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit ip host 200.33.150.5 187.141.190.240 0.0.0.7
+access-list 2004 permit ip host 200.33.150.7 187.141.190.240 0.0.0.7
+access-list 2004 permit ip host 200.33.150.11 187.141.190.240 0.0.0.7
+access-list 2004 permit ip host 200.33.150.14 187.141.190.240 0.0.0.7
+access-list 2004 permit ip host 200.33.150.30 187.141.190.240 0.0.0.7
+access-list 2004 permit ip host 200.33.150.42 187.141.190.240 0.0.0.7
+access-list 2004 permit ip host 200.33.150.61 187.141.190.240 0.0.0.7
+access-list 2004 permit ip host 200.33.150.106 187.141.190.240 0.0.0.7
+access-list 2004 permit ip host 200.33.150.196 187.141.190.240 0.0.0.7
+access-list 2004 permit tcp 148.221.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 148.223.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 148.233.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 148.235.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 187.128.0.0 0.31.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 187.168.0.0 0.7.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 187.192.0.0 0.31.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 187.224.0.0 0.15.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 189.128.0.0 0.31.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 189.160.0.0 0.31.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 189.224.0.0 0.31.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 192.100.232.0 0.0.1.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.23.240.0 0.0.7.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.33.136.0 0.0.7.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.33.144.0 0.0.7.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.34.133.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.34.32.0 0.0.15.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.36.32.0 0.0.31.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.38.128.0 0.0.31.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.38.192.0 0.0.31.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.64.0.0 0.1.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.66.128.0 0.0.127.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.67.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.78.0.0 0.0.127.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.79.0.0 0.0.127.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.95.0.0 0.0.127.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.96.0.0 0.15.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.112.0.0 0.7.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.120.0.0 0.3.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.124.0.0 0.3.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.128.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.129.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.131.52.0 0.0.3.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.131.76.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.133.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.134.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.135.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.136.0.0 0.1.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.138.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.139.160.0 0.0.7.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.144.0.0 0.3.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 201.152.0.0 0.3.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 207.248.128.0 0.0.31.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 192.100.183.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 204.124.104.0 0.0.3.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit tcp 200.4.144.0 0.0.15.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 148.221.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 148.223.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 148.233.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 148.235.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 187.128.0.0 0.31.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 187.168.0.0 0.7.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 187.192.0.0 0.31.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 187.224.0.0 0.15.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 189.128.0.0 0.31.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 189.160.0.0 0.31.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 189.224.0.0 0.31.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 192.100.232.0 0.0.1.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.23.240.0 0.0.7.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.33.136.0 0.0.7.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.33.144.0 0.0.7.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.34.133.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.34.32.0 0.0.15.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.36.32.0 0.0.31.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.38.128.0 0.0.31.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.38.192.0 0.0.31.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.64.0.0 0.1.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.66.128.0 0.0.127.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.67.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.78.0.0 0.0.127.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.79.0.0 0.0.127.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.95.0.0 0.0.127.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.96.0.0 0.15.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.112.0.0 0.7.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.120.0.0 0.3.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.124.0.0 0.3.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.128.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.129.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.131.52.0 0.0.3.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.131.76.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.133.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.134.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.135.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.136.0.0 0.1.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.138.0.0 0.0.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.139.160.0 0.0.7.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.144.0.0 0.3.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 201.152.0.0 0.3.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 207.248.128.0 0.0.31.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 192.100.183.0 0.0.0.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 204.124.104.0 0.0.3.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 200.4.144.0 0.0.15.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 deny   tcp any eq domain 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 deny   udp any eq domain 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp any eq nameserver 187.141.190.240 0.0.0.7
+access-list 2004 permit tcp any eq domain 187.141.190.240 0.0.0.7
+access-list 2004 permit udp any eq domain 187.141.190.240 0.0.0.7
+access-list 2004 permit tcp any 187.141.190.232 0.0.0.7 established
+access-list 2004 permit tcp any 187.141.190.240 0.0.0.7 established
+access-list 2004 permit icmp any 187.141.190.232 0.0.0.7 echo-reply
+access-list 2004 permit icmp any 187.141.190.240 0.0.0.7 echo-reply
+access-list 2004 permit icmp any 187.141.190.232 0.0.0.7 ttl-exceeded
+access-list 2004 permit icmp any 187.141.190.240 0.0.0.7 ttl-exceeded
+access-list 2004 permit udp any range 33434 33534 187.141.190.232 0.0.0.7
+access-list 2004 permit udp any range 33434 33534 187.141.190.240 0.0.0.7
+access-list 2004 permit tcp 187.220.0.0 0.3.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit udp 187.220.0.0 0.3.255.255 187.141.190.240 0.0.0.7 eq domain
+access-list 2004 permit ip host 201.125.120.131 187.141.190.232 0.0.0.7
+access-list 2004 permit ip host 201.125.120.134 187.141.190.232 0.0.0.7
+access-list 2004 permit ip host 201.125.120.141 187.141.190.232 0.0.0.7
+access-list 2004 permit ip host 201.125.120.170 187.141.190.232 0.0.0.7
+access-list 2004 permit ip host 201.125.120.131 187.141.190.240 0.0.0.7
+access-list 2004 permit ip host 201.125.120.134 187.141.190.240 0.0.0.7
+access-list 2004 permit ip host 201.125.120.141 187.141.190.240 0.0.0.7
+access-list 2004 permit ip host 201.125.120.170 187.141.190.240 0.0.0.7
+access-list 2004 permit ip host 200.33.150.129 187.141.190.232 0.0.0.7
+access-list 2004 permit ip host 200.33.150.144 187.141.190.232 0.0.0.7
+access-list 2004 permit ip host 200.33.150.173 187.141.190.232 0.0.0.7
+access-list 2004 permit ip host 200.33.150.129 187.141.190.240 0.0.0.7
+access-list 2004 permit ip host 200.33.150.144 187.141.190.240 0.0.0.7
+access-list 2004 permit ip host 200.33.150.173 187.141.190.240 0.0.0.7
+access-list 2004 deny   ip any any
+access-list 2014 permit udp any any
+access-list 2014 permit tcp host 189.246.0.254 eq 646 any
+access-list 2014 permit tcp host 189.246.0.254 any eq 646
+access-list 2014 permit tcp host 189.246.0.255 eq 646 any
+access-list 2014 permit tcp host 189.246.0.255 any eq 646
+access-list 2014 deny   tcp any eq 646 any
+access-list 2014 deny   tcp any any eq 646
+access-list 2014 permit tcp any any
+access-list 2014 deny   53 any any
+access-list 2014 deny   55 any any
+access-list 2014 deny   77 any any
+access-list 2014 deny   pim any any
+access-list 2014 permit ip any any
+route-map ESTATICAS_CLIENTES_IDE deny 50
+ match ip address prefix-list RTBHR
+!
+route-map ESTATICAS_CLIENTES_IDE permit 60
+ match ip address prefix-list REDES_PRIVADAS
+ set community no-export
+!
+route-map ESTATICAS_CLIENTES_IDE permit 70
+ match ip address prefix-list ESTATICAS_IPS_UNINET
+ set community 8151:277 no-export
+!
+route-map ESTATICAS_CLIENTES_IDE permit 80
+ match ip address prefix-list ESTATICAS_IPS_CLIENTE
+ set community 8151:278
+!
+route-map ESTATICAS_CLIENTES_IDE permit 90
+ match ip address 1
+!
+route-map DUAL_HOMED permit 8
+ match community 102
+ continue 10
+!
+route-map DUAL_HOMED deny 9
+!
+route-map DUAL_HOMED permit 10
+ match community 1
+ set local-preference 100
+ set community no-export additive
+!
+route-map DUAL_HOMED permit 20
+ match community 2
+ set local-preference 98
+ set community no-export additive
+!
+route-map DUAL_HOMED permit 30
+ match community 3
+ set local-preference 96
+ set community no-export additive
+!
+route-map DUAL_HOMED permit 40
+ match community 4
+ set local-preference 94
+ set community no-export additive
+!
+route-map DUAL_HOMED permit 50
+ match community 5
+ set local-preference 100
+!
+route-map DUAL_HOMED permit 60
+ match community 6
+ set local-preference 98
+!
+route-map DUAL_HOMED permit 70
+ match community 7
+ set local-preference 96
+!
+route-map DUAL_HOMED permit 80
+ match community 8
+ set local-preference 94
+!
+route-map SINGLE_HOMED permit 8
+ match community 102
+ continue 10
+!
+route-map SINGLE_HOMED deny 9
+!
+route-map SINGLE_HOMED permit 10
+ match community 1
+ set local-preference 100
+ set community no-export additive
+!
+route-map SINGLE_HOMED permit 50
+ match community 5
+ set local-preference 100
+!
+route-map OTHERCLUSTER permit 10
+ match ip address prefix-list RUTA_CERO
+ match community SEGUNDORESPALDO
+ set local-preference 75
+!
+route-map OTHERCLUSTER deny 20
+ match ip address prefix-list RUTA_CERO
+!
+route-map OTHERCLUSTER permit 100
+!
+route-map MARCA_REGION permit 10
+ set community 8151:635 additive
+!
+route-map BGP_MARCA_IPS_00 permit 8
+ match community 102
+ continue 10
+!
+route-map BGP_MARCA_IPS_00 deny 9
+!
+route-map BGP_MARCA_IPS_00 permit 10
+ match ip address prefix-list BGP_IPS_00_UNINET
+ set local-preference 100
+ set community 8151:277 no-export additive
+!
+route-map BGP_MARCA_IPS_00 permit 20
+ match ip address prefix-list BGP_IPS_00_CLIENTE
+ set local-preference 100
+ set community 8151:278 additive
+!
+route-map ESTATICAS-NO-EXPORT deny 50
+ match ip address prefix-list RTBHR
+!
+route-map SAMECLUSTER permit 10
+ match ip address prefix-list RUTA_CERO
+ match community SAMECLUSTER
+!
+route-map SAMECLUSTER deny 30
+ match ip address prefix-list RUTA_CERO
+!
+route-map SAMECLUSTER permit 100
+!
+route-map seriales-guadalajara permit 10
+ match ip address 1
+ set community 8151:277 8151:281 no-export
+!
+snmp-server engineID local 00000009020000603EE23E20
+snmp-server community r34d RO 13
+snmp-server community wr1t3 RW 13
+snmp-server community azJ4Zqz6gFKltBde RO 13
+snmp-server community LFB38gq8nVcVr2sF RW 13
+snmp-server trap-source Loopback0
+snmp-server enable traps snmp authentication linkdown linkup coldstart warmstart
+snmp-server enable traps rf
+snmp-server enable traps channel
+snmp-server enable traps hsrp
+snmp-server enable traps config
+snmp-server enable traps entity
+snmp-server enable traps envmon
+snmp-server enable traps syslog
+snmp-server enable traps bgp
+snmp-server enable traps frame-relay
+snmp-server enable traps frame-relay subif
+snmp-server enable traps mpls ldp
+snmp-server enable traps mpls vpn
+snmp-server host 192.100.232.1 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.2 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.3 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.33 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.34 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.37 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.38 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.4 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.5 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.6 azJ4Zqz6gFKltBde
+snmp-server host 200.33.150.87 azJ4Zqz6gFKltBde
+snmp-server host 201.125.120.129 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.1 r34d
+snmp-server host 192.100.232.2 r34d
+snmp-server host 192.100.232.3 r34d
+snmp-server host 192.100.232.33 r34d
+snmp-server host 192.100.232.34 r34d
+snmp-server host 192.100.232.37 r34d
+snmp-server host 192.100.232.38 r34d
+snmp-server host 192.100.232.4 r34d
+snmp-server host 192.100.232.5 r34d
+snmp-server host 192.100.232.6 r34d
+snmp-server host 200.33.150.87 r34d
+snmp ifmib ifalias long
+!
+tacacs-server host 192.100.232.42
+tacacs-server host 192.100.232.43
+no tacacs-server directed-request
+tacacs-server key 7 06515F254B4A28381623415F
+tag-switching tdp router-id Loopback0 force
+control-plane
+!
+banner motd ^C
+!NOTIFICACION IMPORTANTE!
+El Acceso a este recurso de Red se encuentra restringido a solo
+Personal Autorizado,  cualquier acceso no permitido repercutira
+en Acciones Juridicas y Legales.
+S.S.I.
+^C
+!
+line con 0
+ exec-timeout 60 0
+ password 7 087319411D10160D515F49
+line aux 0
+ exec-timeout 60 0
+ password 7 075D74435A000A1F54464E
+line vty 0 4
+ access-class 15 in
+ exec-timeout 60 0
+ password 7 124B501806021F1E697F61
+ logging synchronous
+line vty 5
+ access-class 17 in
+ exec-timeout 20 0
+ password 7 124B501806021F1E697F61
+ logging synchronous
+!
+ntp clock-period 17179600
+ntp source Loopback0
+ntp update-calendar
+ntp server 200.33.150.196
+no cns aaa enable
+end
+
+   
+</body>
+</html>
+

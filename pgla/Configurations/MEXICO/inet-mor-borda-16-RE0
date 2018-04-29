@@ -1,0 +1,2111 @@
+<!-- Manual de PHP -->
+<html>
+<head>
+   <title>LG VPN UniNet</title>
+</head>
+<body>
+
+<!--<table cellpadding="0" cellspacing="0" border="0" width="250" align="center">-->
+<table border="0" width="850">
+  <tr>
+	<td colspan="2">
+		<img src="uninet_top_full.jpg" border="0" alt="VPN UniNet">
+	 
+  </tr>
+  <tr>
+    <td><font size="5" face="Courier" color='#3366FF'>VPN UniNet Looking Glass   
+    <td align="right"><font size="3" face="Courier" color='#3366FF'>Friday 12th of January 2018 04:31:47 PM
+12.145.193.9
+gestionred@reduno.com.mx   
+  </tr>
+</table>
+
+<table border="0" width='850'>
+<tr><td valign='top'><font size="3" face="Courier" color='#3366FF'>
+Available commands:
+
+traceroute a.b.c.d
+traceroute vrf &lt;arguments&gt;
+ping a.b.c.d
+ping vrf &lt;arguments&gt;	 
+ 
+<td><font size="3" face="Courier" color='#3366FF'>
+IOS commands:
+
+show atm pvc
+show policy-map
+show policy-map interface &lt;arguments&gt;
+show route-map
+show ip vrf
+show ip route vrf &lt;arguments&gt;
+show ip bgp vpnv4 &lt;arguments&gt;
+show ip interface brief
+show ip prefix-list
+show ip access-list
+show interface &#91;arguments&#93;
+show interface description
+show controllers &lt;arguments&gt;
+show configuration
+show running-config
+show running-config interface &lt;arguments&gt;
+show running-config | include route-map
+show running-config | include address-family ipv4 vrf
+show running-config | include interface
+show running-config | include class-map
+show running-config | include policy-map
+show running-config | include ip route vrf
+show running-config | include access-list	 
+ 
+<td valign='top'><font size="3" face="Courier" color='#3366FF'>
+IOSXR commands:
+
+show rpl policy-global
+show vrf
+show route vrf &lt;arguments&gt;
+show bgp vpnv4 unicast vrf &lt;arguments&gt;
+show bgp vrf &lt;arguments&gt;
+show prefix-list
+show access-list	 
+ 
+</tr>
+</table>
+
+
+
+<font size="3" face="Courier" color='#3366FF'>
+<form action="lgvpnuninet.php" method="post">
+Source [IP|hostname]:
+<input type="text" name="ip" size="71" maxlength="70"/>
+-l0.uninet.net.mx
+
+
+
+Command             :
+<input type="text" name="cmd" size="71" maxlength="70"/>
+<input type="submit" name='submit' value="Submit" />
+
+</form>
+ 
+
+<font size="-1" face="Courier">
+
+   Granted
+Source IP: 201.154.0.16
+Command  : show configuration
+Equipment model: juniper_mx104
+
+
+
+ R E S U L T :
+
+## Last commit: 2017-11-15 17:17:31 CST by csu_sac
+version 17.1R1.8;
+groups {
+    re0 {
+        system {
+            host-name inet-mor-borda-16-RE0;
+        }
+    }
+    re1 {
+        system {
+            host-name inet-mor-borda-16-RE1;
+        }
+    }
+}
+apply-groups [ re0 re1 ];
+system {
+    host-name inet-mor-borda-16;
+    time-zone America/Mexico_City;
+    authentication-order [ password tacplus ];
+    location country-code MX;
+    ports {
+        ##
+        ## Warning: statement ignored: unsupported platform (mx104)
+        ##
+        console log-out-on-disconnect;
+    }
+    root-authentication {
+        encrypted-password "$5$FtC2ynPQ$OwerlN.VnCG/W0c8jWGVFP9cpUUYqkQIoLZKSIoYVQ8"; ## SECRET-DATA
+    }
+    tacplus-server {
+        192.100.232.42 {
+            port 49;
+            secret "$9$s-gaGUjH.fTVwjk.P3nlKMWL74aUDi.4o.fTFCAxN-bY4Hqm"; ## SECRET-DATA
+            source-address 201.154.0.16;
+        }
+        200.33.150.68 {
+            port 49;
+            secret "$9$nKPS9t0O1Rcrez31EcyW8UjHk.fCtOBIcCAcreM7NP5TF6CRhS"; ## SECRET-DATA
+            source-address 201.154.0.16;
+        }
+    }
+    accounting {
+        events [ login change-log interactive-commands ];
+        destination {
+            tacplus {
+                server {
+                    200.33.150.15 {
+                        secret "$9$ejxML7NdbY4ayldwYgUDAp0O1EWLN-VYW8Y4aGkqRhcrKWbs2"; ## SECRET-DATA
+                        source-address 201.154.0.16;
+                    }
+                    200.33.150.130 {
+                        secret "$9$PTF6/Ct01RqmCp0BSy24aJGjQF/9A0Qz01RcKvDiH.fQtuO"; ## SECRET-DATA
+                        source-address 201.154.0.16;
+                    }
+                }
+            }
+        }
+    }
+    login {
+        message "\n!NOTIFICACION IMPORTANTE!\nEl Acceso a este recurso de Red se encuentra restringido a solo\nPersonal Autorizado,  cualquier acceso no permitido repercutira\nen Acciones Juridicas y Legales. S.S.I.";
+        class SSI_LOCAL {
+            idle-timeout 30;
+            permissions all;
+        }
+        class tacacs {
+            idle-timeout 30;
+            permissions [ access admin control firewall interface network routing security snmp system view view-configuration ];
+            deny-commands "request interface";
+        }
+        user admin {
+            uid 2000;
+            class super-user;
+            authentication {
+                encrypted-password "$5$nE/TgIUA$Cxp90OOQl5eRIojqphJbrbbmYc8nIz7i1HHyQAm0Tb3"; ## SECRET-DATA
+            }
+        }
+        user remote {
+            uid 2001;
+            class tacacs;
+        }
+        user ssrdivpue {
+            uid 2002;
+            class SSI_LOCAL;
+            authentication {
+                encrypted-password "$5$ZbQK8Gvj$T./CaGe36Eh4Bs8J.BJdHYEDm99T9OrCB..mibta227"; ## SECRET-DATA
+            }
+        }
+        password {
+            minimum-length 8;
+        }
+    }
+    services {
+        ftp;
+        telnet {
+            connection-limit 5;
+        }
+    }
+    syslog {
+        user * {
+            any emergency;
+            daemon info;
+            kernel warning;
+            conflict-log warning;
+            change-log warning;
+        }
+        host 200.33.150.74 {
+            any notice;
+            authorization info;
+            daemon info;
+            kernel warning;
+            conflict-log warning;
+            change-log warning;
+            facility-override local7;
+            log-prefix xintmx104;
+            explicit-priority;
+        }
+        host 200.33.150.106 {
+            any notice;
+            authorization info;
+            daemon info;
+            kernel warning;
+            conflict-log warning;
+            change-log warning;
+            facility-override local7;
+            log-prefix xintmx104;
+            explicit-priority;
+        }
+        host 201.125.120.160 {
+            any notice;
+            authorization info;
+            daemon info;
+            kernel warning;
+            conflict-log warning;
+            change-log warning;
+            facility-override local7;
+            log-prefix xintmx104;
+            explicit-priority;
+        }
+        file messages {
+            any notice;
+            authorization info;
+            daemon info;
+            kernel warning;
+            conflict-log warning;
+            change-log warning;
+            explicit-priority;
+        }
+        file interactive-commands {
+            interactive-commands any;
+        }
+        console {
+            any warning;
+        }
+        source-address 201.154.0.16;
+    }
+    commit synchronize;
+    processes {
+        routing failover other-routing-engine;
+        SDN-Telemetry disable;
+    }
+    ntp {
+        boot-server 200.33.150.196;
+        server 200.33.150.196 prefer;
+        server 200.33.150.30;
+        source-address 201.154.0.16;
+    }
+}
+chassis {
+    maximum-ecmp 16;
+    redundancy {
+        graceful-switchover;
+    }
+    fpc 0 {
+        pic 0 {
+            adaptive-services {
+                service-package layer-2;
+            }
+            framing e1;
+            multi-link-layer-2-inline;
+            traffic-manager {
+                mode ingress-and-egress;
+            }
+            max-queues-per-interface 8;
+            port 0 {
+                framing e1;
+            }
+            port 1 {
+                framing e1;
+            }
+            port 2 {
+                framing e1;
+            }
+            port 3 {
+                framing e1;
+            }
+            port 4 {
+                framing e1;
+            }
+            port 5 {
+                framing e1;
+            }
+            port 6 {
+                framing e1;
+            }
+            port 7 {
+                framing e1;
+            }
+            port 8 {
+                framing e1;
+            }
+            port 9 {
+                framing e1;
+            }
+            port 10 {
+                framing e1;
+            }
+            port 11 {
+                framing e1;
+            }
+            port 12 {
+                framing e1;
+            }
+            port 13 {
+                framing e1;
+            }
+            port 14 {
+                framing e1;
+            }
+            port 15 {
+                framing e1;
+            }
+        }
+        pic 2 {
+            adaptive-services {
+                service-package layer-2;
+            }
+            framing e1;
+            multi-link-layer-2-inline;
+            traffic-manager {
+                mode ingress-and-egress;
+            }
+            max-queues-per-interface 8;
+            port 0 {
+                framing e1;
+            }
+            port 1 {
+                framing e1;
+            }
+            port 2 {
+                framing e1;
+            }
+            port 3 {
+                framing e1;
+            }
+            port 4 {
+                framing e1;
+            }
+            port 5 {
+                framing e1;
+            }
+            port 6 {
+                framing e1;
+            }
+            port 7 {
+                framing e1;
+            }
+            port 8 {
+                framing e1;
+            }
+            port 9 {
+                framing e1;
+            }
+            port 10 {
+                framing e1;
+            }
+            port 11 {
+                framing e1;
+            }
+            port 12 {
+                framing e1;
+            }
+            port 13 {
+                framing e1;
+            }
+            port 14 {
+                framing e1;
+            }
+            port 15 {
+                framing e1;
+            }
+        }
+    }
+    fpc 1 {
+        pic 2 {
+            adaptive-services {
+                service-package layer-2;
+            }
+            framing e1;
+            multi-link-layer-2-inline;
+            max-queues-per-interface 8;
+        }
+        pic 3 {
+            adaptive-services {
+                service-package layer-2;
+            }
+            framing e1;
+            multi-link-layer-2-inline;
+            max-queues-per-interface 8;
+        }
+    }
+    fpc 2 {
+        pic 0 {
+            adaptive-services {
+                service-package layer-2;
+            }
+            framing e1;
+            multi-link-layer-2-inline;
+            max-queues-per-interface 8;
+        }
+    }
+    network-services ip;
+}
+interfaces {
+    ce1-0/0/0 {
+        description "IC SECRETARIA_DE_SEGURIDAD_PUBLICA_MORELOS D32-0811-0783 I18020951C servautom 24/02/09 21823716";
+        clocking external;
+        e1-options {
+            framing g704-no-crc4;
+        }
+        partition 1 timeslots 1-31 interface-type ds;
+    }
+    ds-0/0/0:1 {
+        description "IC SECRETARIA_DE_SEGURIDAD_PUBLICA_MORELOS D32-0811-0783 I18020951C servautom 24/02/09 21823716";
+        encapsulation cisco-hdlc;
+        unit 0 {
+            bandwidth 1984000;
+            family inet {
+                filter {
+                    input PROTECCION_IDE;
+                }
+                address 201.117.89.126/30;
+            }
+        }
+    }
+    ce1-0/0/1 {
+        disable;
+    }
+    ce1-0/0/2 {
+        disable;
+    }
+    ce1-0/0/3 {
+        disable;
+    }
+    ce1-0/0/4 {
+        description "ENLACE PMP MARTIZ BOK00 ESC 3 UNI 4 INT 4 E1-0102-0537 RDR-01032602";
+        clocking external;
+        e1-options {
+            framing g704-no-crc4;
+        }
+        partition 4 timeslots 5-8 interface-type ds;
+        partition 13 timeslots 14 interface-type ds;
+    }
+    ds-0/0/4:4 {
+        description "IC SEP A04-0109-0019 VER-01110907 CGT 22/08/01";
+        encapsulation ppp;
+        unit 0 {
+            bandwidth 256k;
+            family inet {
+                filter {
+                    input-list [ PROTECCION_IDE IDE_SHAPE_IN ];
+                }
+                address 148.223.232.94/30;
+            }
+        }
+    }
+    ds-0/0/4:13 {
+        description "IC GPE. MARTINEZ A01-0106-0158 CGT-01071202 GGO 01/08/07";
+        encapsulation cisco-hdlc;
+        unit 0 {
+            bandwidth 64k;
+            family inet {
+                filter {
+                    input-list [ IDE_SHAPE_IN PROTECCION_IDE ];
+                }
+                address 148.223.243.214/30;
+            }
+        }
+    }
+    ce1-0/0/5 {
+        description "ENLACE PMP BORDA K02, UNI 9 INT 3  E1-0307-0235 I07080336N";
+        clocking external;
+        e1-options {
+            framing g704-no-crc4;
+        }
+        partition 1 timeslots 1-6 interface-type ds;
+    }
+    ds-0/0/5:1 {
+        description "IC CETIS_099 A06-0701-0052 I28020701U servautom 27/03/07 5199624";
+        encapsulation cisco-hdlc;
+        unit 0 {
+            bandwidth 384k;
+            family inet {
+                filter {
+                    input-list [ IDE_SHAPE_IN PROTECCION_IDE ];
+                }
+                address 201.117.228.2/30;
+            }
+        }
+    }
+    ce1-0/0/6 {
+        description "ENLACE PMP UNI 9 INT 4 BORDA K02 E1-0307-0236 I07080341D";
+        clocking external;
+        e1-options {
+            framing g704-no-crc4;
+        }
+        partition 8 timeslots 9-11 interface-type ds;
+    }
+    ds-0/0/6:8 {
+        description "IC CIMMYT TLALTIZAPAN A03-0506-0024 I11080557R MCB 11/08/2005 2406670";
+        encapsulation cisco-hdlc;
+        unit 0 {
+            bandwidth 192k;
+            family inet {
+                filter {
+                    input-list [ PROTECCION_IDE IDE_SHAPE_IN ];
+                }
+                address 201.134.201.238/30;
+            }
+        }
+    }
+    ce1-0/0/7 {
+        description "IC IT_IGUALA A32-0809-0141 I12110880T POR INSTALAR";
+        clocking external;
+        e1-options {
+            framing g704-no-crc4;
+        }
+        partition 1 timeslots 1-31 interface-type ds;
+    }
+    ds-0/0/7:1 {
+        description "IC IT_IGUALA A32-0809-0141 I12110880T POR INSTALAR";
+        encapsulation cisco-hdlc;
+        unit 0 {
+            bandwidth 1984000;
+            family inet {
+                filter {
+                    input-list [ PROTECCION_IDE IDE_SHAPE_IN ];
+                }
+                address 148.223.237.30/30;
+            }
+        }
+    }
+    ce1-0/0/8 {
+        description "ENLACE PMP BO K00 ESC 5 UNI 3 INT 1 E1-0108-0232 KMM-01092702";
+        clocking external;
+        e1-options {
+            framing g704-no-crc4;
+        }
+        partition 16 timeslots 17-20 interface-type ds;
+    }
+    ds-0/0/8:16 {
+        description "IC ALONSO RENDON ALMA ESTELA A04-0306-0138 KMM-01102601 KMM 26/10/01";
+        encapsulation cisco-hdlc;
+        unit 0 {
+            bandwidth 256k;
+            family inet {
+                filter {
+                    input-list [ PROTECCION_IDE IDE_SHAPE_IN ];
+                }
+                address 148.223.237.126/30;
+            }
+        }
+    }
+    ce1-0/0/9 {
+        disable;
+    }
+    ce1-0/0/10 {
+        disable;
+    }
+    ce1-0/0/11 {
+        disable;
+    }
+    ce1-0/0/12 {
+        disable;
+    }
+    ce1-0/0/13 {
+        disable;
+    }
+    ce1-0/0/14 {
+        disable;
+    }
+    ce1-0/0/15 {
+        disable;
+    }
+    ce1-0/2/0 {
+        description "IC GOB_EDO_MORELOS_CUERNAVACA_N_ING D32-0802-0007 I19030897E AJHERNANDEZ 19/03/08 813536";
+        clocking external;
+        e1-options {
+            framing g704-no-crc4;
+        }
+        partition 1 timeslots 1-31 interface-type ds;
+    }
+    ds-0/2/0:1 {
+        description "IC GOB_EDO_MORELOS_CUERNAVACA_N_ING D32-0802-0007 I19030897E AJHERNANDEZ 19/03/08 813536";
+        encapsulation cisco-hdlc;
+        unit 0 {
+            bandwidth 1984000;
+            family inet {
+                filter {
+                    input-list PROTECCION_IDE;
+                }
+                address 148.233.238.254/30;
+            }
+        }
+    }
+    ce1-0/2/1 {
+        disable;
+    }
+    ce1-0/2/2 {
+        disable;
+    }
+    ce1-0/2/3 {
+        disable;
+    }
+    ce1-0/2/4 {
+        disable;
+    }
+    ce1-0/2/5 {
+        disable;
+    }
+    ce1-0/2/6 {
+        disable;
+    }
+    ce1-0/2/7 {
+        disable;
+    }
+    ce1-0/2/8 {
+        disable;
+    }
+    ce1-0/2/9 {
+        disable;
+    }
+    ce1-0/2/10 {
+        disable;
+    }
+    ce1-0/2/11 {
+        disable;
+    }
+    ce1-0/2/12 {
+        disable;
+    }
+    ce1-0/2/13 {
+        disable;
+    }
+    ce1-0/2/14 {
+        disable;
+    }
+    ce1-0/2/15 {
+        disable;
+    }
+    ge-1/2/0 {
+        description "CONEXION GE A lansw-mor-borda-8-g5-6 BTB YPG 16/02/16";
+        mtu 2018;
+        gigether-options {
+            no-auto-negotiation;
+        }
+        unit 0 {
+            description "CONEXION GE A lansw-mor-borda-8 -ge5-6 BTB YPG 16/02/16";
+            family inet {
+                mtu 1500;
+                filter {
+                    output BACKBONE_OUT;
+                }
+                address 201.125.63.190/28;
+            }
+            family mpls {
+                mtu 2000;
+            }
+        }
+    }
+    ge-1/2/1 {
+        description "CONEXION GE A lansw-mor-borda-9-g5-1 BTB YPG 16/02/16";
+        mtu 2018;
+        gigether-options {
+            no-auto-negotiation;
+        }
+        unit 0 {
+            description "CONEXION GE A lansw-mor-borda-9-ge5-1 BTB YPG 16/02/16";
+            family inet {
+                mtu 1500;
+                filter {
+                    output BACKBONE_OUT;
+                }
+                address 201.125.63.174/28;
+            }
+            family mpls {
+                mtu 2000;
+            }
+        }
+    }
+    ge-1/2/2 {
+        disable;
+    }
+    ge-1/2/3 {
+        disable;
+    }
+    ge-1/2/4 {
+        disable;
+    }
+    ge-1/2/5 {
+        disable;
+    }
+    ge-1/2/6 {
+        disable;
+    }
+    ge-1/2/7 {
+        disable;
+    }
+    ge-1/2/8 {
+        disable;
+    }
+    ge-1/2/9 {
+        disable;
+    }
+    ge-1/3/0 {
+        disable;
+    }
+    ge-1/3/1 {
+        disable;
+    }
+    ge-1/3/2 {
+        disable;
+    }
+    ge-1/3/3 {
+        disable;
+    }
+    ge-1/3/4 {
+        disable;
+    }
+    ge-1/3/5 {
+        disable;
+    }
+    ge-1/3/6 {
+        disable;
+    }
+    ge-1/3/7 {
+        disable;
+    }
+    ge-1/3/8 {
+        disable;
+    }
+    ge-1/3/9 {
+        disable;
+    }
+    xe-2/0/0 {
+        disable;
+    }
+    xe-2/0/1 {
+        disable;
+    }
+    fxp0 {
+        unit 0 {
+            family inet {
+                address 10.10.10.1/24;
+            }
+        }
+    }
+    lo0 {
+        description inet-mor-borda-16-l0;
+        unit 0 {
+            family inet {
+                filter {
+                    input PPC_V4;
+                }
+                address 201.154.0.16/32;
+            }
+            family inet6 {
+                filter {
+                    input PPC_V6;
+                }
+            }
+        }
+    }
+}
+snmp {
+    client-list SNMP {
+        187.210.234.0/24;
+        189.254.31.0/26;
+        192.100.232.0/25;
+        200.33.150.0/26;
+        200.33.150.128/26;
+        200.33.150.192/26;
+        200.33.150.64/26;
+        201.125.120.128/29;
+        201.125.120.136/30;
+        201.125.120.140/30;
+        201.125.120.144/30;
+        201.125.120.148/30;
+        201.125.120.152/30;
+        201.125.120.160/27;
+        201.125.120.192/26;
+    }
+    community i05cF2c9Kc6Laama {
+        authorization read-write;
+        client-list-name SNMP;
+    }
+    community 3hdtrurasxetB8de {
+        authorization read-only;
+        client-list-name SNMP;
+    }
+    trap-options {
+        source-address lo0;
+    }
+    trap-group TRAP {
+        version v2;
+        categories {
+            authentication;
+            chassis;
+            link;
+            routing;
+            startup;
+            vrrp-events;
+            configuration;
+            services;
+        }
+        targets {
+            192.100.232.1;
+            192.100.232.2;
+            192.100.232.3;
+            192.100.232.4;
+            192.100.232.5;
+            192.100.232.6;
+            200.33.150.87;
+            201.125.120.129;
+            201.125.120.172;
+        }
+    }
+}
+routing-options {
+    nonstop-routing;
+    static {
+        route 0.0.0.0/0 {
+            discard;
+            preference 180;
+        }
+        route 201.134.203.176/28 {
+            next-hop 201.134.201.237;
+            qualified-next-hop ds-0/0/6:8.0;
+        }
+        route 148.208.214.0/24 {
+            next-hop 148.223.237.29;
+            qualified-next-hop ds-0/0/7:1.0;
+        }
+        route 148.233.230.144/28 {
+            next-hop 148.223.237.29;
+            qualified-next-hop ds-0/0/7:1.0;
+        }
+        route 148.223.151.176/28 {
+            next-hop 148.223.237.125;
+            qualified-next-hop ds-0/0/8:16.0;
+        }
+        route 148.233.220.176/28 {
+            next-hop 148.233.238.253;
+            qualified-next-hop ds-0/2/0:1.0;
+        }
+        route 201.116.229.0/28 {
+            next-hop 201.117.228.1;
+            qualified-next-hop ds-0/0/5:1.0;
+        }
+        route 187.141.19.192/28 {
+            next-hop 201.117.89.125;
+            qualified-next-hop ds-0/0/0:1.0;
+        }
+        route 148.223.236.112/28 {
+            next-hop 148.223.243.213;
+            qualified-next-hop ds-0/0/4:13.0;
+        }
+    }
+    router-id 201.154.0.16;
+    autonomous-system 8151;
+    forwarding-table {
+        export LOAD_BALANCE;
+    }
+}
+protocols {
+    mpls {
+        no-propagate-ttl;
+        interface ge-1/2/0.0;
+        interface ge-1/2/1.0;
+    }
+    bgp {
+        family inet {
+            unicast;
+        }
+        authentication-algorithm md5;
+        group IC_SEIT-CUERNAVACA {
+            type external;
+            import IC_SEIT-CUERNAVACA;
+            export 2_REJECT_RUTAS;
+            peer-as 22529;
+            neighbor 148.223.232.93 {
+                description "IC_SEIT-CUERNAVACA A04-0109-0019";
+                family inet {
+                    unicast {
+                        prefix-limit {
+                            maximum 100;
+                            teardown 80 idle-timeout 1;
+                        }
+                    }
+                }
+            }
+        }
+        group rride-mor-mirador-38 {
+            type internal;
+            local-address 201.154.0.16;
+            import SAMECLUSTER;
+            export [ CLIENTES_EBGP ESTATICAS_CLIENTES_IDE SERIALES_MEXICO ];
+            peer-as 8151;
+            neighbor 189.246.233.70 {
+                description rride-mor-mirador-38;
+            }
+        }
+        group rride-mor-mirador-39 {
+            type internal;
+            local-address 201.154.0.16;
+            import OTHERCLUSTER;
+            export [ CLIENTES_EBGP ESTATICAS_CLIENTES_IDE SERIALES_MEXICO ];
+            peer-as 8151;
+            neighbor 189.246.233.71 {
+                description rride-mor-mirador-39;
+            }
+        }
+    }
+    ospf {
+        reference-bandwidth 1000g;
+        area 4.3.34.1 {
+            nssa;
+            interface ge-1/2/0.0 {
+                metric 1500;
+                priority 0;
+                authentication {
+                    md5 1 key "$9$BP4IEcrev8xNcSvWLxsY69At1RleWLNb"; ## SECRET-DATA
+                }
+            }
+            interface ge-1/2/1.0 {
+                metric 1500;
+                priority 0;
+                authentication {
+                    md5 1 key "$9$lDWKM8xNdw248Ldbs2UDBIEhev7Nbs4Z"; ## SECRET-DATA
+                }
+            }
+            interface lo0.0 {
+                passive;
+            }
+        }
+    }
+    ldp {
+        interface ge-1/2/0.0;
+        interface ge-1/2/1.0;
+    }
+}
+policy-options {
+    prefix-list ESTATICAS_IPS_UNINET {
+        148.223.151.176/28;
+        148.223.236.112/28;
+        148.233.220.176/28;
+        148.233.230.144/28;
+        187.141.19.192/28;
+        201.116.229.0/28;
+        201.134.203.176/28;
+    }
+    prefix-list ESTATICAS_IPS_CLIENTES {
+        148.208.214.0/24;
+    }
+    prefix-list BGP_NEIGHBORS {
+        apply-path "protocols bgp group <*> neighbor <*>";
+    }
+    prefix-list BGP_VPN_NEIGH {
+        apply-path "routing-instances <*> protocols bgp group <*> neighbor <*>";
+    }
+    prefix-list BGP_FAKE {
+        ::/128;
+    }
+    prefix-list IPV4_IF {
+        apply-path "interfaces <*> unit <*> family inet address <*>";
+    }
+    prefix-list IPV6_IF {
+        apply-path "interfaces <*> unit <*> family inet6 address <*>";
+    }
+    prefix-list SERVERS_1812_13 {
+        apply-path "access profile <*> radius-server <*>";
+    }
+    prefix-list SERVERS_COA {
+        148.235.33.16/29;
+        148.235.33.24/29;
+        148.235.73.0/29;
+        148.235.73.8/29;
+        148.235.128.0/28;
+        148.235.128.16/29;
+        187.157.34.232/29;
+        187.210.66.56/29;
+        187.216.92.144/29;
+        187.216.92.152/29;
+        187.216.92.176/28;
+        187.217.249.208/28;
+        189.233.16.0/24;
+    }
+    prefix-list PFX_UNINET {
+        148.223.15.0/24;
+        148.223.31.0/24;
+        148.223.32.153/32;
+        148.223.43.0/24;
+        148.223.54.105/32;
+        148.223.58.141/32;
+        148.223.79.0/24;
+        148.223.84.0/24;
+        148.223.95.0/24;
+        148.223.97.0/24;
+        148.223.104.169/32;
+        148.223.107.77/32;
+        148.223.121.0/24;
+        148.223.144.0/24;
+        148.223.149.249/32;
+        148.223.167.13/32;
+        148.223.181.105/32;
+        148.223.182.0/24;
+        148.223.184.0/24;
+        148.223.190.0/24;
+        148.223.191.0/24;
+        148.223.201.153/32;
+        148.223.202.0/24;
+        148.223.206.237/32;
+        148.223.210.65/32;
+        148.223.219.0/24;
+        148.223.223.77/32;
+        148.223.240.33/32;
+        148.223.243.0/24;
+        148.223.255.231/32;
+        148.233.15.93/32;
+        148.233.23.0/24;
+        148.233.31.0/24;
+        148.233.75.241/32;
+        148.233.118.0/24;
+        148.233.131.0/24;
+        148.233.135.0/24;
+        148.233.139.157/32;
+        148.233.142.165/32;
+        148.233.152.165/32;
+        148.233.153.0/24;
+        148.233.158.0/24;
+        148.233.159.0/24;
+        148.233.164.4/32;
+        148.233.175.0/24;
+        148.233.187.0/24;
+        148.233.188.128/25;
+        148.233.191.0/24;
+        148.233.229.224/27;
+        148.233.238.225/32;
+        148.233.239.0/24;
+        148.235.14.0/24;
+        148.235.24.0/24;
+        148.235.39.0/24;
+        148.235.58.0/24;
+        148.235.59.0/24;
+        148.235.71.0/24;
+        148.235.75.0/24;
+        148.235.78.0/24;
+        148.235.81.0/24;
+        148.235.85.0/24;
+        148.235.87.0/24;
+        148.235.109.0/24;
+        148.235.110.0/24;
+        148.235.127.48/29;
+        148.235.139.0/24;
+        148.235.143.209/32;
+        148.235.145.0/24;
+        148.235.149.0/24;
+        148.235.155.0/24;
+        148.235.157.0/24;
+        148.235.159.80/30;
+        148.235.159.224/28;
+        148.235.165.0/24;
+        148.235.167.0/24;
+        148.235.175.0/24;
+        148.235.186.0/24;
+        148.235.231.121/32;
+        189.146.77.216/30;
+        189.233.1.0/29;
+        189.246.0.0/16;
+        189.247.172.24/30;
+        189.247.172.28/30;
+        189.247.172.40/30;
+        189.247.172.44/30;
+        189.249.88.48/30;
+        189.249.88.52/30;
+        189.249.88.56/30;
+        189.249.88.60/30;
+        192.100.232.0/24;
+        200.23.243.45/32;
+        200.33.137.0/24;
+        200.33.144.45/32;
+        200.33.146.184/29;
+        200.33.146.192/29;
+        200.33.150.0/24;
+        200.36.40.205/32;
+        200.36.50.121/32;
+        200.38.131.192/26;
+        200.38.141.0/24;
+        200.38.192.8/32;
+        200.38.192.112/32;
+        200.38.192.113/32;
+        200.38.192.114/32;
+        200.38.192.116/32;
+        200.38.192.117/32;
+        200.38.192.119/32;
+        200.38.192.120/32;
+        200.38.193.52/32;
+        200.38.193.54/32;
+        200.38.193.60/32;
+        200.38.193.140/32;
+        200.38.193.141/32;
+        200.38.193.168/32;
+        200.38.193.170/32;
+        200.38.193.171/32;
+        200.38.193.173/32;
+        200.38.193.176/32;
+        200.38.193.179/32;
+        200.38.193.184/32;
+        200.38.193.205/32;
+        200.38.193.206/32;
+        200.38.193.210/32;
+        200.38.193.212/32;
+        200.38.193.218/32;
+        200.38.193.219/32;
+        200.38.193.228/32;
+        200.38.193.235/32;
+        200.38.193.236/32;
+        200.38.193.240/32;
+        200.38.193.241/32;
+        200.38.193.246/32;
+        200.38.193.250/32;
+        200.38.193.251/32;
+        200.38.193.252/32;
+        200.38.193.253/32;
+        200.38.193.254/32;
+        200.38.195.3/32;
+        200.38.195.5/32;
+        200.38.195.6/32;
+        200.38.195.8/32;
+        200.38.195.9/32;
+        200.38.196.4/32;
+        200.38.196.5/32;
+        200.38.196.7/32;
+        200.38.198.3/32;
+        200.38.198.7/32;
+        200.38.198.15/32;
+        200.38.199.2/32;
+        200.38.202.2/32;
+        200.38.202.7/32;
+        200.66.128.0/28;
+        200.79.4.0/24;
+        200.79.11.71/32;
+        200.79.21.0/24;
+        200.79.26.0/24;
+        200.79.39.0/24;
+        200.79.44.0/24;
+        200.79.68.6/32;
+        200.79.88.0/24;
+        200.79.111.0/24;
+        201.125.0.0/16;
+        201.134.5.0/24;
+        201.134.33.0/24;
+        201.134.64.0/24;
+        201.134.77.2/32;
+        201.134.105.0/24;
+        201.134.125.0/24;
+        201.134.130.0/24;
+        201.134.146.184/30;
+        201.134.146.188/30;
+        201.134.146.192/30;
+        201.134.146.196/30;
+        201.134.163.0/24;
+        201.134.176.0/24;
+        201.134.201.0/24;
+        201.134.208.0/24;
+        201.134.211.0/24;
+        201.144.94.8/29;
+        201.154.0.0/16;
+        204.124.107.0/24;
+    }
+    policy-statement 2_REJECT_RUTAS {
+        term 1 {
+            then reject;
+        }
+    }
+    inactive: policy-statement BGP_MARCA_IPS_00 {
+        term 1 {
+            from {
+                prefix-list BGP_IPS_00_UNINET;
+            }
+            then {
+                community set 8151:277;
+                community add no-export;
+                community add MARCA_REGION;
+                next policy;
+            }
+        }
+        term 2 {
+            from {
+                prefix-list BGP_IPS_00_CLIENTE;
+            }
+            then {
+                community set 8151:278;
+                next policy;
+            }
+        }
+        term 3 {
+            then reject;
+        }
+    }
+    policy-statement CLIENTES_EBGP {
+        term 1 {
+            from {
+                protocol bgp;
+                origin egp;
+            }
+            then {
+                community add MARCA_REGION;
+                accept;
+            }
+        }
+        term 2 {
+            then next policy;
+        }
+    }
+    policy-statement COMUNIDAD {
+        term 1 {
+            from {
+                protocol bgp;
+                community 102;
+            }
+            then next policy;
+        }
+        term 2 {
+            then reject;
+        }
+    }
+    policy-statement COMUNIDAD_SHNA {
+        term 1 {
+            from {
+                protocol bgp;
+                community 102;
+            }
+            then next policy;
+        }
+        term 2 {
+            from protocol bgp;
+            then next policy;
+        }
+    }
+    policy-statement DEFAULT_ORIGINATE {
+        term 1 {
+            from {
+                route-filter 0.0.0.0/0 exact;
+            }
+            then accept;
+        }
+        term 2 {
+            then reject;
+        }
+    }
+    policy-statement DUAL_HOMED {
+        term 1 {
+            from community 1;
+            then {
+                local-preference 100;
+                community add no-export;
+                community add MARCA_REGION;
+                next policy;
+            }
+        }
+        term 2 {
+            from community 2;
+            then {
+                local-preference 98;
+                community add no-export;
+                community add MARCA_REGION;
+                next policy;
+            }
+        }
+        term 3 {
+            from community 3;
+            then {
+                local-preference 96;
+                community add no-export;
+                community add MARCA_REGION;
+                next policy;
+            }
+        }
+        term 4 {
+            from community 4;
+            then {
+                local-preference 94;
+                community add no-export;
+                community add MARCA_REGION;
+                next policy;
+            }
+        }
+        term 5 {
+            from community 5;
+            then {
+                local-preference 100;
+                next policy;
+            }
+        }
+        term 6 {
+            from community 6;
+            then {
+                local-preference 98;
+                next policy;
+            }
+        }
+        term 7 {
+            from community 7;
+            then {
+                local-preference 96;
+                next policy;
+            }
+        }
+        term 8 {
+            from community 8;
+            then {
+                local-preference 94;
+                next policy;
+            }
+        }
+        term 9 {
+            then reject;
+        }
+    }
+    policy-statement ESTATICAS_CLIENTES_IDE {
+        term 1 {
+            from {
+                protocol static;
+                route-filter 192.168.250.0/24 exact;
+            }
+            then reject;
+        }
+        term 2 {
+            from {
+                protocol static;
+                route-filter 10.0.0.0/8 orlonger;
+                route-filter 172.16.0.0/12 orlonger;
+                route-filter 192.168.0.0/16 orlonger;
+            }
+            then {
+                community set no-export;
+                community add MARCA_REGION;
+                accept;
+            }
+        }
+        term 3 {
+            from {
+                protocol static;
+                prefix-list ESTATICAS_IPS_UNINET;
+            }
+            then {
+                community add 8151:277;
+                community add no-export;
+                community add MARCA_REGION;
+                accept;
+            }
+        }
+        term 4 {
+            from {
+                protocol static;
+                prefix-list ESTATICAS_IPS_CLIENTES;
+            }
+            then {
+                community add 8151:278;
+                accept;
+            }
+        }
+        term 5 {
+            then next policy;
+        }
+    }
+    policy-statement IC_SEIT-CUERNAVACA {
+        term 1 {
+            from {
+                route-filter 148.208.240.0/20 orlonger;
+            }
+            then next policy;
+        }
+        term 2 {
+            then reject;
+        }
+    }
+    policy-statement LOAD_BALANCE {
+        then {
+            load-balance per-packet;
+        }
+    }
+    policy-statement MAS_24 {
+        term 1 {
+            from {
+                route-filter 0.0.0.0/0 prefix-length-range /0-/23;
+            }
+            then reject;
+        }
+        term 2 {
+            from {
+                route-filter 0.0.0.0/24 orlonger;
+            }
+            then next policy;
+        }
+    }
+    policy-statement MAXAS {
+        term 1 {
+            from {
+                protocol bgp;
+                as-path maxas;
+            }
+            then next policy;
+        }
+        term 2 {
+            then reject;
+        }
+    }
+    policy-statement OTHERCLUSTER {
+        term A {
+            from {
+                community SEGUNDORESPALDO;
+                route-filter 0.0.0.0/0 exact;
+            }
+            then {
+                local-preference 75;
+                accept;
+            }
+        }
+        term B {
+            from {
+                route-filter 0.0.0.0/0 exact;
+            }
+            then reject;
+        }
+    }
+    policy-statement SAMECLUSTER {
+        term A {
+            from {
+                community SAMECLUSTER;
+                route-filter 0.0.0.0/0 exact;
+            }
+            then accept;
+        }
+        term B {
+            from {
+                community TERCERRESPALDO;
+                route-filter 0.0.0.0/0 exact;
+            }
+            then {
+                local-preference 50;
+                accept;
+            }
+        }
+        term C {
+            from {
+                route-filter 0.0.0.0/0 exact;
+            }
+            then reject;
+        }
+    }
+    policy-statement SERIALES_MEXICO {
+        term 1 {
+            from {
+                protocol direct;
+                route-filter 148.223.237.28/30 exact;
+                route-filter 148.223.237.124/30 exact;
+                route-filter 148.233.238.252/30 exact;
+                route-filter 201.134.201.236/30 exact;
+                route-filter 201.117.228.0/30 exact;
+                route-filter 201.117.89.124/30 exact;
+                route-filter 148.223.232.92/30 exact;
+                route-filter 148.223.243.212/30 exact;
+            }
+            then {
+                community set SERIALES_MEXICO_COMUNIDADES;
+                community add no-export;
+                accept;
+            }
+        }
+    }
+    policy-statement SINGLE_HOMED {
+        term 1 {
+            from community 1;
+            then {
+                local-preference 100;
+                community add no-export;
+                next policy;
+            }
+        }
+        term 2 {
+            from community 5;
+            then {
+                local-preference 100;
+                next policy;
+            }
+        }
+        term 3 {
+            then reject;
+        }
+    }
+    policy-statement TRANS_INT {
+        term 1 {
+            from community 5;
+            then {
+                local-preference 100;
+                community add 8151:299;
+                next policy;
+            }
+        }
+        term 2 {
+            from community 6;
+            then {
+                local-preference 98;
+                community add 8151:299;
+                next policy;
+            }
+        }
+        term 3 {
+            from community 7;
+            then {
+                local-preference 96;
+                community add 8151:299;
+                next policy;
+            }
+        }
+        term 9 {
+            then reject;
+        }
+    }
+    community 1 members [ 8151:277 8151:285 ];
+    community 102 members "^(.*):(.*)$";
+    community 2 members [ 8151:277 8151:286 ];
+    community 3 members [ 8151:277 8151:287 ];
+    community 4 members [ 8151:277 8151:288 ];
+    community 5 members [ 8151:278 8151:285 ];
+    community 6 members [ 8151:278 8151:286 ];
+    community 7 members [ 8151:278 8151:287 ];
+    community 8 members [ 8151:278 8151:288 ];
+    community 8151:277 members 8151:277;
+    community 8151:278 members 8151:278;
+    community 8151:299 members 8151:299;
+    community MARCA_REGION members 8151:639;
+    community SAMECLUSTER members 8151:1001;
+    community SEGUNDORESPALDO members 8151:1002;
+    community SERIALES_MEXICO_COMUNIDADES members [ 8151:277 8151:279 ];
+    community TERCERRESPALDO members 8151:1009;
+    community no-export members no-export;
+    as-path maxas ".{1,30}";
+}
+class-of-service {
+    host-outbound-traffic {
+        forwarding-class network-control;
+        dscp-code-point 110000;
+    }
+    drop-profiles {
+        WRED_BACKBONE_DEFAULT {
+            interpolate {
+                fill-level [ 75 95 ];
+                drop-probability [ 10 40 ];
+            }
+        }
+        WRED_BACKBONE_BE {
+            interpolate {
+                fill-level [ 75 95 ];
+                drop-probability [ 10 40 ];
+            }
+        }
+        WRED_BACKBONE_DATOS {
+            interpolate {
+                fill-level [ 75 95 ];
+                drop-probability [ 10 40 ];
+            }
+        }
+    }
+    forwarding-classes {
+        ##
+        ## Warning: statement ignored: unsupported platform (mx104)
+        ##
+        class VOZ queue-num 1 priority low;
+        ##
+        ## Warning: statement ignored: unsupported platform (mx104)
+        ##
+        class VIDEO queue-num 2 priority low;
+        ##
+        ## Warning: statement ignored: unsupported platform (mx104)
+        ##
+        class DATOS queue-num 4 priority low;
+        ##
+        ## Warning: statement ignored: unsupported platform (mx104)
+        ##
+        class BUSINESS queue-num 5 priority low;
+        ##
+        ## Warning: statement ignored: unsupported platform (mx104)
+        ##
+        class DEFAULT queue-num 6 priority low;
+        ##
+        ## Warning: statement ignored: unsupported platform (mx104)
+        ##
+        class network-control queue-num 3 priority low;
+    }
+    interfaces {
+        ds-0/0/0:1 {
+            unit 0 {
+                forwarding-class DEFAULT;
+                rewrite-rules {
+                    dscp RWR_DSCP;
+                }
+            }
+        }
+        ds-0/0/4:4 {
+            unit 0 {
+                forwarding-class DEFAULT;
+                rewrite-rules {
+                    dscp RWR_DSCP;
+                }
+            }
+        }
+        ds-0/0/4:13 {
+            unit 0 {
+                forwarding-class DEFAULT;
+                rewrite-rules {
+                    dscp RWR_DSCP;
+                }
+            }
+        }
+        ds-0/0/5:1 {
+            unit 0 {
+                forwarding-class DEFAULT;
+                rewrite-rules {
+                    dscp RWR_DSCP;
+                }
+            }
+        }
+        ds-0/0/6:8 {
+            unit 0 {
+                forwarding-class DEFAULT;
+                rewrite-rules {
+                    dscp RWR_DSCP;
+                }
+            }
+        }
+        ds-0/0/7:1 {
+            unit 0 {
+                forwarding-class DEFAULT;
+                rewrite-rules {
+                    dscp RWR_DSCP;
+                }
+            }
+        }
+        ds-0/0/8:16 {
+            unit 0 {
+                forwarding-class DEFAULT;
+                rewrite-rules {
+                    dscp RWR_DSCP;
+                }
+            }
+        }
+        ds-0/2/0:1 {
+            unit 0 {
+                forwarding-class DEFAULT;
+                rewrite-rules {
+                    dscp RWR_DSCP;
+                }
+            }
+        }
+        ge-1/2/0 {
+            scheduler-map SCH_MAP_BACKBONE;
+            unit 0 {
+                rewrite-rules {
+                    exp RWR_MPLS;
+                }
+            }
+        }
+        ge-1/2/1 {
+            scheduler-map SCH_MAP_BACKBONE;
+            unit 0 {
+                rewrite-rules {
+                    exp RWR_MPLS;
+                }
+            }
+        }
+    }
+    rewrite-rules {
+        dscp RWR_DSCP {
+            forwarding-class DEFAULT {
+                loss-priority low code-point 000000;
+                loss-priority high code-point 000000;
+            }
+            forwarding-class best-effort {
+                loss-priority high code-point 000000;
+                loss-priority low code-point 000000;
+            }
+        }
+        exp RWR_MPLS {
+            forwarding-class network-control {
+                loss-priority low code-point 111;
+                loss-priority high code-point 111;
+            }
+            forwarding-class VOZ {
+                loss-priority low code-point 101;
+                loss-priority high code-point 101;
+            }
+            forwarding-class VIDEO {
+                loss-priority low code-point 011;
+                loss-priority high code-point 011;
+            }
+            forwarding-class DATOS {
+                loss-priority low code-point 010;
+                loss-priority high code-point 010;
+            }
+            forwarding-class DEFAULT {
+                loss-priority low code-point 001;
+                loss-priority high code-point 001;
+            }
+            forwarding-class best-effort {
+                loss-priority low code-point 000;
+                loss-priority high code-point 000;
+            }
+        }
+    }
+    scheduler-maps {
+        SCH_MAP_BACKBONE {
+            forwarding-class network-control scheduler SCH_BACKBONE_MGMNT;
+            forwarding-class VOZ scheduler SCH_BACKBONE_VOZ;
+            forwarding-class VIDEO scheduler SCH_BACKBONE_VIDEO;
+            forwarding-class DATOS scheduler SCH_BACKBONE_DATOS;
+            forwarding-class DEFAULT scheduler SCH_BACKBONE_DEFAULT;
+            forwarding-class best-effort scheduler SCH_BACKBONE_BE;
+        }
+    }
+    schedulers {
+        SCH_BACKBONE_MGMNT {
+            transmit-rate percent 5;
+            buffer-size percent 5;
+            priority high;
+        }
+        SCH_BACKBONE_VOZ {
+            priority strict-high;
+        }
+        SCH_BACKBONE_VIDEO {
+            transmit-rate percent 10;
+            buffer-size percent 10;
+            priority high;
+        }
+        SCH_BACKBONE_DATOS {
+            transmit-rate percent 25;
+            buffer-size percent 25;
+            priority medium-high;
+            drop-profile-map loss-priority any protocol any drop-profile WRED_BACKBONE_DATOS;
+        }
+        SCH_BACKBONE_DEFAULT {
+            transmit-rate percent 15;
+            buffer-size percent 15;
+            priority medium-low;
+            drop-profile-map loss-priority any protocol any drop-profile WRED_BACKBONE_DEFAULT;
+        }
+        SCH_BACKBONE_BE {
+            transmit-rate percent 1;
+            buffer-size percent 1;
+            priority low;
+            drop-profile-map loss-priority any protocol any drop-profile WRED_BACKBONE_BE;
+        }
+    }
+}
+firewall {
+    family inet {
+        filter BACKBONE_OUT {
+            interface-specific;
+            term 1 {
+                from {
+                    forwarding-class network-control;
+                }
+                then {
+                    policer POLICER_BACKBONE_MGMNT_OUT;
+                    count CONT_BACKBONE_MGMNT;
+                }
+            }
+            term 2 {
+                from {
+                    forwarding-class VOZ;
+                }
+                then {
+                    policer POLICER_BACKBONE_VOZ_OUT;
+                    count CONT_BACKBONE_VOZ;
+                }
+            }
+            term 3 {
+                from {
+                    forwarding-class VIDEO;
+                }
+                then {
+                    policer POLICER_BACKBONE_VIDEO_OUT;
+                    count CONT_BACKBONE_VIDEO;
+                }
+            }
+            term 4 {
+                then accept;
+            }
+        }
+        filter PROTECCION_IDE {
+            term 1 {
+                from {
+                    protocol ospf;
+                }
+                then {
+                    count CONTADOR_PROTECCION_IDE;
+                    discard;
+                }
+            }
+            term 2 {
+                then accept;
+            }
+        }
+        filter IDEI2_OUT {
+            interface-specific;
+            term TERM_IDEI2_CONTROL {
+                from {
+                    forwarding-class network-control;
+                }
+                then {
+                    count CONT_IDEI2_CONTROL;
+                    accept;
+                }
+            }
+            term TERM_IDEI2_MGMNT {
+                from {
+                    dscp [ cs6 cs7 ];
+                }
+                then {
+                    count CONT_IDEI2_MGMNT;
+                    forwarding-class network-control;
+                    accept;
+                }
+            }
+            term TERM_IDEI2_I2 {
+                from {
+                    protocol gre;
+                }
+                then {
+                    policer POLICER_IDEI2_I2_OUT;
+                    count CONT_IDEI2_I2;
+                    forwarding-class best-effort;
+                    accept;
+                }
+            }
+            term TERM_IDEI2_IDE {
+                then {
+                    policer POLICER_IDEI2_IDE_OUT;
+                    count CONT_IDEI2_IDE;
+                    forwarding-class best-effort;
+                    accept;
+                }
+            }
+        }
+        filter IDE_SHAPE_IN {
+            interface-specific;
+            term 1 {
+                then {
+                    policer POLICER_IDE_SHAPE_IN;
+                    count CONT_IDE_SHAPE_IN;
+                    accept;
+                }
+            }
+        }
+        filter PPC_V4 {
+            term FILTRA_BGP {
+                from {
+                    source-prefix-list {
+                        BGP_NEIGHBORS;
+                        BGP_VPN_NEIGH;
+                    }
+                    destination-prefix-list {
+                        IPV4_IF;
+                    }
+                    protocol tcp;
+                    port bgp;
+                }
+                then accept;
+            }
+            term FILTRA_1813_12 {
+                from {
+                    source-prefix-list {
+                        SERVERS_1812_13;
+                    }
+                    protocol udp;
+                    source-port [ radius radacct ];
+                }
+                then accept;
+            }
+            term FILTRA_COA {
+                from {
+                    source-prefix-list {
+                        SERVERS_COA;
+                    }
+                    protocol udp;
+                    source-port 3799;
+                }
+                then accept;
+            }
+            term L2TP {
+                from {
+                    protocol udp;
+                    source-port 1701;
+                    destination-port 1701;
+                }
+                then accept;
+            }
+            term FILTRA_ICMP {
+                from {
+                    protocol icmp;
+                    icmp-type [ echo-request echo-reply unreachable time-exceeded ];
+                }
+                then accept;
+            }
+            term VRRP {
+                from {
+                    protocol [ vrrp ah ];
+                }
+                then accept;
+            }
+            term FILTRA_TRACER {
+                from {
+                    protocol udp;
+                    destination-port 33434-33523;
+                }
+                then accept;
+            }
+            term FILTRA_ESTABLISH {
+                from {
+                    protocol tcp;
+                    tcp-established;
+                }
+                then accept;
+            }
+            term FILTRA_FRAGS {
+                from {
+                    is-fragment;
+                    protocol icmp;
+                }
+                then {
+                    discard;
+                }
+            }
+            term INFRA {
+                from {
+                    source-prefix-list {
+                        PFX_UNINET;
+                    }
+                }
+                then accept;
+            }
+            term DEFAULT_DENY {
+                then {
+                    discard;
+                }
+            }
+        }
+    }
+    family inet6 {
+        filter PPC_V6 {
+            term FILTRA_BGP {
+                from {
+                    source-prefix-list {
+                        BGP_NEIGHBORS;
+                        BGP_FAKE;
+                        BGP_VPN_NEIGH;
+                    }
+                    destination-prefix-list {
+                        IPV6_IF;
+                    }
+                    next-header tcp;
+                    port bgp;
+                }
+                then accept;
+            }
+            term DHCP {
+                from {
+                    next-header udp;
+                    source-port 546;
+                    destination-port 547;
+                }
+                then accept;
+            }
+            term MLD_BGP_V6 {
+                from {
+                    next-header hop-by-hop;
+                }
+                then {
+                    count CONT_HOP_BY_HOP;
+                    accept;
+                }
+            }
+            term FILTRA_ICMP6_NOASIGN {
+                from {
+                    next-header icmp6;
+                    icmp-type [ 100-106 155-199 200-254 ];
+                }
+                then discard;
+            }
+            term FILTRA_NEIGH_DISC {
+                from {
+                    next-header icmp6;
+                    icmp-type 133-136;
+                }
+                then accept;
+            }
+            term FILTRA_NEIGH_INV {
+                from {
+                    next-header icmp6;
+                    icmp-type 141-142;
+                }
+                then accept;
+            }
+            term FILTRA_ECHO_RQ {
+                from {
+                    next-header icmp6;
+                    icmp-type echo-request;
+                }
+                then accept;
+            }
+            term FILTRA_ECHO_RP {
+                from {
+                    next-header icmp6;
+                    icmp-type echo-reply;
+                }
+                then accept;
+            }
+            term FILTRA_ICMP {
+                from {
+                    next-header icmp6;
+                }
+                then {
+                    policer MNGMT_5M;
+                    accept;
+                }
+            }
+            term DEFAULT_DENY {
+                then discard;
+            }
+        }
+    }
+    policer POLICER_BACKBONE_VOZ_OUT {
+        if-exceeding {
+            bandwidth-percent 35;
+            burst-size-limit 131250;
+        }
+        then discard;
+    }
+    policer POLICER_BACKBONE_MGMNT_OUT {
+        if-exceeding {
+            bandwidth-percent 5;
+            burst-size-limit 131250;
+        }
+        then discard;
+    }
+    policer POLICER_BACKBONE_VIDEO_OUT {
+        if-exceeding {
+            bandwidth-percent 10;
+            burst-size-limit 131250;
+        }
+        then discard;
+    }
+    policer POLICER_IDEI2_I2_OUT {
+        logical-bandwidth-policer;
+        if-exceeding {
+            bandwidth-percent 80;
+            burst-size-limit 15k;
+        }
+        then discard;
+    }
+    policer POLICER_IDEI2_IDE_OUT {
+        logical-bandwidth-policer;
+        if-exceeding {
+            bandwidth-percent 20;
+            burst-size-limit 15k;
+        }
+        then discard;
+    }
+    policer POLICER_IDE_SHAPE_IN {
+        logical-bandwidth-policer;
+        if-exceeding {
+            bandwidth-percent 100;
+            burst-size-limit 15k;
+        }
+        then discard;
+    }
+    policer MNGMT_5M {
+        if-exceeding {
+            bandwidth-limit 5m;
+            burst-size-limit 625k;
+        }
+        then discard;
+    }
+}
+
+{master}
+   
+</body>
+</html>
+

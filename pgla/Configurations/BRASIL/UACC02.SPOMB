@@ -1,0 +1,2 @@
+script language="javascript">
+parent.document.getElementById("div_resultado").innerHTML += "<pre>

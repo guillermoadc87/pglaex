@@ -1,0 +1,12 @@
+terminal length 0
+Tue Mar 20 11:44:13.063 COL
+RP/0/RSP0/CPU0:THBADORADA#show configuration running-config
+Tue Mar 20 11:44:13.350 COL
+Building configuration...
+!! IOS XR Configuration 5.3.3
+!! Last configuration change at Fri Nov 10 02:03:40 2017 by dchaves
+!
+configuration display interface slot-order
+end
+
+RP/0/RSP0/CPU0:THBADORADA#

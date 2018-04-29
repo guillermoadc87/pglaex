@@ -1,0 +1,11 @@
+terminal length 0
+Tue Mar 20 11:43:27.386 COL
+RP/0/RSP0/CPU0:THBABARRANCA#show configuration running-config
+Tue Mar 20 11:43:27.742 COL
+Building configuration...
+!! IOS XR Configuration 4.3.4
+!! Last configuration change at Sat Mar  3 01:44:19 2018 by fpedraza
+!
+end
+
+RP/0/RSP0/CPU0:THBABARRANCA#

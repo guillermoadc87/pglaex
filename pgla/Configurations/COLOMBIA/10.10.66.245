@@ -1,0 +1,3700 @@
+terminal length 0
+Armenia2#show configuration
+Using 37102 out of 129016 bytes, uncompressed size = 118966 bytes
+Uncompressed configuration from 37102 bytes to 118966 bytes
+!
+! Last configuration change at 16:14:59 Co Mon Mar 5 2018 by jcbeltran
+! NVRAM config last updated at 22:28:17 Co Mon Mar 19 2018
+!
+version 12.3
+no service pad
+service timestamps debug datetime msec localtime
+service timestamps log datetime msec localtime
+service password-encryption
+service compress-config
+no service dhcp
+!
+hostname Armenia2
+!
+boot-start-marker
+boot-end-marker
+!
+logging buffered 256000 debugging
+enable secret 5 $1$rOor$emO.91gbXzsD5qea6Hz2u1
+!
+clock timezone Co -5
+aaa new-model
+!
+!
+aaa authentication login default group tacacs+ local
+aaa authentication enable default group tacacs+ enable
+aaa authorization config-commands
+aaa authorization exec default group tacacs+ local if-authenticated 
+aaa authorization commands 0 default group tacacs+ local if-authenticated 
+aaa authorization commands 1 default group tacacs+ local if-authenticated 
+aaa authorization commands 15 default group tacacs+ local if-authenticated 
+aaa accounting exec default start-stop group tacacs+
+aaa accounting commands 0 default start-stop group tacacs+
+aaa accounting commands 1 default start-stop group tacacs+
+aaa accounting commands 15 default start-stop group tacacs+
+aaa session-id common
+ip subnet-zero
+no ip source-route
+ip flow-cache timeout active 1
+!
+!
+ip domain name nms.telmexla.net.co
+ip name-server 172.31.238.91
+!
+no ip bootp server
+ip vrf AvalBogAVV
+ rd 100:16003
+ export map ARCOM-AVAL
+ route-target export 100:16003
+ route-target export 14080:2190000003
+ route-target import 100:16003
+ route-target import 14080:2000
+ route-target import 100:273
+ route-target import 14080:2190000002
+!
+ip vrf AvalBogBBOCis
+ rd 100:16001
+ export map GESTION-CPE
+ route-target export 100:16001
+ route-target export 100:830
+ route-target import 100:16001
+ route-target import 100:830
+ route-target import 100:273
+ route-target import 14080:2190000002
+!
+ip vrf AvalBogBPO
+ rd 100:16004
+ export map ARCOM-AVAL
+ route-target export 100:16004
+ route-target export 14080:2190000003
+ route-target import 100:16004
+ route-target import 100:273
+ route-target import 14080:2190000002
+!
+ip vrf AvalMedBOC
+ rd 100:16405
+ export map ARCOM-BOC
+ route-target export 100:16405
+ route-target export 100:16005
+ route-target export 14080:2190000003
+ route-target import 100:16405
+ route-target import 100:16005
+ route-target import 14080:300400
+ route-target import 14080:2190000002
+!
+ip vrf AvalNalPOR
+ rd 100:15009
+ export map ARCOM-AVAL
+ route-target export 100:15009
+ route-target export 14080:2190000003
+ route-target import 100:15009
+ route-target import 100:273
+ route-target import 14080:2190000002
+!
+ip vrf AvalNalPOR-MD
+ rd 100:17676
+ route-target export 100:17676
+ route-target import 100:17676
+!
+ip vrf Bancolombia-TelmexBK
+ rd 100:15180
+ route-target export 100:15180
+ route-target import 100:15180
+!
+ip vrf arcesa
+ rd 100:167
+ route-target export 100:167
+ route-target export 14080:2190000003
+ route-target import 100:167
+ route-target import 14080:2190000002
+!
+ip vrf ath-transaccional
+ rd 100:1491
+ export map ARCOM-AVAL
+ route-target export 100:1491
+ route-target export 14080:2190000003
+ route-target import 100:1491
+ route-target import 14080:2190000002
+ route-target import 14080:27300
+!
+ip vrf attlanm
+ rd 100:42
+ export map STI-UPS
+ route-target export 100:42
+ route-target import 100:42
+ route-target import 14080:55400
+!
+ip vrf bancolombia-huawei
+ rd 100:15218
+ route-target export 14080:2190000003
+ route-target export 100:15218
+ route-target export 100:1990
+ route-target import 100:15218
+ route-target import 14080:2190000002
+ route-target import 14080:199000
+!
+ip vrf bancolombia-intra
+ rd 100:15043
+ route-target export 100:15043
+ route-target export 100:1990
+ route-target import 100:15043
+ route-target import 14080:199000
+!
+ip vrf bancolpatria
+ rd 100:3199
+ route-target export 100:3199
+ route-target export 14080:2190000003
+ route-target import 100:3199
+ route-target import 14080:2190000002
+!
+ip vrf brighstar
+ rd 100:15956
+ export map GESTION-CPE
+ route-target export 100:15956
+ route-target import 100:15956
+ route-target import 14080:2190000002
+!
+ip vrf brinks
+ rd 100:753
+ route-target export 100:753
+ route-target import 14080:75300
+!
+ip vrf cafesalud
+ rd 100:1795
+ export map GESTION-CPE
+ route-target export 100:1795
+ route-target import 100:1795
+ route-target import 14080:2190000002
+!
+ip vrf cemex-intra
+ rd 100:2116
+ route-target export 100:2116
+ route-target import 100:2116
+!
+ip vrf cinecolombia
+ rd 100:1161
+ export map GESTION-VALOREM
+ route-target export 100:179
+ route-target export 100:1161
+ route-target export 14080:2190000003
+ route-target import 100:179
+ route-target import 100:1161
+ route-target import 14080:2190000002
+ route-target import 14080:1542800
+!
+ip vrf colmedicas-intra
+ rd 100:1295
+ route-target export 100:1295
+ route-target import 100:1295
+!
+ip vrf colpatria-uinversion
+ rd 100:3116
+ export map ARCOM-COLPATRIA
+ route-target export 100:3116
+ route-target import 100:3116
+ route-target import 14080:2190000002
+ route-target import 14080:342600
+!
+ip vrf coomeva-nacional
+ rd 100:1634
+ export map ARCOM-COOMEVA
+ route-target export 100:1634
+ route-target export 14080:2190000003
+ route-target import 100:1634
+ route-target import 14080:2190000002
+ route-target import 14080:208500
+!
+ip vrf credibanco-redadm
+ rd 100:1764
+ export map ARCOM-CREDI
+ route-target export 100:1764
+ route-target export 14080:2190000003
+ route-target import 100:1764
+ route-target import 14080:2000
+ route-target import 14080:2190000002
+ route-target import 14080:333500
+!
+ip vrf credibanco-redcom
+ rd 100:281
+ export map ARCOM-CREDI
+ route-target export 100:281
+ route-target export 14080:2190000003
+ route-target import 14080:28100
+ route-target import 14080:2190000002
+ route-target import 14080:333500
+!
+ip vrf datace-ext
+ rd 100:2083
+ export map GESTION-CPE
+ route-target export 100:2083
+ route-target export 100:1396
+ route-target import 100:2083
+ route-target import 100:1396
+ route-target import 14080:2190000002
+!
+ip vrf davivienda-mercadeo
+ rd 100:3530
+ route-target export 100:3530
+ route-target import 100:3530
+!
+ip vrf davivienda-nal
+ rd 100:2399
+ route-target export 100:2399
+ route-target export 14080:2190000003
+ route-target import 100:2399
+ route-target import 14080:2190000002
+!
+ip vrf davivienda-video
+ rd 100:2662
+ route-target export 100:820
+ route-target export 100:18079
+ route-target export 100:2662
+ route-target export 100:17287
+ route-target import 14080:82000
+ route-target import 100:18079
+ route-target import 100:2662
+ route-target import 14080:1728700
+!
+ip vrf davivienda-vstreaming
+ rd 100:2552
+ route-target export 100:2880
+ route-target import 14080:288000
+!
+ip vrf eficacia-intra
+ rd 100:2356
+ export map GESTION-CPE
+ route-target export 100:2356
+ route-target import 100:2356
+ route-target import 14080:2190000002
+!
+ip vrf equant-fna-main
+ rd 100:3349
+ route-target export 100:3349
+ route-target import 100:3349
+!
+ip vrf espumlatex
+ rd 100:2335
+ route-target export 100:2335
+ route-target export 14080:2190000003
+ route-target import 100:2335
+ route-target import 14080:2190000002
+!
+ip vrf fenalco
+ rd 100:1108
+ export map GESTION-CPE
+ route-target export 100:1108
+ route-target import 100:1108
+ route-target import 14080:2190000002
+!
+ip vrf finamerica
+ rd 100:765
+ export map GESTION-CPE
+ route-target export 100:765
+ route-target import 100:765
+ route-target import 14080:2190000002
+!
+ip vrf grexito-int
+ rd 100:2177
+ route-target export 100:2177
+ route-target export 14080:2190000003
+ route-target import 100:2177
+ route-target import 14080:2190000002
+!
+ip vrf homecenter
+ rd 100:67
+ export map ARCOM-SODIMAC
+ route-target export 100:67
+ route-target export 14080:2190000003
+ route-target import 100:67
+ route-target import 14080:2190000002
+ route-target import 14080:337800
+!
+ip vrf ims-sbc-ippbx
+ rd 100:17638
+ route-target export 100:17636
+ route-target import 14080:1763600
+!
+ip vrf internet
+ rd 14080:1
+ export map MNGMT-INTERNET
+ route-target export 14080:1
+ route-target import 14080:1
+ route-target import 14080:2190000002
+!
+ip vrf internet-nap
+ rd 14080:2
+ export map MNGMT-INTERNET
+ route-target export 14080:2
+ route-target import 14080:2
+ route-target import 14080:2190000002
+!
+ip vrf internet-vip
+ rd 100:1958
+ export map MNGMT-INTERNET
+ route-target export 100:1958
+ route-target import 100:1958
+ route-target import 14080:2190000002
+!
+ip vrf inversiones-int
+ rd 100:16452
+ route-target export 100:16452
+ route-target import 100:16452
+!
+ip vrf ip-telephony
+ rd 14080:2000
+ export map GESTION-CPE
+ route-target export 14080:2000
+ route-target import 14080:2000
+ route-target import 14080:2190000002
+!
+ip vrf juriscoop
+ rd 100:1971
+ export map GESTION-CPE
+ route-target export 100:1971
+ route-target import 100:1971
+ route-target import 14080:2190000002
+!
+ip vrf liberty-adn
+ rd 100:2159
+ route-target export 100:2159
+ route-target export 14080:2190000003
+ route-target import 100:2159
+ route-target import 14080:2190000002
+!
+ip vrf nap
+ rd 100:253
+ export map MNGMT-INTERNET
+ route-target export 100:253
+ route-target import 100:253
+ route-target import 14080:2190000002
+!
+ip vrf oro
+ rd 100:2740
+ route-target export 100:2740
+ route-target import 100:2740
+!
+ip vrf pymes-internet
+ rd 14080:1413
+ export map GESTIONPYMES
+ route-target export 14080:1413
+ route-target export 14080:897
+ route-target import 14080:1413
+ route-target import 14080:2190000002
+!
+ip vrf redeban-intra
+ rd 100:3701
+ export map GESTION-CPE
+ route-target export 100:3701
+ route-target import 100:3701
+ route-target import 14080:2190000002
+!
+ip vrf redeban-ip
+ rd 100:642
+ route-target export 100:642
+ route-target export 14080:2190000003
+ route-target import 14080:64200
+ route-target import 100:642
+ route-target import 14080:2190000002
+!
+ip vrf saludvida
+ rd 100:3095
+ export map GESTION-CPE
+ route-target export 100:3095
+ route-target import 100:3095
+ route-target import 14080:2190000002
+!
+ip vrf saludvida-video
+ rd 100:3074
+ route-target export 100:820
+ route-target export 14080:2190000003
+ route-target import 14080:82000
+ route-target import 14080:2190000002
+!
+ip vrf scs-fc-avianca
+ rd 100:2975
+ export map GESTION-CPE
+ route-target export 100:2506
+ route-target import 14080:250600
+ route-target import 14080:2190000002
+!
+ip vrf seguridadfisica-telmex
+ rd 100:2438
+ route-target export 100:2438
+ route-target import 100:2438
+!
+ip vrf sena-intra
+ rd 100:15555
+ export map GESTION-CPE
+ route-target export 100:15555
+ route-target import 100:15555
+ route-target import 14080:2190000002
+!
+ip vrf sip-trunk
+ rd 100:16336
+ route-target export 100:3031
+ route-target import 14080:303100
+!
+ip vrf telmex-intranet
+ rd 14080:107
+ export map ARCOM-ITTELMEX
+ route-target export 14080:107
+ route-target export 14080:2190000003
+ route-target import 14080:107
+ route-target import 14080:173200
+ route-target import 14080:2190000002
+!
+ip vrf telmex-mercadeodinamicocav
+ rd 100:15847
+ route-target export 100:15847
+ route-target export 100:2835
+ route-target import 100:15847
+ route-target import 100:2835
+!
+ip vrf tennis
+ rd 100:15100
+ route-target export 100:15100
+ route-target import 100:15100
+!
+ip vrf test_intranet
+ rd 100:1290
+ export map GESTION-CPE
+ route-target export 100:1290
+ route-target import 100:1290
+ route-target import 14080:2190000002
+!
+ip vrf univercasinos-intra
+ rd 100:2902
+ export map GESTION-CPE
+ route-target export 100:2902
+ route-target export 14080:2190000003
+ route-target import 100:2902
+ route-target import 14080:2190000002
+!
+ip vrf ut-consorcio
+ rd 100:3646
+!
+ip vrf utboc-telmex
+ rd 100:1002
+ export map ARCOM-AVAL
+ route-target export 100:1002
+ route-target export 14080:2190000003
+ route-target import 100:1002
+ route-target import 14080:2190000002
+ route-target import 100:273
+!
+ip vrf vidyo
+ rd 14080:151220
+ route-target export 14080:151220
+ route-target import 14080:151220
+!
+ip cef
+mpls label protocol ldp
+mpls ldp neighbor 10.10.66.243 targeted
+mpls ldp neighbor 10.10.66.39 targeted
+no tag-switching ip propagate-ttl forwarded
+tag-switching tdp router-id Loopback222 force
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+username attuser secret 5 $1$TGnr$TyxezK4aHXUVv5w85BZMw.
+username usrtelmex secret 5 $1$glcv$zDyVMfTipCNzZAONt5eVP/
+!
+!
+controller E1 2/0
+ shutdown
+!
+controller E1 2/1
+ framing NO-CRC4 
+ channel-group 13 timeslots 2-3
+ description ---- 2E1 interconexion MAN TELEARMENIA : FACILIDAD CU ---
+!
+controller E1 2/2
+ shutdown
+!
+controller E1 2/3
+!
+controller E1 2/4
+!
+controller E1 2/5
+!
+controller E1 2/6
+!
+controller E1 2/7
+process-max-time 50
+!
+ip tcp path-mtu-discovery
+ip tftp source-interface Loopback222
+!
+class-map match-any SIGNALLING-SERV-IN
+  match access-group name SIGNALLING-SERV-IN
+class-map match-any REAL-TIME-IN
+  match access-group name REAL-TIME-IN
+class-map match-any BANREPUBLICA-SEN-OUT
+  match access-group 151
+class-map match-any BANREPUBLICA-CEDEC-OUT
+  match access-group 153
+class-map match-any SET-FX-OUT
+  match access-group 179
+class-map match-any Precedence2
+  match ip precedence 2 
+class-map match-all SENA-DATOS-OUT
+  match access-group 2005
+class-map match-any Precedence3
+  match ip precedence 3 
+class-map match-any Precedence4
+  match ip precedence 4 
+class-map match-any Precedence5
+  match ip precedence 5 
+class-map match-any CIFIN-OUT
+  match access-group 161
+class-map match-any DIAN-IN
+  match access-group 166
+class-map match-any VIDEOCONFERENCIA-IN
+  match access-group 2002
+class-map match-any BOLSAVALORES-IN
+  match access-group 158
+class-map match-all CREDIBANCO_voip200_IN
+  match access-group 2008
+class-map match-any DATACREDITO-OUT
+  match access-group 163
+class-map match-any REUTERS-OUT
+  match access-group 171
+class-map match-any UTBOC-SII
+  match access-group 2006
+class-map match-any CREDIBANCO-IN
+  match access-group 176
+class-map match-any TELEFONIA-OUT
+  match access-group 2001
+class-map match-all CMV0216_512
+  match access-group 172
+class-map match-any DECEVAL-OUT
+  match access-group 155
+class-map match-all PBX_PRV0437
+  match access-group 157
+class-map match-any REAL-TIME-OUT
+  match access-group name REAL-TIME-OUT
+class-map match-any Voz
+  match mpls experimental topmost 4  5 
+  match ip precedence 4  5 
+class-map match-any BANREPUBLICA-SEN-IN
+  match access-group 150
+class-map match-any SIGNALLING-SERV-OUT
+  match access-group name SIGNALLING-SERV-OUT
+class-map match-any Video
+  match mpls experimental topmost 3 
+  match ip precedence 3 
+class-map match-all SENA-DATOS-IN
+  match access-group 2004
+class-map match-any VOICE
+  match access-group 2010
+class-map match-any BANREPUBLICA-CEDEC-IN
+  match access-group 152
+class-map match-any Datos_VPN
+  match mpls experimental topmost 1  2  6  7 
+  match ip precedence 1  2  6  7 
+class-map match-any SET-FX-IN
+  match access-group 178
+class-map match-any BOLSAVALORES-OUT
+  match access-group 159
+class-map match-any CIFIN-IN
+  match access-group 160
+class-map match-any DIAN-OUT
+  match access-group 167
+class-map match-any VIDEOCONFERENCIA-OUT
+  match access-group 2003
+class-map match-any UTBOC-VOIP
+  match access-group 2007
+class-map match-all CREDIBANCO_voip200_OUT
+  match access-group 2009
+class-map match-all VOZ-MPLS
+  match mpls experimental topmost 5 
+class-map match-any COS3
+  match ip precedence 5 
+class-map match-any COS1
+  match ip precedence 1 
+class-map match-any DECEVAL-IN
+  match access-group 154
+class-map match-any DATACREDITO-IN
+  match access-group 162
+class-map match-any REUTERS-IN
+  match access-group 170
+class-map match-any CREDIBANCO-OUT
+  match access-group 177
+class-map match-any TELEFONIA-IN
+  match access-group 2000
+class-map match-all VIDEO-MPLS
+  match mpls experimental topmost 4 
+!
+!
+policy-map VIDEO2-OUT
+  class VIDEOCONFERENCIA-OUT
+   police 2048000 256000 256000 conform-action transmit  exceed-action drop 
+policy-map TELPUB110-IN
+  class TELEFONIA-IN
+   police 10120000 5060000 5060000 conform-action transmit  exceed-action drop 
+policy-map D128V64-IN
+  class TELEFONIA-IN
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 128000 16000 16000 conform-action transmit  exceed-action drop 
+policy-map CAR-1M
+  class class-default
+   police 1024000 128000 128000 conform-action transmit  exceed-action drop  violate-action drop 
+policy-map AVVILLAS_5VOzIP_3VOZPUB_400k-OUT
+  class TELEFONIA-OUT
+   police cir 896000 bc 112000 be 112000
+  class class-default
+   police cir 400000 bc 50000 be 50000
+policy-map FINAMERICA-D1024V64-IN
+  class TELEFONIA-IN
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 1024000 128000 128000 conform-action transmit  exceed-action drop 
+policy-map TELPUB1-IN
+  class TELEFONIA-IN
+   police cir 92000 bc 46000 be 46000
+policy-map CAR-100M
+  class class-default
+   police 102400000 12500000 12500000 conform-action transmit  exceed-action drop 
+policy-map TELPUB100-IN
+  class TELEFONIA-IN
+   police 9200000 4600000 4600000 conform-action transmit  exceed-action drop 
+policy-map TELCORPO4-IN
+  class TELEFONIA-IN
+   police 136000 17000 17000 conform-action transmit  exceed-action drop 
+policy-map TELCORP2-OUT
+  class TELEFONIA-OUT
+   police 72000 9000 9000 conform-action transmit  exceed-action drop 
+policy-map AVVILLAS_5VOzIP_5VOZPUB_320k-OUT
+  class TELEFONIA-OUT
+   police 1120000 140000 140000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 320000 40000 40000 conform-action transmit  exceed-action drop 
+policy-map TELPUB2-IN
+  class TELEFONIA-IN
+   police cir 184000 bc 23000 be 23000
+     conform-action transmit 
+     exceed-action drop 
+policy-map CAR-2M
+  class class-default
+   police 2000000 250000 250000 conform-action transmit  exceed-action drop 
+policy-map CAR-200M
+  class class-default
+   police 204800000 25000000 25000000 conform-action transmit  exceed-action drop 
+policy-map TELPUB130-IN
+  class TELEFONIA-IN
+   police 11960000 5980000 5980000 conform-action transmit  exceed-action drop 
+policy-map TELPUB200-IN
+  class TELEFONIA-IN
+   police 18400000 9200000 9200000 conform-action transmit  exceed-action drop 
+policy-map BBO-4096k-TELEFONIA-4-OUT
+  class Voz
+   police cir 256000 bc 32000 be 32000
+  class class-default
+   police cir 4096000 bc 512000 be 512000
+policy-map TELPUB3-IN
+  class TELEFONIA-IN
+   police cir 276000 bc 34500 be 34500
+policy-map TELCORP3-OUT
+  class TELEFONIA-OUT
+   police cir 96000 bc 12000 be 12000
+policy-map CAR-3M
+  class class-default
+   police 3072000 375000 375000 conform-action transmit  exceed-action drop 
+policy-map CAR-300M
+  class class-default
+   police 307200000 37500000 37500000 conform-action transmit  exceed-action drop 
+policy-map TELPUB120-IN
+  class TELEFONIA-IN
+   police 11040000 5520000 5520000 conform-action transmit  exceed-action drop 
+policy-map TELPUB300-IN
+  class TELEFONIA-IN
+   police 27600000 13800000 13800000 conform-action transmit  exceed-action drop 
+policy-map TELCORP4-OUT
+  class TELEFONIA-OUT
+   police 128000 16000 16000 conform-action transmit  exceed-action drop 
+policy-map TELPUB4-IN
+  class TELEFONIA-IN
+   police 368000 46000 46000
+policy-map CAR-4M
+  class class-default
+   police 4096000 500000 500000 conform-action transmit  exceed-action drop 
+policy-map CAR-150M
+  class class-default
+   police 153600000 18750000 18750000 conform-action transmit  exceed-action drop 
+policy-map CAR-400M
+  class class-default
+   police 409600000 50000000 50000000 conform-action transmit  exceed-action drop 
+policy-map TELPUB150-IN
+  class TELEFONIA-IN
+   police 13800000 6900000 6900000 conform-action transmit  exceed-action drop 
+policy-map TELPUB400-IN
+  class TELEFONIA-IN
+   police 36800000 18400000 18400000 conform-action transmit  exceed-action drop 
+policy-map D384V64-IN
+  class TELEFONIA-IN
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 384000 48000 48000 conform-action transmit  exceed-action drop 
+policy-map TELPUB5-IN
+  class TELEFONIA-IN
+   police cir 460000 bc 57500 be 57500
+policy-map CAR-5M
+  class class-default
+   police 5120000 625000 625000 conform-action transmit  exceed-action drop 
+policy-map CAR-500M
+  class class-default
+   police 512000000 62500000 62500000 conform-action transmit  exceed-action drop 
+policy-map TELPUB140-IN
+  class TELEFONIA-IN
+   police 12880000 6440000 6440000 conform-action transmit  exceed-action drop 
+policy-map TELPUB500-IN
+  class TELEFONIA-IN
+   police 46000000 23000000 23000000 conform-action transmit  exceed-action drop 
+policy-map TELCORP6-OUT
+  class TELEFONIA-OUT
+   police 192000 24000 24000 conform-action transmit  exceed-action drop 
+policy-map TELPUB6-IN
+  class TELEFONIA-IN
+   police 528000 65500 65500 conform-action transmit  exceed-action drop 
+policy-map SENA-D9M-I10M-IN
+  class SENA-DATOS-IN
+   police cir 9000000 bc 1125000 be 1125000
+  class class-default
+   police cir 10000000 bc 1250000 be 1250000
+policy-map COOMEVA_CMV0216_IN
+  class CMV0216_512
+   police cir 512000 bc 64000 be 64000
+  class class-default
+   police cir 1536000 bc 192000 be 192000
+policy-map CAR-6M
+  class class-default
+   police 6144000 750000 750000 conform-action transmit  exceed-action drop 
+policy-map CAR-600M
+  class class-default
+   police 614400000 75000000 75000000 conform-action transmit  exceed-action drop 
+policy-map TELPUB170-IN
+  class TELEFONIA-IN
+   police 15640000 7820000 7820000 conform-action transmit  exceed-action drop 
+policy-map TELPUB600-IN
+  class TELEFONIA-IN
+   police 55200000 27600000 27600000 conform-action transmit  exceed-action drop 
+policy-map LIBERTY-ARMENIA-IN
+  class TELEFONIA-IN
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 1024000 128000 128000 conform-action transmit  exceed-action drop 
+policy-map CAR-7M
+  class class-default
+   police 7168000 875000 875000 conform-action transmit  exceed-action drop 
+policy-map CAR-700M
+  class class-default
+   police 716800000 87500000 87500000 conform-action transmit  exceed-action drop 
+policy-map TELPUB7-IN
+  class TELEFONIA-IN
+   police 644000 322000 322000 conform-action transmit  exceed-action drop 
+policy-map TELPUB160-IN
+  class TELEFONIA-IN
+   police 14720000 7360000 7360000 conform-action transmit  exceed-action drop 
+policy-map BBO-2048k-TELEFONIA-4-OUT
+  class Voz
+   police cir 256000 bc 32000 be 32000
+  class class-default
+   police cir 2048000 bc 256000 be 256000
+policy-map D200V64-IN
+  class TELEFONIA-IN
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 200000 25000 25000 conform-action transmit  exceed-action drop 
+policy-map CAR-8M
+  class class-default
+   police 8000000 1000000 1000000 conform-action transmit  exceed-action drop 
+policy-map TELPUB8-IN
+  class TELEFONIA-IN
+   police cir 736000 bc 92000 be 92000
+policy-map CAR-800M
+  class class-default
+   police 819200000 100000000 100000000 conform-action transmit  exceed-action drop 
+policy-map CAR-2G
+  class class-default
+policy-map TELPUB190-IN
+  class TELEFONIA-IN
+   police 17480000 8740000 8740000 conform-action transmit  exceed-action drop 
+policy-map ATM-155M
+  class Voz
+   priority percent 35
+  class Video
+   bandwidth percent 10
+  class Datos_VPN
+   bandwidth percent 30
+   random-detect
+  class class-default
+policy-map QOS_CORE
+  class Voz
+   priority percent 35
+  class Video
+   bandwidth percent 10
+  class Datos_VPN
+   bandwidth percent 30
+   random-detect
+   random-detect precedence 1   280   1024  1    
+   random-detect precedence 2   420   1024  1    
+   random-detect precedence 6   560   1024  1    
+   random-detect precedence 7   560   1024  1    
+  class class-default
+   fair-queue
+   random-detect
+   random-detect precedence 0   2952  4096  1    
+policy-map D300V64-IN
+  class TELEFONIA-IN
+   police 64000 8000 8000
+  class class-default
+   police 300000 37500 37500
+policy-map CAR-9M
+  class class-default
+   police 9216000 1152000 1152000 conform-action transmit  exceed-action drop 
+policy-map CAR-900M
+  class class-default
+   police 921600000 112500000 112500000 conform-action transmit  exceed-action drop 
+policy-map TELPUB9-IN
+  class TELEFONIA-IN
+   police 828000 414000 414000 conform-action transmit  exceed-action drop 
+policy-map TELPUB180-IN
+  class TELEFONIA-IN
+   police 16560000 8280000 8280000 conform-action transmit  exceed-action drop 
+policy-map D100V64-IN
+  class TELEFONIA-IN
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+  class class-default
+   police cir 1024000 bc 128000 be 128000
+policy-map CAR-1G
+  class class-default
+   police 1024000000 125000000 125000000 conform-action transmit  exceed-action drop 
+policy-map SENA-D10M-I3M-IN
+  class SENA-DATOS-IN
+   police cir 7000000 bc 875000 be 875000
+  class class-default
+   police cir 3000000 bc 375000 be 375000
+policy-map SENA-D15M-I6M-IN
+  class SENA-DATOS-IN
+   police cir 9000000 bc 1125000 be 1125000
+  class class-default
+   police cir 10000000 bc 1250000 be 1250000
+policy-map PBX2-D600-IN
+  class TELEFONIA-IN
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 600000 75000 75000 conform-action transmit  exceed-action drop 
+policy-map AVVILLAS_5VOzIP_3VOZPUB_800k-OUT
+  class TELEFONIA-OUT
+   police 896000 112000 112000 conform-action transmit  exceed-action drop 
+  class class-default
+policy-map TELCORPO8-IN
+  class TELEFONIA-IN
+   police 272000 34000 34000 conform-action transmit  exceed-action drop 
+policy-map AVVILLAS_5VOz_800k-OUT-400k
+  class TELEFONIA-OUT
+   police cir 560000 bc 70000 be 70000
+  class class-default
+   police cir 400000 bc 50000 be 50000
+policy-map BBO-1024k-TELEFONIA-4-OUT
+  class Voz
+   police 256000 32000 32000
+  class class-default
+   police 1024000 128000 128000
+policy-map RT9216K_SG1024K_D4M-IN
+  class TELEFONIA-IN
+   police 64000 8000 8000
+  class REAL-TIME-IN
+   police 921500 115200 115200
+  class SIGNALLING-SERV-IN
+   police 1024000 128000 128000
+  class class-default
+   police 4096000 500000 500000
+policy-map AVVILLAS_5VOz_7VOZPUB_800k-OUT
+  class TELEFONIA-OUT
+   police 1344000 168000 168000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 800000 100000 100000 conform-action transmit  exceed-action drop 
+policy-map CAR-100MEGAS
+  class class-default
+   police 100000000 12500000 12500000 conform-action transmit  exceed-action drop 
+policy-map CAR-2MEGAS
+  class class-default
+   police 2000000 250000 250000 conform-action transmit  exceed-action drop 
+policy-map CAR-3MEGAS
+  class class-default
+   police 3000000 375000 375000 conform-action transmit  exceed-action drop 
+policy-map COLPATRIA-VCW-2048
+  class Precedence5
+   police cir 408000 bc 51200 be 51200
+  class Precedence3
+   police cir 304000 bc 38400 be 38400
+  class Precedence2
+   police cir 816000 bc 102400 be 102400
+  class class-default
+   police cir 512000 bc 64000 be 64000
+policy-map CAR-4MEGAS
+  class class-default
+   police 4000000 500000 500000 conform-action transmit  exceed-action drop 
+policy-map CAR-150MEGAS
+  class class-default
+   police 150000000 18750000 18750000 conform-action transmit  exceed-action drop 
+policy-map D600-TELCORP2-IN
+  class TELEFONIA-IN
+   police 72000 9000 9000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 600000 75000 75000 conform-action transmit  exceed-action drop 
+policy-map CREDIBANCO_D400voip200_OUT
+  class CREDIBANCO_voip200_OUT
+   police cir 224000 bc 28000 be 28000
+  class class-default
+   police cir 800000 bc 100000 be 100000
+policy-map BPP0086_IN
+  class SIGNALLING-SERV-IN
+   police 300000 37500 37500 conform-action transmit  exceed-action drop 
+  class REAL-TIME-IN
+   police 2001500 250200 250200 conform-action transmit  exceed-action drop 
+  class class-default
+   police 4096000 512000 512000 conform-action transmit  exceed-action drop 
+policy-map CAR-6MEGAS
+  class class-default
+   police 6000000 750000 750000 conform-action transmit  exceed-action drop 
+policy-map D2048_TELCORP2-OUT
+  class TELEFONIA-OUT
+   police cir 64000 bc 8000 be 8000
+     conform-action transmit 
+     exceed-action drop 
+  class class-default
+   police cir 2048000 bc 256000 be 256000
+     conform-action transmit 
+     exceed-action drop 
+policy-map TELCORP22-PUB15-IN
+  class TELEFONIA-IN
+   police cir 2048000 bc 256000 be 256000
+policy-map BPP1487_RT9216K_SG1024K_D4M-IN
+  class TELEFONIA-IN
+   police 64000 8000 8000
+  class REAL-TIME-IN
+   police cir 100000 bc 12500 be 12500
+     conform-action transmit 
+     exceed-action drop 
+     violate-action drop 
+  class SIGNALLING-SERV-IN
+   police cir 300000 bc 37500 be 37500
+     conform-action transmit 
+     exceed-action drop 
+     violate-action drop 
+  class class-default
+   police 4096000 500000 500000
+policy-map AVVILLAS_5VOz_7VOZPUB_400k-OUT
+  class TELEFONIA-OUT
+   police cir 1344000 bc 168000 be 168000
+  class class-default
+   police cir 400000 bc 50000 be 50000
+policy-map D64_TELCORP4-OUT
+  class TELEFONIA-OUT
+   police 136000 17000 17000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+policy-map CAR-1.2M
+  class class-default
+   police 1200000 150000 150000
+policy-map D1024_TELCORP2-OUT
+  class TELEFONIA-OUT
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 1024000 230000 230000 conform-action transmit  exceed-action drop 
+policy-map CREDIBANCO_D824voip200_OUT
+  class CREDIBANCO_voip200_OUT
+   police cir 224000 bc 28000 be 28000
+  class class-default
+   police cir 824000 bc 103000 be 103000
+policy-map BPO-128DATOS-TELEFONIA-OUT
+  class TELEFONIA-OUT
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 128000 16000 16000 conform-action transmit  exceed-action drop 
+policy-map CAR-Contenido
+  class class-default
+   police 10000000 1250000 1250000 conform-action transmit  exceed-action drop 
+policy-map CAR-30MEGAS
+  class class-default
+   police 30000000 375000 375000 conform-action transmit  exceed-action drop 
+policy-map D2048-TELPUB3-TELPBX4-OUT
+  class TELEFONIA-OUT
+   police 660000 82500 82500 conform-action transmit  exceed-action drop 
+  class class-default
+   police 2048000 256000 256000 conform-action transmit  exceed-action drop 
+policy-map BPO-1024DATOS-TELEFONIA-OUT
+  class TELEFONIA-OUT
+   police cir 64000 bc 8000 be 8000
+  class class-default
+   police cir 1024000 bc 128000 be 128000
+policy-map COLLAB-PORT-POLICING-IN
+  class REAL-TIME-IN
+   police cir 12000 bc 64000
+     exceed-action drop 
+  class SIGNALLING-SERV-IN
+   police cir 32000 bc 8000
+     exceed-action drop 
+  class class-default
+   police cir 128000 bc 8000
+     exceed-action drop 
+policy-map CAR-60MEGAS
+  class class-default
+   police 60000000 750000 750000 conform-action transmit  exceed-action drop 
+policy-map D300.V64-IN
+policy-map CINECO-IN
+  class TELEFONIA-IN
+   police cir 128000 bc 16000 be 16000
+     conform-action transmit 
+     exceed-action drop 
+  class class-default
+   police cir 4096000 bc 512000 be 512000
+     conform-action transmit 
+     exceed-action drop 
+policy-map D3072-TELPUB3-TELPBX4-OUT
+  class TELEFONIA-IN
+   police 660000 82500 82500 conform-action transmit  exceed-action drop 
+  class class-default
+   police cir 4096000 bc 512000 be 512000
+     conform-action transmit 
+     exceed-action drop 
+policy-map D2048-TELCORP2-IN
+  class TELEFONIA-IN
+   police 72000 9000 9000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 2048000 256000 256000 conform-action transmit  exceed-action drop 
+policy-map D100_TELCORP4-OUT
+  class TELEFONIA-OUT
+   police 136000 17000 17000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 100000 12500 12500 conform-action transmit  exceed-action drop 
+policy-map BBO-DATOS-TELEFONIA-4-OUT
+  class Voz
+   police 256000 32000 32000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 512000 64000 64000 conform-action transmit  exceed-action drop 
+policy-map BPO-4096DATOS-TELEFONIA-OUT
+  class TELEFONIA-OUT
+   police 64000 8000 8000
+  class class-default
+   police 5632000 704000 704000
+policy-map D300V128-IN
+  class TELEFONIA-IN
+   police 128000 16000 16000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 304000 37000 37000 conform-action transmit  exceed-action drop 
+policy-map VISA_D400_TELCORP4-IN
+  class TELEFONIA-IN
+   police 136000 17000 17000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 400000 50000 50000 conform-action transmit  exceed-action drop 
+policy-map TELCORP22-OUT
+  class TELEFONIA-OUT
+   police cir 704000 bc 88000 be 88000
+     conform-action transmit 
+     exceed-action drop 
+policy-map TELPUB11-IN
+  class TELEFONIA-IN
+   police 1012000 506000 506000 conform-action transmit  exceed-action drop 
+policy-map TELCORP10-OUT
+  class TELEFONIA-OUT
+   police 320000 40000 40000 conform-action transmit  exceed-action drop 
+policy-map VISA_D400_TELCORP5-IN
+  class TELEFONIA-IN
+   police 160000 20000 20000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 400000 50000 50000 conform-action transmit  exceed-action drop 
+policy-map CAR-10M
+  class class-default
+   police cir 10240000 bc 1280000 be 1280000
+policy-map SENA-D9M-I6M-IN
+  class SENA-DATOS-IN
+   police cir 9000000 bc 1125000 be 1125000
+  class class-default
+   police cir 6000000 bc 750000 be 750000
+policy-map TELPUB10-IN
+  class TELEFONIA-IN
+   police cir 920000 bc 115000 be 115000
+policy-map D100V128-IN
+  class TELEFONIA-IN
+   police 128000 16000 16000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 100000 12500 125000 conform-action transmit  exceed-action drop 
+policy-map VIDEO-OUT
+  class VIDEOCONFERENCIA-OUT
+   police 512000 64000 64000 conform-action transmit  exceed-action drop 
+policy-map TELCORP20-OUT
+  class TELEFONIA-OUT
+   police 640000 80000 80000 conform-action transmit  exceed-action drop 
+policy-map CAR-20M
+  class class-default
+   police 20000000 2500000 2500000
+policy-map AVVILLAS_5VOzIP_3VOZPUB_1024k-OUT
+  class TELEFONIA-OUT
+   police cir 896000 bc 112000 be 112000
+  class class-default
+   police cir 1024000 bc 128000 be 128000
+policy-map TELPUB13-IN
+  class TELEFONIA-IN
+   police 1196000 598000 598000 conform-action transmit  exceed-action drop 
+policy-map TELPUB20-IN
+  class TELEFONIA-IN
+   police 1840000 920000 920000 conform-action transmit  exceed-action drop 
+policy-map CAR-13M
+  class class-default
+   police 13000000 1625000 conform-action transmit  exceed-action drop 
+policy-map TELPUB30-IN
+  class TELEFONIA-IN
+   police 2760000 345000 345000
+policy-map TELPUB12-IN
+  class TELEFONIA-IN
+   police 384000 48000 48000 conform-action transmit  exceed-action drop 
+policy-map SENA-D9M-I4M-IN
+  class SENA-DATOS-OUT
+   police cir 9000000
+  class class-default
+   police cir 4000000
+policy-map CAR-12M
+  class class-default
+   police 12288000 1500000 1500000 conform-action transmit  exceed-action drop 
+policy-map CAR-30M
+  class class-default
+   police 30720000 3750000 3750000 conform-action transmit  exceed-action drop 
+policy-map TELPUB15-IN
+  class TELEFONIA-IN
+   police cir 1380000 bc 172500 be 172500
+policy-map AVVILLAS_5VOzIP_5VOZPUB_1024k-OUT
+  class TELEFONIA-OUT
+   police 1120000 140000 140000
+  class class-default
+   police 1024000 128000 128000
+policy-map CAR-15M
+  class class-default
+   police 15360000 1875000 1875000 conform-action transmit  exceed-action drop 
+policy-map CAR-40M
+  class class-default
+   police 40960000 5000000 5000000 conform-action transmit  exceed-action drop 
+policy-map TELPUB40-IN
+  class TELEFONIA-IN
+   police 3680000 1840000 1840000 conform-action transmit  exceed-action drop 
+policy-map AVVILLAS_5VOz_800k-IN
+  class TELEFONIA-IN
+   police 560000 70000 70000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 800000 100000 100000 conform-action transmit  exceed-action drop 
+policy-map FINAMERICA-D300V64-IN
+  class TELEFONIA-IN
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 304000 37000 37000 conform-action transmit  exceed-action drop 
+policy-map CAR-50M
+  class class-default
+   police 50000000 6250000 6250000 conform-action transmit  exceed-action drop 
+policy-map TELPUB14-IN
+  class TELEFONIA-IN
+   police 1288000 644000 644000 conform-action transmit  exceed-action drop 
+policy-map TELPUB50-IN
+  class TELEFONIA-IN
+   police 4600000 2300000 2300000 conform-action transmit  exceed-action drop 
+policy-map VISA_D200_TELCORP4-IN
+  class TELEFONIA-IN
+   police 136000 17000 17000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 100000 12500 12500 conform-action transmit  exceed-action drop 
+policy-map VIDEO-FHD
+  class class-default
+   police 4096000 512000 512000 conform-action transmit  exceed-action drop 
+policy-map CAR-60M
+  class class-default
+   police 61440000 7500000 7500000 conform-action transmit  exceed-action drop 
+policy-map TELPUB17-IN
+  class TELEFONIA-IN
+   police 1564000 782000 782000 conform-action transmit  exceed-action drop 
+policy-map TELPUB60-IN
+  class TELEFONIA-IN
+   police 5520000 2760000 2760000 conform-action transmit  exceed-action drop 
+policy-map CAR-25M
+  class class-default
+   police 25600000 3125000 3125000 conform-action transmit  exceed-action drop 
+policy-map CAR-70M
+  class class-default
+   police 71680000 8750000 8750000 conform-action transmit  exceed-action drop 
+policy-map TELPUB16-IN
+  class TELEFONIA-IN
+   police 1472000 736000 736000 conform-action transmit  exceed-action drop 
+policy-map TELPUB70-IN
+  class TELEFONIA-IN
+   police 6440000 3220000 3220000 conform-action transmit  exceed-action drop 
+policy-map D320V320-IN
+  class TELEFONIA-IN
+   police 320000 40000 40000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 320000 40000 40000 conform-action transmit  exceed-action drop 
+policy-map D256V256-IN
+  class TELEFONIA-IN
+   police 256000 32000 32000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 256000 32000 32000 conform-action transmit  exceed-action drop 
+policy-map D64V64-IN
+  class TELEFONIA-IN
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+policy-map CAR-80M
+  class class-default
+   police 81920000 10000000 10000000 conform-action transmit  exceed-action drop 
+policy-map TELPUB19-IN
+  class TELEFONIA-IN
+   police 1748000 874000 874000 conform-action transmit  exceed-action drop 
+policy-map TELPUB80-IN
+  class TELEFONIA-IN
+   police 7360000 3680000 3680000 conform-action transmit  exceed-action drop 
+policy-map CAR-90M
+  class class-default
+   police 92160000 11250000 11250000 conform-action transmit  exceed-action drop 
+policy-map TELPUB18-IN
+  class TELEFONIA-IN
+   police 1656000 828000 828000 conform-action transmit  exceed-action drop 
+policy-map TELPUB90-IN
+  class TELEFONIA-IN
+   police 8280000 4140000 4140000 conform-action transmit  exceed-action drop 
+policy-map D320V432-IN
+  class TELEFONIA-IN
+   police 432000 54000 54000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 320000 40000 40000 conform-action transmit  exceed-action drop 
+policy-map AVVILLAS_5VOz_320k-IN
+  class TELEFONIA-IN
+   police 560000 70000 70000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 320000 40000 40000 conform-action transmit  exceed-action drop 
+policy-map AVVILLAS_5VOz_7VOZPUB_2M-OUT
+  class TELEFONIA-OUT
+   police 1344000 168000 168000
+  class class-default
+   police 2048000 256000 256000
+policy-map AVVILLAS_5VOz_800k-OUT-1024k
+  class TELEFONIA-OUT
+   police cir 560000 bc 70000 be 70000
+  class class-default
+   police cir 1024000 bc 128000 be 128000
+policy-map AVVILLAS_5VOzIP_5VOZPUB_2048k-OUT
+  class TELEFONIA-OUT
+   police 1120000 140000 140000
+  class class-default
+   police 2048000 256000 256000
+policy-map AVVILLAS_5VOz_300k-IN
+  class TELEFONIA-IN
+   police 560000 70000 70000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 304000 38000 38000 conform-action transmit  exceed-action drop 
+policy-map D_2240_Voz_192_IN
+  class TELEFONIA-IN
+   police cir 192000 bc 24000 be 24000
+     conform-action transmit 
+     exceed-action drop 
+  class class-default
+   police cir 3072000 bc 384000 be 384000
+     conform-action transmit 
+     exceed-action drop 
+policy-map CAR-80K
+  class class-default
+   police cir 81500 bc 10240 be 10240
+     conform-action transmit 
+     exceed-action drop 
+policy-map SENA-D100M-I100M-IN
+  class SENA-DATOS-IN
+   police cir 100000000 bc 12500000 be 12500000
+  class class-default
+   police cir 100000000 bc 12500000 be 12500000
+policy-map D512V320-IN
+  class TELEFONIA-IN
+   police 320000 40000 40000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 512000 64000 64000 conform-action transmit  exceed-action drop 
+policy-map AVVILLAS_4VOz_300k-IN
+  class TELEFONIA-IN
+   police 448000 56000 56000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 304000 38000 38000 conform-action transmit  exceed-action drop 
+policy-map AVVILLAS_5VOz_7VOZPUB_1M-OUT
+  class TELEFONIA-OUT
+   police cir 1344000 bc 168000 be 168000
+     conform-action transmit 
+     exceed-action drop 
+  class class-default
+   police cir 1024000 bc 128000 be 128000
+     conform-action transmit 
+     exceed-action drop 
+policy-map D300V64-OUT
+  class TELEFONIA-OUT
+   police 64000 8000 8000
+  class class-default
+   police 300000 37500 37500
+policy-map TELPUB180-OUT
+  class TELEFONIA-OUT
+   police 16560000 8280000 8280000 conform-action transmit  exceed-action drop 
+policy-map TELPUB9-OUT
+  class TELEFONIA-OUT
+   police 828000 414000 414000 conform-action transmit  exceed-action drop 
+policy-map D200V64-OUT
+  class TELEFONIA-OUT
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 200000 25000 25000 conform-action transmit  exceed-action drop 
+policy-map TELPUB8-OUT
+  class TELEFONIA-OUT
+   police cir 736000 bc 92000 be 92000
+policy-map TELPUB190-OUT
+  class TELEFONIA-OUT
+   police 17480000 8740000 8740000 conform-action transmit  exceed-action drop 
+policy-map CAR-384
+  class class-default
+   police 384000 48000 48000 conform-action transmit  exceed-action drop 
+policy-map QoS-MPLS
+  class VOZ-MPLS
+   priority 512
+  class VIDEO-MPLS
+   priority 768
+  class class-default
+   fair-queue
+policy-map D100V64-OUT
+  class TELEFONIA-OUT
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+  class class-default
+   police cir 1024000 bc 128000 be 128000
+policy-map CAR-768
+  class class-default
+   police 768000 96000 96000 conform-action transmit  exceed-action drop 
+policy-map CAR-900
+  class class-default
+   police 904000 113000 113000 conform-action transmit  exceed-action drop 
+policy-map CAR-696
+  class class-default
+   police 696000 875000 875000 conform-action transmit  exceed-action drop 
+policy-map PBX2-D600-OUT
+  class TELEFONIA-OUT
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 600000 75000 75000 conform-action transmit  exceed-action drop 
+policy-map AVVILLAS_5VOzIP_3VOZPUB_800k-IN
+  class TELEFONIA-IN
+   police 896000 112000 112000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 800000 100000 100000 conform-action transmit  exceed-action drop 
+policy-map CAR-800
+  class class-default
+   police 800000 100000 100000 conform-action transmit  exceed-action drop 
+policy-map SENA-D10M-I3M-OUT
+  class SENA-DATOS-OUT
+   police cir 7000000 bc 875000 be 875000
+  class class-default
+   police cir 3000000 bc 375000 be 375000
+policy-map SENA-D15M-I6M-OUT
+  class SENA-DATOS-OUT
+   police cir 9000000 bc 1125000 be 1125000
+  class class-default
+   police cir 10000000 bc 1250000 be 1250000
+policy-map CAR-128
+  class class-default
+   police 128000 16000 16000 conform-action transmit  exceed-action drop 
+policy-map CAR-192
+  class class-default
+   police 192000 24000 24000 conform-action transmit  exceed-action drop 
+policy-map TELCORPO8-OUT
+  class TELEFONIA-OUT
+   police 272000 34000 34000 conform-action transmit  exceed-action drop 
+policy-map COLPATRIA-QoS-VOZ204
+  class Precedence5
+   police cir 408000 bc 51000 be 51000
+     conform-action transmit 
+     exceed-action drop 
+  class class-default
+   police cir 1640000 bc 205000 be 205000
+     conform-action transmit 
+     exceed-action drop 
+policy-map AVVILLAS_5VOz_800k-IN-400k
+  class TELEFONIA-IN
+   police cir 560000 bc 70000 be 70000
+  class class-default
+   police cir 400000 bc 50000 be 50000
+policy-map BBO-1024k-TELEFONIA-4-IN
+  class Voz
+   police 256000 32000 32000
+  class class-default
+   police 1024000 128000 128000
+policy-map D128V64-OUT
+  class TELEFONIA-OUT
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 128000 16000 16000 conform-action transmit  exceed-action drop 
+policy-map AVVILLAS_5VOzIP_3VOZPUB_400k-IN
+  class TELEFONIA-IN
+   police cir 896000 bc 112000 be 112000
+  class class-default
+   police cir 400000 bc 50000 be 50000
+policy-map FINAMERICA-D1024V64-OUT
+  class TELEFONIA-OUT
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 1024000 128000 128000 conform-action transmit  exceed-action drop 
+policy-map TELPUB1-OUT
+  class TELEFONIA-OUT
+   police cir 92000 bc 46000 be 46000
+policy-map TELPUB100-OUT
+  class TELEFONIA-OUT
+   police 9200000 4600000 4600000 conform-action transmit  exceed-action drop 
+policy-map CAR-400
+  class class-default
+   police 400000 50000 50000 conform-action transmit  exceed-action drop 
+policy-map VIDEO2-IN
+  class VIDEOCONFERENCIA-IN
+   police 2048000 256000 256000 conform-action transmit  exceed-action drop 
+policy-map TELPUB110-OUT
+  class TELEFONIA-OUT
+   police 10120000 5060000 5060000 conform-action transmit  exceed-action drop 
+policy-map CAR-150
+  class class-default
+   police cir 152000 bc 18750 be 18750
+policy-map TELPUB3-OUT
+  class TELEFONIA-OUT
+   police 276000 138000 138000 conform-action transmit  exceed-action drop 
+policy-map TELCORP3-IN
+  class TELEFONIA-IN
+   police cir 96000 bc 12000 be 12000
+policy-map TELPUB120-OUT
+  class TELEFONIA-OUT
+   police 11040000 5520000 5520000 conform-action transmit  exceed-action drop 
+policy-map TELPUB300-OUT
+  class TELEFONIA-OUT
+   police 27600000 13800000 13800000 conform-action transmit  exceed-action drop 
+policy-map CAR-512
+  class class-default
+   police 512000 64000 64000 conform-action transmit  exceed-action drop 
+policy-map CAR-600
+  class class-default
+   police 600000 75000 75000 conform-action transmit  exceed-action drop 
+policy-map TELCORPO4-OUT
+  class TELEFONIA-OUT
+   police 136000 17000 17000 conform-action transmit  exceed-action drop 
+policy-map TELCORP2-IN
+  class TELEFONIA-IN
+   police 72000 9000 9000 conform-action transmit  exceed-action drop 
+policy-map AVVILLAS_5VOzIP_5VOZPUB_320k-IN
+  class TELEFONIA-IN
+   police 1120000 140000 140000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 320000 40000 40000 conform-action transmit  exceed-action drop 
+policy-map TELPUB2-OUT
+  class TELEFONIA-OUT
+   police cir 184000 bc 23000 be 23000
+     conform-action transmit 
+     exceed-action drop 
+policy-map TELPUB130-OUT
+  class TELEFONIA-OUT
+   police 11960000 5980000 5980000 conform-action transmit  exceed-action drop 
+policy-map TELPUB200-OUT
+  class TELEFONIA-OUT
+   police 18400000 9200000 9200000 conform-action transmit  exceed-action drop 
+policy-map BBO-4096k-TELEFONIA-4-IN
+  class Voz
+   police cir 256000 bc 32000 be 32000
+  class class-default
+   police cir 4096000 bc 512000 be 512000
+policy-map CAR-100
+  class class-default
+   police 104000 13000 13000 conform-action transmit  exceed-action drop 
+policy-map CAR-256
+  class class-default
+   police 256000 32000 32000 conform-action transmit  exceed-action drop 
+policy-map D384V64-OUT
+  class TELEFONIA-OUT
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 384000 48000 48000 conform-action transmit  exceed-action drop 
+policy-map BT-128_COS3_64
+  class COS3
+   police 64000 conform-action set-prec-transmit 5 exceed-action drop 
+  class class-default
+   set ip precedence 1
+policy-map BT-128-64-OUT
+  class class-default
+   shape average 128000
+   service-policy BT-128_COS3_64
+policy-map TELPUB5-OUT
+  class TELEFONIA-OUT
+   police cir 460000 bc 57500 be 57500
+policy-map TELPUB140-OUT
+  class TELEFONIA-OUT
+   police 12880000 6440000 6440000 conform-action transmit  exceed-action drop 
+policy-map TELPUB500-OUT
+  class TELEFONIA-OUT
+   police 46000000 23000000 23000000 conform-action transmit  exceed-action drop 
+policy-map PRV0437_PER-PORT-POLICING
+  class PBX_PRV0437
+   police 800000 100000 100000
+  class class-default
+   police 2048000 256000 256000
+policy-map D64V64-OUT
+  class TELEFONIA-OUT
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+  class class-default
+   set ip precedence 1
+   fair-queue
+   queue-limit 96
+policy-map D64V64-OUT_TS_128
+  class class-default
+   shape average 128000
+   service-policy D64V64-OUT
+policy-map TELCORP4-IN
+  class TELEFONIA-IN
+   police 128000 16000 16000 conform-action transmit  exceed-action drop 
+policy-map TELPUB4-OUT
+  class TELEFONIA-OUT
+   police 368000 184000 184000 conform-action transmit  exceed-action drop 
+policy-map TELPUB150-OUT
+  class TELEFONIA-OUT
+   police 13800000 6900000 6900000 conform-action transmit  exceed-action drop 
+policy-map TELPUB400-OUT
+  class TELEFONIA-OUT
+   police 36800000 18400000 18400000 conform-action transmit  exceed-action drop 
+policy-map CAR-300
+  class class-default
+   police 304000 37000 37000 conform-action transmit  exceed-action drop 
+policy-map LIBERTY-ARMENIA-OUT
+  class TELEFONIA-OUT
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 1024000 128000 128000 conform-action transmit  exceed-action drop 
+policy-map TELPUB160-OUT
+  class TELEFONIA-OUT
+   police 14720000 7360000 7360000 conform-action transmit  exceed-action drop 
+policy-map TELPUB7-OUT
+  class TELEFONIA-OUT
+   police 644000 322000 322000 conform-action transmit  exceed-action drop 
+policy-map BBO-2048k-TELEFONIA-4-IN
+  class Voz
+   police cir 256000 bc 32000 be 32000
+  class class-default
+   police cir 2048000 bc 256000 be 256000
+policy-map CAR-200
+  class class-default
+   police 200000 25000 25000 conform-action transmit  exceed-action drop 
+policy-map TELCORP6-IN
+  class TELEFONIA-IN
+   police 192000 24000 24000 conform-action transmit  exceed-action drop 
+policy-map TELPUB6-OUT
+  class TELEFONIA-OUT
+   police 528000 65500 65500 conform-action transmit  exceed-action drop 
+policy-map SENA-D9M-I10M-OUT
+  class SENA-DATOS-OUT
+   police cir 9000000 bc 1125000 be 1125000
+  class class-default
+   police cir 10000000 bc 1250000 be 1250000
+policy-map TELPUB170-OUT
+  class TELEFONIA-OUT
+   police 15640000 7820000 7820000 conform-action transmit  exceed-action drop 
+policy-map TELPUB600-OUT
+  class TELEFONIA-OUT
+   police 55200000 27600000 27600000 conform-action transmit  exceed-action drop 
+policy-map BOC-D896-V128
+  class Precedence5
+   police cir 128000 bc 16000 be 16000
+  class class-default
+   police cir 896000 bc 112000 be 112000
+policy-map BPP1487_RT9216K_SG1024K_D4M-OUT
+  class TELEFONIA-OUT
+   police 64000 8000 8000
+  class REAL-TIME-OUT
+   police cir 100000 bc 12500 be 12500
+     conform-action transmit 
+     exceed-action drop 
+     violate-action drop 
+  class SIGNALLING-SERV-OUT
+   police cir 300000 bc 37500 be 37500
+     conform-action transmit 
+     exceed-action drop 
+     violate-action drop 
+  class class-default
+   police 4096000 500000 500000
+policy-map UTBOC-300
+  class UTBOC-VOIP
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+  class UTBOC-SII
+   police 192000 24000 24000 conform-action transmit  exceed-action drop 
+policy-map D64_TELCORP4-IN
+  class TELEFONIA-IN
+   police 136000 17000 17000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+policy-map AVVILLAS_5VOz_7VOZPUB_400k-IN
+  class TELEFONIA-IN
+   police cir 1344000 bc 168000 be 168000
+  class class-default
+   police cir 400000 bc 50000 be 50000
+policy-map BPO-128DATOS-TELEFONIA-IN
+  class TELEFONIA-IN
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 128000 16000 16000 conform-action transmit  exceed-action drop 
+policy-map D1024_TELCORP2-IN
+  class TELEFONIA-IN
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 1024000 230000 230000 conform-action transmit  exceed-action drop 
+policy-map CREDIBANCO_D824voip200_IN
+  class CREDIBANCO_voip200_IN
+   police cir 200000 bc 25000 be 25000
+  class class-default
+   police cir 824000 bc 103000 be 103000
+policy-map AVVILLAS_5VOz_7VOZPUB_800k-IN
+  class TELEFONIA-IN
+   police 1344000 168000 168000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 800000 100000 100000 conform-action transmit  exceed-action drop 
+policy-map D600-TELCORP2-OUT
+  class TELEFONIA-OUT
+   police 72000 9000 9000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 600000 75000 75000 conform-action transmit  exceed-action drop 
+policy-map CREDIBANCO_D400voip200_IN
+  class CREDIBANCO_voip200_IN
+   police cir 200000 bc 25000 be 25000
+  class class-default
+   police cir 800000 bc 100000 be 100000
+policy-map BPP0086_OUT
+  class SIGNALLING-SERV-OUT
+   police 300000 37500 37500 conform-action transmit  exceed-action drop 
+  class REAL-TIME-OUT
+   police 2001500 250200 250200 conform-action transmit  exceed-action drop 
+  class class-default
+   police 4096000 512000 512000 conform-action transmit  exceed-action drop 
+policy-map D2048_TELCORP2-IN
+  class TELEFONIA-IN
+   police cir 64000 bc 8000 be 8000
+     conform-action transmit 
+     exceed-action drop 
+  class class-default
+   police cir 2048000 bc 256000 be 256000
+     conform-action transmit 
+     exceed-action drop 
+policy-map TELCORP22-PUB15-OUT
+  class TELEFONIA-OUT
+   police cir 2048000 bc 256000 be 256000
+policy-map CAR-BOC-896D_128V
+  class Precedence5
+   police 128000 16000 16000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 896000 112000 112000 conform-action transmit  exceed-action drop 
+policy-map CAR-BOC-2240D_160V
+  class Precedence5
+   police cir 160000 bc 20000 be 20000
+     conform-action transmit 
+     exceed-action drop 
+  class class-default
+   police cir 2240000 bc 280000 be 280000
+     conform-action transmit 
+     exceed-action drop 
+policy-map UTBOC-2000
+  class UTBOC-VOIP
+   police cir 64000 bc 8000 be 8000
+  class UTBOC-SII
+   police cir 199500 bc 24992 be 24992
+policy-map D3072-TELPUB3-TELPBX4-IN
+  class TELEFONIA-IN
+   police 660000 82500 82500 conform-action transmit  exceed-action drop 
+  class class-default
+   police cir 4096000 bc 512000 be 512000
+     conform-action transmit 
+     exceed-action drop 
+policy-map D2048-TELCORP2-OUT
+  class TELEFONIA-OUT
+   police 72000 9000 9000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 2048000 256000 256000 conform-action transmit  exceed-action drop 
+policy-map BBO-DATOS-TELEFONIA-4-IN
+  class Voz
+   police 256000 32000 32000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 512000 64000 64000 conform-action transmit  exceed-action drop 
+policy-map BPO-4096DATOS-TELEFONIA-IN
+  class TELEFONIA-IN
+   police 64000 8000 8000
+  class class-default
+   police 5632000 704000 704000
+policy-map D100_TELCORP4-IN
+  class TELEFONIA-IN
+   police 136000 17000 17000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 100000 12500 12500 conform-action transmit  exceed-action drop 
+policy-map D2048-TELPUB3-TELPBX4-IN
+  class TELEFONIA-IN
+   police 660000 82500 82500 conform-action transmit  exceed-action drop 
+  class class-default
+   police 2048000 256000 256000 conform-action transmit  exceed-action drop 
+policy-map BPO-1024DATOS-TELEFONIA-IN
+  class TELEFONIA-IN
+   police cir 64000 bc 8000 be 8000
+  class class-default
+   police cir 1024000 bc 128000 be 128000
+policy-map COLLAB-PORT-POLICING-OUT
+  class REAL-TIME-OUT
+   police cir 512000 bc 64000
+     exceed-action drop 
+  class SIGNALLING-SERV-OUT
+   police cir 32000 bc 8000
+     exceed-action drop 
+  class class-default
+   police cir 128000 bc 8000
+     exceed-action drop 
+policy-map CINECO-OUT
+  class TELEFONIA-OUT
+   police cir 128000 bc 16000 be 16000
+     conform-action transmit 
+     exceed-action drop 
+  class class-default
+   police cir 4096000 bc 512000 be 512000
+     conform-action transmit 
+     exceed-action drop 
+policy-map QoS-MPLS2
+  class VOZ-MPLS
+   priority 768
+  class VIDEO-MPLS
+   priority 768
+  class class-default
+   fair-queue
+policy-map VIDEO-HD
+  class class-default
+   police 2048000 256000 256000 conform-action transmit  exceed-action drop 
+policy-map TELPUB18-OUT
+  class TELEFONIA-OUT
+   police 1656000 828000 828000 conform-action transmit  exceed-action drop 
+policy-map TELPUB90-OUT
+  class TELEFONIA-OUT
+   police 8280000 4140000 4140000 conform-action transmit  exceed-action drop 
+policy-map D320V320-OUT
+  class TELEFONIA-OUT
+   police 320000 40000 40000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 320000 40000 40000 conform-action transmit  exceed-action drop 
+policy-map D256V256-OUT
+  class TELEFONIA-OUT
+   police 256000 32000 32000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 256000 32000 32000 conform-action transmit  exceed-action drop 
+policy-map TELPUB19-OUT
+  class TELEFONIA-OUT
+   police 1748000 874000 874000 conform-action transmit  exceed-action drop 
+policy-map TELPUB80-OUT
+  class TELEFONIA-OUT
+   police 7360000 3680000 3680000 conform-action transmit  exceed-action drop 
+policy-map CAR-2048
+  class class-default
+   police 2048000 256000 256000 conform-action transmit  exceed-action drop 
+policy-map CAR-Int600k
+  class class-default
+   police 1800000 225000 225000 conform-action transmit  exceed-action drop 
+policy-map BOC-DATOS1888-VOZ192
+  class Precedence5
+   police cir 192000 bc 24000 be 24000
+     conform-action transmit 
+     exceed-action drop 
+  class class-default
+   police cir 1888000 bc 236000 be 236000
+     conform-action transmit 
+     exceed-action drop 
+policy-map CAR-Int100k
+  class class-default
+   police 304000 38000 38000 conform-action transmit  exceed-action drop 
+policy-map AVVILLAS_5VOz_800k-IN-1024k
+  class TELEFONIA-IN
+   police cir 560000 bc 70000 be 70000
+  class class-default
+   police cir 1024000 bc 128000 be 128000
+policy-map AVVILLAS_5VOzIP_5VOZPUB_2048k-IN
+  class TELEFONIA-IN
+   police 1120000 140000 140000
+  class class-default
+   police 2048000 256000 256000
+policy-map D320V432-OUT
+  class TELEFONIA-OUT
+   police 432000 54000 54000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 320000 40000 40000 conform-action transmit  exceed-action drop 
+policy-map AVVILLAS_5VOz_320k-OUT
+  class TELEFONIA-IN
+   police 560000 70000 70000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 320000 40000 40000 conform-action transmit  exceed-action drop 
+policy-map AVVILLAS_5VOz_7VOZPUB_2M-IN
+  class TELEFONIA-IN
+   police 1344000 168000 168000
+  class class-default
+   police 2048000 256000 256000
+policy-map CAR-80
+  class class-default
+   police 81500 10240 10240 conform-action transmit  exceed-action drop 
+policy-map CAR-GIGA
+  class class-default
+   police 1000000000 125000000 125000000 conform-action transmit  exceed-action drop 
+policy-map CAR-4096
+  class class-default
+   police 4096000 512000 512000 conform-action transmit  exceed-action drop 
+policy-map CAR-Int300k
+  class class-default
+   police 904000 113000 113000 conform-action transmit  exceed-action drop 
+policy-map D512V320-OUT
+  class TELEFONIA-OUT
+   police 320000 40000 40000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 512000 64000 64000 conform-action transmit  exceed-action drop 
+policy-map AVVILLAS_4VOz_300k-OUT
+  class TELEFONIA-OUT
+   police 448000 56000 56000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 304000 38000 38000 conform-action transmit  exceed-action drop 
+policy-map AVVILLAS_5VOz_7VOZPUB_1M-IN
+  class TELEFONIA-IN
+   police cir 1344000 bc 168000 be 168000
+     conform-action transmit 
+     exceed-action drop 
+  class class-default
+   police cir 1024000 bc 128000 be 128000
+     conform-action transmit 
+     exceed-action drop 
+policy-map CAR-Int200k
+  class class-default
+   police 600000 75000 75000 conform-action transmit  exceed-action drop 
+policy-map AVVILLAS_5VOz_300k-OUT
+  class TELEFONIA-OUT
+   police 560000 70000 70000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 304000 38000 38000 conform-action transmit  exceed-action drop 
+policy-map D_2240_Voz_192_OUT
+  class TELEFONIA-OUT
+   police cir 192000 bc 24000 be 2400
+     conform-action transmit 
+     exceed-action drop 
+  class class-default
+   police cir 3072000 bc 384000 be 384000
+     conform-action transmit 
+     exceed-action drop 
+policy-map SENA-D100M-I100M-OUT
+  class SENA-DATOS-OUT
+   police cir 100000000 bc 12500000 be 12500000
+  class class-default
+   police cir 100000000 bc 12500000 be 12500000
+policy-map CAR-1400
+  class class-default
+   police 1408000 176000 176000 conform-action transmit  exceed-action drop 
+policy-map CAR-50
+  class class-default
+   police 48000 8000 8000 conform-action transmit  exceed-action drop 
+policy-map TELCORP10-IN
+  class TELEFONIA-IN
+   police 320000 40000 40000 conform-action transmit  exceed-action drop 
+policy-map VISA_D400_TELCORP5-OUT
+  class TELEFONIA-OUT
+   police 160000 20000 20000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 400000 50000 50000 conform-action transmit  exceed-action drop 
+policy-map SENA-D9M-I6M-OUT
+  class SENA-DATOS-OUT
+   police cir 9000000 bc 1125000 be 1125000
+  class class-default
+   police cir 6000000 bc 750000 be 750000
+policy-map TELPUB10-OUT
+  class TELEFONIA-OUT
+   police cir 920000 bc 115000 be 115000
+policy-map D300V128-OUT
+  class TELEFONIA-OUT
+   police 128000 16000 16000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 304000 37000 37000 conform-action transmit  exceed-action drop 
+policy-map VISA_D400_TELCORP4-OUT
+  class TELEFONIA-OUT
+   police 136000 17000 17000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 400000 50000 50000 conform-action transmit  exceed-action drop 
+policy-map TELCORP22-IN
+  class TELEFONIA-IN
+   police cir 704000 bc 88000 be 88000
+     conform-action transmit 
+     exceed-action drop 
+policy-map TELPUB11-OUT
+  class TELEFONIA-OUT
+   police 1012000 506000 506000 conform-action transmit  exceed-action drop 
+policy-map CAR-1024
+  class class-default
+   police cir 1024000 bc 128000 be 128000
+     conform-action transmit 
+     exceed-action drop 
+policy-map CAR-1600
+  class class-default
+   police 1600000 200000 200000 conform-action transmit  exceed-action drop 
+policy-map TELPUB30-OUT
+  class TELEFONIA-OUT
+   police 2760000 345000 345000
+policy-map TELPUB12-OUT
+  class TELEFONIA-OUT
+   police 1104000 552000 552000 conform-action transmit  exceed-action drop 
+policy-map SENA-D9M-I4M-OUT
+  class SENA-DATOS-OUT
+   police cir 9000000
+  class class-default
+   police cir 4000000
+policy-map D100V128-OUT
+  class TELEFONIA-OUT
+   police 128000 16000 16000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 100000 12500 125000 conform-action transmit  exceed-action drop 
+policy-map CAR-3072
+  class class-default
+   police 3072000 384000 384000 conform-action transmit  exceed-action drop 
+policy-map VIDEO-IN
+  class VIDEOCONFERENCIA-IN
+   police 512000 64000 64000 conform-action transmit  exceed-action drop 
+policy-map TELCORP20-IN
+  class TELEFONIA-IN
+   police 640000 80000 80000 conform-action transmit  exceed-action drop 
+policy-map AVVILLAS_5VOzIP_3VOZPUB_1024k-IN
+  class TELEFONIA-IN
+   police cir 896000 bc 112000 be 112000
+  class class-default
+   police cir 1024000 bc 128000 be 128000
+policy-map TELPUB13-OUT
+  class TELEFONIA-OUT
+   police 1196000 598000 598000 conform-action transmit  exceed-action drop 
+policy-map TELPUB20-OUT
+  class TELEFONIA-OUT
+   police 1840000 920000 920000 conform-action transmit  exceed-action drop 
+policy-map CAR-1536
+  class class-default
+   police 1536000 192000 192000 conform-action transmit  exceed-action drop 
+policy-map CAR-1000
+  class class-default
+   police 1000000 1250000 1250000 conform-action transmit  exceed-action drop 
+policy-map AVVILLAS_5VOz_800k-OUT
+  class TELEFONIA-OUT
+   police 560000 70000 70000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 800000 100000 100000 conform-action transmit  exceed-action drop 
+policy-map FINAMERICA-D300V64-OUT
+  class TELEFONIA-OUT
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 304000 37000 37000 conform-action transmit  exceed-action drop 
+policy-map BOC-DATOS1792-VOZ256
+  class Precedence5
+   police cir 256000 bc 32000 be 32000
+     conform-action transmit 
+     exceed-action drop 
+  class class-default
+   police cir 2048000 bc 256000 be 256000
+     conform-action transmit 
+     exceed-action drop 
+policy-map TELPUB14-OUT
+  class TELEFONIA-OUT
+   police 1288000 644000 644000 conform-action transmit  exceed-action drop 
+policy-map TELPUB50-OUT
+  class TELEFONIA-OUT
+   police 4600000 2300000 2300000 conform-action transmit  exceed-action drop 
+policy-map TELPUB15-OUT
+  class TELEFONIA-OUT
+   police cir 1380000 bc 172500 be 172500
+policy-map AVVILLAS_5VOzIP_5VOZPUB_1024k-IN
+  class TELEFONIA-IN
+   police cir 1120000 bc 140000 be 140000
+  class class-default
+   police cir 1024000 bc 128000 be 128000
+policy-map TELPUB40-OUT
+  class TELEFONIA-OUT
+   police 3680000 1840000 1840000 conform-action transmit  exceed-action drop 
+policy-map CAR-1200
+  class class-default
+   police 1200000 150000 150000 conform-action transmit  exceed-action drop 
+policy-map BOC-DATOS1888-VOZ160
+  class Precedence5
+   police cir 160000 bc 20000 be 20000
+     conform-action transmit 
+     exceed-action drop 
+  class class-default
+   police cir 1888000 bc 236000 be 236000
+     conform-action transmit 
+     exceed-action drop 
+policy-map TELPUB16-OUT
+  class TELEFONIA-OUT
+   police 1472000 736000 736000 conform-action transmit  exceed-action drop 
+policy-map TELPUB70-OUT
+  class TELEFONIA-OUT
+   police 6440000 3220000 3220000 conform-action transmit  exceed-action drop 
+policy-map CAR-64
+  class class-default
+   police 64000 8000 8000 conform-action transmit  exceed-action drop 
+policy-map VISA_D200_TELCORP4-OUT
+  class TELEFONIA-OUT
+   police 136000 17000 17000 conform-action transmit  exceed-action drop 
+  class class-default
+   police 100000 12500 12500 conform-action transmit  exceed-action drop 
+policy-map TELPUB17-OUT
+  class TELEFONIA-OUT
+   police 1564000 782000 782000 conform-action transmit  exceed-action drop 
+policy-map TELPUB60-OUT
+  class TELEFONIA-OUT
+   police 5520000 2760000 2760000 conform-action transmit  exceed-action drop 
+!
+! 
+!
+!
+!
+!
+interface Loopback222
+ ip address 10.10.66.245 255.255.255.255
+!
+interface FastEthernet0/0
+ no ip address
+ duplex full
+ speed 100
+!
+interface FastEthernet0/0.201
+!
+interface FastEthernet0/1
+ description TRUNK MPLS A9KARMENIA GE0/0/0/1
+ ip address 10.14.10.218 255.255.255.252
+ ip ospf network point-to-point
+ ip ospf cost 7000
+ carrier-delay msec 0
+ duplex full
+ speed 100
+ mpls label protocol ldp
+ tag-switching mtu 1580
+ tag-switching ip
+ service-policy input CAR-GIGA
+ service-policy output QOS_CORE
+ hold-queue 1000 in
+!
+interface Ethernet1/0
+ no ip address
+ shutdown
+ duplex half
+!
+interface Ethernet1/1
+ no ip address
+ shutdown
+ duplex half
+!
+interface Ethernet1/2
+ no ip address
+ shutdown
+ duplex half
+!
+interface Ethernet1/3
+ no ip address
+ shutdown
+ duplex half
+!
+interface Ethernet1/4
+ no ip address
+ shutdown
+ duplex half
+!
+interface Ethernet1/5
+ no ip address
+ shutdown
+ duplex half
+!
+interface Ethernet1/6
+ no ip address
+ shutdown
+ duplex half
+!
+interface Ethernet1/7
+ no ip address
+ shutdown
+ duplex half
+!
+interface Serial2/1:13
+ no ip address
+ no ip redirects
+ encapsulation frame-relay IETF
+ no keepalive
+ frame-relay lmi-type ansi
+!
+interface FastEthernet3/0
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface FastEthernet3/1
+ description TRUNK MPLS A9KARMENIA GE0/0/0/0
+ ip address 10.14.10.242 255.255.255.252
+ ip ospf network point-to-point
+ ip ospf cost 7000
+ carrier-delay msec 0
+ duplex full
+ speed 100
+ tag-switching mtu 1580
+ tag-switching ip
+ service-policy input CAR-GIGA
+ service-policy output QOS_CORE
+ hold-queue 1000 in
+!
+interface ATM4/0
+ description TRUNK TX-SDH 8-414_ARMENIA 12/7 - TSO5091 (PMPEREIRA ATM2/0 STM1)
+ no ip address
+ no atm ilmi-keepalive
+!
+interface ATM4/0.1 point-to-point
+ description TRUNK MPLS PMPEREIRA ATM2/0.1 - TSO5099 (TX-MSTP 8-414_ARMENIA-MT 12-SEP PORT7)
+ bandwidth 135000
+ ip address 10.14.10.194 255.255.255.252
+ ip ospf cost 24000
+ mpls label protocol ldp
+ tag-switching ip
+ cdp enable
+ pvc 33/231 
+  cbr 149760
+  service-policy input CAR-150MEGAS
+  service-policy output QOS_CORE
+ !
+!
+interface Serial5/0
+ no ip address
+ mpls netflow egress
+ no keepalive
+ serial restart-delay 0
+ no fair-queue
+!
+interface Serial5/1
+ no ip address
+ shutdown
+ serial restart-delay 0
+!
+interface Serial5/2
+ no ip address
+ shutdown
+ serial restart-delay 0
+!
+interface Serial5/3
+ no ip address
+ encapsulation ppp
+ ip route-cache flow
+ shutdown
+ mpls netflow egress
+ serial restart-delay 0
+ no fair-queue
+!
+interface ATM6/0
+ description TRUNK TX-SDH 8-414_ARMENIA 12-SEP-6 - TSO5075
+ no ip address
+ no atm ilmi-keepalive
+!
+interface ATM6/0.239121 point-to-point
+ description TRUNK MPLS MANIZALES2 ATM1/0.239121 - TSO5075 (TX-MSTP 8-414_ARMENIA-MT 12-SEP PORT6)
+ bandwidth 135000
+ ip address 10.14.11.218 255.255.255.252
+ ip ospf network point-to-point
+ ip ospf cost 24000
+ mpls label protocol ldp
+ tag-switching ip
+ cdp enable
+ pvc 239/121 
+  cbr 149760
+  service-policy input CAR-150MEGAS
+  service-policy output QOS_CORE
+ !
+!
+router ospf 66
+ router-id 10.10.66.245
+ log-adjacency-changes
+ auto-cost reference-bandwidth 1000000
+ timers throttle spf 50 50 5000
+ timers pacing flood 15
+ network 10.10.50.25 0.0.0.0 area 0
+ network 10.10.66.245 0.0.0.0 area 0
+ network 10.14.10.194 0.0.0.0 area 0
+ network 10.14.10.218 0.0.0.0 area 0
+ network 10.14.10.242 0.0.0.0 area 0
+ network 10.14.11.218 0.0.0.0 area 0
+!
+router ospf 15009 vrf AvalNalPOR
+ log-adjacency-changes
+ redistribute bgp 14080 subnets
+ network 10.160.27.52 0.0.0.0 area 0
+ network 10.160.65.0 0.0.0.7 area 0
+ default-information originate
+!
+router ospf 16405 vrf AvalMedBOC
+ log-adjacency-changes
+ redistribute bgp 14080 metric 10 metric-type 1 subnets
+ network 10.160.30.176 0.0.0.7 area 0
+ network 10.160.64.168 0.0.0.7 area 0
+ network 10.160.64.192 0.0.0.7 area 0
+ network 10.164.45.72 0.0.0.7 area 0
+ default-information originate
+!
+router ospf 765 vrf finamerica
+ log-adjacency-changes
+ redistribute bgp 14080 subnets
+ default-information originate
+!
+router ospf 16003 vrf AvalBogAVV
+ log-adjacency-changes
+ summary-address 10.8.0.0 255.254.0.0
+ summary-address 10.160.0.0 255.240.0.0
+ summary-address 10.15.0.0 255.255.0.0
+ summary-address 10.16.0.0 255.240.0.0
+ redistribute bgp 14080 subnets
+ network 10.160.64.65 0.0.0.0 area 0
+ network 10.160.64.73 0.0.0.0 area 0
+ network 10.160.64.81 0.0.0.0 area 0
+ network 10.160.64.89 0.0.0.0 area 0
+ default-information originate
+!
+router bgp 14080
+ bgp router-id 10.10.66.245
+ no bgp default ipv4-unicast
+ bgp log-neighbor-changes
+ neighbor 10.15.1.1 remote-as 14080
+ neighbor 10.15.1.1 update-source Loopback222
+ neighbor 10.15.1.2 remote-as 14080
+ neighbor 10.15.1.2 update-source Loopback222
+ neighbor 10.160.66.6 remote-as 65385
+ neighbor 10.160.66.30 remote-as 65505
+ neighbor 10.160.66.30 description IPDP INTERVALORES ARMENIA ICD0025
+ neighbor 10.160.66.30 timers 10 30
+ neighbor 10.160.67.26 remote-as 65535
+ neighbor 10.160.67.26 shutdown
+ neighbor 10.163.245.94 remote-as 64889
+ neighbor 10.163.245.94 description IPDP INVERSIONES INT COLOMBIA SAS PPAL - IJN0012,'PC017-IJN9999'(IJN0083) (HPSA)
+ !
+ address-family ipv4
+ redistribute connected
+ redistribute static
+ default-information originate
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family vpnv4
+ neighbor 10.15.1.1 activate
+ neighbor 10.15.1.1 send-community both
+ neighbor 10.15.1.2 activate
+ neighbor 10.15.1.2 send-community both
+ exit-address-family
+ !
+ address-family ipv4 vrf vidyo
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf utboc-telmex
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf ut-consorcio
+ neighbor 10.160.66.38 remote-as 65334
+ neighbor 10.160.66.38 description UT - CONSORCIO SALUD COMPENSAR CAPITAL I INTRANET - UCS0161
+ no neighbor 10.160.66.38 activate
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf univercasinos-intra
+ redistribute connected
+ redistribute static
+ neighbor 10.160.66.70 remote-as 64240
+ neighbor 10.160.66.70 description UNIVERCASINO PPAL ARMENIA - UDQ0011
+ neighbor 10.160.66.70 timers 10 30
+ neighbor 10.160.66.70 activate
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf test_intranet
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf tennis
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf telmex-mercadeodinamicocav
+ redistribute connected
+ redistribute static
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf telmex-intranet
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf sip-trunk
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf sena-intra
+ redistribute connected
+ redistribute static
+ neighbor SENA peer-group
+ neighbor SENA remote-as 64884
+ neighbor SENA as-override
+ neighbor SENA maximum-prefix 20 70 restart 2
+ neighbor 10.160.66.250 peer-group SENA
+ neighbor 10.160.66.250 description SENA ARMENIA CARRERA 18 - SLE0015,16
+ neighbor 10.160.66.250 activate
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf seguridadfisica-telmex
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf scs-fc-avianca
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf saludvida-video
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf saludvida
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf redeban-ip
+ redistribute connected
+ redistribute static
+ neighbor REDEBAN peer-group
+ neighbor REDEBAN remote-as 65293
+ neighbor REDEBAN as-override
+ neighbor REDEBAN maximum-prefix 20 70 restart 2
+ neighbor 10.160.67.10 peer-group REDEBAN
+ neighbor 10.160.67.10 description REDEBAN MULTICOLOR S.A. - RMC0402
+ neighbor 10.160.67.10 activate
+ neighbor 10.160.67.42 peer-group REDEBAN
+ neighbor 10.160.67.42 description IPDP REDEBAN MULTICOLOR S.A. - RMC0399
+ neighbor 10.160.67.42 activate
+ neighbor 10.160.67.70 peer-group REDEBAN
+ neighbor 10.160.67.70 description REDEBAN MULTICOLOR S.A. - RMC0406
+ neighbor 10.160.67.70 activate
+ neighbor 10.160.67.74 peer-group REDEBAN
+ neighbor 10.160.67.74 description REDEBAN MULTICOLOR S.A. - RMC0400
+ neighbor 10.160.67.74 activate
+ neighbor 10.160.67.78 peer-group REDEBAN
+ neighbor 10.160.67.78 description REDEBAN MULTICOLOR S.A. - RMC0401
+ neighbor 10.160.67.78 activate
+ neighbor 10.160.67.114 peer-group REDEBAN
+ neighbor 10.160.67.114 description IPDP REDEBAN MULTICOLOR S.A. - RMC0403
+ neighbor 10.160.67.114 activate
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf redeban-intra
+ redistribute connected
+ redistribute static
+ neighbor 10.160.67.166 remote-as 64913
+ neighbor 10.160.67.166 description REDEBAN AV BOLIVAR - RMC0275
+ neighbor 10.160.67.166 timers 10 30
+ neighbor 10.160.67.166 activate
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf pymes-internet
+ redistribute connected route-map PYMES_WAN_PUB
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf oro
+ redistribute connected
+ redistribute static
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf nap
+ redistribute connected
+ redistribute static
+ neighbor NAP peer-group
+ neighbor NAP route-map INTERNET-CPE-IN in
+ neighbor NAP maximum-prefix 20 70 restart 2
+ neighbor NAP-BKP peer-group
+ neighbor NAP-BKP route-map INTERNET-CPE-BKP-IN in
+ neighbor NAP-BKP maximum-prefix 20 70 restart 2
+ neighbor 10.160.67.90 remote-as 64510
+ neighbor 10.160.67.90 peer-group NAP
+ neighbor 10.160.67.90 description PROMOCIONES Y COBRANZAS BETA S.A. INTERNET - PYD0001
+ neighbor 10.160.67.90 activate
+ neighbor 10.160.67.90 maximum-prefix 2070 restart 2
+ neighbor 10.160.67.170 remote-as 64518
+ neighbor 10.160.67.170 peer-group NAP
+ neighbor 10.160.67.170 description MADECENTRO COLOMBIA S.A. NAP - CCOLO37 
+ neighbor 10.160.67.170 activate
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf liberty-adn
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf juriscoop
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf ip-telephony
+ redistribute connected
+ redistribute static
+ neighbor TELEFONIACPEs peer-group
+ neighbor TELEFONIACPEs remote-as 65535
+ neighbor TELEFONIACPEs remove-private-AS
+ neighbor TELEFONIACPEs route-map TELE-CPE-IN in
+ neighbor TELEFONIACPEs route-map TELE-CPE out
+ neighbor 10.160.66.46 peer-group TELEFONIACPEs
+ neighbor 10.160.66.46 description SALUDVIDA VOZ - SVE0035
+ neighbor 10.160.66.46 activate
+ neighbor 10.160.66.66 peer-group TELEFONIACPEs
+ neighbor 10.160.66.66 description COLPATRIA ARMENIA
+ neighbor 10.160.66.66 activate
+ neighbor 10.160.66.74 peer-group TELEFONIACPEs
+ neighbor 10.160.66.74 description COOMEVA COSALUD NTE - CEP0125
+ neighbor 10.160.66.74 activate
+ neighbor 10.160.66.90 peer-group TELEFONIACPEs
+ neighbor 10.160.66.90 description BANCO POPULAR CENTRO ARMENIA - BPP0739
+ neighbor 10.160.66.90 activate
+ neighbor 10.160.66.178 remote-as 65116
+ neighbor 10.160.66.178 description PORVENIR S.A. - PRV0437
+ neighbor 10.160.66.178 activate
+ neighbor 10.160.67.14 peer-group TELEFONIACPEs
+ neighbor 10.160.67.14 description BANCO POPULAR CENTRO ARMENIA - BPP0739
+ neighbor 10.160.67.14 activate
+ neighbor 10.160.67.110 peer-group TELEFONIACPEs
+ neighbor 10.160.67.110 description COOMEVA COLSALUD UPP - CEP0245
+ neighbor 10.160.67.110 activate
+ neighbor 10.160.67.138 peer-group TELEFONIACPEs
+ neighbor 10.160.67.138 description BANCO POPULAR TEL. CORP. - BPP0904
+ neighbor 10.160.67.138 activate
+ neighbor 10.160.67.202 peer-group TELEFONIACPEs
+ neighbor 10.160.67.202 description ORGANIZACION RADIAL OLIMPICA S.A. - ORO0057
+ neighbor 10.160.67.202 activate
+ no auto-summary
+ no synchronization
+ aggregate-address 10.8.0.0 255.255.0.0
+ exit-address-family
+ !
+ address-family ipv4 vrf inversiones-int
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf internet-vip
+ redistribute connected
+ redistribute static
+ neighbor INTERNET-VIP peer-group
+ neighbor INTERNET-VIP route-map INTERNET-CPE-IN in
+ neighbor INTERNET-VIP maximum-prefix 20 70 restart 2
+ neighbor INTERNET-VIP-BKP peer-group
+ neighbor INTERNET-VIP-BKP route-map INTERNET-CPE-BKP-IN in
+ neighbor INTERNET-VIP-BKP maximum-prefix 20 70 restart 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf internet-nap
+ redistribute connected
+ redistribute static
+ neighbor INTERNET-NAP peer-group
+ neighbor INTERNET-NAP route-map INTERNET-CPE-IN in
+ neighbor INTERNET-NAP maximum-prefix 20 70 restart 2
+ neighbor INTERNET-NAP-BKP peer-group
+ neighbor INTERNET-NAP-BKP route-map INTERNET-CPE-BKP-IN in
+ neighbor INTERNET-NAP-BKP maximum-prefix 20 70 restart 2
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf internet
+ redistribute connected
+ redistribute static
+ neighbor INTERNET peer-group
+ neighbor INTERNET route-map INTERNET-CPE-IN in
+ neighbor INTERNET maximum-prefix 20 70 restart 2
+ neighbor INTERNET-BKP peer-group
+ neighbor INTERNET-BKP route-map INTERNET-CPE-BKP-IN in
+ neighbor INTERNET-BKP maximum-prefix 20 70 restart 2
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf ims-sbc-ippbx
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf homecenter
+ redistribute connected
+ redistribute static route-map BACKUP
+ neighbor 10.161.67.146 remote-as 65061
+ neighbor 10.161.67.146 description SODIMAC COLOMBIA S.A. ACTIVO-ACTIVO BACKUP SDM0133 - SDM0134
+ neighbor 10.161.67.146 timers 10 30
+ neighbor 10.161.67.146 activate
+ neighbor 10.161.67.146 as-override
+ neighbor 10.161.67.146 route-map SDM00134 in
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf grexito-int
+ redistribute connected
+ redistribute static
+ neighbor EXITO peer-group
+ neighbor EXITO remote-as 65055
+ neighbor EXITO timers 10 30
+ neighbor EXITO as-override
+ neighbor 10.160.66.94 peer-group EXITO
+ neighbor 10.160.66.94 activate
+ neighbor 10.160.66.246 peer-group EXITO
+ neighbor 10.160.66.246 activate
+ neighbor 10.160.66.246 route-map BACKUP in
+ neighbor 10.160.67.230 peer-group EXITO
+ neighbor 10.160.67.230 description EXITO_ARMENIA
+ neighbor 10.160.67.230 activate
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf finamerica
+ redistribute connected
+ redistribute static
+ redistribute ospf 765 metric 110 match internal external 1 external 2
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf fenalco
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf espumlatex
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf equant-fna-main
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf eficacia-intra
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf davivienda-vstreaming
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf davivienda-video
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf davivienda-nal
+ redistribute connected
+ redistribute static
+ neighbor DAVIVIENDA peer-group
+ neighbor DAVIVIENDA remote-as 65060
+ neighbor DAVIVIENDA timers 10 30
+ neighbor 10.160.60.78 peer-group DAVIVIENDA
+ neighbor 10.160.60.78 description IPDP BANCO DAVIVIENDA S. A - DVV0311
+ neighbor 10.160.60.78 activate
+ neighbor 10.160.67.130 peer-group DAVIVIENDA
+ neighbor 10.160.67.130 activate
+ neighbor 10.161.36.30 peer-group DAVIVIENDA
+ neighbor 10.161.36.30 activate
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf davivienda-mercadeo
+ redistribute connected
+ redistribute static
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf datace-ext
+ redistribute static
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf credibanco-redcom
+ redistribute connected
+ redistribute static
+ neighbor 10.160.66.18 remote-as 65277
+ neighbor 10.160.66.18 timers 10 30
+ neighbor 10.160.66.18 activate
+ neighbor 10.160.66.18 distribute-list 3 in
+ neighbor 10.160.66.22 remote-as 65277
+ neighbor 10.160.66.22 timers 10 30
+ neighbor 10.160.66.22 activate
+ neighbor 10.160.66.22 distribute-list 3 in
+ neighbor 10.160.66.182 remote-as 65277
+ neighbor 10.160.66.182 timers 10 30
+ neighbor 10.160.66.182 activate
+ neighbor 10.160.66.182 distribute-list 3 in
+ neighbor 10.160.66.194 remote-as 65277
+ neighbor 10.160.66.194 timers 10 30
+ neighbor 10.160.66.194 activate
+ neighbor 10.160.66.194 distribute-list 3 in
+ neighbor 10.160.66.202 remote-as 65277
+ neighbor 10.160.66.202 timers 10 30
+ neighbor 10.160.66.202 activate
+ neighbor 10.160.66.202 distribute-list 3 in
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf credibanco-redadm
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf coomeva-nacional
+ redistribute connected
+ redistribute static
+ neighbor 10.160.66.78 remote-as 65535
+ neighbor 10.160.66.78 description COOMEVA COLSALUD ARMENIA INTRANET - CEP0203
+ neighbor 10.160.66.78 activate
+ neighbor 10.160.66.78 remove-private-AS
+ neighbor 10.160.66.78 maximum-prefix 20 70 restart 2
+ neighbor 10.160.66.242 remote-as 64597
+ neighbor 10.160.66.242 description COOMEVA MEDICINA PREPAGADA UPREC - SCC0031
+ neighbor 10.160.66.242 timers 10 30
+ neighbor 10.160.66.242 activate
+ neighbor 10.160.66.242 as-override
+ neighbor 10.160.67.106 remote-as 65535
+ neighbor 10.160.67.106 description COOMEVA COLSALUD UPP - CEP0243
+ neighbor 10.160.67.106 activate
+ neighbor 10.160.67.106 remove-private-AS
+ neighbor 10.160.67.106 maximum-prefix 20 70 restart 2
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf colpatria-uinversion
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf colmedicas-intra
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf cinecolombia
+ redistribute connected
+ redistribute static
+ neighbor 10.160.66.126 remote-as 64812
+ neighbor 10.160.66.126 description CINECOLOMBIA PORTAL QUINDIO - CIN0032
+ neighbor 10.160.66.126 timers 10 30
+ neighbor 10.160.66.126 activate
+ neighbor 10.160.66.126 as-override
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf cemex-intra
+ redistribute connected
+ redistribute static
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf cafesalud
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf brinks
+ redistribute connected
+ redistribute static
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf brighstar
+ redistribute connected
+ redistribute static
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf bancolpatria
+ redistribute connected
+ redistribute static
+ neighbor BANCOLPATRIA peer-group
+ neighbor BANCOLPATRIA remote-as 65421
+ neighbor BANCOLPATRIA as-override
+ neighbor BANCOLPATRIA maximum-prefix 20 70 restart 2
+ neighbor 10.161.81.10 peer-group BANCOLPATRIA
+ neighbor 10.161.81.10 description BANCO COLPATRIA ARMENIA - BCL0305
+ neighbor 10.161.81.10 activate
+ neighbor 10.161.84.190 peer-group BANCOLPATRIA
+ neighbor 10.161.84.190 description BANCO COLPATRIA RED MULTIBANCA COLPATRIA S.A - BDV0070
+ neighbor 10.161.84.190 activate
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf bancolombia-intra
+ redistribute connected
+ redistribute static
+ neighbor BANCOLOMBIA-INTRA peer-group
+ neighbor BANCOLOMBIA-INTRA remote-as 65345
+ neighbor BANCOLOMBIA-INTRA maximum-prefix 20 70 restart 2
+ neighbor 10.160.66.118 peer-group BANCOLOMBIA-INTRA
+ neighbor 10.160.66.118 description BANCOLOMBIA S.A. ARMENIA CENTRO - BCB0463
+ neighbor 10.160.66.118 activate
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf bancolombia-huawei
+ redistribute connected
+ redistribute static
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf attlanm
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf ath-transaccional
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf arcesa
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf Bancolombia-TelmexBK
+ redistribute connected
+ redistribute static
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf AvalNalPOR-MD
+ redistribute connected
+ redistribute static
+ neighbor 10.164.101.66 remote-as 65116
+ neighbor 10.164.101.66 description IPDP PORVENIR ARMENIA - PRV0949 (HPSA)
+ neighbor 10.164.101.66 activate
+ neighbor 10.164.101.66 maximum-prefix 20 70 restart 2
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf AvalNalPOR
+ redistribute connected
+ redistribute static
+ redistribute ospf 15009 metric 110 match internal external 1 external 2
+ neighbor 10.160.65.6 remote-as 65116
+ neighbor 10.160.65.6 description PORVENIR ARMENIA PPAL - PRV0041(PRV0208)
+ neighbor 10.160.65.6 activate
+ neighbor 10.160.65.6 maximum-prefix 20 70 restart 2
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf AvalMedBOC
+ redistribute connected
+ redistribute ospf 16405 metric 110 match internal external 1 external 2
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf AvalBogBPO
+ redistribute connected
+ redistribute static
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf AvalBogBBOCis
+ redistribute connected
+ redistribute static
+ neighbor BANCO_DE_BOGOTA peer-group
+ neighbor BANCO_DE_BOGOTA remote-as 64920
+ neighbor BANCO_DE_BOGOTA as-override
+ neighbor BANCO_DE_BOGOTA maximum-prefix 20 80 restart 2
+ neighbor 10.160.64.6 peer-group BANCO_DE_BOGOTA
+ neighbor 10.160.64.6 description BANCO DE BOGOTA - BBT0277,469,470,471,472
+ neighbor 10.160.64.6 activate
+ neighbor 10.160.128.58 remote-as 64920
+ neighbor 10.160.128.58 description BANCO DE BOGOTA - BBT0277
+ neighbor 10.160.128.58 activate
+ neighbor 10.164.75.74 peer-group BANCO_DE_BOGOTA
+ neighbor 10.164.75.74 description BANCO DE BOGOTA - BBT0608
+ neighbor 10.164.75.74 activate
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+ !
+ address-family ipv4 vrf AvalBogAVV
+ redistribute connected
+ redistribute static
+ redistribute ospf 16003 metric 110 match internal external 1 external 2
+ maximum-paths import 2
+ no auto-summary
+ no synchronization
+ exit-address-family
+!
+ip classless
+ip route vrf sip-trunk 10.7.236.204 255.255.255.252 10.160.67.62
+ip route vrf AvalNalPOR 172.23.12.121 255.255.255.255 10.160.65.6
+ip flow-export source Loopback222
+ip flow-export version 5
+ip flow-export destination 172.31.215.139 9996
+no ip http server
+no ip http secure-server
+ip tacacs source-interface Loopback222
+!
+ip bgp-community new-format
+ip community-list 1 permit 28513:285
+ip community-list 2 permit 28513:286
+!
+!
+ip prefix-list ARCOM-AVAL seq 5 permit 172.28.0.0/16 ge 32
+!
+ip prefix-list ARCOM-BOC seq 5 permit 10.96.100.0/22 ge 32
+ip prefix-list ARCOM-BOC seq 10 permit 10.96.104.0/21 ge 32
+ip prefix-list ARCOM-BOC seq 15 permit 10.96.100.0/22
+ip prefix-list ARCOM-BOC seq 20 permit 10.96.104.0/21
+ip prefix-list ARCOM-BOC seq 25 permit 10.96.4.0/24
+ip prefix-list ARCOM-BOC seq 30 permit 10.96.102.0/24
+!
+ip prefix-list ARCOM-COLPATRIA seq 10 permit 10.20.0.0/24 ge 32
+ip prefix-list ARCOM-COLPATRIA seq 20 permit 10.20.1.0/24 ge 32
+!
+ip prefix-list ARCOM-COOMEVA seq 5 permit 10.178.10.0/24 ge 32
+ip prefix-list ARCOM-COOMEVA seq 10 permit 10.178.11.0/24 ge 32
+!
+ip prefix-list ARCOM-CREDI seq 5 permit 192.168.198.0/24 ge 32
+ip prefix-list ARCOM-CREDI seq 10 permit 192.168.199.0/24 ge 32
+!
+ip prefix-list ARCOM-ITTELMEX-LIST seq 5 permit 172.19.52.0/24 ge 32
+ip prefix-list ARCOM-ITTELMEX-LIST seq 10 permit 172.19.82.0/24 ge 32
+!
+ip prefix-list ARCOM-SODIMAC seq 5 permit 172.29.17.0/24 ge 32
+!
+ip prefix-list ARCOM-VALOREM seq 10 permit 10.1.7.0/24 ge 32
+!
+ip prefix-list ASOBANCARIA-CIFIN seq 5 permit 192.168.8.0/24 ge 29
+ip prefix-list ASOBANCARIA-CIFIN seq 10 permit 10.5.5.0/24 ge 29
+!
+ip prefix-list AVV-voz seq 4 permit 10.159.8.0/24 ge 29
+ip prefix-list AVV-voz seq 5 permit 10.9.0.0/16 ge 25
+ip prefix-list AVV-voz seq 8 permit 10.5.30.0/24
+!
+ip prefix-list AvalNalPOR-MD seq 5 permit 172.19.47.0/24 le 32
+!
+ip prefix-list BANREPUBLICA seq 5 permit 172.30.0.0/16 ge 24
+ip prefix-list BANREPUBLICA seq 10 permit 172.31.0.0/16 ge 24
+ip prefix-list BANREPUBLICA seq 15 permit 172.29.0.0/16 ge 24
+!
+ip prefix-list BOLSA seq 5 permit 172.25.0.0/16 ge 25
+ip prefix-list BOLSA seq 15 permit 200.1.0.0/16 ge 24
+ip prefix-list BOLSA seq 20 permit 10.192.200.0/24 ge 29
+!
+ip prefix-list BOLSA-SETFX seq 5 permit 172.17.0.0/24 ge 29
+ip prefix-list BOLSA-SETFX seq 10 permit 172.17.1.0/24 ge 29
+ip prefix-list BOLSA-SETFX seq 15 permit 172.17.2.0/24 ge 29
+ip prefix-list BOLSA-SETFX seq 20 permit 172.17.3.0/24 ge 29
+ip prefix-list BOLSA-SETFX seq 25 permit 172.17.4.0/24 ge 29
+!
+ip prefix-list BPO-prin seq 5 permit 0.0.0.0/0
+!
+ip prefix-list BPO-voz seq 5 permit 10.159.16.0/24 ge 29
+!
+ip prefix-list CREDIBANCO seq 5 permit 192.168.158.0/24 ge 29
+ip prefix-list CREDIBANCO seq 10 permit 192.168.157.0/24 ge 29
+ip prefix-list CREDIBANCO seq 15 permit 10.2.0.0/16 ge 24
+!
+ip prefix-list DECEVAL seq 5 permit 172.20.0.0/16 ge 24
+!
+ip prefix-list DEFAULT-ONLY seq 5 permit 0.0.0.0/0
+!
+ip prefix-list DIAN-SIGLOXXI seq 5 permit 172.40.0.0/16 ge 24
+ip prefix-list DIAN-SIGLOXXI seq 10 permit 172.21.0.0/16 ge 24
+!
+ip prefix-list GESTION-CPE seq 5 permit 10.10.0.0/16 ge 29
+ip prefix-list GESTION-CPE seq 10 permit 10.160.0.0/13 ge 29
+ip prefix-list GESTION-CPE seq 15 permit 10.168.0.0/16 ge 29
+ip prefix-list GESTION-CPE seq 20 permit 172.23.1.0/24 ge 32
+ip prefix-list GESTION-CPE seq 25 permit 172.23.2.0/24 ge 32
+ip prefix-list GESTION-CPE seq 30 permit 10.169.0.0/16 ge 29
+!
+ip prefix-list INTERNET-FILTRO-IN seq 5 permit 0.0.0.0/0
+ip prefix-list INTERNET-FILTRO-IN seq 10 permit 10.0.0.0/8 le 32
+ip prefix-list INTERNET-FILTRO-IN seq 15 permit 127.0.0.0/8 le 32
+ip prefix-list INTERNET-FILTRO-IN seq 20 permit 169.254.0.0/16 le 32
+ip prefix-list INTERNET-FILTRO-IN seq 25 permit 172.16.0.0/12 le 32
+ip prefix-list INTERNET-FILTRO-IN seq 30 permit 191.255.0.0/16 le 32
+ip prefix-list INTERNET-FILTRO-IN seq 35 permit 192.0.0.0/24 le 32
+ip prefix-list INTERNET-FILTRO-IN seq 40 permit 192.0.2.0/24 le 32
+ip prefix-list INTERNET-FILTRO-IN seq 45 permit 192.168.0.0/16 le 32
+ip prefix-list INTERNET-FILTRO-IN seq 50 permit 224.0.0.0/3 le 32
+!
+ip prefix-list LIST-GESTION-PYMES seq 15 permit 10.160.0.0/13 ge 30
+ip prefix-list LIST-GESTION-PYMES seq 20 permit 10.168.0.0/16 ge 30
+!
+ip prefix-list MNGMT-INTERNET seq 10 permit 10.0.0.0/8 ge 29
+!
+ip prefix-list PYMES_WAN_PUBLICA seq 5 permit 10.160.0.0/13 ge 30
+ip prefix-list PYMES_WAN_PUBLICA seq 10 permit 10.168.0.0/16 ge 30
+!
+ip prefix-list SDM00134_LP50 seq 5 permit 172.20.95.0/29
+ip prefix-list SDM00134_LP50 seq 10 permit 10.23.46.0/24
+ip prefix-list SDM00134_LP50 seq 15 permit 10.23.47.0/24
+ip prefix-list SDM00134_LP50 seq 20 permit 10.32.23.0/24
+ip prefix-list SDM00134_LP50 seq 25 permit 172.25.25.0/24
+ip prefix-list SDM00134_LP50 seq 30 permit 172.30.23.0/24
+ip prefix-list SDM00134_LP50 seq 35 permit 172.20.92.64/26
+ip prefix-list SDM00134_LP50 seq 40 permit 172.16.7.64/26
+ip prefix-list SDM00134_LP50 seq 50 permit 172.18.23.0/24
+ip prefix-list SDM00134_LP50 seq 55 permit 172.17.23.0/24
+!
+ip prefix-list STI-UPS seq 5 permit 172.30.160.76/30
+!
+ip prefix-list TELE-CPE seq 5 permit 10.8.0.0/15
+ip prefix-list TELE-CPE seq 10 permit 172.31.239.96/27
+ip prefix-list TELE-CPE seq 15 permit 172.31.237.0/25 ge 27
+ip prefix-list TELE-CPE seq 20 permit 10.170.0.0/16 ge 21
+ip prefix-list TELE-CPE seq 30 permit 10.172.0.0/16 ge 21
+ip prefix-list TELE-CPE seq 35 permit 172.31.237.128/26 ge 27
+ip prefix-list TELE-CPE seq 40 permit 172.31.232.0/24
+ip prefix-list TELE-CPE seq 45 permit 172.31.231.0/24
+ip prefix-list TELE-CPE seq 50 permit 172.31.230.0/28
+ip prefix-list TELE-CPE seq 60 permit 10.152.0.0/16 ge 21
+ip prefix-list TELE-CPE seq 80 permit 5.0.0.0/8
+ip prefix-list TELE-CPE seq 85 permit 172.31.239.53/32
+ip prefix-list TELE-CPE seq 90 permit 172.26.24.5/32
+ip prefix-list TELE-CPE seq 95 permit 10.7.0.0/17
+ip prefix-list TELE-CPE seq 100 permit 172.31.230.192/26
+ip prefix-list TELE-CPE seq 105 permit 10.174.0.0/16 ge 21
+ip prefix-list TELE-CPE seq 110 permit 172.31.111.0/28
+ip prefix-list TELE-CPE seq 115 permit 10.173.0.0/16 ge 21
+ip prefix-list TELE-CPE seq 120 permit 10.10.128.0/17
+ip prefix-list TELE-CPE seq 130 permit 172.31.239.40/32
+!
+ip prefix-list TELE-CPE-IN seq 5 permit 10.8.0.0/16 ge 29
+ip prefix-list TELE-CPE-IN seq 10 permit 10.9.0.0/16 ge 17
+ip prefix-list TELE-CPE-IN seq 15 permit 10.172.0.0/16 ge 17
+ip prefix-list TELE-CPE-IN seq 20 permit 10.170.0.0/16 ge 21
+ip prefix-list TELE-CPE-IN seq 25 permit 10.171.0.0/16 ge 21
+ip prefix-list TELE-CPE-IN seq 30 permit 10.152.0.0/16 ge 21
+ip prefix-list TELE-CPE-IN seq 95 permit 10.7.0.0/17 ge 29
+ip prefix-list TELE-CPE-IN seq 100 permit 10.173.0.0/16 ge 21
+ip prefix-list TELE-CPE-IN seq 105 permit 10.10.128.0/17 ge 29
+!
+ip prefix-list TELEFONIA seq 5 permit 10.8.0.0/16 ge 29
+ip prefix-list TELEFONIA seq 10 permit 10.9.0.0/16 ge 29
+ip prefix-list TELEFONIA seq 15 permit 10.170.0.0/16 ge 21
+ip prefix-list TELEFONIA seq 20 permit 10.172.0.0/16 ge 28
+ip prefix-list TELEFONIA seq 51 permit 10.9.0.0/16 ge 24
+ip prefix-list TELEFONIA seq 95 permit 10.7.0.0/17 ge 29
+!
+ip prefix-list VIDEOCONFERENCIA seq 5 permit 10.12.0.0/16 ge 30
+!
+ip access-list extended REAL-TIME-IN
+ remark RTP
+ permit udp any any range 16384 55999
+ip access-list extended REAL-TIME-OUT
+ remark RTP
+ permit udp any range 16384 55999 any
+ip access-list extended SIGNALLING-SERV-IN
+ remark SCCP-SCCPS-UPGRPORTS
+ permit tcp any any range 2000 2002
+ permit tcp any any eq 2443
+ remark SIP-SIPS
+ permit tcp any any range 5060 5061
+ permit tcp any range 5060 5061 any
+ permit udp any any range 5060 5061
+ permit udp any range 5060 5061 any
+ remark H323-GK
+ permit udp any any eq 1719
+ remark H323-H225
+ permit tcp any any eq 1720
+ permit tcp any eq 1720 any
+ remark MGCP-CONTROL
+ permit udp any any eq 2427
+ remark MGCP-BACKHAUL
+ permit tcp any any eq 2428
+ remark HTTP-TFTP
+ permit tcp any any eq 6970
+ remark HTTPS-TFTP
+ permit tcp any any eq 6972
+ remark CAPF-CUCM
+ permit tcp any any eq 3804
+ remark HTTPS-CUCM
+ permit tcp any any eq 8443
+ remark SOAP
+ permit tcp any any eq 8191
+ remark XMPP-IMP
+ permit tcp any any eq 5222
+ remark SOCKS5-P2P
+ permit tcp any any eq 37200
+ remark HTTPS-IMP
+ permit tcp any any eq 7336
+ remark CTI
+ permit tcp any any eq 2748
+ remark BFCP
+ permit udp any any range 5070 6070
+ remark RTP-JABBER-DESKPHONE
+ permit tcp any any eq 8000
+ remark HTTP-CUCX
+ permit tcp any any eq 7080
+ remark HTTPS-CUCX
+ permit tcp any any eq 7443
+ remark TFTP-CUCM
+ permit udp any any eq tftp
+ remark TFTP-CUCM
+ permit udp any any eq 6969
+ remark IPMA
+ permit tcp any any eq 2912
+ remark XML-CUCM
+ permit tcp any any eq 8080
+ remark TRUST-CUCM
+ permit tcp any any eq 2445
+ remark LOG-EP
+ permit udp any any eq syslog
+ remark AC-JAVA
+ permit tcp any any range 1101 1129
+ remark AC
+ permit udp any any range 3223 3224
+ remark AC-SERVER
+ permit udp any any eq 4321
+ip access-list extended SIGNALLING-SERV-OUT
+ remark SCCP-SCCPS-UPGRPORTS
+ permit tcp any range 2000 2002 any
+ permit tcp any eq 2443 any
+ remark SIP-SIPS
+ permit tcp any range 5060 5061 any
+ permit tcp any any range 5060 5061
+ permit udp any range 5060 5061 any
+ permit udp any any range 5060 5061
+ remark H323-GK
+ permit udp any eq 1719 any
+ remark H323-H225
+ permit tcp any eq 1720 any
+ permit tcp any any eq 1720
+ remark MGCP-CONTROL
+ permit udp any eq 2427 any
+ remark MGCP-BACKHAUL
+ permit tcp any eq 2428 any
+ remark HTTP-TFTP
+ permit tcp any eq 6970 any
+ remark HTTPS-TFTP
+ permit tcp any eq 6972 any
+ remark CAPF-CUCM
+ permit tcp any eq 3804 any
+ remark HTTPS-CUCM
+ permit tcp any eq 8443 any
+ remark SOAP
+ permit tcp any eq 8191 any
+ remark XMPP-IMP
+ permit tcp any eq 5222 any
+ remark SOCKS5-P2P
+ permit tcp any eq 37200 any
+ remark HTTPS-IMP
+ permit tcp any eq 7336 any
+ remark CTI
+ permit tcp any eq 2748 any
+ remark BFCP
+ permit udp any range 5070 6070 any
+ remark RTP-JABBER-DESKPHONE
+ permit tcp any eq 8000 any
+ remark HTTP-CUCX
+ permit tcp any eq 7080 any
+ remark HTTPS-CUCX
+ permit tcp any eq 7443 any
+ remark TFTP-CUCM
+ permit udp any eq tftp any
+ remark TFTP-CUCM
+ permit udp any eq 6969 any
+ remark IPMA
+ permit tcp any eq 2912 any
+ remark XML-CUCM
+ permit tcp any eq 8080 any
+ remark TRUST-CUCM
+ permit tcp any eq 2445 any
+ remark LOG-EP
+ permit udp any eq syslog any
+ remark AC-JAVA
+ permit tcp any range 1101 1129 any
+ remark AC
+ permit udp any range 3223 3224 any
+ remark AC-SERVER
+ permit udp any eq 4321 any
+!
+map-class frame-relay voicepririty-384-2
+ frame-relay cir 384000
+ frame-relay bc 3840
+ frame-relay mincir 384000
+ frame-relay fair-queue
+ frame-relay fragment 240
+!
+map-class frame-relay voicepriority-128-2
+ frame-relay cir 128000
+ frame-relay bc 1280
+ frame-relay mincir 128000
+ frame-relay fair-queue
+ frame-relay fragment 160
+!
+map-class frame-relay voicepririty-192-2
+ frame-relay cir 192000
+ frame-relay bc 1920
+ frame-relay mincir 192000
+ frame-relay fair-queue
+ frame-relay fragment 240
+ frame-relay ip rtp priority 16384 16383 64
+!
+map-class frame-relay voicepririty-256-2
+ frame-relay cir 256000
+ frame-relay bc 2560
+ frame-relay mincir 256000
+ frame-relay fair-queue
+ frame-relay fragment 320
+logging facility local6
+logging source-interface Loopback222
+logging 172.31.215.137
+logging 172.31.238.68
+access-list 1 permit 192.168.158.24 0.0.0.3
+access-list 2 permit any
+access-list 3 permit 192.168.198.46
+access-list 3 permit 192.168.198.47
+access-list 3 permit 192.168.198.45
+access-list 3 permit 192.168.198.50
+access-list 3 permit 192.168.198.48
+access-list 3 permit 192.168.198.49
+access-list 3 permit 10.200.30.192 0.0.0.63
+access-list 3 permit 10.200.41.128 0.0.0.31
+access-list 3 permit 192.168.3.0 0.0.0.255
+access-list 3 permit 10.200.41.32 0.0.0.15
+access-list 3 permit 10.200.3.64 0.0.0.63
+access-list 3 permit 10.200.62.0 0.0.0.128
+access-list 3 permit 10.200.10.0 0.0.0.63
+access-list 1300 permit 172.18.191.75
+access-list 1300 permit 172.18.191.76
+access-list 1300 permit 172.28.9.5
+access-list 1300 permit 172.31.238.0 0.0.1.255
+access-list 1300 permit 10.14.0.0 0.0.255.255
+access-list 1300 permit 10.10.66.0 0.0.0.255
+access-list 1300 permit 172.31.215.0 0.0.0.255
+access-list 1300 permit 172.22.19.0 0.0.0.15
+access-list 1300 permit 10.160.63.36 0.0.0.3
+access-list 1300 permit 10.160.57.60 0.0.0.3
+access-list 1302 permit 172.22.208.21
+access-list 1302 permit 172.22.115.108
+access-list 1302 permit 10.161.1.26
+access-list 1302 permit 172.28.9.5
+access-list 1302 permit 172.31.239.0 0.0.0.255
+access-list 1302 permit 172.31.238.0 0.0.0.255
+access-list 1302 permit 172.31.215.0 0.0.0.255
+access-list 1333 permit 10.10.66.4
+access-list 150 permit ip 172.30.0.0 0.0.255.255 any
+access-list 151 permit ip any 172.30.0.0 0.0.255.255
+access-list 152 permit ip 172.31.0.0 0.0.255.255 any
+access-list 153 permit ip any 172.31.0.0 0.0.255.255
+access-list 154 permit ip 172.20.0.0 0.0.255.255 any
+access-list 155 permit ip any 172.20.0.0 0.0.255.255
+access-list 157 permit ip 10.200.47.0 0.0.0.255 10.200.0.0 0.0.255.255
+access-list 157 permit ip 10.200.0.0 0.0.255.255 10.200.47.0 0.0.0.255
+access-list 158 permit ip 172.25.0.0 0.0.255.255 any
+access-list 159 permit ip any 172.25.0.0 0.0.255.255
+access-list 160 permit ip 10.5.5.0 0.0.0.255 any
+access-list 160 permit ip 192.168.8.0 0.0.0.255 any
+access-list 161 permit ip any 10.5.5.0 0.0.0.255
+access-list 161 permit ip any 192.168.8.0 0.0.0.255
+access-list 162 permit ip 192.168.3.0 0.0.0.255 any
+access-list 163 permit ip any 192.168.3.0 0.0.0.255
+access-list 166 permit ip 172.21.0.0 0.0.255.255 any
+access-list 166 permit ip 172.40.0.0 0.0.255.255 any
+access-list 167 permit ip any 172.21.0.0 0.0.255.255
+access-list 167 permit ip any 172.40.0.0 0.0.255.255
+access-list 170 permit ip 172.26.0.0 0.0.255.255 any
+access-list 171 permit ip any 172.26.0.0 0.0.255.255
+access-list 172 permit ip host 10.11.34.12 any
+access-list 176 permit ip 192.168.157.0 0.0.0.255 any
+access-list 176 permit ip 192.168.158.0 0.0.0.255 any
+access-list 176 permit ip 10.2.0.0 0.0.0.255 any
+access-list 177 permit ip any 192.168.157.0 0.0.0.255
+access-list 177 permit ip any 192.168.158.0 0.0.0.255
+access-list 177 permit ip any 10.2.0.0 0.0.0.255
+access-list 178 permit ip 172.17.0.0 0.0.0.255 any
+access-list 178 permit ip 172.17.1.0 0.0.0.255 any
+access-list 178 permit ip 172.17.2.0 0.0.0.255 any
+access-list 178 permit ip 172.17.3.0 0.0.0.255 any
+access-list 178 permit ip 172.17.4.0 0.0.0.255 any
+access-list 179 permit ip any 172.17.0.0 0.0.0.255
+access-list 179 permit ip any 172.17.1.0 0.0.0.255
+access-list 179 permit ip any 172.17.2.0 0.0.0.255
+access-list 179 permit ip any 172.17.3.0 0.0.0.255
+access-list 179 permit ip any 172.17.4.0 0.0.0.255
+access-list 2000 permit ip 10.8.0.0 0.0.255.255 any
+access-list 2000 permit ip 10.9.0.0 0.0.255.255 any
+access-list 2000 permit ip 10.172.0.0 0.0.255.255 any
+access-list 2000 permit ip 10.7.0.0 0.0.127.255 any
+access-list 2000 permit ip 10.7.128.0 0.0.127.255 any
+access-list 2000 permit ip 10.10.128.0 0.0.127.255 any
+access-list 2001 permit ip any 10.8.0.0 0.0.255.255
+access-list 2001 permit ip any 10.9.0.0 0.0.255.255
+access-list 2001 permit ip any 10.172.0.0 0.0.255.255
+access-list 2001 permit ip any 10.7.0.0 0.0.127.255
+access-list 2001 permit ip any 10.7.128.0 0.0.127.255
+access-list 2001 permit ip 10.10.128.0 0.0.127.255 any
+access-list 2002 permit ip 10.12.0.0 0.0.255.255 any
+access-list 2003 permit ip any 10.12.0.0 0.0.255.255
+access-list 2004 deny   ip any host 172.25.47.69
+access-list 2004 deny   ip any host 172.25.47.70
+access-list 2004 deny   ip host 172.25.47.69 any
+access-list 2004 deny   ip host 172.25.47.70 any
+access-list 2004 permit ip 10.0.0.0 0.255.255.255 host 200.30.87.91
+access-list 2004 permit ip 10.0.0.0 0.255.255.255 host 201.234.78.2
+access-list 2004 permit ip 10.0.0.0 0.255.255.255 host 190.26.194.10
+access-list 2004 permit ip 10.0.0.0 0.255.255.255 host 190.26.194.6
+access-list 2004 permit ip 10.0.0.0 0.255.255.255 host 190.85.253.19
+access-list 2004 permit ip 10.0.0.0 0.255.255.255 host 190.85.253.9
+access-list 2004 permit ip 10.0.0.0 0.255.255.255 181.48.10.0 0.0.0.63
+access-list 2004 permit ip host 190.85.253.19 10.0.0.0 0.255.255.255
+access-list 2004 permit ip host 190.85.253.9 10.0.0.0 0.255.255.255
+access-list 2004 permit ip host 200.30.87.91 10.0.0.0 0.255.255.255
+access-list 2004 permit ip host 201.234.78.2 10.0.0.0 0.255.255.255
+access-list 2004 permit ip host 190.26.194.10 10.0.0.0 0.255.255.255
+access-list 2004 permit ip host 190.26.194.6 10.0.0.0 0.255.255.255
+access-list 2004 permit ip 181.48.10.0 0.0.0.63 10.0.0.0 0.255.255.255
+access-list 2004 permit ip 10.0.0.0 0.255.255.255 172.16.0.0 0.15.255.255
+access-list 2004 permit ip 172.16.0.0 0.15.255.255 10.0.0.0 0.255.255.255
+access-list 2004 permit ip 10.0.0.0 0.255.255.255 10.0.0.0 0.255.255.255
+access-list 2005 deny   ip any host 172.25.47.69
+access-list 2005 deny   ip any host 172.25.47.70
+access-list 2005 deny   ip host 172.25.47.69 any
+access-list 2005 deny   ip host 172.25.47.70 any
+access-list 2005 permit ip 10.0.0.0 0.255.255.255 host 200.30.87.91
+access-list 2005 permit ip 10.0.0.0 0.255.255.255 host 201.234.78.2
+access-list 2005 permit ip 10.0.0.0 0.255.255.255 host 190.26.194.10
+access-list 2005 permit ip 10.0.0.0 0.255.255.255 host 190.26.194.6
+access-list 2005 permit ip 10.0.0.0 0.255.255.255 host 190.85.253.19
+access-list 2005 permit ip 10.0.0.0 0.255.255.255 host 190.85.253.9
+access-list 2005 permit ip 10.0.0.0 0.255.255.255 181.48.10.0 0.0.0.63
+access-list 2005 permit ip host 190.85.253.19 10.0.0.0 0.255.255.255
+access-list 2005 permit ip host 190.85.253.9 10.0.0.0 0.255.255.255
+access-list 2005 permit ip host 200.30.87.91 10.0.0.0 0.255.255.255
+access-list 2005 permit ip host 201.234.78.2 10.0.0.0 0.255.255.255
+access-list 2005 permit ip host 190.26.194.10 10.0.0.0 0.255.255.255
+access-list 2005 permit ip host 190.26.194.6 10.0.0.0 0.255.255.255
+access-list 2005 permit ip 181.48.10.0 0.0.0.63 10.0.0.0 0.255.255.255
+access-list 2005 permit ip 10.0.0.0 0.255.255.255 172.16.0.0 0.15.255.255
+access-list 2005 permit ip 172.16.0.0 0.15.255.255 10.0.0.0 0.255.255.255
+access-list 2005 permit ip 10.0.0.0 0.255.255.255 10.0.0.0 0.255.255.255
+access-list 2006 permit ip host 172.23.224.5 any
+access-list 2007 permit ip host 10.88.8.2 any
+access-list 2008 permit ip 172.19.111.0 0.0.0.63 172.19.102.0 0.0.0.127
+access-list 2008 permit ip 172.19.111.0 0.0.0.63 172.19.103.0 0.0.0.127
+access-list 2008 permit ip 172.19.111.0 0.0.0.63 172.19.104.0 0.0.0.63
+access-list 2008 permit ip 172.19.111.0 0.0.0.63 172.19.105.0 0.0.0.63
+access-list 2008 permit ip 172.19.111.0 0.0.0.63 172.19.106.0 0.0.0.63
+access-list 2008 permit ip 172.19.111.0 0.0.0.63 172.19.107.0 0.0.0.63
+access-list 2008 permit ip 172.19.111.0 0.0.0.63 172.19.108.0 0.0.0.63
+access-list 2008 permit ip 172.19.111.0 0.0.0.63 172.19.109.0 0.0.0.63
+access-list 2008 permit ip 172.19.111.0 0.0.0.63 172.19.110.0 0.0.0.63
+access-list 2008 permit ip 172.19.111.0 0.0.0.63 172.19.112.0 0.0.0.63
+access-list 2008 permit ip 172.19.111.0 0.0.0.63 172.19.113.0 0.0.0.63
+access-list 2008 permit ip 172.19.111.0 0.0.0.63 172.19.114.0 0.0.0.63
+access-list 2008 permit ip 172.19.111.0 0.0.0.63 172.26.14.0 0.0.0.255
+access-list 2008 permit ip 172.19.111.0 0.0.0.63 172.19.115.0 0.0.0.63
+access-list 2008 permit ip 172.19.111.0 0.0.0.63 172.19.117.0 0.0.0.63
+access-list 2008 permit ip 172.19.111.0 0.0.0.63 172.19.116.0 0.0.0.63
+access-list 2009 permit ip 172.19.102.0 0.0.0.127 172.19.111.0 0.0.0.63
+access-list 2009 permit ip 172.19.103.0 0.0.0.127 172.19.111.0 0.0.0.63
+access-list 2009 permit ip 172.19.104.0 0.0.0.63 172.19.111.0 0.0.0.63
+access-list 2009 permit ip 172.19.105.0 0.0.0.63 172.19.111.0 0.0.0.63
+access-list 2009 permit ip 172.19.106.0 0.0.0.63 172.19.111.0 0.0.0.63
+access-list 2009 permit ip 172.19.107.0 0.0.0.63 172.19.111.0 0.0.0.63
+access-list 2009 permit ip 172.19.108.0 0.0.0.63 172.19.111.0 0.0.0.63
+access-list 2009 permit ip 172.19.109.0 0.0.0.63 172.19.111.0 0.0.0.63
+access-list 2009 permit ip 172.19.110.0 0.0.0.63 172.19.111.0 0.0.0.63
+access-list 2009 permit ip 172.19.112.0 0.0.0.63 172.19.111.0 0.0.0.63
+access-list 2009 permit ip 172.19.113.0 0.0.0.63 172.19.111.0 0.0.0.63
+access-list 2009 permit ip 172.19.114.0 0.0.0.63 172.19.111.0 0.0.0.63
+access-list 2009 permit ip 172.26.14.0 0.0.0.255 172.19.111.0 0.0.0.63
+access-list 2009 permit ip 172.19.116.0 0.0.0.63 172.19.111.0 0.0.0.63
+access-list 2009 permit ip 172.19.117.0 0.0.0.63 172.19.111.0 0.0.0.63
+access-list 2009 permit ip 172.19.115.0 0.0.0.63 172.19.111.0 0.0.0.63
+!
+route-map VIDEOCONFERENCIA permit 1
+ match ip address prefix-list VIDEOCONFERENCIA
+ set extcommunity rt  100:820
+!
+route-map VPN-INT-dualhome permit 10
+ match community 1
+ set local-preference 100
+ set community 28513:285 28513:1281
+!
+route-map VPN-INT-dualhome permit 20
+ match community 2
+ set local-preference 98
+ set community 28513:286 28513:1281
+!
+route-map BACKUP permit 10
+ match ip address 2
+ set local-preference 50
+ set weight 0
+!
+route-map AvalNalPOR-MD permit 10
+ match ip address prefix-list AvalNalPOR-MD
+ set extcommunity rt  100:2830
+!
+route-map GESTIONPYMES permit 10
+ match ip address prefix-list LIST-GESTION-PYMES
+ set extcommunity rt  14080:2190000003 additive
+!
+route-map ARCOM-COLPATRIA permit 10
+ match ip address prefix-list ARCOM-COLPATRIA
+ set extcommunity rt  100:3426
+!
+route-map ARCOM-COLPATRIA permit 20
+ match ip address prefix-list GESTION-CPE
+ set extcommunity rt  14080:2190000003
+!
+route-map ARCOM-SODIMAC permit 10
+ match ip address prefix-list ARCOM-SODIMAC
+ set extcommunity rt  100:3378
+!
+route-map ARCOM-COOMEVA permit 10
+ match ip address prefix-list ARCOM-COOMEVA
+ set extcommunity rt  100:2085
+!
+route-map ARCOM-CREDI permit 10
+ match ip address prefix-list ARCOM-CREDI
+ set extcommunity rt  100:3335
+!
+route-map ARCOM-CREDI permit 15
+ match ip address prefix-list TELEFONIA
+ set extcommunity rt  14080:2000
+!
+route-map GESTION-VALOREM permit 10
+ match ip address prefix-list ARCOM-VALOREM
+ set extcommunity rt  100:15428
+!
+route-map ARCOM-BOC permit 10
+ match ip address prefix-list ARCOM-BOC
+ set extcommunity rt  100:3004
+!
+route-map STI-UPS permit 1
+ match ip address prefix-list STI-UPS
+ set extcommunity rt  100:554
+!
+route-map VPN-INT permit 1
+ match ip address 2
+ set community 28513:285 28513:1281
+!
+route-map GESTION-CPE permit 10
+ match ip address prefix-list GESTION-CPE
+ set extcommunity rt  14080:2190000003 additive
+!
+route-map BACKUP-STATIC permit 10
+ match tag 1408014080
+ set local-preference 50
+ set weight 0
+!
+route-map BACKUP-STATIC permit 20
+!
+route-map INTERNET-CPE-BKP-IN deny 1
+ match ip address prefix-list INTERNET-FILTRO-IN
+!
+route-map INTERNET-CPE-BKP-IN permit 999
+ match ip address 2
+ set local-preference 50
+ set weight 0
+!
+route-map ASP permit 1
+ match ip address prefix-list DECEVAL
+ set extcommunity rt  100:40
+!
+route-map ASP permit 2
+ match ip address prefix-list ASOBANCARIA-CIFIN
+ set extcommunity rt  100:18 100:219
+!
+route-map ASP permit 3
+ match ip address prefix-list BANREPUBLICA
+ set extcommunity rt  100:129
+!
+route-map ASP permit 4
+ match ip address prefix-list BOLSA
+ set extcommunity rt  100:18 100:219
+!
+route-map ASP permit 5
+ match ip address prefix-list CREDIBANCO
+ set extcommunity rt  100:595
+!
+route-map ASP permit 6
+ match ip address prefix-list BOLSA-SETFX
+ set extcommunity rt  100:666
+!
+route-map ASP permit 7
+ match ip address prefix-list DIAN-SIGLOXXI
+ set extcommunity rt  100:134
+!
+route-map TELE-CPE-IN permit 10
+ match ip address prefix-list TELE-CPE-IN
+!
+route-map INTERNET-CPE-IN deny 1
+ match ip address prefix-list INTERNET-FILTRO-IN
+!
+route-map INTERNET-CPE-IN permit 999
+!
+route-map PYMES_WAN_PUB permit 10
+ match ip address prefix-list PYMES_WAN_PUBLICA
+!
+route-map TELEFONIA permit 1
+ match ip address prefix-list TELEFONIA
+ set extcommunity rt  14080:2000
+!
+route-map TELE-CPE permit 10
+ match ip address prefix-list TELE-CPE
+!
+route-map ARCOM-AVAL permit 10
+ match ip address prefix-list TELEFONIA
+ set extcommunity rt  14080:2000
+!
+route-map ARCOM-AVAL permit 20
+ match ip address prefix-list ARCOM-AVAL
+ set extcommunity rt  100:273
+!
+route-map MNGMT-INTERNET permit 10
+ match ip address prefix-list MNGMT-INTERNET
+ set extcommunity rt  14080:2190000003 additive
+!
+route-map SDM00134 permit 10
+ match ip address prefix-list SDM00134_LP50
+ set local-preference 50
+!
+route-map SDM00134 permit 20
+ match ip address 2
+ set local-preference 100
+!
+route-map ARCOM-ITTELMEX permit 10
+ match ip address prefix-list ARCOM-ITTELMEX-LIST
+ set extcommunity rt  100:1732
+!
+snmp-server engineID local 0000000902000030F22C5820
+snmp-server community BaCkAtT8422 RO 1302
+snmp-server community BonEAtT8422 RW 1302
+snmp-server community C8i1ShcHO1 RO 1302
+snmp-server ifindex persist
+snmp-server trap-source Loopback222
+snmp-server enable traps snmp linkdown linkup coldstart warmstart
+snmp-server enable traps tty
+snmp-server enable traps config
+snmp-server enable traps entity
+snmp-server enable traps envmon
+snmp-server enable traps bgp
+snmp-server enable traps rsvp
+snmp-server enable traps syslog
+snmp-server enable traps rtr
+snmp-server enable traps mpls ldp
+snmp-server enable traps mpls vpn
+snmp-server host 172.22.115.108 BaCkAtT8422 
+snmp-server host 172.22.208.21 BaCkAtT8422 
+snmp-server host 172.31.239.204 c0r31pcl4r0 
+!
+tacacs-server host 172.22.192.5 timeout 2
+tacacs-server host 172.22.192.4 timeout 2
+tacacs-server host 172.31.239.192 timeout 2
+tacacs-server directed-request
+tacacs-server key 7 14141B180F0B272A2A
+!
+!
+!
+dial-peer cor custom
+!
+!
+!
+!
+gatekeeper
+ shutdown
+!
+banner motd ^CCCC
+*************************************************************
+* ATENCION: Este equipo es propiedad de TELMEX Colombia.    *
+* El uso no autorizado esta estrictamente prohibido.        *
+* Todos los usuarios son legalmente responsables de sus     *
+* acciones sobre el sistema y toda actividad sera registrada*
+*************************************************************^C
+!
+line con 0
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ access-class 1300 in
+ exec-timeout 5 0
+ password 7 03290A3B5423727F1A
+ transport input ssh
+line vty 5 14
+ access-class 1300 in
+ exec-timeout 5 0
+ password 7 03290A3B5423727F1A
+ transport input ssh
+line vty 15
+ access-class 1333 in
+ exec-timeout 1 0
+ password 7 09781D0514560F43595F
+ logging synchronous
+ transport input ssh
+!
+ntp clock-period 17180322
+ntp source Loopback222
+ntp update-calendar
+ntp server 172.21.45.5 source Loopback222
+ntp server 172.21.45.70 source Loopback222
+!
+end
+
+Armenia2#

@@ -1,0 +1,12 @@
+terminal length 0
+Tue Mar 20 11:49:36.462 COLOMBIA
+RP/0/RSP1/CPU0:PMRICAURTE1#show configuration running-config
+Tue Mar 20 11:49:36.720 COLOMBIA
+Building configuration...
+!! IOS XR Configuration 4.3.4
+!! Last configuration change at Sun Nov 12 20:24:46 2017 by hlopez
+!
+configuration display interface slot-order
+end
+
+RP/0/RSP1/CPU0:PMRICAURTE1#

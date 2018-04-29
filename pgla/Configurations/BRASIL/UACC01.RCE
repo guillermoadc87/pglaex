@@ -1,0 +1,4438 @@
+Thu Mar 15 11:09:17.161 BRA
+Building configuration...
+!! IOS XR Configuration 4.1.2
+!! Last configuration change at Thu Mar 15 10:30:16 2018 by dsmarq
+!
+hostname uacc01.rce
+clock timezone BRA -3
+clock summer-time BRAVER recurring 3 sunday october 00:00 3 sunday february 00:00
+banner motd ^
+                ============================================================
+                =                  INTERNET via Embratel                   =
+                ============================================================
+                Voce deve possuir autorizacao para acessar este equipamento.
+                      Todas as conexoes sao monitoradas e registradas.
+                ============================================================
+^
+logging disable
+logging trap debugging
+logging console informational
+logging buffered 307200
+logging buffered informational
+logging facility local7
+logging 200.230.5.4 vrf default
+logging 200.214.41.67 vrf default
+logging 200.230.5.132 vrf default
+logging 200.255.125.217 vrf default
+logging 200.255.125.218 vrf default
+logging suppress rule MGBL-RS232-6-DCD_LOST
+ alarm MGBL RS232 DCD_LOST
+ alarm MGBL RS232 DCD_DISCOVERED
+!
+logging suppress apply rule MGBL-RS232-6-DCD_LOST
+ all-of-router
+!
+logging source-interface Loopback0
+logging hostnameprefix uacc01.rce
+logging suppress duplicates
+service timestamps log datetime msec show-timezone
+service timestamps debug datetime localtime msec
+event manager directory user policy disk1:/scripts
+event manager policy GENERATE_TRAP.tcl username saip persist-time 3600 type user
+logging events link-status software-interfaces
+telnet vrf default ipv4 server max-servers 7
+domain ipv4 host srv04.embratel.net.br 200.255.125.45
+domain ipv4 host srv06.embratel.net.br 200.255.125.56
+domain ipv4 host srv29.embratel.net.br 200.255.125.60
+domain ipv4 host srv41.embratel.net.br 200.255.125.33
+domain ipv4 host wks09.rjo.embratel.net.br 200.255.253.249
+domain ipv4 host wks19.rjo.embratel.net.br 200.255.125.219
+domain ipv4 host wks21.rjo.embratel.net.br 200.255.253.250
+domain name embratel.net.br
+domain list .
+domain list embratel.net.br.
+domain name-server 200.255.255.73
+domain name-server 200.255.255.66
+taskgroup priv15
+ inherit taskgroup root-system
+ inherit taskgroup cisco-support
+!
+taskgroup Embratel
+ inherit taskgroup root-system
+ inherit taskgroup cisco-support
+!
+usergroup priv15
+ taskgroup root-system
+ taskgroup cisco-support
+!
+tacacs source-interface Loopback0 vrf default
+tacacs-server host 200.255.125.216 port 49
+ key 7 02051155020A062F4B5B08
+!
+tacacs-server key 7 070C34424705100B10070A
+aaa accounting exec default start-stop group tacacs+
+aaa accounting commands default start-stop group tacacs+
+aaa authorization exec default group tacacs+ local
+aaa authorization commands default group tacacs+ none
+aaa authorization eventmanager default group tacacs+ local
+aaa authentication login NOC group tacacs+ local
+aaa authentication login admin local
+aaa authentication login default local
+aaa default-taskgroup priv15
+cdp
+explicit-path name uacc01_rce-dist01_tsa-1
+ index 1 next-address strict ipv4 unicast 200.244.213.237
+ index 2 next-address strict ipv4 unicast 200.244.211.255
+ index 3 next-address strict ipv4 unicast 200.244.212.51
+ index 4 next-address strict ipv4 unicast 200.244.216.81
+!
+explicit-path name uacc01_rce-dist01_tsa-2
+ index 1 next-address strict ipv4 unicast 200.244.213.237
+ index 2 next-address strict ipv4 unicast 200.244.160.190
+ index 3 next-address strict ipv4 unicast 200.230.158.65
+ index 4 next-address strict ipv4 unicast 200.244.216.81
+!
+explicit-path name uacc01_rce-dist01_tsa-3
+ index 1 next-address strict ipv4 unicast 200.244.213.237
+ index 2 next-address strict ipv4 unicast 200.244.213.14
+ index 3 next-address strict ipv4 unicast 200.230.158.65
+ index 4 next-address strict ipv4 unicast 200.244.216.81
+!
+explicit-path name uacc01_rce-dist01_tsa-4
+ index 1 next-address strict ipv4 unicast 200.244.213.237
+ index 2 next-address strict ipv4 unicast 200.230.252.254
+ index 3 next-address strict ipv4 unicast 200.244.212.246
+ index 4 next-address strict ipv4 unicast 200.244.160.109
+ index 5 next-address strict ipv4 unicast 200.244.212.197
+ index 6 next-address strict ipv4 unicast 200.244.216.81
+!
+explicit-path name uacc01_rce-dist01_tsa-5
+ index 1 next-address strict ipv4 unicast 200.244.213.237
+ index 2 next-address strict ipv4 unicast 200.230.252.254
+ index 3 next-address strict ipv4 unicast 200.244.212.246
+ index 4 next-address strict ipv4 unicast 200.244.160.109
+ index 5 next-address strict ipv4 unicast 200.244.213.254
+ index 6 next-address strict ipv4 unicast 200.244.216.81
+!
+explicit-path name uacc01_rce-dist01_tsa-6
+ index 1 next-address strict ipv4 unicast 200.244.214.16
+ index 2 next-address strict ipv4 unicast 200.230.251.234
+ index 3 next-address strict ipv4 unicast 200.244.212.51
+ index 4 next-address strict ipv4 unicast 200.244.216.81
+!
+explicit-path name uacc01_rce-dist01_tsa-7
+ index 1 next-address strict ipv4 unicast 200.244.214.16
+ index 2 next-address strict ipv4 unicast 200.230.251.186
+ index 3 next-address strict ipv4 unicast 200.230.158.65
+ index 4 next-address strict ipv4 unicast 200.244.216.81
+!
+explicit-path name uacc01_rce-dist01_tsa-8
+ index 1 next-address strict ipv4 unicast 200.244.214.16
+ index 2 next-address strict ipv4 unicast 200.244.211.29
+ index 3 next-address strict ipv4 unicast 200.244.211.252
+ index 4 next-address strict ipv4 unicast 200.230.252.17
+ index 5 next-address strict ipv4 unicast 200.230.251.33
+ index 6 next-address strict ipv4 unicast 200.244.216.64
+ index 7 next-address strict ipv4 unicast 200.244.216.81
+!
+explicit-path name uacc01_rce-dist01_tsa-9
+ index 1 next-address strict ipv4 unicast 200.244.214.16
+ index 2 next-address strict ipv4 unicast 200.244.211.29
+ index 3 next-address strict ipv4 unicast 200.244.211.252
+ index 4 next-address strict ipv4 unicast 200.230.252.17
+ index 5 next-address strict ipv4 unicast 200.244.211.243
+ index 6 next-address strict ipv4 unicast 200.244.216.64
+ index 7 next-address strict ipv4 unicast 200.244.216.81
+!
+explicit-path name uacc01_rce-iacc01_mco-1
+ index 1 next-address strict ipv4 unicast 200.244.214.14
+ index 2 next-address strict ipv4 unicast 200.244.213.158
+ index 3 next-address strict ipv4 unicast 200.244.169.194
+!
+explicit-path name uacc01_rce-iacc01_mco-2
+ index 1 next-address strict ipv4 unicast 200.244.214.16
+ index 2 next-address strict ipv4 unicast 200.244.40.189
+ index 3 next-address strict ipv4 unicast 200.244.169.226
+!
+explicit-path name uacc01_rce-iacc01_ntl-1
+ index 1 next-address strict ipv4 unicast 200.244.213.237
+ index 2 next-address strict ipv4 unicast 200.244.160.97
+ index 3 next-address strict ipv4 unicast 200.244.63.131
+!
+explicit-path name uacc01_rce-iacc02_jpa-1
+ index 1 next-address strict ipv4 unicast 200.244.214.14
+ index 2 next-address strict ipv4 unicast 200.244.160.105
+ index 3 next-address strict ipv4 unicast 200.244.63.3
+!
+explicit-path name uacc01_rce-uacc01_fla-1
+ index 1 next-address strict ipv4 unicast 200.244.213.237
+ index 2 next-address strict ipv4 unicast 200.244.160.190
+ index 3 next-address strict ipv4 unicast 200.244.140.93
+!
+explicit-path name uacc01_rce-uacc01_sdr-1
+ index 1 next-address strict ipv4 unicast 200.244.214.16
+ index 2 next-address strict ipv4 unicast 200.244.211.29
+ index 3 next-address strict ipv4 unicast 200.244.213.24
+!
+explicit-path name uacc01_rce-uacc01_sdr-2
+ index 1 next-address strict ipv4 unicast 200.244.214.14
+ index 2 next-address strict ipv4 unicast 200.230.252.254
+ index 3 next-address strict ipv4 unicast 200.244.213.22
+!
+explicit-path name uacc01_rce-uacc02_fla-1
+ index 1 next-address strict ipv4 unicast 200.244.213.239
+ index 2 next-address strict ipv4 unicast 200.230.251.186
+ index 3 next-address strict ipv4 unicast 200.244.212.98
+!
+nsr process-failures switchover
+vrf DNPM:3963
+ address-family ipv4 unicast
+  import route-target
+   4230:3963
+   4230:153482
+   4230:153535
+  !
+  export route-policy DNPM_EXPORT_MAP
+  export route-target
+   4230:3963
+  !
+ !
+!
+vrf AMX_TI:7415
+ address-family ipv4 unicast
+  import route-target
+   4230:7415
+  !
+  export route-target
+   4230:7415
+  !
+ !
+!
+vrf COPAGAZ:1377
+ address-family ipv4 unicast
+  import route-target
+   4230:1377
+   4230:3107
+  !
+  export route-target
+   4230:1377
+   4230:3108
+  !
+ !
+!
+vrf MPF_NOVA:6114
+ address-family ipv4 unicast
+  import route-target
+   4230:6108
+   4230:6114
+  !
+  export route-target
+   4230:6107
+   4230:6114
+  !
+ !
+!
+vrf INFOSUS:154344
+ address-family ipv4 unicast
+  import route-target
+   4230:4968
+  !
+  export route-target
+   4230:4968
+  !
+ !
+!
+vrf DHL_TELMEX:6087
+ address-family ipv4 unicast
+  import route-target
+   4230:6087
+   28513:50563
+  !
+  export route-target
+   4230:6087
+   28513:50563
+  !
+ !
+!
+vrf REALIP_SBC:5580
+ address-family ipv4 unicast
+  import route-policy REALIP_SBC
+  import route-target
+   4230:5580
+   4230:5581
+  !
+  export route-target
+   4230:5580
+  !
+ !
+!
+vrf LOJARENNER:153863
+ address-family ipv4 unicast
+  import route-target
+   4230:1513
+   4230:3107
+  !
+  export route-target
+   4230:1513
+   4230:3108
+  !
+ !
+!
+vrf TELEFONIA_TI:7416
+ address-family ipv4 unicast
+  import route-target
+   4230:7416
+  !
+  export route-target
+   4230:7416
+  !
+ !
+!
+vrf UNINETMXMPLS:5569
+ address-family ipv4 unicast
+  import route-policy IMP_TLP_AMB_CLARO
+  import route-target
+   4230:5569
+   4230:6265
+   28513:50447
+  !
+  export route-target
+   4230:5569
+   28513:50447
+  !
+ !
+!
+vrf NORSKHYDROASA:7140
+ address-family ipv4 unicast
+  import route-target
+   4230:6215
+  !
+  export route-target
+   4230:6215
+  !
+ !
+!
+vrf DIEBOLD_EXTRANET:155476
+ address-family ipv4 unicast
+  import route-target
+   4230:4532
+   4230:7115
+  !
+  export route-target
+   4230:4532
+   4230:7115
+  !
+ !
+!
+tcp selective-ack
+tcp window-size 65535
+tcp path-mtu-discovery
+tcp timestamp
+line console
+ login authentication NOC
+ timestamp
+ exec-timeout 20 0
+ length 0
+ session-timeout 20
+!
+line default
+ login authentication NOC
+ timestamp
+ exec-timeout 20 0
+ access-class ingress ACL_12
+ session-timeout 20
+ transport input ssh telnet
+!
+line template vtemplate5
+ login authentication NOC
+ timestamp
+ exec-timeout 20 0
+ access-class ingress ACL_11
+ session-timeout 20
+ transport input ssh telnet
+!
+line template vtemplate7
+ login authentication NOC
+ timestamp
+ exec-timeout 20 0
+ access-class ingress ACL_14
+ session-timeout 20
+ transport input ssh telnet
+!
+vty-pool vpool5 5 9 line-template vtemplate5
+vty-pool vpool7 10 11 line-template vtemplate7
+vty-pool default 0 4
+telnet ipv4 client source-interface Loopback0
+lpts pifib hardware police
+ flow ssh known rate 200
+ flow ssh default rate 200
+ flow telnet known rate 200
+ flow telnet default rate 200
+!
+snmp-server ifmib ifalias long
+snmp-server ifindex persist
+snmp-server ifmib stats cache
+snmp-server trap link ietf
+snmp-server host 200.230.5.4 traps version 3 priv epn_user
+snmp-server host 200.230.5.132 traps version 3 priv epn_user
+snmp-server host 200.255.125.34 traps ldsp46
+snmp-server host 200.255.125.56 traps ldsp46
+snmp-server host 200.255.125.56 traps ldsp46!
+snmp-server host 200.255.125.60 traps ldsp46
+snmp-server host 200.255.125.60 traps ldsp46!
+snmp-server host 200.255.253.245 traps ldsp46
+snmp-server host 200.255.253.245 traps ldsp46!
+snmp-server host 200.255.253.249 traps ldsp46
+snmp-server host 200.255.253.249 traps ldsp46!
+snmp-server host 200.255.253.250 traps ldsp46
+snmp-server host 200.255.253.250 traps ldsp46!
+snmp-server user vigia tapGroup v3 auth md5 encrypted 051D0F08244E5A48395746
+snmp-server user epn_user epn_group v3 auth sha encrypted 121C1519300402002B2C217E6A priv aes 128 encrypted 141202052E0B242F252F36637B ACL_13
+snmp-server view tapView ciscoTap2MIB included
+snmp-server view tapView ciscoIpTapMIB included
+snmp-server community fmvs7b1a RO SystemOwner ACL_13
+snmp-server community sdklwepo RO SystemOwner ACL_13
+snmp-server group tapGroup v3 auth notify tapView read tapView write tapView ACL_50
+snmp-server group epn_group v3 priv
+snmp-server traps copy-complete
+snmp-server traps snmp
+snmp-server traps entity
+snmp-server trap-source Loopback0
+icmp ipv4 rate-limit unreachable 1000
+ipv6 conflict-policy static
+ftp client source-interface Loopback0
+ntp
+ server 200.245.255.33
+ server 200.255.253.242
+ source Loopback0
+ update-calendar
+!
+tftp client source-interface Loopback0
+control-plane
+ management-plane
+  inband
+   interface all
+    allow SSH peer
+     address ipv4 64.104.3.161
+     address ipv4 64.104.196.21
+     address ipv4 173.38.244.216
+     address ipv4 173.38.245.16
+     address ipv4 200.214.41.124
+     address ipv4 200.255.125.20
+     address ipv4 200.255.125.56
+     address ipv4 200.255.125.60
+     address ipv4 200.255.125.219
+     address ipv4 200.255.220.21
+     address ipv4 200.255.220.22
+     address ipv4 200.179.210.0/24
+     address ipv4 200.230.0.0/22
+     address ipv4 200.230.4.0/24
+     address ipv4 200.230.5.0/24
+     address ipv4 200.230.9.0/24
+     address ipv4 200.230.16.0/23
+     address ipv4 200.230.21.0/24
+     address ipv4 200.230.24.0/23
+     address ipv4 200.230.26.0/24
+     address ipv4 200.230.28.0/23
+     address ipv4 200.230.91.0/24
+     address ipv4 200.230.92.0/24
+     address ipv4 200.230.130.0/23
+     address ipv4 200.230.140.0/23
+     address ipv4 200.230.151.0/24
+     address ipv4 200.230.156.0/24
+     address ipv4 200.230.158.0/23
+     address ipv4 200.230.162.0/24
+     address ipv4 200.230.211.0/24
+     address ipv4 200.230.212.0/22
+     address ipv4 200.230.216.0/24
+     address ipv4 200.230.218.0/23
+     address ipv4 200.230.220.0/23
+     address ipv4 200.230.224.0/24
+     address ipv4 200.230.228.0/22
+     address ipv4 200.230.232.0/22
+     address ipv4 200.230.234.0/23
+     address ipv4 200.230.241.0/24
+     address ipv4 200.230.242.0/23
+     address ipv4 200.230.244.0/22
+     address ipv4 200.230.248.0/23
+     address ipv4 200.230.251.0/24
+     address ipv4 200.230.252.0/22
+     address ipv4 200.244.1.0/24
+     address ipv4 200.244.3.0/24
+     address ipv4 200.244.4.0/24
+     address ipv4 200.244.9.0/24
+     address ipv4 200.244.11.0/24
+     address ipv4 200.244.17.0/24
+     address ipv4 200.244.18.0/23
+     address ipv4 200.244.21.0/24
+     address ipv4 200.244.22.0/23
+     address ipv4 200.244.24.0/23
+     address ipv4 200.244.27.0/24
+     address ipv4 200.244.28.0/23
+     address ipv4 200.244.40.0/23
+     address ipv4 200.244.44.0/24
+     address ipv4 200.244.49.0/24
+     address ipv4 200.244.63.0/24
+     address ipv4 200.244.66.0/23
+     address ipv4 200.244.68.0/23
+     address ipv4 200.244.74.0/23
+     address ipv4 200.244.80.0/23
+     address ipv4 200.244.90.0/24
+     address ipv4 200.244.110.0/23
+     address ipv4 200.244.140.0/24
+     address ipv4 200.244.150.0/24
+     address ipv4 200.244.160.0/24
+     address ipv4 200.244.162.0/23
+     address ipv4 200.244.164.0/22
+     address ipv4 200.244.168.0/22
+     address ipv4 200.244.172.0/24
+     address ipv4 200.244.211.0/24
+     address ipv4 200.244.212.0/22
+     address ipv4 200.244.216.0/24
+     address ipv4 200.245.255.0/24
+     address ipv4 200.255.122.0/27
+     address ipv4 200.255.125.0/24
+     address ipv4 200.255.160.0/24
+     address ipv4 200.255.218.192/26
+     address ipv4 200.255.253.0/24
+     address ipv4 200.255.254.0/24
+     address ipv4 200.255.255.64/26
+    !
+    allow XML peer
+     address ipv4 200.255.125.56
+     address ipv4 200.255.125.60
+     address ipv4 200.230.5.0/24
+    !
+    allow SNMP peer
+     address ipv4 200.179.55.2
+     address ipv4 200.214.41.124
+     address ipv4 200.244.162.246
+     address ipv4 200.244.162.250
+     address ipv4 200.244.162.251
+     address ipv4 200.244.163.246
+     address ipv4 200.244.163.250
+     address ipv4 200.244.163.251
+     address ipv4 200.246.244.82
+     address ipv4 200.255.251.214
+     address ipv4 200.255.255.67
+     address ipv4 200.179.210.0/24
+     address ipv4 200.230.5.0/24
+     address ipv4 200.230.9.0/24
+     address ipv4 200.244.9.0/24
+     address ipv4 200.244.11.0/24
+     address ipv4 200.244.110.0/23
+     address ipv4 200.255.125.0/24
+     address ipv4 200.255.160.0/24
+     address ipv4 200.255.218.192/26
+     address ipv4 200.255.253.0/24
+     address ipv4 200.255.254.0/24
+     address ipv4 201.65.190.32/27
+    !
+    allow Telnet peer
+     address ipv4 64.104.3.161
+     address ipv4 64.104.196.21
+     address ipv4 173.38.244.216
+     address ipv4 173.38.245.16
+     address ipv4 200.214.41.124
+     address ipv4 200.255.125.20
+     address ipv4 200.255.125.56
+     address ipv4 200.255.125.60
+     address ipv4 200.255.125.219
+     address ipv4 200.255.220.21
+     address ipv4 200.255.220.22
+     address ipv4 200.179.210.0/24
+     address ipv4 200.230.0.0/22
+     address ipv4 200.230.4.0/24
+     address ipv4 200.230.5.0/24
+     address ipv4 200.230.9.0/24
+     address ipv4 200.230.16.0/23
+     address ipv4 200.230.21.0/24
+     address ipv4 200.230.24.0/23
+     address ipv4 200.230.26.0/24
+     address ipv4 200.230.28.0/23
+     address ipv4 200.230.91.0/24
+     address ipv4 200.230.92.0/24
+     address ipv4 200.230.130.0/23
+     address ipv4 200.230.140.0/23
+     address ipv4 200.230.151.0/24
+     address ipv4 200.230.156.0/24
+     address ipv4 200.230.158.0/23
+     address ipv4 200.230.162.0/24
+     address ipv4 200.230.211.0/24
+     address ipv4 200.230.212.0/22
+     address ipv4 200.230.216.0/24
+     address ipv4 200.230.218.0/23
+     address ipv4 200.230.220.0/23
+     address ipv4 200.230.224.0/24
+     address ipv4 200.230.228.0/22
+     address ipv4 200.230.232.0/22
+     address ipv4 200.230.234.0/23
+     address ipv4 200.230.241.0/24
+     address ipv4 200.230.242.0/23
+     address ipv4 200.230.244.0/22
+     address ipv4 200.230.248.0/23
+     address ipv4 200.230.251.0/24
+     address ipv4 200.230.252.0/22
+     address ipv4 200.244.1.0/24
+     address ipv4 200.244.3.0/24
+     address ipv4 200.244.4.0/24
+     address ipv4 200.244.9.0/24
+     address ipv4 200.244.11.0/24
+     address ipv4 200.244.17.0/24
+     address ipv4 200.244.18.0/23
+     address ipv4 200.244.21.0/24
+     address ipv4 200.244.22.0/23
+     address ipv4 200.244.24.0/23
+     address ipv4 200.244.27.0/24
+     address ipv4 200.244.28.0/23
+     address ipv4 200.244.40.0/23
+     address ipv4 200.244.44.0/24
+     address ipv4 200.244.49.0/24
+     address ipv4 200.244.63.0/24
+     address ipv4 200.244.66.0/23
+     address ipv4 200.244.68.0/23
+     address ipv4 200.244.74.0/23
+     address ipv4 200.244.80.0/23
+     address ipv4 200.244.90.0/24
+     address ipv4 200.244.110.0/23
+     address ipv4 200.244.140.0/24
+     address ipv4 200.244.150.0/24
+     address ipv4 200.244.160.0/24
+     address ipv4 200.244.162.0/23
+     address ipv4 200.244.164.0/22
+     address ipv4 200.244.168.0/22
+     address ipv4 200.244.172.0/24
+     address ipv4 200.244.211.0/24
+     address ipv4 200.244.212.0/22
+     address ipv4 200.244.216.0/24
+     address ipv4 200.245.255.0/24
+     address ipv4 200.255.122.0/27
+     address ipv4 200.255.125.0/24
+     address ipv4 200.255.160.0/24
+     address ipv4 200.255.218.192/26
+     address ipv4 200.255.253.0/24
+     address ipv4 200.255.254.0/24
+     address ipv4 200.255.255.64/26
+    !
+   !
+  !
+ !
+!
+ipv6 access-list ACL_12
+ 10 deny ipv6 any any
+!
+ipv6 access-list FiltroPacotesIPv6
+ 10 deny ipv6 host ::1 any
+ 20 deny ipv6 ::/96 any
+ 30 deny ipv6 ff00::/8 any
+ 40 deny ipv6 ::ffff:0.0.0.0/96 any
+ 50 deny ipv6 2804:a8::/52 any
+ 60 permit ipv6 any any
+!
+ipv4 access-list iACL
+ 10 remark iACL Device Hardening
+ 20 permit gre any any
+ 30 permit esp any any
+ 40 permit 41 any any
+ 50 permit ahp any any
+ 60 permit 115 any any
+ 70 permit icmp any any ttl-exceeded
+ 80 permit icmp any any traceroute
+ 90 permit icmp any any port-unreachable
+ 100 permit icmp any any echo-reply
+ 110 permit icmp any any echo
+ 120 permit icmp any any packet-too-big
+ 130 permit tcp any range ssh telnet any gt 1024 established
+ 140 remark Hosts/Subnets Cisco EPN / Nokia
+ 150 deny ipv4 any 200.230.5.0 0.0.0.255
+ 160 deny ipv4 any 200.244.11.0 0.0.0.255
+ 170 deny ipv4 200.230.5.0 0.0.0.255 any
+ 180 deny ipv4 200.244.11.0 0.0.0.255 any
+ 190 remark Subnets Peakflow
+ 200 deny ipv4 any 200.230.7.0 0.0.0.255
+ 210 deny ipv4 any 200.230.9.0 0.0.0.255
+ 220 deny ipv4 any 200.244.7.0 0.0.0.255
+ 230 deny ipv4 any 200.244.9.0 0.0.0.255
+ 240 deny ipv4 any 200.244.110.0 0.0.1.255
+ 250 deny ipv4 200.230.7.0 0.0.0.255 any
+ 260 deny ipv4 200.230.9.0 0.0.0.255 any
+ 270 deny ipv4 200.244.7.0 0.0.0.255 any
+ 280 deny ipv4 200.244.9.0 0.0.0.255 any
+ 290 deny ipv4 200.244.110.0 0.0.1.255 any
+ 300 remark Subnets Caninho
+ 310 deny ipv4 any 200.230.91.0 0.0.0.255
+ 320 deny ipv4 any 200.230.92.0 0.0.0.255
+ 330 deny ipv4 200.230.91.0 0.0.0.255 any
+ 340 deny ipv4 200.230.92.0 0.0.0.255 any
+ 350 remark Blocos de Loopbacks
+ 360 deny ipv4 any 200.230.16.0 0.0.1.255
+ 370 deny ipv4 any 200.230.224.0 0.0.0.255
+ 380 deny ipv4 any 200.230.248.0 0.0.1.255
+ 390 deny ipv4 any 200.244.17.0 0.0.0.255
+ 400 deny ipv4 any 200.244.27.0 0.0.0.255
+ 410 deny ipv4 any 200.244.28.0 0.0.1.255
+ 420 deny ipv4 any 200.244.41.0 0.0.0.255
+ 430 deny ipv4 200.230.16.0 0.0.1.255 any
+ 440 deny ipv4 200.230.224.0 0.0.0.255 any
+ 450 deny ipv4 200.230.248.0 0.0.1.255 any
+ 460 deny ipv4 200.244.17.0 0.0.0.255 any
+ 470 deny ipv4 200.244.27.0 0.0.0.255 any
+ 480 deny ipv4 200.244.28.0 0.0.1.255 any
+ 490 deny ipv4 200.244.41.0 0.0.0.255 any
+ 500 remark Blocos Services Loopbacks Mobile
+ 510 deny ipv4 any 200.230.44.0 0.0.1.255
+ 520 deny ipv4 any 200.230.46.0 0.0.0.255
+ 530 deny ipv4 any 200.244.192.0 0.0.1.255
+ 540 deny ipv4 any 200.244.194.0 0.0.0.255
+ 550 deny ipv4 200.230.44.0 0.0.1.255 any
+ 560 deny ipv4 200.230.46.0 0.0.0.255 any
+ 570 deny ipv4 200.244.192.0 0.0.1.255 any
+ 580 deny ipv4 200.244.194.0 0.0.0.255 any
+ 590 remark Blocos MAN/WAN
+ 600 deny ipv4 any 200.230.0.0 0.0.3.255
+ 610 deny ipv4 any 200.230.4.0 0.0.0.255
+ 620 deny ipv4 any 200.230.21.0 0.0.0.255
+ 630 deny ipv4 any 200.230.24.0 0.0.1.255
+ 640 deny ipv4 any 200.230.26.0 0.0.0.255
+ 650 deny ipv4 any 200.230.28.0 0.0.1.255
+ 660 deny ipv4 any 200.230.130.0 0.0.1.255
+ 670 deny ipv4 any 200.230.140.0 0.0.1.255
+ 680 deny ipv4 any 200.230.151.0 0.0.0.255
+ 690 deny ipv4 any 200.230.156.0 0.0.0.255
+ 700 deny ipv4 any 200.230.158.0 0.0.1.255
+ 710 deny ipv4 any 200.230.162.0 0.0.0.255
+ 720 deny ipv4 any 200.230.211.0 0.0.0.255
+ 730 deny ipv4 any 200.230.212.0 0.0.3.255
+ 740 deny ipv4 any 200.230.216.0 0.0.0.255
+ 750 deny ipv4 any 200.230.218.0 0.0.1.255
+ 760 deny ipv4 any 200.230.220.0 0.0.1.255
+ 770 deny ipv4 any 200.230.228.0 0.0.3.255
+ 780 deny ipv4 any 200.230.232.0 0.0.3.255
+ 790 deny ipv4 any 200.230.234.0 0.0.1.255
+ 800 deny ipv4 any 200.230.241.0 0.0.0.255
+ 810 deny ipv4 any 200.230.242.0 0.0.1.255
+ 820 deny ipv4 any 200.230.244.0 0.0.3.255
+ 830 deny ipv4 any 200.230.251.0 0.0.0.255
+ 840 deny ipv4 any 200.230.252.0 0.0.3.255
+ 850 deny ipv4 200.230.0.0 0.0.3.255 any
+ 860 deny ipv4 200.230.4.0 0.0.0.255 any
+ 870 deny ipv4 200.230.21.0 0.0.0.255 any
+ 880 deny ipv4 200.230.24.0 0.0.1.255 any
+ 890 deny ipv4 200.230.26.0 0.0.0.255 any
+ 900 deny ipv4 200.230.28.0 0.0.1.255 any
+ 910 deny ipv4 200.230.130.0 0.0.1.255 any
+ 920 deny ipv4 200.230.140.0 0.0.1.255 any
+ 930 deny ipv4 200.230.151.0 0.0.0.255 any
+ 940 deny ipv4 200.230.156.0 0.0.0.255 any
+ 950 deny ipv4 200.230.158.0 0.0.1.255 any
+ 960 deny ipv4 200.230.162.0 0.0.0.255 any
+ 970 deny ipv4 200.230.211.0 0.0.0.255 any
+ 980 deny ipv4 200.230.212.0 0.0.3.255 any
+ 990 deny ipv4 200.230.216.0 0.0.0.255 any
+ 1000 deny ipv4 200.230.218.0 0.0.1.255 any
+ 1010 deny ipv4 200.230.220.0 0.0.1.255 any
+ 1020 deny ipv4 200.230.228.0 0.0.3.255 any
+ 1030 deny ipv4 200.230.232.0 0.0.3.255 any
+ 1040 deny ipv4 200.230.234.0 0.0.1.255 any
+ 1050 deny ipv4 200.230.241.0 0.0.0.255 any
+ 1060 deny ipv4 200.230.242.0 0.0.1.255 any
+ 1070 deny ipv4 200.230.244.0 0.0.3.255 any
+ 1080 deny ipv4 200.230.251.0 0.0.0.255 any
+ 1090 deny ipv4 200.230.252.0 0.0.3.255 any
+ 1100 deny ipv4 any 200.244.1.0 0.0.0.255
+ 1110 deny ipv4 any 200.244.3.0 0.0.0.255
+ 1120 deny ipv4 any 200.244.4.0 0.0.0.255
+ 1130 deny ipv4 any 200.244.18.0 0.0.1.255
+ 1140 deny ipv4 any 200.244.21.0 0.0.0.255
+ 1150 deny ipv4 any 200.244.22.0 0.0.1.255
+ 1160 deny ipv4 any 200.244.24.0 0.0.1.255
+ 1170 deny ipv4 any 200.244.40.0 0.0.0.255
+ 1180 deny ipv4 any 200.244.44.0 0.0.0.255
+ 1190 deny ipv4 any 200.244.49.0 0.0.0.255
+ 1200 deny ipv4 any 200.244.63.0 0.0.0.255
+ 1210 deny ipv4 any 200.244.66.0 0.0.1.255
+ 1220 deny ipv4 any 200.244.68.0 0.0.1.255
+ 1230 deny ipv4 any 200.244.74.0 0.0.1.255
+ 1240 deny ipv4 any 200.244.80.0 0.0.1.255
+ 1250 deny ipv4 any 200.244.90.0 0.0.0.255
+ 1260 deny ipv4 any 200.244.140.0 0.0.0.255
+ 1270 deny ipv4 any 200.244.150.0 0.0.0.255
+ 1280 deny ipv4 any 200.244.160.0 0.0.0.255
+ 1290 deny ipv4 any 200.244.162.0 0.0.1.255
+ 1300 deny ipv4 any 200.244.164.0 0.0.3.255
+ 1310 deny ipv4 any 200.244.168.0 0.0.3.255
+ 1320 deny ipv4 any 200.244.172.0 0.0.0.255
+ 1330 deny ipv4 any 200.244.211.0 0.0.0.255
+ 1340 deny ipv4 any 200.244.212.0 0.0.3.255
+ 1350 deny ipv4 any 200.244.216.0 0.0.0.255
+ 1360 deny ipv4 200.244.1.0 0.0.0.255 any
+ 1370 deny ipv4 200.244.3.0 0.0.0.255 any
+ 1380 deny ipv4 200.244.4.0 0.0.0.255 any
+ 1390 deny ipv4 200.244.18.0 0.0.1.255 any
+ 1400 deny ipv4 200.244.21.0 0.0.0.255 any
+ 1410 deny ipv4 200.244.22.0 0.0.1.255 any
+ 1420 deny ipv4 200.244.24.0 0.0.1.255 any
+ 1430 deny ipv4 200.244.40.0 0.0.0.255 any
+ 1440 deny ipv4 200.244.44.0 0.0.0.255 any
+ 1450 deny ipv4 200.244.49.0 0.0.0.255 any
+ 1460 deny ipv4 200.244.63.0 0.0.0.255 any
+ 1470 deny ipv4 200.244.66.0 0.0.1.255 any
+ 1480 deny ipv4 200.244.68.0 0.0.1.255 any
+ 1490 deny ipv4 200.244.74.0 0.0.1.255 any
+ 1500 deny ipv4 200.244.80.0 0.0.1.255 any
+ 1510 deny ipv4 200.244.90.0 0.0.0.255 any
+ 1520 deny ipv4 200.244.140.0 0.0.0.255 any
+ 1530 deny ipv4 200.244.150.0 0.0.0.255 any
+ 1540 deny ipv4 200.244.160.0 0.0.0.255 any
+ 1550 deny ipv4 200.244.162.0 0.0.1.255 any
+ 1560 deny ipv4 200.244.164.0 0.0.3.255 any
+ 1570 deny ipv4 200.244.168.0 0.0.3.255 any
+ 1580 deny ipv4 200.244.172.0 0.0.0.255 any
+ 1590 deny ipv4 200.244.211.0 0.0.0.255 any
+ 1600 deny ipv4 200.244.212.0 0.0.3.255 any
+ 1610 deny ipv4 200.244.216.0 0.0.0.255 any
+ 1620 remark Deny RFCs 1918 5735 6598
+ 1630 deny ipv4 0.0.0.0 0.255.255.255 any
+ 1640 deny ipv4 10.0.0.0 0.255.255.255 any
+ 1650 deny ipv4 100.64.0.0 0.63.255.255 any
+ 1660 deny ipv4 127.0.0.0 0.255.255.255 any
+ 1670 deny ipv4 169.254.0.0 0.0.255.255 any
+ 1680 deny ipv4 172.16.0.0 0.15.255.255 any
+ 1690 deny ipv4 192.0.0.0 0.0.0.255 any
+ 1700 deny ipv4 192.0.2.0 0.0.0.255 any
+ 1710 deny ipv4 192.88.99.0 0.0.0.255 any
+ 1720 deny ipv4 192.168.0.0 0.0.255.255 any
+ 1730 deny ipv4 198.18.0.0 0.1.255.255 any
+ 1740 deny ipv4 198.51.100.0 0.0.0.255 any
+ 1750 deny ipv4 203.0.113.0 0.0.0.255 any
+ 1760 deny ipv4 224.0.0.0 15.255.255.255 any
+ 1770 deny ipv4 240.0.0.0 15.255.255.255 any
+ 1780 permit ipv4 any any
+!
+ipv4 access-list ACL_11
+ 10 remark Hosts NOC EMBRATEL
+ 20 permit ipv4 host 200.255.253.250 any
+ 30 permit ipv4 host 200.255.125.56 any
+ 40 permit ipv4 host 200.255.125.60 any
+ 50 permit ipv4 host 200.255.125.219 any
+ 60 permit ipv4 host 200.255.253.31 any
+ 70 permit ipv4 host 200.255.125.20 any
+ 80 permit ipv4 host 200.255.254.30 any
+ 90 remark Host EPN RJOAM e RJOEN
+ 100 permit ipv4 200.230.5.0 0.0.0.255 any
+ 110 permit ipv4 200.244.11.0 0.0.0.255 any
+!
+ipv4 access-list ACL_12
+ 10 remark Host FW-GRC
+ 20 permit ipv4 host 200.214.41.124 any
+ 30 remark Hosts CISCO
+ 40 permit ipv4 host 64.104.3.161 any
+ 50 permit ipv4 host 64.104.196.21 any
+ 60 permit ipv4 host 173.38.244.216 any
+ 70 permit ipv4 host 173.38.245.16 any
+ 80 remark Hosts Brasil-center
+ 90 permit ipv4 host 200.255.220.22 any
+ 100 permit ipv4 host 200.255.220.21 any
+ 110 remark SubNet NOC
+ 120 permit ipv4 200.255.125.0 0.0.0.255 any
+ 130 permit ipv4 200.255.253.0 0.0.0.255 any
+ 140 permit ipv4 200.255.254.0 0.0.0.255 any
+ 150 remark Subnet Seguranca
+ 160 permit ipv4 200.255.160.0 0.0.0.255 any
+ 170 permit ipv4 200.179.210.0 0.0.0.255 any
+ 180 permit ipv4 200.255.218.192 0.0.0.63 any
+ 190 remark SubNet Config SPO
+ 200 permit ipv4 200.245.255.0 0.0.0.255 any
+ 210 remark SubNet Config RJO
+ 220 permit ipv4 200.255.122.0 0.0.0.31 any
+ 230 remark Host Cisco NatKit/CNC
+ 240 permit ipv4 host 200.255.255.67 any
+ 250 remark Hosts/Subnets Cisco EPN / Nokia
+ 260 permit ipv4 200.230.5.0 0.0.0.255 any
+ 270 permit ipv4 200.244.11.0 0.0.0.255 any
+ 280 remark Subnets Peakflow
+ 290 permit ipv4 200.230.9.0 0.0.0.255 any
+ 300 permit ipv4 200.244.9.0 0.0.0.255 any
+ 310 permit ipv4 200.244.110.0 0.0.1.255 any
+ 320 remark Subnets Caninho
+ 330 permit ipv4 200.230.91.0 0.0.0.255 any
+ 340 permit ipv4 200.230.92.0 0.0.0.255 any
+ 350 remark Subnets Loopback0 Backbone
+ 360 permit ipv4 200.230.16.0 0.0.1.255 any
+ 370 permit ipv4 200.230.224.0 0.0.0.255 any
+ 380 permit ipv4 200.230.248.0 0.0.1.255 any
+ 390 permit ipv4 200.244.17.0 0.0.0.255 any
+ 400 permit ipv4 200.244.27.0 0.0.0.255 any
+ 410 permit ipv4 200.244.28.0 0.0.1.255 any
+ 420 permit ipv4 200.244.41.0 0.0.0.255 any
+ 430 remark Subnets Uplinks Backbone
+ 440 permit ipv4 200.230.0.0 0.0.3.255 any
+ 450 permit ipv4 200.230.4.0 0.0.0.255 any
+ 460 permit ipv4 200.230.21.0 0.0.0.255 any
+ 470 permit ipv4 200.230.24.0 0.0.1.255 any
+ 480 permit ipv4 200.230.26.0 0.0.0.255 any
+ 490 permit ipv4 200.230.28.0 0.0.1.255 any
+ 500 permit ipv4 200.230.130.0 0.0.1.255 any
+ 510 permit ipv4 200.230.140.0 0.0.1.255 any
+ 520 permit ipv4 200.230.151.0 0.0.0.255 any
+ 530 permit ipv4 200.230.156.0 0.0.0.255 any
+ 540 permit ipv4 200.230.158.0 0.0.1.255 any
+ 550 permit ipv4 200.230.162.0 0.0.0.255 any
+ 560 permit ipv4 200.230.211.0 0.0.0.255 any
+ 570 permit ipv4 200.230.212.0 0.0.3.255 any
+ 580 permit ipv4 200.230.216.0 0.0.0.255 any
+ 590 permit ipv4 200.230.218.0 0.0.1.255 any
+ 600 permit ipv4 200.230.220.0 0.0.1.255 any
+ 610 permit ipv4 200.230.228.0 0.0.3.255 any
+ 620 permit ipv4 200.230.232.0 0.0.3.255 any
+ 630 permit ipv4 200.230.234.0 0.0.1.255 any
+ 640 permit ipv4 200.230.241.0 0.0.0.255 any
+ 650 permit ipv4 200.230.242.0 0.0.1.255 any
+ 660 permit ipv4 200.230.244.0 0.0.3.255 any
+ 670 permit ipv4 200.230.251.0 0.0.0.255 any
+ 680 permit ipv4 200.230.252.0 0.0.3.255 any
+ 690 permit ipv4 200.244.1.0 0.0.0.255 any
+ 700 permit ipv4 200.244.3.0 0.0.0.255 any
+ 710 permit ipv4 200.244.4.0 0.0.0.255 any
+ 720 permit ipv4 200.244.18.0 0.0.1.255 any
+ 730 permit ipv4 200.244.21.0 0.0.0.255 any
+ 740 permit ipv4 200.244.22.0 0.0.1.255 any
+ 750 permit ipv4 200.244.24.0 0.0.1.255 any
+ 760 permit ipv4 200.244.40.0 0.0.0.255 any
+ 770 permit ipv4 200.244.44.0 0.0.0.255 any
+ 780 permit ipv4 200.244.49.0 0.0.0.255 any
+ 790 permit ipv4 200.244.63.0 0.0.0.255 any
+ 800 permit ipv4 200.244.66.0 0.0.1.255 any
+ 810 permit ipv4 200.244.68.0 0.0.1.255 any
+ 820 permit ipv4 200.244.74.0 0.0.1.255 any
+ 830 permit ipv4 200.244.80.0 0.0.1.255 any
+ 840 permit ipv4 200.244.90.0 0.0.0.255 any
+ 850 permit ipv4 200.244.140.0 0.0.0.255 any
+ 860 permit ipv4 200.244.150.0 0.0.0.255 any
+ 870 permit ipv4 200.244.160.0 0.0.0.255 any
+ 880 permit ipv4 200.244.162.0 0.0.1.255 any
+ 890 permit ipv4 200.244.164.0 0.0.3.255 any
+ 900 permit ipv4 200.244.168.0 0.0.3.255 any
+ 910 permit ipv4 200.244.172.0 0.0.0.255 any
+ 920 permit ipv4 200.244.211.0 0.0.0.255 any
+ 930 permit ipv4 200.244.212.0 0.0.3.255 any
+ 940 permit ipv4 200.244.216.0 0.0.0.255 any
+!
+ipv4 access-list ACL_13
+ 10 remark Hosts/Subnets com permissao de acesso SNMP
+ 20 remark Hosts GRC
+ 30 permit ipv4 host 200.214.41.124 any
+ 40 remark Hosts/Subnets Servidores/Infra
+ 50 permit ipv4 host 200.179.55.2 any
+ 60 permit ipv4 200.179.210.0 0.0.0.255 any
+ 70 permit ipv4 host 200.246.244.82 any
+ 80 permit ipv4 200.255.125.0 0.0.0.255 any
+ 90 permit ipv4 200.255.160.0 0.0.0.255 any
+ 100 permit ipv4 200.255.218.192 0.0.0.63 any
+ 110 permit ipv4 200.255.253.0 0.0.0.255 any
+ 120 permit ipv4 200.255.254.0 0.0.0.255 any
+ 130 permit ipv4 host 200.255.255.67 any
+ 140 remark Hosts/Subnets Cisco EPN / Nokia
+ 150 permit ipv4 200.230.5.0 0.0.0.255 any
+ 160 permit ipv4 200.244.11.0 0.0.0.255 any
+ 170 remark Hosts/Subnets PeakFlow
+ 180 permit ipv4 200.230.9.0 0.0.0.255 any
+ 190 permit ipv4 200.244.9.0 0.0.0.255 any
+ 200 permit ipv4 200.244.110.0 0.0.1.255 any
+ 210 permit ipv4 host 200.244.162.246 any
+ 220 permit ipv4 host 200.244.162.250 any
+ 230 permit ipv4 host 200.244.162.251 any
+ 240 permit ipv4 host 200.244.163.246 any
+ 250 permit ipv4 host 200.244.163.250 any
+ 260 permit ipv4 host 200.244.163.251 any
+ 270 permit ipv4 host 200.255.251.214 any
+ 280 permit ipv4 201.65.190.32 0.0.0.31 any
+!
+ipv4 access-list ACL_14
+ 10 remark Hosts Cariden-MATE e GRB-TE
+ 20 permit ipv4 host 200.255.253.31 any
+ 30 permit ipv4 host 200.255.125.20 any
+ 40 permit ipv4 host 200.255.254.30 any
+ 50 remark Subnets Cisco EPN / Nokia
+ 60 permit ipv4 200.230.5.0 0.0.0.255 any
+ 70 permit ipv4 200.244.11.0 0.0.0.255 any
+!
+ipv4 access-list ACL_50
+ 10 permit ipv4 host 200.255.254.217 any
+ 20 permit ipv4 host 200.255.254.218 any
+ 30 permit ipv4 host 200.255.125.20 any
+!
+ipv4 access-list ACL_99
+ 10 permit ipv4 239.232.0.0 0.0.255.255 any
+ 20 permit ipv4 239.233.0.0 0.0.255.255 any
+!
+ipv4 access-list ACL-HFC
+ 20 permit gre any host 201.72.252.131
+!
+ipv4 access-list ACL_LOOPBACK0
+ 10 remark Faixas de endereco IP das Loopback 0 no backbone
+ 20 permit ipv4 200.230.16.0 0.0.0.255 any
+ 30 permit ipv4 200.230.92.0 0.0.0.255 any
+ 40 permit ipv4 200.230.224.0 0.0.0.255 any
+ 50 permit ipv4 200.230.249.0 0.0.0.255 any
+ 60 permit ipv4 200.244.27.0 0.0.0.255 any
+ 70 permit ipv4 200.244.28.0 0.0.0.255 any
+ 80 permit ipv4 200.244.29.0 0.0.0.255 any
+ 90 permit ipv4 200.244.41.0 0.0.0.255 any
+!
+ipv4 prefix-list PREFIX_ROTA_DEFAULT
+ 10 permit 0.0.0.0/0
+!
+class-map match-any Voz_Q6
+ match dscp ef 
+ end-class-map
+!
+class-map match-any Bulk_Q6
+ match dscp af11 af12 af13 cs4 
+ end-class-map
+!
+class-map match-any Routing
+ match mpls experimental topmost 6 7 
+ match dscp cs6 cs7 
+ end-class-map
+!
+class-map match-any Business
+ match mpls experimental topmost 1 2 3 4 
+ end-class-map
+!
+class-map match-any RealTime
+ match mpls experimental topmost 5 
+ end-class-map
+!
+class-map match-any Video_Q6
+ match dscp af41 cs5 
+ end-class-map
+!
+class-map match-any NAO_CRITICO
+ match dscp cs1 af11 af13 
+ end-class-map
+!
+class-map match-any GERENCIAMENTO
+ match dscp cs3 af31 af32 
+ end-class-map
+!
+class-map match-any Interativa_Q6
+ match dscp af21 af22 af23 
+ end-class-map
+!
+class-map match-any TEMPO_REAL_VC
+ match dscp af41 
+ end-class-map
+!
+class-map match-any MISSAO_CRITICA
+ match dscp cs4 af42 af43 
+ end-class-map
+!
+class-map match-any TEMPO_REAL_VOZ
+ match dscp cs5 ef 
+ end-class-map
+!
+class-map match-any MissaoCritica_Q6
+ match dscp cs3 af31 af32 af33 
+ end-class-map
+!
+class-map match-any NetworkControl_Q6
+ match dscp cs2 cs6 cs7 
+ end-class-map
+!
+class-map match-any SUPORTE_AO_NEGOCIO
+ match dscp cs2 af21 af23 
+ end-class-map
+!
+class-map match-any DCR_L2_Claro_AS4549
+ match dscp 1 2 3 
+ match mpls experimental topmost 1 2 3 
+ end-class-map
+!
+class-map match-any Voz_L2_Claro_AS4549
+ match dscp cs5 
+ match mpls experimental topmost 5 
+ end-class-map
+!
+class-map match-any GPRS_L2_Claro_AS4549
+ match dscp cs4 
+ match mpls experimental topmost 4 
+ end-class-map
+!
+class-map match-any SIG-ROUT_L2_Claro_AS4549
+ match dscp cs6 
+ match mpls experimental topmost 6 
+ end-class-map
+!
+policy-map MARCA-VOZ
+ class class-default
+  police rate 1000000 kbps 
+   conform-action set dscp ef
+  !
+ !
+ end-policy-map
+!
+policy-map ZERA-EXP-Saida
+ class class-default
+  set mpls experimental imposition 0
+ !
+ end-policy-map
+!
+policy-map CLARO_IN_L2VPN_1G
+ class class-default
+  service-policy CLARO_IN_L2_AS4549
+  police rate 1 gbps 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ end-policy-map
+!
+policy-map CLARO_IN_L2VPN_2G
+ class class-default
+  service-policy CLARO_IN_L2_AS4549
+  police rate 2 gbps 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ end-policy-map
+!
+policy-map CLARO_IN_L2VPN_3G
+ class class-default
+  service-policy CLARO_IN_L2_AS4549
+  police rate 3 gbps 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ end-policy-map
+!
+policy-map CLARO_IN_L2VPN_4G
+ class class-default
+  service-policy CLARO_IN_L2_AS4549
+  police rate 4 gbps 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ end-policy-map
+!
+policy-map CLARO_IN_L2VPN_5G
+ class class-default
+  service-policy CLARO_IN_L2_AS4549
+  police rate 5 gbps 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ end-policy-map
+!
+policy-map CLARO_IN_L2_AS4549
+ class Voz_L2_Claro_AS4549
+  priority level 1 
+  police rate percent 50 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class SIG-ROUT_L2_Claro_AS4549
+  police rate percent 8 
+   conform-action set mpls experimental imposition 3
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class DCR_L2_Claro_AS4549
+  police rate percent 12 
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class GPRS_L2_Claro_AS4549
+  police rate percent 25 
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 5 
+   conform-action set mpls experimental imposition 0
+   exceed-action set mpls experimental imposition 0
+  !
+ !
+ end-policy-map
+!
+policy-map CLARO_OUT_L2VPN_1G
+ class class-default
+  service-policy CLARO_OUT_L2_AS4549
+  shape average 1 gbps 
+ !
+ end-policy-map
+!
+policy-map CLARO_OUT_L2VPN_2G
+ class class-default
+  service-policy CLARO_OUT_L2_AS4549
+  shape average 2 gbps 
+ !
+ end-policy-map
+!
+policy-map CLARO_OUT_L2VPN_3G
+ class class-default
+  service-policy CLARO_OUT_L2_AS4549
+  shape average 3 gbps 
+ !
+ end-policy-map
+!
+policy-map CLARO_OUT_L2VPN_4G
+ class class-default
+  service-policy CLARO_OUT_L2_AS4549
+  shape average 4 gbps 
+ !
+ end-policy-map
+!
+policy-map CLARO_OUT_L2VPN_5G
+ class class-default
+  service-policy CLARO_OUT_L2_AS4549
+  shape average 5 gbps 
+ !
+ end-policy-map
+!
+policy-map CLARO_OUT_L2_AS4549
+ class Voz_L2_Claro_AS4549
+  priority level 1 
+  police rate percent 50 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class SIG-ROUT_L2_Claro_AS4549
+  bandwidth remaining percent 15 
+ !
+ class DCR_L2_Claro_AS4549
+  bandwidth remaining percent 25 
+ !
+ class GPRS_L2_Claro_AS4549
+  bandwidth remaining percent 50 
+ !
+ class class-default
+  bandwidth remaining percent 10 
+ !
+ end-policy-map
+!
+policy-map QDO_BBONE_N_20000_V1
+ class class-default
+  service-policy QPO_BBONE_N_20000_V1
+  shape average 20 mbps 
+ !
+ end-policy-map
+!
+policy-map QDO_BBONE_N_30000_V1
+ class class-default
+  service-policy PM_V10_QPO_BBONE_100000_V1
+  shape average 30000 kbps 
+ !
+ end-policy-map
+!
+policy-map QPI_BBONE_N_20000_V1
+ class class-default
+  set mpls experimental imposition 0
+ !
+ end-policy-map
+!
+policy-map QPI_BBONE_N_30000_V1
+ class class-default
+  police rate 100 mbps 
+   conform-action set dscp default
+   exceed-action drop
+  !
+ !
+ end-policy-map
+!
+policy-map QPO_BBONE_N_20000_V1
+ class NetworkControl_Q6
+  bandwidth 64 kbps 
+ !
+ class class-default
+  set dscp cs1
+  bandwidth percent 100 
+ !
+ end-policy-map
+!
+policy-map SaidaIntBackbone_10G
+ class RealTime
+  priority level 1 
+  police rate percent 50 burst 100 ms 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class Routing
+  bandwidth remaining percent 5 
+ !
+ class Business
+  bandwidth remaining percent 85 
+  random-detect 31200 packets 93500 packets 
+  random-detect exp 1 10500 packets 31200 packets 
+ !
+ class class-default
+  bandwidth remaining percent 10 
+  random-detect 22000 packets 66000 packets 
+ !
+ end-policy-map
+!
+policy-map QDO_BBONE_N_100000_V1
+ class class-default
+  service-policy QPO_BBONE_N_100000_V1
+  shape average 100 mbps 
+ !
+ end-policy-map
+!
+policy-map QDO_BBONE_N_300000_V1
+ class class-default
+  service-policy PM_V10_QPO_BBONE_300000_V1
+  shape average 300000 kbps 
+ !
+ end-policy-map
+!
+policy-map QPI_BBONE_N_100000_V1
+ class class-default
+  set mpls experimental imposition 0
+ !
+ end-policy-map
+!
+policy-map QPI_BBONE_N_300000_V1
+ class class-default
+  set mpls experimental imposition 0
+  police rate 300 mbps 
+   conform-action set dscp default
+   exceed-action drop
+  !
+ !
+ end-policy-map
+!
+policy-map QPO_BBONE_N_100000_V1
+ class NetworkControl_Q6
+  bandwidth 64 kbps 
+ !
+ class class-default
+  set dscp cs1
+  bandwidth percent 100 
+ !
+ end-policy-map
+!
+policy-map QPO_BBONE_N_300000_V1
+ class NetworkControl_Q6
+  bandwidth 64 kbps 
+ !
+ class class-default
+  set dscp cs1
+  bandwidth percent 100 
+ !
+ end-policy-map
+!
+policy-map QDO_BBONE_S_1000000_V1
+ class class-default
+  service-policy PM_V10_QPO_BBONE_1000000_V1
+  shape average 1000000 kbps 
+ !
+ end-policy-map
+!
+policy-map QPI_BBONE_S_1000000_V1
+ class class-default
+  police rate 1000000 kbps 
+   conform-action set dscp default
+   exceed-action drop
+  !
+ !
+ end-policy-map
+!
+policy-map QDO_BBONE_N_10000000_V1
+ class class-default
+  service-policy QPO_BBONE_N_10000000_V1
+  shape average 10000 mbps 
+ !
+ end-policy-map
+!
+policy-map QDO_BBONE_S_10000000_V1
+ class class-default
+  service-policy PM_V10_QPO_BBONE_10000000_V1
+  shape average 10000000 kbps 
+ !
+ end-policy-map
+!
+policy-map QPI_BBONE_N_10000000_V1
+ class class-default
+  set mpls experimental imposition 0
+ !
+ end-policy-map
+!
+policy-map QPI_BBONE_S_10000000_V1
+ class class-default
+  police rate 10000000 kbps 
+   conform-action set dscp default
+   exceed-action drop
+  !
+ !
+ end-policy-map
+!
+policy-map QPO_BBONE_N_10000000_V1
+ class NetworkControl_Q6
+  bandwidth 64 kbps 
+ !
+ class class-default
+  set dscp cs1
+  bandwidth percent 100 
+ !
+ end-policy-map
+!
+policy-map SaidaIntBackbone_10Gbps
+ class class-default
+  service-policy SaidaIntBackbone_10G
+  shape average 10000 mbps 
+ !
+ end-policy-map
+!
+policy-map PM_V10_QPO_BBONE_30000_V1
+ class class-default
+  queue-limit 3000 packets 
+ !
+ end-policy-map
+!
+policy-map QDI_20000K_0_60_0_0_0_1_1
+ class class-default
+  service-policy QPI_20000K_0_N_60_0_0_0_1_1
+  police rate 20000 kbps 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ end-policy-map
+!
+policy-map QDI_30000K_62_0_0_0_0_1_1
+ class class-default
+  service-policy QPI_30000K_62_N_0_0_0_0_1_1
+  police rate 30000 kbps 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ end-policy-map
+!
+policy-map QDO_20000K_0_60_0_0_0_1_1
+ class class-default
+  service-policy QPO_20000K_0_60_0_0_0_1_1
+  shape average 20000 kbps 
+ !
+ end-policy-map
+!
+policy-map QDO_30000K_62_0_0_0_0_1_1
+ class class-default
+  service-policy QPO_30000K_62_0_0_0_0_1_1
+  shape average 30000 kbps 
+ !
+ end-policy-map
+!
+policy-map QPO_20000K_0_60_0_0_0_1_1
+ class Video_Q6
+  priority level 2 
+  police rate percent 60 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class NetworkControl_Q6
+  bandwidth remaining percent 1 
+  queue-limit 90 packets 
+ !
+ class class-default
+  bandwidth remaining percent 1 
+  random-detect dscp default 15 packets 45 packets 
+  queue-limit 90 packets 
+ !
+ end-policy-map
+!
+policy-map QPO_30000K_62_0_0_0_0_1_1
+ class Voz_Q6
+  priority level 1 
+  police rate percent 62 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class NetworkControl_Q6
+  bandwidth remaining percent 1 
+  queue-limit 90 packets 
+ !
+ class class-default
+  bandwidth remaining percent 1 
+  random-detect dscp default 15 packets 45 packets 
+  queue-limit 90 packets 
+ !
+ end-policy-map
+!
+policy-map SaidaIntBackboneNac_10_20
+ class RealTime
+  priority level 1 
+  police rate percent 50 burst 100 ms 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class Routing
+  bandwidth remaining percent 5 
+ !
+ class Business
+  bandwidth remaining percent 85 
+  random-detect 15 ms 45 ms 
+  random-detect exp 1 5 ms 15 ms 
+ !
+ class class-default
+  bandwidth remaining percent 10 
+  random-detect 15 ms 45 ms 
+ !
+ end-policy-map
+!
+policy-map PM_V10_QPO_BBONE_300000_V1
+ class class-default
+  queue-limit 3000 packets 
+ !
+ end-policy-map
+!
+policy-map QDI_100000K_10_1_0_0_0_1_1
+ class class-default
+  service-policy QPI_100000K_10_N_1_0_0_0_1_1
+  police rate 100000 kbps 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ end-policy-map
+!
+policy-map QDI_30000K_60_0_0_0_0_1_36
+ class class-default
+  service-policy QPI_30000K_60_N_0_0_0_0_1_36
+  police rate 30000 kbps 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ end-policy-map
+!
+policy-map QDO_100000K_10_1_0_0_0_1_1
+ class class-default
+  service-policy QPO_100000K_10_1_0_0_0_1_1
+  shape average 100000 kbps 
+ !
+ end-policy-map
+!
+policy-map QDO_30000K_60_0_0_0_0_1_36
+ class class-default
+  service-policy QPO_30000K_60_0_0_0_0_1_36
+  shape average 30000 kbps 
+ !
+ end-policy-map
+!
+policy-map QPO_100000K_10_1_0_0_0_1_1
+ class Voz_Q6
+  priority level 1 
+  police rate percent 10 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class Video_Q6
+  priority level 2 
+  police rate percent 1 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class NetworkControl_Q6
+  bandwidth remaining percent 1 
+  queue-limit 90 packets 
+ !
+ class class-default
+  bandwidth remaining percent 1 
+  random-detect dscp default 15 packets 45 packets 
+  queue-limit 90 packets 
+ !
+ end-policy-map
+!
+policy-map QPO_30000K_60_0_0_0_0_1_36
+ class Voz_Q6
+  priority level 1 
+  police rate percent 60 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class NetworkControl_Q6
+  bandwidth remaining percent 1 
+  queue-limit 90 packets 
+ !
+ class class-default
+  bandwidth remaining percent 36 
+  random-detect dscp default 15 packets 45 packets 
+  queue-limit 90 packets 
+ !
+ end-policy-map
+!
+policy-map PM_V10_QPO_BBONE_1000000_V1
+ class class-default
+  queue-limit 40000 packets 
+ !
+ end-policy-map
+!
+policy-map QPI_20000K_0_N_60_0_0_0_1_1
+ class Video_Q6
+  priority level 2 
+  police rate percent 60 burst 2250 kbytes peak-burst 4500 kbytes 
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class class-default
+  set dscp default
+ !
+ end-policy-map
+!
+policy-map QPI_30000K_62_N_0_0_0_0_1_1
+ class Voz_Q6
+  priority level 1 
+  police rate percent 62 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class class-default
+  set dscp default
+ !
+ end-policy-map
+!
+policy-map SubRateIntBackboneNac_10_20
+ class class-default
+  service-policy SaidaIntBackboneNac_10_20
+  shape average percent 100 
+ !
+ end-policy-map
+!
+policy-map PM_V10_QPO_BBONE_10000000_V1
+ class class-default
+  queue-limit 90000 packets 
+ !
+ end-policy-map
+!
+policy-map QPI_100000K_10_N_1_0_0_0_1_1
+ class Voz_Q6
+  priority level 1 
+  police rate percent 10 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class Video_Q6
+  priority level 2 
+  police rate percent 1 burst 188 kbytes peak-burst 376 kbytes 
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class class-default
+  set dscp default
+ !
+ end-policy-map
+!
+policy-map QPI_30000K_60_N_0_0_0_0_1_36
+ class Voz_Q6
+  priority level 1 
+  police rate percent 60 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class class-default
+  set dscp default
+ !
+ end-policy-map
+!
+policy-map QDI_100000K_10_10_15_15_18_1_1
+ class class-default
+  service-policy QPI_100000K_10_N_10_15_15_18_1_1
+  police rate 100000 kbps 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ end-policy-map
+!
+policy-map QDO_100000K_10_10_15_15_18_1_1
+ class class-default
+  service-policy QPO_100000K_10_10_15_15_18_1_1
+  shape average 100000 kbps 
+ !
+ end-policy-map
+!
+policy-map QPO_100000K_10_10_15_15_18_1_1
+ class Voz_Q6
+  priority level 1 
+  police rate percent 10 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class Video_Q6
+  priority level 2 
+  police rate percent 10 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class MissaoCritica_Q6
+  bandwidth remaining percent 15 
+  random-detect dscp af31,af32,af33,cs3 15 packets 45 packets 
+  queue-limit 90 packets 
+ !
+ class Interativa_Q6
+  bandwidth remaining percent 15 
+  random-detect dscp af21,af22,af23 15 packets 45 packets 
+  queue-limit 90 packets 
+ !
+ class Bulk_Q6
+  bandwidth remaining percent 18 
+  random-detect dscp af11,af12,af13,cs1,cs4 15 packets 45 packets 
+  queue-limit 90 packets 
+ !
+ class NetworkControl_Q6
+  bandwidth remaining percent 1 
+  queue-limit 90 packets 
+ !
+ class class-default
+  bandwidth remaining percent 1 
+  random-detect dscp default 15 packets 45 packets 
+  queue-limit 90 packets 
+ !
+ end-policy-map
+!
+policy-map QDI_100000K_10_10_15_15_18_1_28
+ class class-default
+  service-policy QPI_100000K_10_N_10_15_15_18_1_28
+  police rate 100000 kbps 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ end-policy-map
+!
+policy-map QDO_100000K_10_10_15_15_18_1_28
+ class class-default
+  service-policy QPO_100000K_10_10_15_15_18_1_28
+  shape average 100000 kbps 
+ !
+ end-policy-map
+!
+policy-map QPO_100000K_10_10_15_15_18_1_28
+ class Voz_Q6
+  priority level 1 
+  police rate percent 10 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class Video_Q6
+  priority level 2 
+  police rate percent 10 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class MissaoCritica_Q6
+  bandwidth remaining percent 15 
+  random-detect dscp af31,af32,af33,cs3 15 packets 45 packets 
+  queue-limit 90 packets 
+ !
+ class Interativa_Q6
+  bandwidth remaining percent 15 
+  random-detect dscp af21,af22,af23 15 packets 45 packets 
+  queue-limit 90 packets 
+ !
+ class Bulk_Q6
+  bandwidth remaining percent 18 
+  random-detect dscp af11,af12,af13,cs1,cs4 15 packets 45 packets 
+  queue-limit 90 packets 
+ !
+ class NetworkControl_Q6
+  bandwidth remaining percent 1 
+  queue-limit 90 packets 
+ !
+ class class-default
+  bandwidth remaining percent 28 
+  random-detect dscp default 15 packets 45 packets 
+  queue-limit 90 packets 
+ !
+ end-policy-map
+!
+policy-map QPI_100000K_10_N_10_15_15_18_1_1
+ class Voz_Q6
+  priority level 1 
+  police rate percent 10 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class Video_Q6
+  priority level 2 
+  police rate percent 10 burst 1875 kbytes peak-burst 3750 kbytes 
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class MissaoCritica_Q6
+  police rate percent 15 
+   conform-action transmit
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class Interativa_Q6
+  police rate percent 15 
+   conform-action transmit
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class Bulk_Q6
+  police rate percent 18 
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  set dscp default
+ !
+ end-policy-map
+!
+policy-map QPI_100000K_10_N_10_15_15_18_1_28
+ class Voz_Q6
+  priority level 1 
+  police rate percent 10 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ class Video_Q6
+  priority level 2 
+  police rate percent 10 burst 1875 kbytes peak-burst 3750 kbytes 
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class MissaoCritica_Q6
+  police rate percent 15 
+   conform-action transmit
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class Interativa_Q6
+  police rate percent 15 
+   conform-action transmit
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class Bulk_Q6
+  police rate percent 18 
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  set dscp default
+ !
+ end-policy-map
+!
+flow exporter-map FNF_EXPORT_MAP
+ version v9
+  template timeout 30
+ !
+ transport udp 23213
+ source Loopback0
+!
+flow monitor-map IPV4_MONITOR_MAP
+ record ipv4
+ exporter FNF_EXPORT_MAP
+ cache entries 200000
+ cache timeout active 60
+!
+flow monitor-map IPV6_MONITOR_MAP
+ record ipv6
+ exporter FNF_EXPORT_MAP
+ cache entries 200000
+ cache timeout active 60
+!
+flow monitor-map MPLS_MONITOR_MAP
+ record mpls ipv4-ipv6-fields
+ exporter FNF_EXPORT_MAP
+ cache entries 200000
+ cache timeout active 60
+!
+sampler-map FNF_SAMPLER_MAP
+ random 1 out-of 1000
+!
+lpts pifib hardware police location 0/0/CPU0
+ flow fragment rate 100
+!
+lpts pifib hardware police location 0/2/CPU0
+ flow fragment rate 100
+!
+lpts pifib hardware police location 0/3/CPU0
+ flow fragment rate 100
+!
+lpts pifib hardware police location 0/7/CPU0
+ flow fragment rate 100
+!
+interface Loopback0
+ description endereco de Acesso ao Roteador
+ ipv4 address 200.244.28.10 255.255.255.255
+ ipv6 address 2804:a8::200:244:28:10/128
+!
+interface Loopback52288
+ description NETSERVICOS | CGE | BGP_AS28573
+ ipv4 address 200.253.180.94 255.255.255.255
+!
+interface tunnel-te100
+ description CLARO | Tunnel L2VPN UACC01.RCE -> UACC02.FLA
+ ipv4 unnumbered Loopback0
+ load-interval 30
+ signalled-bandwidth 4000000
+ destination 200.244.28.48
+ path-option 1 explicit name uacc01_rce-uacc02_fla-1 verbatim
+!
+interface tunnel-te101
+ description CLARO | Tunnel 2 L2VPN UACC01.RCE -> IACC01.NTL
+ ipv4 unnumbered Loopback0
+ load-interval 30
+ signalled-bandwidth 1000000
+ destination 200.244.28.23
+ path-option 1 explicit name uacc01_rce-iacc01_ntl-1 verbatim
+!
+interface tunnel-te102
+ description CLARO | Tunnel L2VPN UACC01.RCE -> UACC01.SDR
+ ipv4 unnumbered Loopback0
+ load-interval 30
+ signalled-bandwidth 5000000
+ destination 200.244.29.181
+ path-option 1 explicit name uacc01_rce-uacc01_sdr-1 verbatim
+!
+interface tunnel-te103
+ description CLARO | Tunnel L2VPN UACC01.RCE -> UACC01.FLA
+ ipv4 unnumbered Loopback0
+ load-interval 30
+ signalled-bandwidth 3000000
+ destination 200.244.28.8
+ path-option 1 explicit name uacc01_rce-uacc01_fla-1 verbatim
+!
+interface tunnel-te104
+ description CLARO | Tunnel L2VPN UACC01.RCE -> IACC02.JPA
+ ipv4 unnumbered Loopback0
+ load-interval 30
+ signalled-bandwidth 2000000
+ destination 200.244.27.24
+ path-option 1 explicit name uacc01_rce-iacc02_jpa-1 verbatim
+!
+interface tunnel-te105
+ description CLARO | Tunnel L2VPN UACC01.RCE -> UACC01.SDR 2
+ ipv4 unnumbered Loopback0
+ load-interval 30
+ signalled-bandwidth 5000000
+ destination 200.244.29.181
+ path-option 1 explicit name uacc01_rce-uacc01_sdr-2 verbatim
+!
+interface tunnel-te106
+ description CLARO | Tunnel L2VPN UACC01.RCE -> IACC01.MCO
+ ipv4 unnumbered Loopback0
+ load-interval 30
+ signalled-bandwidth 1000000
+ destination 200.244.28.22
+ path-option 1 explicit name uacc01_rce-iacc01_mco-1 verbatim
+!
+interface tunnel-te107
+ description CLARO | Tunnel L2VPN UACC01.RCE -> IACC01.MCO
+ ipv4 unnumbered Loopback0
+ load-interval 30
+ signalled-bandwidth 1000000
+ destination 200.244.28.22
+ path-option 1 explicit name uacc01_rce-iacc01_mco-2 verbatim
+!
+interface tunnel-te108
+ description CLARO | Tunnel L2VPN UACC01.RCE -> IACC01.NTL
+ ipv4 unnumbered Loopback0
+ load-interval 30
+ signalled-bandwidth 1000000
+ destination 200.244.28.23
+ path-option 1 explicit name uacc01_rce-iacc01_ntl-1 verbatim
+!
+interface tunnel-te109
+ description CLARO | Tunnel L2VPN UACC01.RCE -> DIST01.TSA
+ ipv4 unnumbered Loopback0
+ load-interval 30
+ signalled-bandwidth 3000000
+ destination 200.244.29.61
+ path-option 1 explicit name uacc01_rce-dist01_tsa-1 verbatim
+ path-option 2 explicit name uacc01_rce-dist01_tsa-2 verbatim
+ path-option 3 explicit name uacc01_rce-dist01_tsa-3 verbatim
+ path-option 4 explicit name uacc01_rce-dist01_tsa-4 verbatim
+ path-option 5 explicit name uacc01_rce-dist01_tsa-5 verbatim
+ path-option 6 explicit name uacc01_rce-dist01_tsa-6 verbatim
+ path-option 7 explicit name uacc01_rce-dist01_tsa-7 verbatim
+ path-option 8 explicit name uacc01_rce-dist01_tsa-8 verbatim
+ path-option 9 explicit name uacc01_rce-dist01_tsa-9 verbatim
+!
+interface MgmtEth0/RSP0/CPU0/0
+ shutdown
+!
+interface MgmtEth0/RSP0/CPU0/1
+ shutdown
+!
+interface MgmtEth0/RSP1/CPU0/0
+ shutdown
+!
+interface MgmtEth0/RSP1/CPU0/1
+ shutdown
+!
+interface GigabitEthernet0/0/0/0
+ description RESERVADO PARA NAO USAR - MIGRACAO TRIDENT | ROGERIO | 521-3113 | 07/04/2016
+ shutdown
+!
+interface GigabitEthernet0/0/0/1
+ description NETSERVICOS | 1000M | CGE/IP/00586 | (CGE/IP/00586) | BGP_AS28573
+ bandwidth 1000000
+ ipv4 address 200.172.105.5 255.255.255.252
+ ipv4 verify unicast source reachable-via any allow-self-ping
+ ipv6 nd suppress-ra
+ ipv6 nd dad attempts 0
+ ipv6 address 2804:a8:2:a0::9/126
+ ipv6 enable
+ load-interval 30
+ ipv4 access-group iACL ingress
+!
+interface GigabitEthernet0/0/0/2
+ description RESERVADO PARA NAO USAR - MIGRACAO TRIDENT | ROGERIO | 521-3113 | 07/04/2016
+ shutdown
+!
+interface GigabitEthernet0/0/0/3
+ description RESERVADO PARA NAO USAR - MIGRACAO TRIDENT | ROGERIO | 521-3113 | 07/04/2016
+ ipv4 verify unicast source reachable-via any allow-self-ping allow-default
+ shutdown
+ load-interval 30
+!
+interface GigabitEthernet0/0/0/4
+ shutdown
+!
+interface GigabitEthernet0/0/0/5
+ description RESERVADO PARA NAO USAR - MIGRACAO TRIDENT | ROGERIO | 521-3113 | 07/04/2016
+ shutdown
+!
+interface GigabitEthernet0/0/0/6
+ shutdown
+!
+interface GigabitEthernet0/0/0/7
+ shutdown
+!
+interface GigabitEthernet0/0/0/8
+ description NETSERVICOS | 1000M | CRU/IP/01754 | (CRU/IP/01754) | BGP_AS28573
+ bandwidth 1000000
+ ipv4 address 200.166.214.1 255.255.255.252
+ ipv4 verify unicast source reachable-via any allow-self-ping
+ ipv6 nd suppress-ra
+ ipv6 nd dad attempts 0
+ ipv6 address 2804:a8:2:a0::5/126
+ ipv6 enable
+ load-interval 30
+ ipv4 access-group iACL ingress
+!
+interface GigabitEthernet0/0/0/9
+ description RMS_CLARO | 1G | RCEAM/RCEZQ/1GIP/00* | (OTS: ) | (Informacao Claro: PERCE02-RTD01 - GI 0/3/3/3 VLAN 843)
+ cdp
+ mtu 4492
+ load-interval 30
+ dampening
+!
+interface GigabitEthernet0/0/0/9.843 l2transport
+ description RMS_CLARO | 1G | NTLBE/RCEZQ/DP*V/0003 (PTA.B) | (OTS: 42922/2017) | (XCONNECT C/ IACC01.NTL GIGA1/1/1.843)
+ encapsulation dot1q 843
+ rewrite ingress tag pop 1 symmetric
+ mtu 4492
+ service-policy input CLARO_IN_L2VPN_1G
+ service-policy output CLARO_OUT_L2VPN_1G
+!
+interface GigabitEthernet0/0/0/10
+ description RMS_CLARO | 1G | RCEAM/RCEZQ/1GIP/001 | (OTS: 01653/2016) | (Informacao Claro: PERCE02-RTD01 - GI 0/7/2/3 VLAN 841)
+ cdp
+ mtu 4492
+ load-interval 30
+ dampening
+!
+interface GigabitEthernet0/0/0/10.841 l2transport
+ description RMS_CLARO | 1G | NTLBE/RCEZQ/DP*V/0001 (PTA.B) | (OTS: 12863/2016) | (XCONNECT C/ IACC01.NTL GIGA1/0/4.841)
+ encapsulation dot1q 841
+ rewrite ingress tag pop 1 symmetric
+ mtu 4492
+ service-policy input CLARO_IN_L2VPN_1G
+ service-policy output CLARO_OUT_L2VPN_1G
+!
+interface GigabitEthernet0/0/0/11
+ description RMS_CLARO | 1G | RCEAM/RCEZQ/1GIP/003 | (OTS: 01657/2016) | (Informacao Claro: PERCE02-RTD01 - GI0/4/2/4 VLAN 821)
+ cdp
+ mtu 4492
+ load-interval 30
+ dampening
+!
+interface GigabitEthernet0/0/0/11.821 l2transport
+ description RMS_CLARO | 1G | MCOBJ/RCEZQ/DP*V/0005 (PTA.B) | (OTS: 08693/2016) | (XCONNECT C/ IACC01.MCO GIGA3/0/0.821)
+ encapsulation dot1q 821
+ rewrite ingress tag pop 1 symmetric
+ mtu 4492
+ service-policy input CLARO_IN_L2VPN_1G
+ service-policy output CLARO_OUT_L2VPN_1G
+!
+interface GigabitEthernet0/0/0/12
+ description RMS_CLARO | 1G | RCEAM/RCEZQ/1GIP/002 | (OTS: 01657/2016) | (Informacao Claro: PERCE02-RTD01 - GI0/0/3/1 VLAN 825)
+ cdp
+ mtu 4492
+ load-interval 30
+ dampening
+!
+interface GigabitEthernet0/0/0/12.825 l2transport
+ description RMS_CLARO | 1G | MCOBJ/RCEZQ/DP*V/0007 (PTA.B) | (OTS: 08700/2016) | (XCONNECT C/ IACC01.MCO GIGA3/1/4.825)
+ encapsulation dot1q 825
+ rewrite ingress tag pop 1 symmetric
+ mtu 4492
+ service-policy input CLARO_IN_L2VPN_1G
+ service-policy output CLARO_OUT_L2VPN_1G
+!
+interface GigabitEthernet0/0/0/13
+ description RESERVADO PARA NAO USAR - MIGRACAO TRIDENT | ROGERIO | 521-3113 | 07/04/2016
+ shutdown
+!
+interface GigabitEthernet0/0/0/14
+ description RESERVADO PARA NAO USAR - MIGRACAO TRIDENT | ROGERIO | 521-3113 | 07/04/2016
+ shutdown
+!
+interface GigabitEthernet0/0/0/15
+ description RESERVADO PARA NAO USAR - MIGRACAO TRIDENT | ROGERIO | 521-3113 | 07/04/2016
+ shutdown
+!
+interface GigabitEthernet0/0/0/16
+ description CLARO S A | 1000M | ENLACE ETH CLIENTE
+ bandwidth 1000000
+ shutdown
+!
+interface GigabitEthernet0/0/0/16.906
+ description CLARO S A | 100M | RCE/IP/14274 | (RCE/IP/14274)
+ bandwidth 100000
+ service-policy input QDI_100000K_10_10_15_15_18_1_28
+ service-policy output QDO_100000K_10_10_15_15_18_1_28
+ vrf RCC_CLARO_MPLS1:6254
+ ipv4 address 200.249.142.73 255.255.255.252
+ shutdown
+ load-interval 30
+ encapsulation dot1q 906
+!
+interface GigabitEthernet0/0/0/16.908
+ description CLARO S A | 100000K | RCE/IP/14275 | (RCE/IP/14275)
+ bandwidth 100000
+ service-policy input QDI_100000K_10_10_15_15_18_1_28
+ service-policy output QDO_100000K_10_10_15_15_18_1_28
+ vrf RCC_PRY_MPLS1:6256
+ ipv4 address 200.249.142.61 255.255.255.252
+ shutdown
+ encapsulation dot1q 908
+!
+interface GigabitEthernet0/0/0/16.910
+ description CLARO S A | 30M | RCE/IP/14276 | (RCE/IP/14276)
+ bandwidth 30000
+ service-policy input QDI_30000K_60_0_0_0_0_1_36
+ service-policy output QDO_30000K_60_0_0_0_0_1_36
+ vrf TELEFONIA_TI:7416
+ ipv4 address 200.249.142.101 255.255.255.252
+ shutdown
+ load-interval 30
+ encapsulation dot1q 910
+!
+interface GigabitEthernet0/0/0/16.911
+ description CLARO S A | 300M | RCE/IP/14277 | (RCE/IP/14277)
+ bandwidth 300000
+ service-policy input QPI_BBONE_N_300000_V1
+ service-policy output QPO_BBONE_N_300000_V1
+ vrf AMX_TI:7415
+ ipv4 address 200.249.142.89 255.255.255.252
+ shutdown
+ load-interval 30
+ encapsulation dot1q 911
+!
+interface GigabitEthernet0/0/0/16.912
+ description CLARO S A | 20M | RCE/IP/14268 | (RCE/IP/14268)
+ bandwidth 20000
+ service-policy input QDI_20000K_0_60_0_0_0_1_1
+ service-policy output QDO_20000K_0_60_0_0_0_1_1
+ vrf UNINETMXMPLS:5569
+ ipv4 address 200.249.142.85 255.255.255.252
+ shutdown
+ load-interval 30
+ encapsulation dot1q 912
+!
+interface GigabitEthernet0/0/0/16.991
+ description RCC_RUN_MPLS1 | 100M | RCE/IP/14273 | (RCE/IP/14273)
+ bandwidth 100000
+ service-policy input QDI_100000K_10_10_15_15_18_1_1
+ service-policy output QDO_100000K_10_10_15_15_18_1_1
+ vrf RCC_RUN_MPLS1:4455
+ ipv4 address 200.249.142.41 255.255.255.252
+ shutdown
+ load-interval 30
+ encapsulation dot1q 991
+!
+interface GigabitEthernet0/0/0/17
+ shutdown
+!
+interface GigabitEthernet0/0/0/18
+ description RESERVADO PARA NAO USAR - MIGRACAO TRIDENT | ROGERIO | 521-3113 | 07/04/2016
+ shutdown
+!
+interface GigabitEthernet0/0/0/19
+ description RESERVADO PARA NAO USAR - MIGRACAO TRIDENT | ROGERIO | 521-3113 | 07/04/2016
+ shutdown
+!
+interface TenGigE0/0/0/0
+ description LINK ETH | 10000M | VIABILIDADE EV 7071 | TESTE QT600 | CERTIDAO DE NASCIMENTO-QT600
+!
+interface TenGigE0/0/0/0.100
+ description QUALITY_TEST | 10000M | RCE/PE/81001 | (RCE/PE/81001)
+ bandwidth 10000000
+ service-policy input QPI_BBONE_S_10000000_V1
+ service-policy output QDO_BBONE_S_10000000_V1
+ ipv4 address 189.3.91.97 255.255.255.248
+ ipv4 verify unicast source reachable-via rx allow-self-ping
+ load-interval 30
+ encapsulation dot1q 100
+!
+interface TenGigE0/0/0/0.200
+ description QUALITY_TEST | 10000M | RCE/PE/81002 | (RCE/PE/81002)
+ bandwidth 10000000
+ service-policy input MARCA-VOZ
+ vrf REALIP_SBC:5580
+ ipv4 address 189.3.91.105 255.255.255.248
+ load-interval 30
+ encapsulation dot1q 200
+!
+interface TenGigE0/0/0/0.300
+ description QUALITY_TEST | 10000M | RCE/PE/81003 | (RCE/PE/81003)
+ bandwidth 10000000
+ vrf DHL_TELMEX:6087
+ ipv4 address 189.3.91.113 255.255.255.248
+ load-interval 30
+ encapsulation dot1q 300
+!
+interface TenGigE0/0/0/0.400
+ description QUALITY_TEST | 10000M | RCE/PE/81004 | (RCE/PE/81004)
+ bandwidth 10000000
+ vrf LOJARENNER:153863
+ ipv4 address 200.249.142.21 255.255.255.252
+ load-interval 30
+ encapsulation dot1q 400
+!
+interface TenGigE0/0/0/1
+ description RMS_CLARO | 10G | RCEAM/RCEZQ/B10GIP/002 | (Informacao Claro: PERCE02-RTD01 TenGigE0/4/3/0)
+ mtu 4492
+ load-interval 30
+ dampening
+!
+interface TenGigE0/0/0/1.851 l2transport
+ description RMS_CLARO | 3G | FLABC/RCEZQ/DP*V/0007 (PTA.B) | (OTS: 54595/2015 ITEM: 0002) | (XCONNECT C/ UACC01.FLA TENGIGE0/2/0/1.851)
+ encapsulation dot1q 851
+ rewrite ingress tag pop 1 symmetric
+ mtu 4492
+ service-policy input CLARO_IN_L2VPN_3G
+ service-policy output CLARO_OUT_L2VPN_3G
+!
+interface TenGigE0/0/0/1.891 l2transport
+ description RMS_CLARO | 5G | FLASD2/RCEZQ/DP*V/0001 (PTA.B) | (XCONNECT C/ UACC02.FLA TENGIGE0/2/0/1.891)
+ encapsulation dot1q 891
+ rewrite ingress tag pop 1 symmetric
+ mtu 4492
+ service-policy input CLARO_IN_L2VPN_5G
+ service-policy output CLARO_OUT_L2VPN_5G
+!
+interface TenGigE0/2/0/0
+ description RMS_CLARO | 10G | RCEAM/RCEZQ/B10GIP/004 | (Informacao Claro: PERCE02-RTD01 Te0/2/0/1)
+ mtu 4492
+ load-interval 30
+ dampening
+!
+interface TenGigE0/2/0/0.731 l2transport
+ description RMS_CLARO | 5G | SDR1NM/RCEZQ/DP*V/0006 (PTA.B) | (XCONNECT C/ UACC01.SDR Te0/7/0/2.731)
+ encapsulation dot1q 731
+ rewrite ingress tag pop 1 symmetric
+ mtu 4492
+ service-policy input CLARO_IN_L2VPN_5G
+ service-policy output CLARO_OUT_L2VPN_5G
+!
+interface TenGigE0/2/0/1
+ description RMS_CLARO | 10G | RCEAM/RCEZQ/B10GIP/003 | (OTS:53589/2015 ITEM: 0002) | (Informacao Claro: PERCE02-RTD01 Te0/2/0/2)
+ mtu 4492
+ load-interval 30
+ dampening
+!
+interface TenGigE0/2/0/1.711 l2transport
+ description RMS_CLARO | 5G | SDRZX/RCEZQ/DP*V/0004 (PTA.B) | (OTS:59339/2015 ITEM: 0001) | (XCONNECT C/ UACC01.SDR Te0/7/0/3.711)
+ encapsulation dot1q 711
+ rewrite ingress tag pop 1 symmetric
+ mtu 4492
+ service-policy input CLARO_IN_L2VPN_5G
+ service-policy output CLARO_OUT_L2VPN_5G
+!
+interface TenGigE0/2/0/2
+ description RMS_CLARO | 10G | RCEAM/RCEZQ/B10GIP/006 | (Informacao Claro: PERCE02-RTD01 TE5/0/0)
+ cdp
+ mtu 4492
+ load-interval 30
+ dampening
+!
+interface TenGigE0/2/0/2.861 l2transport
+ description RMS_CLARO | 5G | TSABS/RCEZQ/DP*V/0010 (PTA. A) | (XCONNECT C/ DIST01.TSA Giga3/0/0.861) | (SEM PROTECAO)
+ encapsulation dot1q 861
+ rewrite ingress tag pop 1 symmetric
+ mtu 4492
+ service-policy input CLARO_IN_L2VPN_5G
+ service-policy output CLARO_OUT_L2VPN_5G
+!
+interface TenGigE0/2/0/3
+ description RMS_CLARO | 10G | RCEAM/RCEZQ/B10GIP/005 | (OTS:54587/2015 ITEM: 0002) | (Informacao Claro: PERCE-RTD-01 Te0/2/0/0)
+ mtu 4492
+ load-interval 30
+ dampening
+!
+interface TenGigE0/2/0/3.831 l2transport
+ description RMS_CLARO | 2G | JPALM/RCEZQ/DP*V/0001 (PTA.B) | (OTS: 56987/2015 ITEM: 0001) | XCONNECT C/ IACC02.JPA TE2/1/0.831
+ encapsulation dot1q 831
+ rewrite ingress tag pop 1 symmetric
+ mtu 4492
+ service-policy input CLARO_IN_L2VPN_2G
+ service-policy output CLARO_OUT_L2VPN_2G
+!
+interface TenGigE0/3/0/0
+ description Ligacao TCORE01.RCE | 10G | RCEAMIT/RCEAMIT/10G/008 | (tcore01.rce tengige0/2/5/0)
+ mtu 9208
+ service-policy output SubRateIntBackboneNac_10_20
+ ipv4 mtu 9180
+ ipv4 address 200.244.214.15 255.255.255.254
+ mpls
+  mtu 9180
+ !
+ load-interval 30
+ flow ipv4 monitor IPV4_MONITOR_MAP sampler FNF_SAMPLER_MAP ingress
+ flow ipv6 monitor IPV6_MONITOR_MAP sampler FNF_SAMPLER_MAP ingress
+ flow mpls monitor MPLS_MONITOR_MAP sampler FNF_SAMPLER_MAP ingress
+ dampening
+!
+interface TenGigE0/3/0/1
+ description Ligacao TCORE01.RCE | 10G | RCEAMIT/RCEAMIT/10G/006 | (tcore01.rce tengige0/2/0/0)
+ mtu 9208
+ service-policy output SubRateIntBackboneNac_10_20
+ ipv4 mtu 9180
+ ipv4 address 200.244.213.236 255.255.255.254
+ mpls
+  mtu 9180
+ !
+ load-interval 30
+ flow ipv4 monitor IPV4_MONITOR_MAP sampler FNF_SAMPLER_MAP ingress
+ flow ipv6 monitor IPV6_MONITOR_MAP sampler FNF_SAMPLER_MAP ingress
+ flow mpls monitor MPLS_MONITOR_MAP sampler FNF_SAMPLER_MAP ingress
+ dampening
+!
+interface TenGigE0/3/0/2
+ description RESERVADO PARA BACKBONE IP | ROGERIO | 521-3113 | 05/12/2014
+ shutdown
+!
+interface TenGigE0/3/0/3
+ description RESERVADO PARA BACKBONE IP | ROGERIO | 521-3113 | 05/12/2014
+ shutdown
+!
+interface TenGigE0/7/0/0
+ description Ligacao TCORE02.RCE | 10G | RCEAMIT/RCEAMIT/10G/009 | (tcore02.rce tengige0/1/2/0)
+ mtu 9208
+ service-policy output SubRateIntBackboneNac_10_20
+ ipv4 mtu 9180
+ ipv4 address 200.244.214.17 255.255.255.254
+ mpls
+  mtu 9180
+ !
+ load-interval 30
+ flow ipv4 monitor IPV4_MONITOR_MAP sampler FNF_SAMPLER_MAP ingress
+ flow ipv6 monitor IPV6_MONITOR_MAP sampler FNF_SAMPLER_MAP ingress
+ flow mpls monitor MPLS_MONITOR_MAP sampler FNF_SAMPLER_MAP ingress
+ dampening
+!
+interface TenGigE0/7/0/1
+ description Ligacao TCORE02.RCE | 10G | RCEAMIT/RCEAMIT/10G/007 | (tcore02.rce tengige0/5/2/0)
+ mtu 9208
+ service-policy output SubRateIntBackboneNac_10_20
+ ipv4 mtu 9180
+ ipv4 address 200.244.213.238 255.255.255.254
+ mpls
+  mtu 9180
+ !
+ load-interval 30
+ flow ipv4 monitor IPV4_MONITOR_MAP sampler FNF_SAMPLER_MAP ingress
+ flow ipv6 monitor IPV6_MONITOR_MAP sampler FNF_SAMPLER_MAP ingress
+ flow mpls monitor MPLS_MONITOR_MAP sampler FNF_SAMPLER_MAP ingress
+ dampening
+!
+interface TenGigE0/7/0/2
+ description RESERVADO PARA BACKBONE IP | ROGERIO | 521-3113 | 05/12/2014
+!
+interface TenGigE0/7/0/3
+ description RESERVADO PARA BACKBONE IP | ROGERIO | 521-3113 | 05/12/2014
+!
+interface preconfigure GigabitEthernet0/1/0/0
+ shutdown
+!
+interface preconfigure GigabitEthernet0/1/0/1
+ shutdown
+!
+interface preconfigure GigabitEthernet0/1/0/2
+ shutdown
+!
+interface preconfigure GigabitEthernet0/1/0/3
+ shutdown
+!
+interface preconfigure GigabitEthernet0/1/0/4
+ shutdown
+!
+interface preconfigure GigabitEthernet0/1/0/5
+ shutdown
+!
+interface preconfigure GigabitEthernet0/1/0/6
+ shutdown
+!
+interface preconfigure GigabitEthernet0/1/0/7
+ shutdown
+!
+interface preconfigure GigabitEthernet0/1/0/8
+ shutdown
+!
+interface preconfigure GigabitEthernet0/1/0/9
+ shutdown
+!
+interface preconfigure GigabitEthernet0/1/0/10
+ shutdown
+!
+interface preconfigure GigabitEthernet0/1/0/11
+ shutdown
+!
+interface preconfigure GigabitEthernet0/1/0/12
+ shutdown
+!
+interface preconfigure GigabitEthernet0/1/0/13
+ shutdown
+!
+interface preconfigure GigabitEthernet0/1/0/14
+ shutdown
+!
+interface preconfigure GigabitEthernet0/1/0/15
+ shutdown
+!
+interface preconfigure GigabitEthernet0/1/0/16
+ shutdown
+!
+interface preconfigure GigabitEthernet0/1/0/17
+ shutdown
+!
+interface preconfigure GigabitEthernet0/1/0/18
+ shutdown
+!
+interface preconfigure GigabitEthernet0/1/0/19
+ shutdown
+!
+interface preconfigure TenGigE0/1/0/0
+ shutdown
+!
+interface preconfigure TenGigE0/1/0/1
+ shutdown
+!
+interface preconfigure TenGigE0/4/0/0
+ shutdown
+!
+interface preconfigure TenGigE0/4/0/1
+ shutdown
+!
+interface preconfigure TenGigE0/4/0/2
+ shutdown
+!
+interface preconfigure TenGigE0/4/0/3
+ shutdown
+!
+interface preconfigure TenGigE0/5/0/0
+ shutdown
+!
+interface preconfigure TenGigE0/5/0/1
+ shutdown
+!
+interface preconfigure TenGigE0/5/0/2
+ shutdown
+!
+interface preconfigure TenGigE0/5/0/3
+ shutdown
+!
+interface preconfigure TenGigE0/6/0/0
+ shutdown
+!
+interface preconfigure TenGigE0/6/0/1
+ shutdown
+!
+interface preconfigure TenGigE0/6/0/2
+ shutdown
+!
+interface preconfigure TenGigE0/6/0/3
+ shutdown
+!
+rd-set 4230:6154
+  end-set
+!
+extcommunity-set rt 130
+  4230:5569
+  end-set
+!
+extcommunity-set rt 131
+  28513:50447
+  end-set
+!
+extcommunity-set rt 132
+  4230:6265
+  end-set
+!
+extcommunity-set rt 4230:4357
+  4230:4357
+  end-set
+!
+extcommunity-set rt 4230:153482
+  4230:153482
+  end-set
+!
+extcommunity-set rt 4230:153817
+  4230:153817
+  end-set
+!
+prefix-set SPV_GCPE
+  # Prefixos das coletoras da GCPE
+  200.255.27.192/26 le 32
+  end-set
+!
+prefix-set PrefixSet_1
+  # Prefixos aceitos em anuncios BGP de clientes
+  0.0.0.0/0,
+  10.0.0.0/8 ge 8,
+  172.16.0.0/12 ge 12,
+  187.28.0.0/16 ge 16,
+  187.29.0.0/16 ge 16,
+  187.30.0.0/16 ge 16,
+  189.2.0.0/16 ge 16,
+  189.3.0.0/16 ge 16,
+  189.16.0.0/16 ge 16,
+  189.17.0.0/16 ge 16,
+  189.22.0.0/16 ge 16,
+  189.23.0.0/16 ge 16,
+  189.42.0.0/16 ge 16,
+  189.43.0.0/16 ge 16,
+  189.52.0.0/16 ge 16,
+  189.53.0.0/16 ge 16,
+  189.86.0.0/16 ge 16,
+  189.87.0.0/16 ge 16,
+  189.88.0.0/16 ge 16,
+  192.168.0.0/16 ge 16,
+  200.10.159.0/24 ge 24,
+  200.166.0.0/16 ge 16,
+  200.167.0.0/16 ge 16,
+  200.172.0.0/16 ge 16,
+  200.174.0.0/16 ge 16,
+  200.178.0.0/16 ge 16,
+  200.179.0.0/16 ge 16,
+  200.182.0.0/16 ge 16,
+  200.183.0.0/16 ge 16,
+  200.200.0.0/16 ge 16,
+  200.208.0.0/16 ge 16,
+  200.209.0.0/16 ge 16,
+  200.210.0.0/16 ge 16,
+  200.211.0.0/16 ge 16,
+  200.212.0.0/16 ge 16,
+  200.213.0.0/16 ge 16,
+  200.214.0.0/16 ge 16,
+  200.228.0.0/16 ge 16,
+  200.230.0.0/16 ge 16,
+  200.231.0.0/16 ge 16,
+  200.241.0.0/16 ge 16,
+  200.242.0.0/16 ge 16,
+  200.243.0.0/16 ge 16,
+  200.244.0.0/16 ge 16,
+  200.245.0.0/16 ge 16,
+  200.246.0.0/16 ge 16,
+  200.247.0.0/16 ge 16,
+  200.248.0.0/16 ge 16,
+  200.249.0.0/16 ge 16,
+  200.250.0.0/16 ge 16,
+  200.251.0.0/16 ge 16,
+  200.252.0.0/16 ge 16,
+  200.253.0.0/16 ge 16,
+  200.254.0.0/16 ge 16,
+  200.255.0.0/16 ge 16,
+  201.30.0.0/16 ge 16,
+  201.31.0.0/16 ge 16,
+  201.38.0.0/16 ge 16,
+  201.39.0.0/16 ge 16,
+  201.44.0.0/16 ge 16,
+  201.45.0.0/16 ge 16,
+  201.56.0.0/16 ge 16,
+  201.57.0.0/16 ge 16,
+  201.64.0.0/16 ge 16,
+  201.65.0.0/16 ge 16,
+  201.72.0.0/16 ge 16,
+  201.73.0.0/16 ge 16,
+  201.90.0.0/16 ge 16
+  end-set
+!
+prefix-set IPV6_MARTIANS
+  ::/0,
+  ::1/128,
+  ::/128,
+  ::/96,
+  ::ffff:0.0.0.0/96,
+  ::/8 le 128,
+  fe80::/10 le 128,
+  fec0::/10 le 128,
+  fc00::/7 le 128,
+  ff00::/8 le 128,
+  2001:db8::/32 le 128
+  end-set
+!
+prefix-set PrefixSet_2550
+  # Lista de prefixos conectados que nao devem ser distribuidos no BGP
+  0.0.0.0/32 eq 32,
+  10.0.0.0/8 le 32,
+  172.16.0.0/12 le 32,
+  187.28.0.0/16 eq 16,
+  187.29.0.0/16 eq 16,
+  187.30.0.0/16 eq 16,
+  189.2.0.0/16 eq 16,
+  189.3.0.0/16 eq 16,
+  189.16.0.0/16 eq 16,
+  189.17.0.0/16 eq 16,
+  189.22.0.0/16 eq 16,
+  189.23.0.0/16 eq 16,
+  189.42.0.0/16 eq 16,
+  189.43.0.0/16 eq 16,
+  189.52.0.0/16 eq 16,
+  189.53.0.0/16 eq 16,
+  189.86.0.0/16 eq 16,
+  189.87.0.0/16 eq 16,
+  189.88.0.0/16 eq 16,
+  192.168.0.0/16 le 32,
+  200.244.161.0/24 le 32,
+  200.230.2.0/24 le 32,
+  200.10.159.0/24 eq 24,
+  200.166.0.0/16 eq 16,
+  200.167.0.0/16 eq 16,
+  200.172.0.0/16 eq 16,
+  200.174.0.0/16 eq 16,
+  200.178.0.0/16 eq 16,
+  200.179.0.0/16 eq 16,
+  200.182.0.0/16 eq 16,
+  200.183.0.0/16 eq 16,
+  200.191.0.0/16 eq 16,
+  200.200.0.0/16 eq 16,
+  200.208.0.0/16 eq 16,
+  200.209.0.0/16 eq 16,
+  200.210.0.0/16 eq 16,
+  200.211.0.0/16 eq 16,
+  200.212.0.0/16 eq 16,
+  200.213.0.0/16 eq 16,
+  200.214.0.0/16 eq 16,
+  200.227.0.0/16 eq 16,
+  200.228.0.0/16 eq 16,
+  200.230.0.0/16 eq 16,
+  200.231.0.0/16 eq 16,
+  200.241.0.0/16 eq 16,
+  200.242.0.0/16 eq 16,
+  200.243.0.0/16 eq 16,
+  200.244.0.0/16 eq 16,
+  200.245.0.0/16 eq 16,
+  200.246.0.0/16 eq 16,
+  200.247.0.0/16 eq 16,
+  200.248.0.0/16 eq 16,
+  200.249.0.0/16 eq 16,
+  200.250.0.0/16 eq 16,
+  200.251.0.0/16 eq 16,
+  200.252.0.0/16 eq 16,
+  200.253.0.0/16 eq 16,
+  200.254.0.0/16 eq 16,
+  200.255.0.0/16 eq 16,
+  201.30.0.0/16 eq 16,
+  201.31.0.0/16 eq 16,
+  201.38.0.0/16 eq 16,
+  201.39.0.0/16 eq 16,
+  201.44.0.0/16 eq 16,
+  201.45.0.0/16 eq 16,
+  201.56.0.0/16 eq 16,
+  201.57.0.0/16 eq 16,
+  201.64.0.0/16 eq 16,
+  201.65.0.0/16 eq 16,
+  201.72.0.0/16 eq 16,
+  201.73.0.0/16 eq 16,
+  201.90.0.0/16 eq 16
+  end-set
+!
+prefix-set PrefixSet_4230
+  # Prefixos da Embratel
+  187.28.0.0/16,
+  187.29.0.0/16,
+  187.30.0.0/16,
+  189.2.0.0/16,
+  189.3.0.0/16,
+  189.16.0.0/16,
+  189.17.0.0/16,
+  189.22.0.0/16,
+  189.23.0.0/16,
+  189.42.0.0/16,
+  189.43.0.0/16,
+  189.52.0.0/16,
+  189.53.0.0/16,
+  189.86.0.0/16,
+  189.87.0.0/16,
+  189.88.0.0/16,
+  200.10.159.0/24,
+  200.166.0.0/16,
+  200.167.0.0/16,
+  200.172.0.0/16,
+  200.174.0.0/16,
+  200.178.0.0/16,
+  200.179.0.0/16,
+  200.182.0.0/16,
+  200.183.0.0/16,
+  200.191.0.0/16,
+  200.208.0.0/16,
+  200.209.0.0/16,
+  200.210.0.0/16,
+  200.211.0.0/16,
+  200.212.0.0/16,
+  200.213.0.0/16,
+  200.214.0.0/16,
+  200.227.0.0/16,
+  200.228.0.0/16,
+  200.230.0.0/16,
+  200.231.0.0/16,
+  200.241.0.0/16,
+  200.242.0.0/16,
+  200.243.0.0/16,
+  200.244.0.0/16,
+  200.245.0.0/16,
+  200.246.0.0/16,
+  200.247.0.0/16,
+  200.248.0.0/16,
+  200.249.0.0/16,
+  200.250.0.0/16,
+  200.251.0.0/16,
+  200.252.0.0/16,
+  200.253.0.0/16,
+  200.254.0.0/16,
+  200.255.0.0/16,
+  201.30.0.0/16,
+  201.31.0.0/16,
+  201.38.0.0/16,
+  201.39.0.0/16,
+  201.44.0.0/16,
+  201.45.0.0/16,
+  201.56.0.0/16,
+  201.57.0.0/16,
+  201.64.0.0/16,
+  201.65.0.0/16,
+  201.72.0.0/16,
+  201.73.0.0/16,
+  201.90.0.0/16
+  end-set
+!
+prefix-set REMOTE_NET_WAN
+  # Prefixos aceitos na VRF de GERENCIA - IP WAN VALIDOS
+  187.28.0.0/16 ge 16,
+  187.29.0.0/16 ge 16,
+  187.30.0.0/16 ge 16,
+  189.002.0.0/16 ge 16,
+  189.003.0.0/16 ge 16,
+  189.16.0.0/16 ge 16,
+  189.17.0.0/16 ge 16,
+  189.22.0.0/16 ge 16,
+  189.23.0.0/16 ge 16,
+  189.42.0.0/16 ge 16,
+  189.43.0.0/16 ge 16,
+  189.52.0.0/16 ge 16,
+  189.53.0.0/16 ge 16,
+  189.86.0.0/16 ge 16,
+  189.87.0.0/16 ge 16,
+  200.166.0.0/16 ge 16,
+  200.167.0.0/16 ge 16,
+  200.172.0.0/16 ge 16,
+  200.173.0.0/16 ge 16,
+  200.174.0.0/16 ge 16,
+  200.178.0.0/16 ge 16,
+  200.179.0.0/16 ge 16,
+  200.182.0.0/16 ge 16,
+  200.183.0.0/16 ge 16,
+  200.190.0.0/16 ge 16,
+  200.191.0.0/16 ge 16,
+  200.200.0.0/16 ge 16,
+  200.208.0.0/16 ge 16,
+  200.209.0.0/16 ge 16,
+  200.210.0.0/16 ge 16,
+  200.211.0.0/16 ge 16,
+  200.212.0.0/16 ge 16,
+  200.213.0.0/16 ge 16,
+  200.214.0.0/16 ge 16,
+  200.227.0.0/16 ge 16,
+  200.228.0.0/16 ge 16,
+  200.230.0.0/16 ge 16,
+  200.231.0.0/16 ge 16,
+  200.241.0.0/16 ge 16,
+  200.242.0.0/16 ge 16,
+  200.243.0.0/16 ge 16,
+  200.244.0.0/16 ge 16,
+  200.245.0.0/16 ge 16,
+  200.246.0.0/16 ge 16,
+  200.247.0.0/16 ge 16,
+  200.248.0.0/16 ge 16,
+  200.249.0.0/16 ge 16,
+  200.250.0.0/16 ge 16,
+  200.251.0.0/16 ge 16,
+  200.252.0.0/16 ge 16,
+  200.253.0.0/16 ge 16,
+  200.254.0.0/16 ge 16,
+  200.255.0.0/16 ge 16,
+  201.30.0.0/16 ge 16,
+  201.31.0.0/16 ge 16,
+  201.38.0.0/16 ge 16,
+  201.39.0.0/16 ge 16,
+  201.44.0.0/16 ge 16,
+  201.45.0.0/16 ge 16,
+  201.56.0.0/16 ge 16,
+  201.57.0.0/16 ge 16,
+  201.64.0.0/16 ge 16,
+  201.65.0.0/16 ge 16,
+  201.72.0.0/16 ge 16,
+  201.73.0.0/16 ge 16,
+  201.90.0.0/16 ge 16
+  end-set
+!
+prefix-set PREFIX_ROTA_DEFAULT
+  0.0.0.0/0
+  end-set
+!
+prefix-set PREFIXO_IPV6_EMBRATEL
+  2804:a8::/32 le 128
+  end-set
+!
+prefix-set PrefixSet_PRIMESYS_TPAAS
+  172.28.42.192/27,
+  21.32.11.0/24 le 32,
+  21.32.12.0/24 le 32
+  end-set
+!
+prefix-set PREFIXO_IPV6_CONNECTED_TO_BGP
+  2804:a8::/32 ge 48 le 128
+  end-set
+!
+as-path-set 1
+  ios-regex '^$'
+  end-set
+!
+as-path-set 2
+  ios-regex '^(4230_)+$'
+  end-set
+!
+as-path-set 101
+  ios-regex '^(21506_)+$'
+  end-set
+!
+as-path-set 102
+  ios-regex '^(22085_)+$'
+  end-set
+!
+as-path-set 103
+  ios-regex '^(28573_)+$'
+  end-set
+!
+as-path-set 104
+  ios-regex '_21612_',
+  ios-regex '^(2715_)+$'
+  end-set
+!
+as-path-set 105
+  ios-regex '_22548_',
+  ios-regex '^(11338_)+$'
+  end-set
+!
+as-path-set 107
+  ios-regex '^(28604_)+$'
+  end-set
+!
+as-path-set 108
+  ios-regex '^(53128_)+$'
+  end-set
+!
+as-path-set 200
+  ios-regex '^$'
+  end-set
+!
+community-set 1
+  4230:1
+  end-set
+!
+community-set 2
+  4230:2
+  end-set
+!
+community-set 3
+  4230:30,
+  4230:31,
+  4230:32,
+  4230:33
+  end-set
+!
+community-set 4
+  4230:4
+  end-set
+!
+community-set 5
+  4230:5
+  end-set
+!
+community-set 11
+  4230:11
+  end-set
+!
+community-set 21
+  4230:21
+  end-set
+!
+community-set 30
+  4230:30
+  end-set
+!
+community-set 31
+  4230:31
+  end-set
+!
+community-set 32
+  4230:32
+  end-set
+!
+community-set 33
+  4230:33
+  end-set
+!
+community-set 50
+  4230:50
+  end-set
+!
+community-set 61
+  4230:61
+  end-set
+!
+community-set 62
+  4230:62
+  end-set
+!
+community-set 63
+  4230:63
+  end-set
+!
+community-set 80
+  4230:80
+  end-set
+!
+community-set 101
+  4230:101
+  end-set
+!
+community-set 102
+  4230:102
+  end-set
+!
+community-set 107
+  4230:107
+  end-set
+!
+community-set 108
+  4230:108
+  end-set
+!
+community-set 109
+  4230:109
+  end-set
+!
+community-set 111
+  4230:111
+  end-set
+!
+community-set 112
+  4230:112
+  end-set
+!
+community-set 113
+  4230:113
+  end-set
+!
+community-set 114
+  4230:114
+  end-set
+!
+community-set 115
+  4230:115
+  end-set
+!
+community-set 116
+  4230:116
+  end-set
+!
+community-set 117
+  4230:117
+  end-set
+!
+community-set 118
+  4230:118
+  end-set
+!
+community-set 119
+  4230:119
+  end-set
+!
+community-set 120
+  4230:120
+  end-set
+!
+community-set 121
+  4230:121
+  end-set
+!
+community-set 122
+  4230:122
+  end-set
+!
+community-set 123
+  4230:123
+  end-set
+!
+community-set 124
+  4230:124
+  end-set
+!
+community-set 125
+  4230:125
+  end-set
+!
+community-set 126
+  4230:126
+  end-set
+!
+community-set 127
+  4230:127
+  end-set
+!
+community-set 128
+  4230:128
+  end-set
+!
+community-set 129
+  4230:129
+  end-set
+!
+community-set 131
+  4230:131
+  end-set
+!
+community-set 132
+  4230:132
+  end-set
+!
+community-set 133
+  4230:133
+  end-set
+!
+community-set 134
+  4230:134
+  end-set
+!
+community-set 135
+  4230:135
+  end-set
+!
+community-set 141
+  4230:141
+  end-set
+!
+community-set 142
+  4230:142
+  end-set
+!
+community-set 143
+  4230:143
+  end-set
+!
+community-set 144
+  4230:144
+  end-set
+!
+community-set 145
+  4230:145
+  end-set
+!
+community-set 148
+  4230:148
+  end-set
+!
+community-set 149
+  4230:5581
+  end-set
+!
+community-set 151
+  4230:151
+  end-set
+!
+community-set 152
+  4230:152
+  end-set
+!
+community-set 154
+  4230:154
+  end-set
+!
+community-set 161
+  4230:161
+  end-set
+!
+community-set 162
+  4230:162
+  end-set
+!
+community-set 163
+  4230:163
+  end-set
+!
+community-set 165
+  4230:165
+  end-set
+!
+community-set 167
+  4230:167
+  end-set
+!
+community-set 168
+  4230:168
+  end-set
+!
+community-set 169
+  4230:169
+  end-set
+!
+community-set 171
+  4230:171
+  end-set
+!
+community-set 172
+  4230:172
+  end-set
+!
+community-set 173
+  4230:173
+  end-set
+!
+community-set 174
+  4230:174
+  end-set
+!
+community-set 175
+  4230:175
+  end-set
+!
+community-set 176
+  4230:176
+  end-set
+!
+community-set 179
+  4230:179
+  end-set
+!
+community-set 181
+  4230:181
+  end-set
+!
+community-set 182
+  4230:182
+  end-set
+!
+community-set 183
+  4230:183
+  end-set
+!
+community-set 184
+  4230:184
+  end-set
+!
+community-set 185
+  4230:185
+  end-set
+!
+community-set 186
+  4230:186
+  end-set
+!
+community-set 187
+  4230:187
+  end-set
+!
+community-set 188
+  4230:188
+  end-set
+!
+community-set 191
+  4230:191
+  end-set
+!
+community-set 192
+  4230:192
+  end-set
+!
+community-set 193
+  4230:193
+  end-set
+!
+community-set 194
+  4230:194
+  end-set
+!
+community-set 195
+  4230:195
+  end-set
+!
+community-set 196
+  4230:196
+  end-set
+!
+community-set 198
+  4230:198
+  end-set
+!
+community-set 421
+  65521:121,
+  65521:103,
+  65521:105,
+  65521:107,
+  65531:131,
+  65531:103,
+  65531:107
+  end-set
+!
+community-set BHE
+  4230:311
+  end-set
+!
+community-set BLM
+  4230:911
+  end-set
+!
+community-set BSA
+  4230:611
+  end-set
+!
+community-set CAS
+  4230:191
+  end-set
+!
+community-set CTA
+  4230:411
+  end-set
+!
+community-set FLA
+  4230:851
+  end-set
+!
+community-set PAE
+  4230:511
+  end-set
+!
+community-set RJO
+  4230:211
+  end-set
+!
+community-set SDR
+  4230:711
+  end-set
+!
+community-set SPO
+  4230:111
+  end-set
+!
+community-set SPO2
+  4230:112
+  end-set
+!
+community-set RJO_21
+  4230:21
+  end-set
+!
+community-set SPO_11
+  4230:11
+  end-set
+!
+community-set ANVISA-GER
+  65001:4357
+  end-set
+!
+community-set ANVISA-VOIP
+  65001:4356
+  end-set
+!
+community-set COMM_PEERINGS
+  4230:2
+  end-set
+!
+community-set MCI_BLACKHOLE
+  701:9999
+  end-set
+!
+community-set VRF_DNPM_VOIP
+  323:323
+  end-set
+!
+community-set COMM_NO_EXPORT
+  4230:50
+  end-set
+!
+community-set GBLX_BLACKHOLE
+  3549:666
+  end-set
+!
+community-set TATA_BLACKHOLE
+  64999:0
+  end-set
+!
+community-set TINET_BLACKHOLE
+  3257:2666
+  end-set
+!
+community-set SPRINT_BLACKHOLE
+  1239:66
+  end-set
+!
+community-set BLACKHOLE_MIA_EBT
+  4230:10005
+  end-set
+!
+community-set BLACKHOLE_NAC_EBT
+  4230:10001
+  end-set
+!
+community-set BLACKHOLE_INTL_EBT
+  4230:10003
+  end-set
+!
+community-set BLACKHOLE_MIA_CLIENTE
+  4230:10004
+  end-set
+!
+community-set BLACKHOLE_NAC_CLIENTE
+  4230:10000
+  end-set
+!
+community-set INTELIQUENT_BLACKHOLE
+  3257:2666
+  end-set
+!
+community-set TELIASONERA_BLACKHOLE
+  1299:999
+  end-set
+!
+community-set BLACKHOLE_INTL_CLIENTE
+  4230:10002
+  end-set
+!
+community-set COMM_AGREGADO_EMBRATEL
+  4230:5
+  end-set
+!
+community-set COMM_PROVEDORES_TRANSITO
+  4230:1
+  end-set
+!
+community-set COMM_CLIENTES_PARA_OUTROS_CLIENTES
+  4230:30,
+  4230:31,
+  4230:32,
+  4230:33
+  end-set
+!
+route-policy STATIC
+  # RPL utilizada na redistribuicao de rotas estaticas no processo BGP
+  #
+  if (tag eq 200) or (destination in PrefixSet_2550) then
+    drop
+  else
+    set origin igp
+    set community (4230:50, 4230:181)
+  endif
+  end-policy
+!
+route-policy DEFAULT
+  # RPL utilizada na fast convergence
+  #
+  if (destination in PREFIX_ROTA_DEFAULT) then
+    drop
+  else
+    pass
+  endif
+  end-policy
+!
+route-policy CONNECTED
+  # RPL utilizada na redistribuicao de rotas conectadas no processo BGP
+  #
+  if (destination in PrefixSet_2550) then
+    drop
+  else
+    set origin igp
+    set community (4230:50, 4230:181)
+  endif
+  end-policy
+!
+route-policy NO-ROUTES
+  drop
+  end-policy
+!
+route-policy NO_ROUTES
+  drop
+  end-policy
+!
+route-policy REALIP_SBC
+  if community matches-any 149 then
+    pass
+  else
+    drop
+  endif
+  end-policy
+!
+route-policy RR_IPV4_IN
+  if community matches-any (4230:10000, 4230:10001, 4230:10006, 4230:10007, 4230:10008, 4230:10009) then
+    set next-hop 200.10.159.254
+  elseif community matches-any (4230:[10002..10005]) then
+    drop
+  else
+    pass
+  endif
+  end-policy
+!
+route-policy RR_IPV6_IN
+  if community matches-any (4230:10000, 4230:10001) then
+    set next-hop 200.10.159.254
+  elseif community matches-any (4230:[10002..10005]) then
+    drop
+  else
+    pass
+  endif
+  end-policy
+!
+route-policy SBC_CLIENTE
+  set community (4230:3108)
+  end-policy
+!
+route-policy GERENCIA_GCPE
+  if (destination in SPV_GCPE) then
+    drop
+  else
+    if (destination in REMOTE_NET_WAN) and (as-path in 200) then
+      pass
+    else
+      drop
+    endif
+  endif
+  end-policy
+!
+route-policy BBRASIL_CE_OUT
+  if community matches-any 421 then
+    pass
+  endif
+  end-policy
+!
+route-policy DNPM_EXPORT_MAP
+  if (community matches-any VRF_DNPM_VOIP) then
+    set extcommunity rt 4230:153482
+  else
+    pass
+  endif
+  end-policy
+!
+route-policy LATAM_TELMEX_286
+  set community (28513:286, 28513:1281)
+  end-policy
+!
+route-policy ANVISA_EXPORT_MAP
+  if community matches-any ANVISA-VOIP then
+    set extcommunity rt 4230:153817
+  elseif community matches-any ANVISA-GER then
+    set extcommunity rt 4230:4357
+  else
+    pass
+  endif
+  end-policy
+!
+route-policy BBRASIL_MARCA_SOO
+  set extcommunity soo (65521:1)
+  end-policy
+!
+route-policy IMP_TLP_AMB_CLARO
+  if extcommunity rt matches-any 130 then
+    pass
+  elseif extcommunity rt matches-any 131 then
+    pass
+  elseif extcommunity rt matches-any 132 and destination in PrefixSet_PRIMESYS_TPAAS then
+    pass
+  else
+    drop
+  endif
+  end-policy
+!
+route-policy STATIC_TO_BGP_IPV6
+  if not (tag eq 200) then
+    set community (4230:50, 4230:21, 4230:181)
+    set origin igp
+  endif
+  end-policy
+!
+route-policy CONNECTED_TO_BGP_IPV6
+  if (destination in PREFIXO_IPV6_CONNECTED_TO_BGP) then
+    set community (4230:50, 4230:21, 4230:181)
+    set origin igp
+  endif
+  end-policy
+!
+route-policy FULL-ROUTING_OUT_IPV6
+  if (community matches-any COMM_NO_EXPORT) then
+    drop
+  elseif (community matches-any COMM_PROVEDORES_TRANSITO) then
+    pass
+  elseif (community matches-any COMM_PEERINGS) then
+    pass
+  elseif (community matches-any COMM_CLIENTES_PARA_OUTROS_CLIENTES) then
+    pass
+  elseif (community matches-any COMM_AGREGADO_EMBRATEL) then
+    pass
+  endif
+  end-policy
+!
+route-policy PARTIAL-ROUTING_OUT_IPV6
+  if (community matches-any COMM_NO_EXPORT) then
+    drop
+  elseif (community matches-any COMM_PEERINGS) then
+    pass
+  elseif (community matches-any COMM_CLIENTES_PARA_OUTROS_CLIENTES) then
+    pass
+  elseif (community matches-any COMM_AGREGADO_EMBRATEL) then
+    pass
+  endif
+  end-policy
+!
+route-policy NETSERVICOS_IPV4_POLICY_IN
+  if not as-path in (ios-regex '^(28573_)+$') then
+    drop
+  elseif (destination in PrefixSet_1) then
+    drop
+  else
+    apply CLIENTES_IPV4_RANGE_PROPRIO_COMMON_POLICY_IN
+  endif
+  end-policy
+!
+route-policy NETSERVICOS_IPV6_POLICY_IN
+  if not as-path in (ios-regex '^(28573_)+$') then
+    drop
+  elseif (destination in IPV6_MARTIANS) then
+    drop
+  elseif (destination in PREFIXO_IPV6_EMBRATEL) then
+    drop
+  else
+    apply CLIENTES_IPV6_RANGE_PROPRIO_COMMON_POLICY_IN
+  endif
+  end-policy
+!
+route-policy CLIENTES_IPV6_RANGE_EBT_COMMON_POLICY_IN
+  set community (4230:50, 4230:21, 4230:181)
+  if community matches-any (4230:10000) then
+    set next-hop ::ffff:200.10.159.254
+    set local-preference 120
+    set weight 65535
+    set community (4230:10000) additive
+  elseif community matches-any (4230:10002) then
+    set local-preference 120
+    set weight 65535
+    set community (4230:10002) additive
+  elseif community matches-any (4230:10004) then
+    set local-preference 120
+    set weight 65535
+    set community (4230:10004) additive
+  elseif community matches-any (4230:80) then
+    set local-preference 80
+    set community (4230:80) additive
+  elseif community matches-any (4230:120) then
+    set local-preference 120
+    set community (4230:120) additive
+  endif
+  end-policy
+!
+route-policy CLIENTES_IPV4_RANGE_PROPRIO_COMMON_POLICY_IN
+  set community (4230:21, 4230:181)
+  if community matches-any (4230:10000) then
+    set next-hop 200.10.159.254
+    set local-preference 120
+    set weight 65535
+    set community (4230:10000, 4230:50) additive
+  elseif community matches-any (4230:10002) then
+    set local-preference 120
+    set weight 65535
+    set community (4230:10002, 4230:50) additive
+  elseif community matches-any (4230:10004) then
+    set local-preference 120
+    set weight 65535
+    set community (4230:10004, 4230:50) additive
+  else
+    if community matches-any (4230:80) then
+      set local-preference 80
+      set community (4230:80) additive
+    elseif community matches-any (4230:120) then
+      set local-preference 120
+      set community (4230:120) additive
+    endif
+    if community matches-any (4230:61) then
+      set community (4230:61) additive
+    elseif community matches-any (4230:62) then
+      set community (4230:62) additive
+    elseif community matches-any (4230:63) then
+      set community (4230:63) additive
+    endif
+    if community matches-any (4230:30) then
+      set community (4230:30) additive
+    elseif community matches-any (4230:31) then
+      set community (4230:31) additive
+    elseif community matches-any (4230:32) then
+      set community (4230:32) additive
+    elseif community matches-any (4230:33) then
+      set community (4230:33) additive
+    elseif community matches-any (4230:4) then
+      set community (4230:4) additive
+    else
+      set community (4230:30) additive
+    endif
+  endif
+  end-policy
+!
+route-policy CLIENTES_IPV6_RANGE_PROPRIO_COMMON_POLICY_IN
+  set community (4230:21, 4230:181)
+  if community matches-any (4230:10000) then
+    set next-hop ::ffff:200.10.159.254
+    set local-preference 120
+    set weight 65535
+    set community (4230:10000, 4230:50) additive
+  elseif community matches-any (4230:10002) then
+    set local-preference 120
+    set weight 65535
+    set community (4230:10002, 4230:50) additive
+  elseif community matches-any (4230:10004) then
+    set local-preference 120
+    set weight 65535
+    set community (4230:10004, 4230:50) additive
+  else
+    if community matches-any (4230:80) then
+      set local-preference 80
+      set community (4230:80) additive
+    elseif community matches-any (4230:120) then
+      set local-preference 120
+      set community (4230:120) additive
+    endif
+    if community matches-any (4230:61) then
+      set community (4230:61) additive
+    elseif community matches-any (4230:62) then
+      set community (4230:62) additive
+    elseif community matches-any (4230:63) then
+      set community (4230:63) additive
+    endif
+    if community matches-any (4230:30) then
+      set community (4230:30) additive
+    elseif community matches-any (4230:31) then
+      set community (4230:31) additive
+    elseif community matches-any (4230:32) then
+      set community (4230:32) additive
+    elseif community matches-any (4230:33) then
+      set community (4230:33) additive
+    elseif community matches-any (4230:4) then
+      set community (4230:4, 4230:50) additive
+    else
+      set community (4230:30) additive
+    endif
+  endif
+  end-policy
+!
+router static
+ address-family ipv4 unicast
+  10.0.0.0/8 Null0 tag 200
+  100.64.0.0/10 Null0 tag 200
+  169.254.0.0/16 Null0 tag 200
+  172.16.0.0/12 Null0 tag 200
+  187.28.0.0/16 Null0 tag 200
+  187.29.0.0/16 Null0 tag 200
+  187.30.0.0/16 Null0 tag 200
+  189.2.0.0/16 Null0 tag 200
+  189.3.0.0/16 Null0 tag 200
+  189.3.91.96/28 TenGigE0/0/0/0.100 200.249.142.6
+  189.3.91.112/29 TenGigE0/0/0/0.100 200.249.142.6
+  189.16.0.0/16 Null0 tag 200
+  189.17.0.0/16 Null0 tag 200
+  189.22.0.0/16 Null0 tag 200
+  189.23.0.0/16 Null0 tag 200
+  189.42.0.0/16 Null0 tag 200
+  189.43.0.0/16 Null0 tag 200
+  189.52.0.0/16 Null0 tag 200
+  189.53.0.0/16 Null0 tag 200
+  189.86.0.0/16 Null0 tag 200
+  189.87.0.0/16 Null0 tag 200
+  189.88.0.0/16 Null0 tag 200
+  192.0.0.0/24 Null0 tag 200
+  192.0.2.0/24 Null0 tag 200
+  192.88.99.0/24 Null0 tag 200
+  192.168.0.0/16 Null0 tag 200
+  198.18.0.0/15 Null0 tag 200
+  198.51.100.0/24 Null0 tag 200
+  200.10.159.0/24 Null0 tag 200
+  200.10.159.254/32 Null0 tag 200
+  200.166.0.0/16 Null0 tag 200
+  200.167.0.0/16 Null0 tag 200
+  200.172.0.0/16 Null0 tag 200
+  200.174.0.0/16 Null0 tag 200
+  200.178.0.0/16 Null0 tag 200
+  200.179.0.0/16 Null0 tag 200
+  200.182.0.0/16 Null0 tag 200
+  200.183.0.0/16 Null0 tag 200
+  200.191.0.0/16 Null0 tag 200
+  200.200.0.0/16 Null0 tag 200
+  200.208.0.0/16 Null0 tag 200
+  200.209.0.0/16 Null0 tag 200
+  200.210.0.0/16 Null0 tag 200
+  200.211.0.0/16 Null0 tag 200
+  200.212.0.0/16 Null0 tag 200
+  200.213.0.0/16 Null0 tag 200
+  200.214.0.0/16 Null0 tag 200
+  200.227.0.0/16 Null0 tag 200
+  200.228.0.0/16 Null0 tag 200
+  200.230.0.0/16 Null0 tag 200
+  200.230.2.0/24 Null0 tag 200
+  200.231.0.0/16 Null0 tag 200
+  200.241.0.0/16 Null0 tag 200
+  200.242.0.0/16 Null0 tag 200
+  200.243.0.0/16 Null0 tag 200
+  200.244.0.0/16 Null0 tag 200
+  200.245.0.0/16 Null0 tag 200
+  200.246.0.0/16 Null0 tag 200
+  200.247.0.0/16 Null0 tag 200
+  200.248.0.0/16 Null0 tag 200
+  200.249.0.0/16 Null0 tag 200
+  200.250.0.0/16 Null0 tag 200
+  200.251.0.0/16 Null0 tag 200
+  200.252.0.0/16 Null0 tag 200
+  200.253.0.0/16 Null0 tag 200
+  200.254.0.0/16 Null0 tag 200
+  200.255.0.0/16 Null0 tag 200
+  201.30.0.0/16 Null0 tag 200
+  201.31.0.0/16 Null0 tag 200
+  201.38.0.0/16 Null0 tag 200
+  201.39.0.0/16 Null0 tag 200
+  201.44.0.0/16 Null0 tag 200
+  201.45.0.0/16 Null0 tag 200
+  201.56.0.0/16 Null0 tag 200
+  201.57.0.0/16 Null0 tag 200
+  201.64.0.0/16 Null0 tag 200
+  201.65.0.0/16 Null0 tag 200
+  201.72.0.0/16 Null0 tag 200
+  201.73.0.0/16 Null0 tag 200
+  201.90.0.0/16 Null0 tag 200
+  203.0.113.0/24 Null0 tag 200
+ !
+ address-family ipv6 unicast
+  ::ffff:200.10.159.254/128 Null0 tag 200
+  2001:db8::/32 Null0 tag 200
+  2804:a8::/32 Null0 tag 200
+  fc00::/7 Null0 tag 200
+  fec0::/10 Null0 tag 200
+ !
+!
+ospf name-lookup
+router ospf 21
+ nsr
+ log adjacency changes detail
+ router-id 200.244.28.10
+ bfd minimum-interval 100
+ bfd fast-detect
+ bfd multiplier 3
+ mpls ldp sync
+ priority 0
+ dead-interval 4
+ retransmit-interval 30
+ hello-interval 1
+ nsf cisco
+ timers throttle lsa all 0 20 2000
+ timers throttle spf 50 50 2000
+ timers lsa min-arrival 20
+ timers pacing flood 25
+ auto-cost reference-bandwidth 100000
+ max-metric router-lsa on-startup 600 summary-lsa external-lsa
+ area 810
+  mpls traffic-eng
+  interface Loopback0
+  !
+  interface TenGigE0/3/0/0
+   cost 10
+   network point-to-point
+  !
+  interface TenGigE0/3/0/1
+   cost 10
+   network point-to-point
+  !
+  interface TenGigE0/7/0/0
+   cost 10
+   network point-to-point
+  !
+  interface TenGigE0/7/0/1
+   cost 10
+   network point-to-point
+  !
+ !
+ mpls traffic-eng router-id 200.244.28.10
+ mpls traffic-eng multicast-intact
+!
+router bgp 4230
+ bfd minimum-interval 999
+ bfd multiplier 3
+ bgp router-id 200.244.28.10
+ bgp graceful-restart restart-time 120
+ bgp graceful-restart graceful-reset
+ bgp graceful-restart stalepath-time 360
+ bgp graceful-restart
+ bgp bestpath med always
+ address-family ipv4 unicast
+  bgp dampening
+  bgp attribute-download
+  nexthop route-policy DEFAULT
+  nexthop trigger-delay critical 1000
+  redistribute connected route-policy CONNECTED
+  redistribute static route-policy STATIC
+ !
+ address-family vpnv4 unicast
+ !
+ address-family ipv6 unicast
+  redistribute connected route-policy CONNECTED_TO_BGP_IPV6
+  redistribute static route-policy STATIC_TO_BGP_IPV6
+  allocate-label all
+ !
+ address-family vpnv6 unicast
+ !
+ address-family ipv4 mdt
+ !
+ neighbor-group IBGP_FULL
+  remote-as 4230
+  update-source Loopback0
+  address-family ipv4 unicast
+   next-hop-self
+  !
+ !
+ neighbor-group RR-IPV4V6
+  remote-as 4230
+  update-source Loopback0
+  address-family ipv4 unicast
+   route-policy RR_IPV4_IN in
+   maximum-prefix 1048576 75
+   next-hop-self
+  !
+  address-family ipv6 labeled-unicast
+   route-policy RR_IPV6_IN in
+   maximum-prefix 524288 75
+  !
+ !
+ neighbor-group VRR-VPNv4v6
+  remote-as 4230
+  update-source Loopback0
+  address-family vpnv4 unicast
+   next-hop-self
+  !
+  address-family vpnv6 unicast
+   next-hop-self
+  !
+  address-family ipv4 mdt
+   next-hop-self
+  !
+ !
+ neighbor-group FULL-ROUTING-IPV6
+  address-family ipv6 unicast
+   route-policy FULL-ROUTING_OUT_IPV6 out
+   remove-private-AS
+  !
+ !
+ neighbor-group PARTIAL-ROUTING-IPV6
+  address-family ipv6 unicast
+   route-policy PARTIAL-ROUTING_OUT_IPV6 out
+   remove-private-AS
+  !
+ !
+ neighbor-group NO-ROUTES_BGP-LIGHT-IPV6
+  address-family ipv6 unicast
+   route-policy NO-ROUTES out
+   remove-private-AS
+  !
+ !
+ neighbor-group DEFAULT-ROUTE_BGP-LIGHT-IPV6
+  address-family ipv6 unicast
+   route-policy NO-ROUTES out
+   default-originate
+   remove-private-AS
+  !
+ !
+ neighbor 187.183.192.1
+  remote-as 28573
+  ebgp-multihop 3
+  shutdown
+  description NETSERVICOS CGE
+  update-source Loopback52288
+  address-family ipv4 unicast
+   send-community-ebgp
+   route-policy NETSERVICOS_IPV4_POLICY_IN in
+   maximum-prefix 200 85
+   route-policy NO_ROUTES out
+   default-originate
+   remove-private-AS
+  !
+ !
+ neighbor 200.166.214.2
+  remote-as 28573
+  description NETSERVICOS
+  address-family ipv4 unicast
+   send-community-ebgp
+   route-policy NETSERVICOS_IPV4_POLICY_IN in
+   maximum-prefix 200 85
+   route-policy NO_ROUTES out
+   default-originate
+   remove-private-AS
+  !
+ !
+ neighbor 200.172.105.6
+  remote-as 28573
+  description NETSERVICOS
+  address-family ipv4 unicast
+   send-community-ebgp
+   route-policy NETSERVICOS_IPV4_POLICY_IN in
+   maximum-prefix 200 85
+   route-policy NO_ROUTES out
+   default-originate
+   remove-private-AS
+  !
+ !
+ neighbor 200.242.191.18
+  remote-as 28573
+  shutdown
+  description NETSERVICOS
+  address-family ipv4 unicast
+   send-community-ebgp
+   route-policy NETSERVICOS_IPV4_POLICY_IN in
+   maximum-prefix 200 85
+   route-policy NO_ROUTES out
+   default-originate
+   remove-private-AS
+  !
+ !
+ neighbor 200.244.28.30
+  use neighbor-group VRR-VPNv4v6
+  description VRR01.FLA
+ !
+ neighbor 200.244.28.32
+  use neighbor-group VRR-VPNv4v6
+  description VRR01. SDR
+ !
+ neighbor 200.244.29.14
+  remote-as 4230
+  shutdown
+  description MP-BGP_BSERV01.SDR
+  update-source Loopback0
+  address-family vpnv4 unicast
+   next-hop-self
+  !
+  address-family ipv4 mdt
+   next-hop-self
+  !
+ !
+ neighbor 200.244.29.15
+  remote-as 4230
+  shutdown
+  description MP-BGP_BSERV01.FLA
+  update-source Loopback0
+  address-family vpnv4 unicast
+   next-hop-self
+  !
+  address-family ipv4 mdt
+   next-hop-self
+  !
+ !
+ neighbor 200.244.29.71
+  remote-as 4230
+  description MP-BGP_LBSERV01.RCE
+  update-source Loopback0
+  address-family vpnv4 unicast
+   next-hop-self
+  !
+  address-family ipv4 mdt
+   next-hop-self
+  !
+ !
+ neighbor 200.244.29.136
+  use neighbor-group RR-IPV4V6
+  description RR01.RCE
+ !
+ neighbor 200.244.29.137
+  use neighbor-group RR-IPV4V6
+  description RR02.RCE
+ !
+ neighbor 2804:a8:2:9a::16
+  remote-as 28573
+  use neighbor-group FULL-ROUTING-IPV6
+  description NETSERVICOS_IPV6
+  address-family ipv6 unicast
+   route-policy NETSERVICOS_IPV6_POLICY_IN in
+   maximum-prefix 10 50 warning-only
+   as-override
+  !
+ !
+ neighbor 2804:a8:2:a0::6
+  remote-as 28573
+  use neighbor-group FULL-ROUTING-IPV6
+  description NETSERVICOS_IPV6
+  address-family ipv6 unicast
+   route-policy NETSERVICOS_IPV6_POLICY_IN in
+   maximum-prefix 10 50 warning-only
+  !
+ !
+ neighbor 2804:a8:2:a0::a
+  remote-as 28573
+  use neighbor-group FULL-ROUTING-IPV6
+  description NETSERVICOS_IPV6
+  address-family ipv6 unicast
+   route-policy NETSERVICOS_IPV6_POLICY_IN in
+   maximum-prefix 10 50 warning-only
+  !
+ !
+ vrf DNPM:3963
+  rd 4230:3963
+  address-family ipv4 unicast
+   maximum-paths eibgp 2
+   bgp dampening
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf AMX_TI:7415
+  rd 4230:7415
+  address-family ipv4 unicast
+   bgp dampening
+   as-path-loopcheck out disable
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf COPAGAZ:1377
+  rd 4230:1377
+  address-family ipv4 unicast
+   bgp dampening
+   redistribute connected route-policy SBC_CLIENTE
+   redistribute static
+  !
+ !
+ vrf MPF_NOVA:6114
+  rd 4230:6114
+  address-family ipv4 unicast
+   maximum-paths eibgp 3
+   bgp dampening
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf INFOSUS:154344
+  rd 4230:154344
+  address-family ipv4 unicast
+   maximum-paths eibgp 2
+   bgp dampening
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf DHL_TELMEX:6087
+  rd 4230:6087
+  address-family ipv4 unicast
+   maximum-paths eibgp 2
+   bgp dampening
+   redistribute connected route-policy LATAM_TELMEX_286
+   redistribute static route-policy LATAM_TELMEX_286
+  !
+ !
+ vrf REALIP_SBC:5580
+  rd 4230:5580
+  address-family ipv4 unicast
+   bgp dampening
+   as-path-loopcheck out disable
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf LOJARENNER:153863
+  rd 4230:153863
+  address-family ipv4 unicast
+   maximum-paths eibgp 2
+   bgp dampening
+   redistribute connected route-policy SBC_CLIENTE
+   redistribute static
+  !
+ !
+ vrf TELEFONIA_TI:7416
+  rd 4230:7416
+  address-family ipv4 unicast
+   bgp dampening
+   as-path-loopcheck out disable
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf UNINETMXMPLS:5569
+  rd 4230:5569
+  address-family ipv4 unicast
+   bgp dampening
+   as-path-loopcheck out disable
+   redistribute connected route-policy LATAM_TELMEX_286
+   redistribute static route-policy LATAM_TELMEX_286
+  !
+ !
+ vrf NORSKHYDROASA:7140
+  rd 4230:7140
+  address-family ipv4 unicast
+   bgp dampening
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf RCC_RUN_MPLS1:4455
+  rd 4230:4455
+  address-family ipv4 unicast
+   bgp dampening
+   as-path-loopcheck out disable
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf RCC_CLARO_MPLS1:6254
+  rd 4230:6254
+  address-family ipv4 unicast
+   bgp dampening
+   as-path-loopcheck out disable
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf DIEBOLD_EXTRANET:155476
+  rd 4230:155476
+  address-family ipv4 unicast
+   bgp dampening
+   redistribute connected
+   redistribute static
+  !
+ !
+!
+l2vpn
+ pw-class L2VPN_CLARO_RCE_FLA
+  encapsulation mpls
+   protocol ldp
+   control-word
+   transport-mode vlan
+   preferred-path interface tunnel-te 100
+  !
+ !
+ pw-class L2VPN_CLARO_RCE_JPA
+  encapsulation mpls
+   protocol ldp
+   control-word
+   transport-mode vlan
+   preferred-path interface tunnel-te 104
+  !
+ !
+ pw-class L2VPN_CLARO_RCE_MCO
+  encapsulation mpls
+   protocol ldp
+   control-word
+   transport-mode vlan
+   preferred-path interface tunnel-te 106
+  !
+ !
+ pw-class L2VPN_CLARO_RCE_NTL
+  encapsulation mpls
+   protocol ldp
+   control-word
+   transport-mode vlan
+   preferred-path interface tunnel-te 108
+  !
+ !
+ pw-class L2VPN_CLARO_RCE_SDR
+  encapsulation mpls
+   protocol ldp
+   control-word
+   transport-mode vlan
+   preferred-path interface tunnel-te 102
+  !
+ !
+ pw-class L2VPN_CLARO_RCE_FLA_2
+  encapsulation mpls
+   protocol ldp
+   control-word
+   transport-mode vlan
+   preferred-path interface tunnel-te 103
+  !
+ !
+ pw-class L2VPN_CLARO_RCE_MCO_2
+  encapsulation mpls
+   protocol ldp
+   control-word
+   transport-mode vlan
+   preferred-path interface tunnel-te 107
+  !
+ !
+ pw-class L2VPN_CLARO_RCE_NTL_2
+  encapsulation mpls
+   protocol ldp
+   control-word
+   transport-mode vlan
+   load-balancing pw-label
+   preferred-path interface tunnel-te 101
+  !
+ !
+ pw-class L2VPN_CLARO_RCE_SDR_2
+  encapsulation mpls
+   protocol ldp
+   control-word
+   transport-mode vlan
+   preferred-path interface tunnel-te 105
+  !
+ !
+ pw-class L2VPN_CLARO_RCE_TSA_2
+  encapsulation mpls
+   protocol ldp
+   control-word
+   transport-mode vlan
+   preferred-path interface tunnel-te 109 fallback disable
+  !
+ !
+ xconnect group CLARO
+  p2p CLARO_RCE_FLA
+   interface TenGigE0/0/0/1.891
+   neighbor 200.244.28.48 pw-id 100
+    pw-class L2VPN_CLARO_RCE_FLA
+   !
+  !
+  p2p CLARO_RCE_JPA
+   interface TenGigE0/2/0/3.831
+   neighbor 200.244.27.24 pw-id 104
+    pw-class L2VPN_CLARO_RCE_JPA
+   !
+  !
+  p2p CLARO_RCE_MCO
+   interface GigabitEthernet0/0/0/11.821
+   neighbor 200.244.28.22 pw-id 106
+    pw-class L2VPN_CLARO_RCE_MCO
+   !
+  !
+  p2p CLARO_RCE_NTL
+   interface GigabitEthernet0/0/0/10.841
+   neighbor 200.244.28.23 pw-id 108
+    pw-class L2VPN_CLARO_RCE_NTL
+   !
+  !
+  p2p CLARO_RCE_SDR
+   interface TenGigE0/2/0/0.731
+   neighbor 200.244.29.181 pw-id 102
+    pw-class L2VPN_CLARO_RCE_SDR
+   !
+  !
+  p2p CLARO_RCE_FLA_2
+   interface TenGigE0/0/0/1.851
+   neighbor 200.244.28.8 pw-id 103
+    pw-class L2VPN_CLARO_RCE_FLA_2
+   !
+  !
+  p2p CLARO_RCE_MCO_2
+   interface GigabitEthernet0/0/0/12.825
+   neighbor 200.244.28.22 pw-id 107
+    pw-class L2VPN_CLARO_RCE_MCO_2
+   !
+  !
+  p2p CLARO_RCE_NTL_2
+   interface GigabitEthernet0/0/0/9.843
+   neighbor 200.244.28.23 pw-id 101
+    pw-class L2VPN_CLARO_RCE_NTL_2
+   !
+  !
+  p2p CLARO_RCE_SDR_2
+   interface TenGigE0/2/0/1.711
+   neighbor 200.244.29.181 pw-id 105
+    pw-class L2VPN_CLARO_RCE_SDR
+   !
+  !
+  p2p CLARO_RCE_TSA_2
+   interface TenGigE0/2/0/2.861
+   neighbor 200.244.29.61 pw-id 109
+    pw-class L2VPN_CLARO_RCE_TSA_2
+   !
+  !
+ !
+!
+mpls oam
+!
+rsvp
+ interface TenGigE0/3/0/0
+  bandwidth 10000000 10000000 sub-pool 5000000
+ !
+ interface TenGigE0/3/0/1
+  bandwidth 10000000 10000000 sub-pool 5000000
+ !
+ interface TenGigE0/7/0/0
+  bandwidth 10000000 10000000 sub-pool 5000000
+ !
+ interface TenGigE0/7/0/1
+  bandwidth 10000000 10000000 sub-pool 5000000
+ !
+!
+mpls traffic-eng
+ interface TenGigE0/3/0/0
+ !
+ interface TenGigE0/3/0/1
+ !
+ interface TenGigE0/7/0/0
+ !
+ interface TenGigE0/7/0/1
+ !
+!
+mpls ldp
+ router-id 200.244.28.10
+ discovery targeted-hello accept from ACL_LOOPBACK0
+ nsr
+ graceful-restart
+ session protection duration 86400
+ igp sync delay 30
+ label
+  allocate for host-routes
+ !
+ log
+  neighbor
+  graceful-restart
+  session-protection
+  nsr
+ !
+ interface TenGigE0/3/0/0
+ !
+ interface TenGigE0/3/0/1
+ !
+ interface TenGigE0/7/0/0
+ !
+ interface TenGigE0/7/0/1
+ !
+!
+!---------------------------------------------------------------------------
+!    MULTICAST - MPF_NOVA:6114
+!---------------------------------------------------------------------------
+multicast-routing
+ address-family ipv4
+  interface Loopback0
+   enable
+  !
+  interface TenGigE0/3/0/0
+   enable
+  !
+  interface TenGigE0/3/0/1
+   enable
+  !
+  interface TenGigE0/7/0/0
+   enable
+  !
+  interface TenGigE0/7/0/1
+   enable
+  !
+  nsf
+  mdt source Loopback0
+  ssm range ACL_99
+  rate-per-route
+  accounting per-prefix
+ !
+ vrf RCC_RUN_MPLS1:4455
+  address-family ipv4
+   mdt data 239.232.22.0/24
+   mdt default ipv4 239.232.0.21
+   rate-per-route
+   interface all enable
+   accounting per-prefix
+  !
+ !
+!
+ssh server v2
+ssh server vrf default
+ssh server logging
+ssh timeout 60
+ssh server rate-limit 30
+ssh server session-limit 50
+hw-module location 0/0/CPU0 qos-mode qos-child-shaping-disabled
+hw-module location 0/2/CPU0 qos-mode qos-child-shaping-disabled
+hw-module location 0/3/CPU0 qos-mode qos-child-shaping-disabled
+hw-module location 0/7/CPU0 qos-mode qos-child-shaping-disabled
+hw-module profile scale l3
+xml agent tty
+ iteration on size 500
+!
+snmp-server traps sensor
+ipsla
+ responder
+ !
+!
+router pim
+ address-family ipv4
+  log neighbor changes
+  interface Loopback0
+   enable
+  !
+  interface TenGigE0/3/0/0
+   enable
+  !
+  interface TenGigE0/3/0/1
+   enable
+  !
+  interface TenGigE0/7/0/0
+   enable
+  !
+  interface TenGigE0/7/0/1
+   enable
+  !
+ !
+ vrf RCC_RUN_MPLS1:4455
+  address-family ipv4
+   log neighbor changes
+  !
+ !
+!
+end
+
+RP/0/RSP0/CPU0:uacc01.rce#

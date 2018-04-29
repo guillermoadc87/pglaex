@@ -1,0 +1,12 @@
+terminal length 0
+Tue Mar 20 11:42:01.191 COL
+RP/0/RSP0/CPU0:THBATVVILLAVICENCIO#show configuration running-config
+Tue Mar 20 11:42:01.710 COL
+Building configuration...
+!! IOS XR Configuration 4.3.4
+!! Last configuration change at Wed Aug 30 05:36:43 2017 by areyes
+!
+configuration display interface slot-order
+end
+
+RP/0/RSP0/CPU0:THBATVVILLAVICENCIO#

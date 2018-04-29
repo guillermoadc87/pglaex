@@ -1,0 +1,5236 @@
+<!-- Manual de PHP -->
+<html>
+<head>
+   <title>LG VPN UniNet</title>
+</head>
+<body>
+
+<!--<table cellpadding="0" cellspacing="0" border="0" width="250" align="center">-->
+<table border="0" width="850">
+  <tr>
+	<td colspan="2">
+		<img src="uninet_top_full.jpg" border="0" alt="VPN UniNet">
+	 
+  </tr>
+  <tr>
+    <td><font size="5" face="Courier" color='#3366FF'>VPN UniNet Looking Glass   
+    <td align="right"><font size="3" face="Courier" color='#3366FF'>Friday 28th of July 2017 12:56:06 PM
+12.145.193.9
+gestionred@reduno.com.mx   
+  </tr>
+</table>
+
+<table border="0" width='850'>
+<tr><td valign='top'><font size="3" face="Courier" color='#3366FF'>
+Available commands:
+
+traceroute a.b.c.d
+traceroute vrf &lt;arguments&gt;
+ping a.b.c.d
+ping vrf &lt;arguments&gt;	 
+ 
+<td><font size="3" face="Courier" color='#3366FF'>
+IOS commands:
+
+show atm pvc
+show policy-map
+show policy-map interface &lt;arguments&gt;
+show route-map
+show ip vrf
+show ip route vrf &lt;arguments&gt;
+show ip bgp vpnv4 &lt;arguments&gt;
+show ip interface brief
+show ip prefix-list
+show ip access-list
+show interface &#91;arguments&#93;
+show interface description
+show controllers &lt;arguments&gt;
+show configuration
+show running-config
+show running-config interface &lt;arguments&gt;
+show running-config | include route-map
+show running-config | include address-family ipv4 vrf
+show running-config | include interface
+show running-config | include class-map
+show running-config | include policy-map
+show running-config | include ip route vrf
+show running-config | include access-list	 
+ 
+<td valign='top'><font size="3" face="Courier" color='#3366FF'>
+IOSXR commands:
+
+show rpl policy-global
+show vrf
+show route vrf &lt;arguments&gt;
+show bgp vpnv4 unicast vrf &lt;arguments&gt;
+show bgp vrf &lt;arguments&gt;
+show prefix-list
+show access-list	 
+ 
+</tr>
+</table>
+
+
+
+<font size="3" face="Courier" color='#3366FF'>
+<form action="lgvpnuninet.php" method="post">
+Source [IP|hostname]:
+<input type="text" name="ip" size="71" maxlength="70"/>
+-l0.uninet.net.mx
+
+
+
+Command             :
+<input type="text" name="cmd" size="71" maxlength="70"/>
+<input type="submit" name='submit' value="Submit" />
+
+</form>
+ 
+
+<font size="-1" face="Courier">
+
+   Granted
+Source IP: 201.154.56.184
+Command  : show running-config
+Equipment model: cisco12410
+
+
+
+ R E S U L T :
+
+Fri Jul 28 12:56:14.709 DST
+Building configuration...
+!! IOS XR Configuration 4.3.2
+!! Last configuration change at Wed Jul 26 19:22:31 2017 by accenture
+!
+hw-module subslot 0/0/0 cardtype e1
+hw-module subslot 0/0/1 cardtype e1
+hw-module subslot 0/5/3 cardtype e3
+hostname inet-tam-nuevolaredo-18
+clock timezone CDT -6
+clock summer-time DST recurring first sunday april 02:00 last sunday october 02:00
+banner motd ^
+!NOTIFICACION IMPORTANTE!
+El Acceso a este recurso de Red se encuentra restringido a solo
+Personal Autorizado,  cualquier acceso no permitido repercutira
+en Acciones Juridicas y Legales.
+S.S.I.
+^
+logging trap debugging
+logging console disable
+logging buffered 4000000
+logging buffered debugging
+logging 200.33.150.14 vrf default severity info
+logging 200.33.150.44 vrf default severity info
+logging 200.33.150.58 vrf default severity info
+logging 200.33.150.74 vrf default severity info
+logging 200.33.150.106 vrf default severity info
+logging 200.33.150.147 vrf default severity info
+logging 201.125.120.160 vrf default severity info
+logging source-interface Loopback0
+service timestamps log datetime localtime
+service timestamps debug datetime localtime
+telnet vrf default ipv4 server max-servers 6 access-list 15
+domain name uninet.net.mx
+domain name-server 200.33.148.196
+domain name-server 200.33.148.202
+domain lookup disable
+taskgroup rootsys
+ inherit taskgroup sysadmin
+ inherit taskgroup root-system
+ inherit taskgroup cisco-support
+!
+tacacs source-interface Loopback0 vrf default
+tacacs-server host 200.33.150.68 port 49
+!
+tacacs-server host 192.100.232.42 port 49
+!
+tacacs-server key 7 15455B08032E0A053B076676
+username ssrdivmty
+ group operator
+ group root-system
+ group cisco-support
+ password 7 105E054D0A1F570748
+!
+aaa accounting exec default start-stop group tacacs+
+aaa accounting network default start-stop group tacacs+
+aaa accounting commands default start-stop group tacacs+
+aaa authorization exec default group tacacs+ local
+aaa authorization commands default group tacacs+ none
+aaa authentication login default group tacacs+ local
+aaa default-taskgroup rootsys
+cdp
+selective-vrf-download
+ disable
+!
+line console
+ password 7 13150E420209517F683669
+ exec-timeout 60 0
+!
+line default
+ password 7 00140A560D5E5E534C330D
+ exec-timeout 60 0
+ access-class ingress 15
+!
+line template COU_GPE_INN
+ exec-timeout 20 0
+ access-class ingress 17
+!
+vty-pool default 0 4
+vty-pool COU_GPE_INN 5 5 line-template COU_GPE_INN
+telnet ipv4 client source-interface Loopback0
+snmp-server ifmib ifalias long
+snmp-server engineID local 00000009020000603EE23E20
+snmp-server host 148.233.150.211 traps r34d
+snmp-server host 192.100.232.1 traps r34d
+snmp-server host 192.100.232.1 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.2 traps r34d
+snmp-server host 192.100.232.2 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.3 traps r34d
+snmp-server host 192.100.232.3 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.4 traps r34d
+snmp-server host 192.100.232.4 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.5 traps r34d
+snmp-server host 192.100.232.5 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.6 traps r34d
+snmp-server host 192.100.232.6 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.33 traps r34d
+snmp-server host 192.100.232.33 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.34 traps r34d
+snmp-server host 192.100.232.34 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.37 traps r34d
+snmp-server host 192.100.232.37 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.38 traps r34d
+snmp-server host 192.100.232.38 traps azJ4Zqz6gFKltBde
+snmp-server host 200.33.150.87 traps r34d
+snmp-server host 200.33.150.87 traps azJ4Zqz6gFKltBde
+snmp-server host 200.33.150.100 traps r34d
+snmp-server host 201.125.120.129 traps azJ4Zqz6gFKltBde
+snmp-server community r34d RO 13
+snmp-server community wr1t3 RW 13
+snmp-server community LFB38gq8nVcVr2sF RW 13
+snmp-server community azJ4Zqz6gFKltBde RO 13
+snmp-server traps rf
+snmp-server traps snmp
+snmp-server traps snmp linkup
+snmp-server traps snmp linkdown
+snmp-server traps snmp coldstart
+snmp-server traps snmp warmstart
+snmp-server traps snmp authentication
+snmp-server traps config
+snmp-server traps entity
+snmp-server traps syslog
+snmp-server trap-source Loopback0
+ntp
+ server 200.33.150.196
+ source Loopback0
+ update-calendar
+!
+service cli indentation disable
+tftp client source-interface Loopback0
+ethernet cfm
+ domain UNINET level 7
+  service UNINET_TAMNUEVOLAREDO-18_5013 down-meps
+   continuity-check interval 10s
+   mep crosscheck
+    mep-id 5013
+   !
+   efd
+   log efd
+  !
+ !
+!
+control-plane
+ management-plane
+  inband
+   interface all
+    allow SSH
+    allow SNMP peer
+     address ipv4 187.210.234.67
+     address ipv4 187.210.234.68
+     address ipv4 187.210.234.69
+     address ipv4 187.210.234.70
+     address ipv4 187.210.234.71
+     address ipv4 189.254.31.44
+     address ipv4 189.254.31.45
+     address ipv4 189.254.31.52
+     address ipv4 189.254.31.59
+     address ipv4 192.100.232.1
+     address ipv4 192.100.232.2
+     address ipv4 192.100.232.3
+     address ipv4 192.100.232.4
+     address ipv4 192.100.232.5
+     address ipv4 192.100.232.6
+     address ipv4 192.100.232.7
+     address ipv4 192.100.232.8
+     address ipv4 192.100.232.9
+     address ipv4 192.100.232.10
+     address ipv4 192.100.232.31
+     address ipv4 192.100.232.33
+     address ipv4 192.100.232.34
+     address ipv4 192.100.232.35
+     address ipv4 192.100.232.37
+     address ipv4 192.100.232.38
+     address ipv4 192.100.232.51
+     address ipv4 192.100.232.52
+     address ipv4 192.100.232.53
+     address ipv4 192.100.232.54
+     address ipv4 192.100.232.64
+     address ipv4 200.4.151.13
+     address ipv4 200.33.150.5
+     address ipv4 200.33.150.7
+     address ipv4 200.33.150.8
+     address ipv4 200.33.150.11
+     address ipv4 200.33.150.14
+     address ipv4 200.33.150.15
+     address ipv4 200.33.150.19
+     address ipv4 200.33.150.30
+     address ipv4 200.33.150.31
+     address ipv4 200.33.150.32
+     address ipv4 200.33.150.39
+     address ipv4 200.33.150.46
+     address ipv4 200.33.150.58
+     address ipv4 200.33.150.61
+     address ipv4 200.33.150.66
+     address ipv4 200.33.150.70
+     address ipv4 200.33.150.71
+     address ipv4 200.33.150.74
+     address ipv4 200.33.150.78
+     address ipv4 200.33.150.83
+     address ipv4 200.33.150.84
+     address ipv4 200.33.150.87
+     address ipv4 200.33.150.89
+     address ipv4 200.33.150.94
+     address ipv4 200.33.150.99
+     address ipv4 200.33.150.101
+     address ipv4 200.33.150.102
+     address ipv4 200.33.150.106
+     address ipv4 200.33.150.111
+     address ipv4 200.33.150.112
+     address ipv4 200.33.150.133
+     address ipv4 200.33.150.196
+     address ipv4 200.33.150.202
+     address ipv4 200.33.150.203
+     address ipv4 200.33.150.204
+     address ipv4 201.125.120.129
+     address ipv4 201.125.120.130
+     address ipv4 201.125.120.131
+     address ipv4 201.125.120.132
+     address ipv4 201.125.120.134
+     address ipv4 201.125.120.136
+     address ipv4 201.125.120.137
+     address ipv4 201.125.120.139
+     address ipv4 201.125.120.141
+     address ipv4 201.125.120.143
+     address ipv4 201.125.120.144
+     address ipv4 201.125.120.145
+     address ipv4 201.125.120.146
+     address ipv4 201.125.120.170
+     address ipv4 201.125.120.171
+     address ipv4 201.125.120.172
+     address ipv4 201.125.120.178
+     address ipv4 201.125.120.179
+     address ipv4 201.125.120.180
+     address ipv4 201.125.120.181
+     address ipv4 201.125.120.182
+     address ipv4 201.125.120.183
+     address ipv4 204.124.107.62
+    !
+    allow TFTP
+    allow Telnet
+   !
+  !
+ !
+!
+ipv4 access-list 1
+ 10 permit ipv4 any any
+!
+ipv4 access-list 3
+ 10 deny ipv4 host 0.0.0.0 any
+ 20 permit ipv4 any any
+!
+ipv4 access-list 13
+ 10 permit ipv4 host 192.100.232.1 any
+ 20 permit ipv4 host 192.100.232.10 any
+ 30 permit ipv4 host 192.100.232.2 any
+ 40 permit ipv4 host 192.100.232.3 any
+ 50 permit ipv4 host 192.100.232.31 any
+ 60 permit ipv4 host 192.100.232.33 any
+ 70 permit ipv4 host 192.100.232.34 any
+ 80 permit ipv4 host 192.100.232.35 any
+ 90 permit ipv4 host 192.100.232.37 any
+ 100 permit ipv4 host 192.100.232.38 any
+ 110 permit ipv4 host 192.100.232.4 any
+ 120 permit ipv4 host 192.100.232.5 any
+ 130 permit ipv4 host 192.100.232.51 any
+ 140 permit ipv4 host 192.100.232.52 any
+ 150 permit ipv4 host 192.100.232.53 any
+ 160 permit ipv4 host 192.100.232.54 any
+ 170 permit ipv4 host 192.100.232.6 any
+ 180 permit ipv4 host 192.100.232.64 any
+ 190 permit ipv4 host 192.100.232.7 any
+ 200 permit ipv4 host 192.100.232.8 any
+ 210 permit ipv4 host 192.100.232.9 any
+ 220 permit ipv4 host 200.33.150.101 any
+ 230 permit ipv4 host 200.33.150.102 any
+ 240 permit ipv4 host 200.33.150.106 any
+ 250 permit ipv4 host 200.33.150.11 any
+ 260 permit ipv4 host 200.33.150.111 any
+ 270 permit ipv4 host 200.33.150.112 any
+ 280 permit ipv4 host 200.33.150.14 any
+ 290 permit ipv4 host 200.33.150.15 any
+ 300 permit ipv4 host 200.33.150.19 any
+ 310 permit ipv4 host 200.33.150.196 any
+ 320 permit ipv4 host 200.33.150.202 any
+ 330 permit ipv4 host 200.33.150.203 any
+ 340 permit ipv4 host 200.33.150.204 any
+ 350 permit ipv4 host 200.33.150.30 any
+ 360 permit ipv4 host 200.33.150.31 any
+ 370 permit ipv4 host 200.33.150.32 any
+ 380 permit ipv4 host 200.33.150.39 any
+ 390 permit ipv4 host 200.33.150.46 any
+ 400 permit ipv4 host 200.33.150.5 any
+ 410 permit ipv4 host 200.33.150.58 any
+ 420 permit ipv4 host 200.33.150.61 any
+ 430 permit ipv4 host 200.33.150.66 any
+ 440 permit ipv4 host 200.33.150.7 any
+ 450 permit ipv4 host 200.33.150.70 any
+ 460 permit ipv4 host 200.33.150.71 any
+ 470 permit ipv4 host 200.33.150.74 any
+ 480 permit ipv4 host 200.33.150.78 any
+ 490 permit ipv4 host 200.33.150.8 any
+ 500 permit ipv4 host 200.33.150.84 any
+ 510 permit ipv4 host 200.33.150.87 any
+ 520 permit ipv4 host 200.33.150.89 any
+ 530 permit ipv4 host 200.33.150.94 any
+ 540 permit ipv4 host 200.33.150.99 any
+ 550 permit ipv4 host 200.33.150.133 any
+ 560 permit ipv4 host 200.4.151.13 any
+ 570 permit ipv4 host 201.125.120.129 any
+ 580 permit ipv4 host 201.125.120.130 any
+ 590 permit ipv4 host 201.125.120.131 any
+ 600 permit ipv4 host 201.125.120.132 any
+ 610 permit ipv4 host 201.125.120.134 any
+ 620 permit ipv4 host 201.125.120.136 any
+ 630 permit ipv4 host 201.125.120.137 any
+ 640 permit ipv4 host 201.125.120.139 any
+ 650 permit ipv4 host 201.125.120.141 any
+ 660 permit ipv4 host 201.125.120.143 any
+ 670 permit ipv4 host 201.125.120.144 any
+ 680 permit ipv4 host 201.125.120.145 any
+ 690 permit ipv4 host 201.125.120.146 any
+ 700 permit ipv4 host 201.125.120.170 any
+ 710 permit ipv4 host 201.125.120.171 any
+ 720 permit ipv4 host 201.125.120.172 any
+ 730 permit ipv4 host 201.125.120.178 any
+ 740 permit ipv4 host 201.125.120.179 any
+ 750 permit ipv4 host 201.125.120.180 any
+ 760 permit ipv4 host 201.125.120.181 any
+ 770 permit ipv4 host 201.125.120.182 any
+ 780 permit ipv4 host 201.125.120.183 any
+ 790 permit ipv4 200.33.150.0 0.0.0.255 any
+ 800 deny ipv4 any any log
+!
+ipv4 access-list 15
+ 10 permit ipv4 host 148.223.32.153 any
+ 20 permit ipv4 host 148.223.58.141 any
+ 30 permit ipv4 host 148.223.104.169 any
+ 40 permit ipv4 host 148.223.107.77 any
+ 50 permit ipv4 host 148.223.149.249 any
+ 60 permit ipv4 host 148.223.167.13 any
+ 70 permit ipv4 host 148.223.181.105 any
+ 80 permit ipv4 host 148.223.201.153 any
+ 90 permit ipv4 host 148.223.206.237 any
+ 100 permit ipv4 host 148.223.223.77 any
+ 110 permit ipv4 host 148.223.240.33 any
+ 120 permit ipv4 host 148.223.255.231 any
+ 130 permit ipv4 host 148.233.15.93 any
+ 140 permit ipv4 host 148.233.75.241 any
+ 150 permit ipv4 host 148.233.139.157 any
+ 160 permit ipv4 host 148.233.152.165 any
+ 170 permit ipv4 host 148.233.164.4 any
+ 180 permit ipv4 host 148.233.238.225 any
+ 190 permit ipv4 host 148.235.231.121 any
+ 200 permit ipv4 host 200.23.243.45 any
+ 210 permit ipv4 host 200.36.40.205 any
+ 220 permit ipv4 host 200.38.192.112 any
+ 230 permit ipv4 host 200.38.192.113 any
+ 240 permit ipv4 host 200.38.192.114 any
+ 250 permit ipv4 host 200.38.192.116 any
+ 260 permit ipv4 host 200.38.192.117 any
+ 270 permit ipv4 host 200.38.192.119 any
+ 280 permit ipv4 host 200.38.192.120 any
+ 290 permit ipv4 host 200.38.192.8 any
+ 300 permit ipv4 host 200.38.193.140 any
+ 310 permit ipv4 host 200.38.193.141 any
+ 320 permit ipv4 host 200.38.193.168 any
+ 330 permit ipv4 host 200.38.193.170 any
+ 340 permit ipv4 host 200.38.193.171 any
+ 350 permit ipv4 host 200.38.193.173 any
+ 360 permit ipv4 host 200.38.193.176 any
+ 370 permit ipv4 host 200.38.193.179 any
+ 380 permit ipv4 host 200.38.193.184 any
+ 390 permit ipv4 host 200.38.193.205 any
+ 400 permit ipv4 host 200.38.193.206 any
+ 410 permit ipv4 host 200.38.193.210 any
+ 420 permit ipv4 host 200.38.193.212 any
+ 430 permit ipv4 host 200.38.193.218 any
+ 440 permit ipv4 host 200.38.193.219 any
+ 450 permit ipv4 host 200.38.193.228 any
+ 460 permit ipv4 host 200.38.193.235 any
+ 470 permit ipv4 host 200.38.193.236 any
+ 480 permit ipv4 host 200.38.193.240 any
+ 490 permit ipv4 host 200.38.193.241 any
+ 500 permit ipv4 host 200.38.193.246 any
+ 510 permit ipv4 host 200.38.193.250 any
+ 520 permit ipv4 host 200.38.193.251 any
+ 530 permit ipv4 host 200.38.193.252 any
+ 540 permit ipv4 host 200.38.193.253 any
+ 550 permit ipv4 host 200.38.193.254 any
+ 560 permit ipv4 host 200.38.193.52 any
+ 570 permit ipv4 host 200.38.193.54 any
+ 580 permit ipv4 host 200.38.193.60 any
+ 590 permit ipv4 host 200.38.195.3 any
+ 600 permit ipv4 host 200.38.195.5 any
+ 610 permit ipv4 host 200.38.195.6 any
+ 620 permit ipv4 host 200.38.195.8 any
+ 630 permit ipv4 host 200.38.195.9 any
+ 640 permit ipv4 host 200.38.196.4 any
+ 650 permit ipv4 host 200.38.196.5 any
+ 660 permit ipv4 host 200.38.196.7 any
+ 670 permit ipv4 host 200.38.198.15 any
+ 680 permit ipv4 host 200.38.198.3 any
+ 690 permit ipv4 host 200.38.198.7 any
+ 700 permit ipv4 host 200.38.199.2 any
+ 710 permit ipv4 host 200.38.202.2 any
+ 720 permit ipv4 host 200.38.202.7 any
+ 730 permit ipv4 host 200.79.11.71 any
+ 740 permit ipv4 148.235.159.80 0.0.0.3 any
+ 750 permit ipv4 189.146.77.216 0.0.0.3 any
+ 760 permit ipv4 189.247.172.24 0.0.0.3 any
+ 770 permit ipv4 189.247.172.28 0.0.0.3 any
+ 780 permit ipv4 189.247.172.40 0.0.0.3 any
+ 790 permit ipv4 189.247.172.44 0.0.0.3 any
+ 800 permit ipv4 189.249.88.48 0.0.0.3 any
+ 810 permit ipv4 189.249.88.52 0.0.0.3 any
+ 820 permit ipv4 189.249.88.56 0.0.0.3 any
+ 830 permit ipv4 189.249.88.60 0.0.0.3 any
+ 840 permit ipv4 201.134.146.184 0.0.0.3 any
+ 850 permit ipv4 201.134.146.188 0.0.0.3 any
+ 860 permit ipv4 201.134.146.192 0.0.0.3 any
+ 870 permit ipv4 201.134.146.196 0.0.0.3 any
+ 880 permit ipv4 148.235.127.48 0.0.0.7 any
+ 890 permit ipv4 189.233.1.0 0.0.0.7 any
+ 900 permit ipv4 200.33.146.184 0.0.0.7 any
+ 910 permit ipv4 200.33.146.192 0.0.0.7 any
+ 920 permit ipv4 201.144.94.8 0.0.0.7 any
+ 930 permit ipv4 148.235.159.224 0.0.0.15 any
+ 940 permit ipv4 200.66.128.0 0.0.0.15 any
+ 950 permit ipv4 148.233.229.224 0.0.0.31 any
+ 960 permit ipv4 200.38.131.192 0.0.0.63 any
+ 970 permit ipv4 148.233.188.128 0.0.0.127 any
+ 980 permit ipv4 148.223.15.0 0.0.0.255 any
+ 990 permit ipv4 148.223.31.0 0.0.0.255 any
+ 1000 permit ipv4 148.223.43.0 0.0.0.255 any
+ 1010 permit ipv4 148.223.79.0 0.0.0.255 any
+ 1020 permit ipv4 148.223.84.0 0.0.0.255 any
+ 1030 permit ipv4 148.223.95.0 0.0.0.255 any
+ 1040 permit ipv4 148.223.97.0 0.0.0.255 any
+ 1050 permit ipv4 148.223.121.0 0.0.0.255 any
+ 1060 permit ipv4 148.223.144.0 0.0.0.255 any
+ 1070 permit ipv4 148.223.182.0 0.0.0.255 any
+ 1080 permit ipv4 148.223.184.0 0.0.0.255 any
+ 1090 permit ipv4 148.223.190.0 0.0.0.255 any
+ 1100 permit ipv4 148.223.191.0 0.0.0.255 any
+ 1110 permit ipv4 148.223.202.0 0.0.0.255 any
+ 1120 permit ipv4 148.223.219.0 0.0.0.255 any
+ 1130 permit ipv4 148.223.243.0 0.0.0.255 any
+ 1140 permit ipv4 148.233.23.0 0.0.0.255 any
+ 1150 permit ipv4 148.233.31.0 0.0.0.255 any
+ 1160 permit ipv4 148.233.118.0 0.0.0.255 any
+ 1170 permit ipv4 148.233.131.0 0.0.0.255 any
+ 1180 permit ipv4 148.233.135.0 0.0.0.255 any
+ 1190 permit ipv4 148.233.153.0 0.0.0.255 any
+ 1200 permit ipv4 148.233.158.0 0.0.0.255 any
+ 1210 permit ipv4 148.233.159.0 0.0.0.255 any
+ 1220 permit ipv4 148.233.175.0 0.0.0.255 any
+ 1230 permit ipv4 148.233.187.0 0.0.0.255 any
+ 1240 permit ipv4 148.233.191.0 0.0.0.255 any
+ 1250 permit ipv4 148.233.239.0 0.0.0.255 any
+ 1260 permit ipv4 148.235.14.0 0.0.0.255 any
+ 1270 permit ipv4 148.235.24.0 0.0.0.255 any
+ 1280 permit ipv4 148.235.39.0 0.0.0.255 any
+ 1290 permit ipv4 148.235.58.0 0.0.0.255 any
+ 1300 permit ipv4 148.235.59.0 0.0.0.255 any
+ 1310 permit ipv4 148.235.71.0 0.0.0.255 any
+ 1320 permit ipv4 148.235.75.0 0.0.0.255 any
+ 1330 permit ipv4 148.235.78.0 0.0.0.255 any
+ 1340 permit ipv4 148.235.81.0 0.0.0.255 any
+ 1350 permit ipv4 148.235.85.0 0.0.0.255 any
+ 1360 permit ipv4 148.235.87.0 0.0.0.255 any
+ 1370 permit ipv4 148.235.109.0 0.0.0.255 any
+ 1380 permit ipv4 148.235.110.0 0.0.0.255 any
+ 1390 permit ipv4 148.235.139.0 0.0.0.255 any
+ 1400 permit ipv4 148.235.145.0 0.0.0.255 any
+ 1410 permit ipv4 148.235.149.0 0.0.0.255 any
+ 1420 permit ipv4 148.235.155.0 0.0.0.255 any
+ 1430 permit ipv4 148.235.157.0 0.0.0.255 any
+ 1440 permit ipv4 148.235.165.0 0.0.0.255 any
+ 1450 permit ipv4 148.235.167.0 0.0.0.255 any
+ 1460 permit ipv4 148.235.175.0 0.0.0.255 any
+ 1470 permit ipv4 148.235.186.0 0.0.0.255 any
+ 1480 permit ipv4 192.100.232.0 0.0.0.255 any
+ 1490 permit ipv4 200.33.137.0 0.0.0.255 any
+ 1500 permit ipv4 200.33.150.0 0.0.0.255 any
+ 1510 permit ipv4 200.38.141.0 0.0.0.255 any
+ 1520 permit ipv4 200.79.4.0 0.0.0.255 any
+ 1530 permit ipv4 200.79.21.0 0.0.0.255 any
+ 1540 permit ipv4 200.79.26.0 0.0.0.255 any
+ 1550 permit ipv4 200.79.39.0 0.0.0.255 any
+ 1560 permit ipv4 200.79.44.0 0.0.0.255 any
+ 1570 permit ipv4 200.79.88.0 0.0.0.255 any
+ 1580 permit ipv4 200.79.111.0 0.0.0.255 any
+ 1590 permit ipv4 201.134.5.0 0.0.0.255 any
+ 1600 permit ipv4 201.134.33.0 0.0.0.255 any
+ 1610 permit ipv4 201.134.64.0 0.0.0.255 any
+ 1620 permit ipv4 201.134.105.0 0.0.0.255 any
+ 1630 permit ipv4 201.134.125.0 0.0.0.255 any
+ 1640 permit ipv4 201.134.130.0 0.0.0.255 any
+ 1650 permit ipv4 201.134.163.0 0.0.0.255 any
+ 1660 permit ipv4 201.134.176.0 0.0.0.255 any
+ 1670 permit ipv4 201.134.201.0 0.0.0.255 any
+ 1680 permit ipv4 201.134.208.0 0.0.0.255 any
+ 1690 permit ipv4 201.134.211.0 0.0.0.255 any
+ 1700 permit ipv4 204.124.107.0 0.0.0.255 any
+ 1710 permit ipv4 189.246.0.0 0.0.255.255 any
+ 1720 permit ipv4 201.125.0.0 0.0.255.255 any
+ 1730 permit ipv4 201.154.0.0 0.0.255.255 any
+ 1740 deny ipv4 any any
+!
+ipv4 access-list 17
+ 10 permit ipv4 host 192.100.232.3 any
+!
+ipv4 access-list 146
+ 10 permit tcp any any
+ 20 permit udp any any
+ 30 deny 53 any any
+ 40 deny 55 any any
+ 50 deny 77 any any
+ 60 deny pim any any
+ 70 permit ipv4 any any
+!
+ipv4 access-list 158
+ 10 deny ipv4 200.38.207.0 0.0.0.255 any
+ 20 deny ipv4 200.38.208.0 0.0.0.255 any
+ 30 deny ipv4 200.38.210.0 0.0.0.255 any
+ 40 deny ipv4 200.38.214.0 0.0.0.255 any
+ 50 deny ipv4 200.38.219.0 0.0.0.255 any
+ 60 deny ipv4 200.38.220.0 0.0.1.255 any
+ 70 permit tcp any any eq bgp
+ 80 permit tcp any eq bgp any established
+ 90 permit ipv4 148.223.13.0 0.0.0.255 any
+ 100 permit ipv4 148.223.15.0 0.0.0.255 any
+ 110 permit ipv4 148.223.26.0 0.0.0.255 any
+ 120 permit ipv4 148.223.28.0 0.0.0.255 any
+ 130 permit ipv4 148.223.31.0 0.0.0.255 any
+ 140 permit ipv4 148.223.32.0 0.0.0.255 any
+ 150 permit ipv4 148.223.39.0 0.0.0.255 any
+ 160 permit ipv4 148.223.40.0 0.0.0.255 any
+ 170 permit ipv4 148.223.43.0 0.0.0.255 any
+ 180 permit ipv4 148.223.54.0 0.0.0.255 any
+ 190 permit ipv4 148.223.58.0 0.0.0.255 any
+ 200 permit ipv4 148.223.62.0 0.0.0.255 any
+ 210 permit ipv4 148.223.65.0 0.0.0.255 any
+ 220 permit ipv4 148.223.75.0 0.0.0.255 any
+ 230 permit ipv4 148.223.79.0 0.0.0.255 any
+ 240 permit ipv4 148.223.84.0 0.0.0.255 any
+ 250 permit ipv4 148.223.95.0 0.0.0.255 any
+ 260 permit ipv4 148.223.97.0 0.0.0.255 any
+ 270 permit ipv4 148.223.104.0 0.0.0.255 any
+ 280 permit ipv4 148.223.107.0 0.0.0.255 any
+ 290 permit ipv4 148.223.108.0 0.0.0.255 any
+ 300 permit ipv4 148.223.111.0 0.0.0.255 any
+ 310 permit ipv4 148.223.113.0 0.0.0.255 any
+ 320 permit ipv4 148.223.115.0 0.0.0.255 any
+ 330 permit ipv4 148.223.121.0 0.0.0.255 any
+ 340 permit ipv4 148.223.126.0 0.0.0.255 any
+ 350 permit ipv4 148.223.144.0 0.0.0.255 any
+ 360 permit ipv4 148.223.149.0 0.0.0.255 any
+ 370 permit ipv4 148.223.166.0 0.0.0.255 any
+ 380 permit ipv4 148.223.167.0 0.0.0.255 any
+ 390 permit ipv4 148.223.181.0 0.0.0.255 any
+ 400 permit ipv4 148.223.182.0 0.0.0.255 any
+ 410 permit ipv4 148.223.183.0 0.0.0.255 any
+ 420 permit ipv4 148.223.184.0 0.0.0.255 any
+ 430 permit ipv4 148.223.190.0 0.0.1.255 any
+ 440 permit ipv4 148.223.192.0 0.0.0.255 any
+ 450 permit ipv4 148.223.201.0 0.0.0.255 any
+ 460 permit ipv4 148.223.202.0 0.0.0.255 any
+ 470 permit ipv4 148.223.206.0 0.0.0.255 any
+ 480 permit ipv4 148.223.210.0 0.0.0.255 any
+ 490 permit ipv4 148.223.214.0 0.0.0.255 any
+ 500 permit ipv4 148.223.219.0 0.0.0.255 any
+ 510 permit ipv4 148.223.223.0 0.0.0.255 any
+ 520 permit ipv4 148.223.225.0 0.0.0.255 any
+ 530 permit ipv4 148.223.227.0 0.0.0.255 any
+ 540 permit ipv4 148.223.232.0 0.0.0.255 any
+ 550 permit ipv4 148.223.237.0 0.0.0.255 any
+ 560 permit ipv4 148.223.240.0 0.0.0.255 any
+ 570 permit ipv4 148.223.243.0 0.0.0.255 any
+ 580 permit ipv4 148.223.255.0 0.0.0.255 any
+ 590 permit ipv4 148.233.15.0 0.0.0.255 any
+ 600 permit ipv4 148.233.23.0 0.0.0.255 any
+ 610 permit ipv4 148.233.31.0 0.0.0.255 any
+ 620 permit ipv4 148.233.39.0 0.0.0.255 any
+ 630 permit ipv4 148.233.75.0 0.0.0.255 any
+ 640 permit ipv4 148.233.84.0 0.0.0.255 any
+ 650 permit ipv4 148.233.108.0 0.0.0.255 any
+ 660 permit ipv4 148.233.111.0 0.0.0.255 any
+ 670 permit ipv4 148.233.118.0 0.0.0.255 any
+ 680 permit ipv4 148.233.131.0 0.0.0.255 any
+ 690 permit ipv4 148.233.135.0 0.0.0.255 any
+ 700 permit ipv4 148.233.139.0 0.0.0.255 any
+ 710 permit ipv4 148.233.142.0 0.0.0.255 any
+ 720 permit ipv4 148.233.150.0 0.0.0.255 any
+ 730 permit ipv4 148.233.152.0 0.0.1.255 any
+ 740 permit ipv4 148.233.158.0 0.0.1.255 any
+ 750 permit ipv4 148.233.160.0 0.0.0.255 any
+ 760 permit ipv4 148.233.163.0 0.0.0.255 any
+ 770 permit ipv4 148.233.164.0 0.0.0.255 any
+ 780 permit ipv4 148.233.175.0 0.0.0.255 any
+ 790 permit ipv4 148.233.187.0 0.0.0.255 any
+ 800 permit ipv4 148.233.191.0 0.0.0.255 any
+ 810 permit ipv4 148.233.238.0 0.0.0.255 any
+ 820 permit ipv4 148.233.239.0 0.0.0.255 any
+ 830 permit ipv4 148.235.14.0 0.0.0.255 any
+ 840 permit ipv4 148.235.16.0 0.0.7.255 any
+ 850 permit ipv4 148.235.24.0 0.0.0.255 any
+ 860 permit ipv4 148.235.39.0 0.0.0.255 any
+ 870 permit ipv4 host 148.235.54.161 any
+ 880 permit ipv4 148.235.58.0 0.0.1.255 any
+ 890 permit ipv4 148.235.71.0 0.0.0.255 any
+ 900 permit ipv4 148.235.75.0 0.0.0.255 any
+ 910 permit ipv4 148.235.78.0 0.0.0.255 any
+ 920 permit ipv4 148.235.81.0 0.0.0.255 any
+ 930 permit ipv4 148.235.85.0 0.0.0.255 any
+ 940 permit ipv4 148.235.87.0 0.0.0.255 any
+ 950 permit ipv4 148.235.109.0 0.0.0.255 any
+ 960 permit ipv4 148.235.110.0 0.0.0.255 any
+ 970 permit ipv4 148.235.124.0 0.0.0.255 any
+ 980 permit ipv4 148.235.139.0 0.0.0.255 any
+ 990 permit ipv4 148.235.143.0 0.0.0.255 any
+ 1000 permit ipv4 148.235.145.0 0.0.0.255 any
+ 1010 permit ipv4 148.235.149.0 0.0.0.255 any
+ 1020 permit ipv4 148.235.155.0 0.0.0.255 any
+ 1030 permit ipv4 148.235.157.0 0.0.0.255 any
+ 1040 permit ipv4 148.235.165.0 0.0.0.255 any
+ 1050 permit ipv4 148.235.167.0 0.0.0.255 any
+ 1060 permit ipv4 148.235.175.0 0.0.0.255 any
+ 1070 permit ipv4 148.235.186.0 0.0.0.255 any
+ 1080 permit ipv4 148.235.207.0 0.0.0.255 any
+ 1090 permit ipv4 148.235.231.0 0.0.0.255 any
+ 1100 permit ipv4 187.141.158.0 0.0.0.255 any
+ 1110 permit ipv4 187.141.190.0 0.0.0.255 any
+ 1120 permit ipv4 189.246.0.0 0.0.255.255 any
+ 1130 permit ipv4 192.100.232.0 0.0.0.255 any
+ 1140 permit ipv4 200.4.155.0 0.0.0.255 any
+ 1150 permit ipv4 200.4.157.0 0.0.0.255 any
+ 1160 permit ipv4 200.23.240.0 0.0.3.255 any
+ 1170 permit ipv4 200.33.137.0 0.0.0.255 any
+ 1180 permit ipv4 200.33.144.0 0.0.7.255 any
+ 1190 permit ipv4 200.33.150.0 0.0.0.255 any
+ 1200 permit ipv4 200.36.40.0 0.0.0.255 any
+ 1210 permit ipv4 200.36.50.0 0.0.0.255 any
+ 1220 permit ipv4 200.38.132.0 0.0.0.255 any
+ 1230 permit ipv4 200.38.142.0 0.0.0.255 any
+ 1240 permit ipv4 200.38.192.0 0.0.31.255 any
+ 1250 permit ipv4 200.66.128.0 0.0.0.255 any
+ 1260 permit ipv4 200.79.4.0 0.0.0.255 any
+ 1270 permit ipv4 200.79.11.0 0.0.0.255 any
+ 1280 permit ipv4 200.79.21.0 0.0.0.255 any
+ 1290 permit ipv4 200.79.26.0 0.0.0.255 any
+ 1300 permit ipv4 200.79.39.0 0.0.0.255 any
+ 1310 permit ipv4 200.79.40.0 0.0.0.255 any
+ 1320 permit ipv4 200.79.44.0 0.0.0.255 any
+ 1330 permit ipv4 200.79.54.0 0.0.0.255 any
+ 1340 permit ipv4 200.79.68.0 0.0.1.255 any
+ 1350 permit ipv4 200.79.88.0 0.0.0.255 any
+ 1360 permit ipv4 200.79.111.0 0.0.0.255 any
+ 1370 permit ipv4 200.79.116.0 0.0.0.255 any
+ 1380 permit ipv4 200.79.122.0 0.0.0.255 any
+ 1390 permit ipv4 201.116.191.0 0.0.0.255 any
+ 1400 permit ipv4 201.125.0.0 0.0.255.255 any
+ 1410 permit ipv4 201.134.5.0 0.0.0.255 any
+ 1420 permit ipv4 201.134.21.0 0.0.0.255 any
+ 1430 permit ipv4 201.134.33.0 0.0.0.255 any
+ 1440 permit ipv4 201.134.64.0 0.0.0.255 any
+ 1450 permit ipv4 201.134.77.0 0.0.0.255 any
+ 1460 permit ipv4 201.134.105.0 0.0.0.255 any
+ 1470 permit ipv4 201.134.109.0 0.0.0.255 any
+ 1480 permit ipv4 201.134.125.0 0.0.0.255 any
+ 1490 permit ipv4 201.134.130.0 0.0.0.255 any
+ 1500 permit ipv4 201.134.163.0 0.0.0.255 any
+ 1510 permit ipv4 201.134.176.0 0.0.0.255 any
+ 1520 permit ipv4 201.134.201.0 0.0.0.255 any
+ 1530 permit ipv4 201.134.208.0 0.0.0.255 any
+ 1540 permit ipv4 201.134.211.0 0.0.0.255 any
+ 1550 permit ipv4 201.134.243.0 0.0.0.255 any
+ 1560 permit ipv4 201.144.127.0 0.0.0.255 any
+ 1570 permit ipv4 201.148.32.160 0.0.0.3 any
+ 1580 permit ipv4 201.154.0.0 0.0.127.255 any
+ 1590 permit ipv4 201.154.136.0 0.0.7.255 any
+ 1600 permit ipv4 201.154.144.0 0.0.1.255 any
+ 1610 permit ipv4 204.124.106.128 0.0.0.127 any
+ 1620 permit ipv4 204.124.107.0 0.0.0.255 any
+ 1630 permit ipv4 189.254.31.0 0.0.0.63 any
+ 1640 deny ipv4 any any
+!
+ipv4 access-list 2000
+ 10 permit gre any any
+!
+ipv4 access-list 2214
+ 10 permit tcp any any eq www
+ 20 permit tcp any any eq 8080
+ 25 permit udp any any eq 8080
+ 30 permit tcp any any range 20000 20001
+ 40 permit tcp any any eq 8090
+ 50 permit tcp any any eq 5060
+ 60 permit tcp any any eq 556
+ 70 permit tcp 201.116.20.0 0.0.0.127 any eq ssh
+ 80 permit tcp 148.233.37.0 0.0.0.63 any eq ssh
+ 90 permit tcp host 148.235.52.153 any eq ssh
+ 100 permit tcp host 148.235.52.154 any eq ssh
+ 110 permit tcp 201.116.20.0 0.0.0.127 any range 5900 5904
+ 120 permit tcp 148.233.37.0 0.0.0.63 any range 5900 5904
+ 130 permit tcp host 148.235.52.153 any range 5900 5904
+ 140 permit tcp host 148.233.52.154 any range 5900 5904
+ 150 permit tcp any any established
+ 160 permit udp any any range 20000 20001
+ 170 permit udp any any eq 8090
+ 180 permit udp any any range 554 556
+ 190 permit udp any eq domain any
+ 200 permit icmp any any echo
+ 210 permit icmp any any echo-reply
+ 220 deny tcp any any
+ 230 deny udp any any
+!
+ipv4 access-list PROTECCION_IDE
+ 10 deny udp any any eq ldp
+ 20 deny ospf any any
+ 30 permit ipv4 any any
+!
+class-map match-any Voz
+ match mpls experimental topmost 5
+ end-class-map
+!
+class-map match-any INET
+ match access-group ipv4 1
+ end-class-map
+!
+class-map match-any INET2
+ match access-group ipv4 2000
+ end-class-map
+!
+class-map match-any Video
+ match mpls experimental topmost 3
+ end-class-map
+!
+class-map match-any DatosVPN
+ match mpls experimental topmost 2
+ end-class-map
+!
+class-map match-any Default_VPN
+ match mpls experimental topmost 1
+ end-class-map
+!
+class-map match-all Numero_DLCI
+ match frame-relay dlci 16-1007
+ end-class-map
+!
+class-map match-any tofab_queue_0
+ match precedence ipv4 0
+ end-class-map
+!
+class-map match-any tofab_queue_1
+ match precedence ipv4 1 2 3
+ end-class-map
+!
+class-map match-any tofab_queue_2
+ match precedence ipv4 4 6 7
+ end-class-map
+!
+class-map match-any Administracion
+ match mpls experimental topmost 7 6 4
+ end-class-map
+!
+class-map match-any tofab_queue_llq
+ match precedence ipv4 5
+ end-class-map
+!
+policy-map tofab
+ class tofab_queue_0
+  bandwidth remaining percent 1
+ !
+ class tofab_queue_1
+  bandwidth remaining percent 33
+ !
+ class tofab_queue_2
+  bandwidth remaining percent 66
+ !
+ class tofab_queue_llq
+  priority level 1
+ !
+ class class-default
+ !
+ end-policy-map
+!
+policy-map GE_bwrem
+ class Administracion
+  bandwidth remaining percent 10
+  random-detect precedence 4,6,7 500 packets 1500 packets
+  random-detect exp 4,6,7 500 packets 1500 packets
+ !
+ class Video
+  bandwidth remaining percent 10
+  random-detect precedence 3 500 packets 1500 packets
+  random-detect exp 3 500 packets 1500 packets
+ !
+ class DatosVPN
+  bandwidth remaining percent 25
+  random-detect precedence 2 1000 packets 4000 packets
+  random-detect exp 2 1000 packets 4000 packets
+ !
+ class Default_VPN
+  bandwidth remaining percent 15
+  random-detect precedence 1 750 packets 2000 packets
+  random-detect exp 1 750 packets 2000 packets
+ !
+ class Voz
+  police rate 350000000 bps burst 10937500 bytes peak-burst 10937500 bytes
+  !
+  priority level 1
+ !
+ class class-default
+  bandwidth remaining percent 5
+  random-detect precedence 0 500 packets 1500 packets
+  random-detect exp 0 500 packets 1500 packets
+ !
+ end-policy-map
+!
+policy-map INT_I2_IN
+ class class-default
+  set dscp 0
+  police rate percent 100
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map INT_TI_IN
+ class class-default
+  set dscp 0
+  police rate percent 100
+   conform-action set mpls experimental imposition 0
+   exceed-action set mpls experimental imposition 0
+  !
+ !
+ end-policy-map
+!
+policy-map 10GE_bwrem
+ class Administracion
+  bandwidth remaining percent 10
+  random-detect precedence 4,6,7 500 packets 1500 packets
+  random-detect exp 4,6,7 500 packets 1500 packets
+ !
+ class Video
+  bandwidth remaining percent 10
+  random-detect precedence 3 1500 packets 4000 packets
+  random-detect exp 3 1500 packets 4000 packets
+ !
+ class DatosVPN
+  bandwidth remaining percent 25
+  random-detect precedence 2 1000 packets 4000 packets
+  random-detect exp 2 1000 packets 4000 packets
+ !
+ class Default_VPN
+  bandwidth remaining percent 15
+  random-detect precedence 1 750 packets 2000 packets
+  random-detect exp 1 750 packets 2000 packets
+ !
+ class Voz
+  police rate 3500000000 bps burst 109375000 bytes peak-burst 109375000 bytes
+  !
+  priority level 1
+ !
+ class class-default
+  bandwidth remaining percent 5
+  random-detect precedence 0 500 packets 1500 packets
+  random-detect exp 0 500 packets 1500 packets
+ !
+ end-policy-map
+!
+policy-map INT_I2_OUT
+ class class-default
+  set dscp 0
+ !
+ end-policy-map
+!
+policy-map INT_IDE_IN
+ class class-default
+  set dscp 0
+  police rate percent 100
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map INT_TI_OUT
+ class class-default
+  police rate percent 100
+   conform-action set dscp 0
+   exceed-action set dscp 0
+  !
+ !
+ end-policy-map
+!
+policy-map STM1_bwrem
+ class Administracion
+  bandwidth remaining percent 10
+  random-detect precedence 4,6,7 256 packets 600 packets
+  random-detect exp 4,6,7 256 packets 600 packets
+ !
+ class Voz
+  police rate 54248000 bps burst 1695250 bytes peak-burst 1695250 bytes
+  !
+  priority level 1
+ !
+ class Video
+  bandwidth remaining percent 10
+  random-detect precedence 3 256 packets 600 packets
+  random-detect exp 3 256 packets 600 packets
+ !
+ class DatosVPN
+  bandwidth remaining percent 25
+  random-detect precedence 2 300 packets 900 packets
+  random-detect exp 2 300 packets 900 packets
+ !
+ class Default_VPN
+  bandwidth remaining percent 15
+  random-detect precedence 1 300 packets 900 packets
+  random-detect exp 1 300 packets 900 packets
+ !
+ class class-default
+  bandwidth remaining percent 5
+  random-detect precedence 0 256 packets 600 packets
+  random-detect exp 0 256 packets 600 packets
+ !
+ end-policy-map
+!
+policy-map STM4_bwrem
+ class Administracion
+  bandwidth remaining percent 10
+  random-detect precedence 4,6,7 300 packets 900 packets
+  random-detect exp 4,6,7 300 packets 900 packets
+ !
+ class Voz
+  police rate 217704000 bps burst 6803250 bytes peak-burst 6803250 bytes
+  !
+  priority level 1
+ !
+ class Video
+  bandwidth remaining percent 10
+  random-detect precedence 3 300 packets 900 packets
+  random-detect exp 3 300 packets 900 packets
+ !
+ class DatosVPN
+  bandwidth remaining percent 25
+  random-detect precedence 2 750 packets 2000 packets
+  random-detect exp 2 750 packets 2000 packets
+ !
+ class Default_VPN
+  bandwidth remaining percent 15
+  random-detect precedence 1 500 packets 1500 packets
+  random-detect exp 1 500 packets 1500 packets
+ !
+ class class-default
+  bandwidth remaining percent 5
+  random-detect precedence 0 300 packets 900 packets
+  random-detect exp 0 300 packets 900 packets
+ !
+ end-policy-map
+!
+policy-map INT_I1I2_IN
+ class class-default
+  set dscp 0
+  police rate percent 100
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map INT_IDE_OUT
+ class class-default
+  police rate percent 100
+   conform-action set dscp 0
+   exceed-action set dscp 0
+  !
+ !
+ end-policy-map
+!
+policy-map STM16_bwrem
+ class Administracion
+  bandwidth remaining percent 10
+  random-detect precedence 4,6,7 1500 packets 4000 packets
+  random-detect exp 4,6,7 1500 packets 4000 packets
+ !
+ class Video
+  bandwidth remaining percent 10
+  random-detect precedence 3 1500 packets 4000 packets
+  random-detect exp 3 1500 packets 4000 packets
+ !
+ class DatosVPN
+  bandwidth remaining percent 25
+  random-detect precedence 2 3000 packets 15000 packets
+  random-detect exp 2 3000 packets 15000 packets
+ !
+ class Default_VPN
+  bandwidth remaining percent 15
+  random-detect precedence 1 1500 packets 4000 packets
+  random-detect exp 1 1500 packets 4000 packets
+ !
+ class Voz
+  police rate 840000000 bps burst 26250000 bytes peak-burst 26250000 bytes
+  !
+  priority level 1
+ !
+ class class-default
+  bandwidth remaining percent 5
+  random-detect precedence 0 750 packets 2000 packets
+  random-detect exp 0 750 packets 2000 packets
+ !
+ end-policy-map
+!
+policy-map STM64_bwrem
+ class Administracion
+  bandwidth remaining percent 10
+  random-detect precedence 4,6,7 5000 packets 20000 packets
+  random-detect exp 4,6,7 5000 packets 20000 packets
+ !
+ class Video
+  bandwidth remaining percent 10
+  random-detect precedence 3 5000 packets 20000 packets
+  random-detect exp 3 5000 packets 20000 packets
+ !
+ class DatosVPN
+  bandwidth remaining percent 25
+  random-detect precedence 2 10000 packets 30000 packets
+  random-detect exp 2 10000 packets 30000 packets
+ !
+ class Default_VPN
+  bandwidth remaining percent 15
+  random-detect precedence 1 7000 packets 25000 packets
+  random-detect exp 1 7000 packets 25000 packets
+ !
+ class Voz
+  police rate 9600000 kbps burst 300000000 bytes peak-burst 300000000 bytes
+  !
+  priority level 1
+ !
+ class class-default
+  bandwidth remaining percent 5
+  random-detect precedence 0 3000 packets 15000 packets
+  random-detect exp 0 3000 packets 15000 packets
+ !
+ end-policy-map
+!
+policy-map INT_I1I2_OUT
+ class INET2
+  bandwidth remaining percent 80
+  set dscp 0
+ !
+ class class-default
+  bandwidth remaining percent 20
+  set cos 0
+ !
+ end-policy-map
+!
+policy-map INT_I2ETH_OUT
+ class class-default
+  set cos 1
+  police rate percent 100
+   conform-action set dscp 0
+   exceed-action set dscp 0
+  !
+ !
+ end-policy-map
+!
+policy-map INT_IDETH_OUT
+ class class-default
+  set cos 1
+  police rate percent 100
+   conform-action set dscp 0
+   exceed-action set dscp 0
+  !
+ !
+ end-policy-map
+!
+policy-map IDE_SHAPE_2M_IN
+ class class-default
+  service-policy INT_IDE_IN
+  police rate 2000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map IDE_SHAPE_4M_IN
+ class class-default
+  service-policy INT_IDE_IN
+  police rate 4000000 bps burst 125000 bytes peak-burst 125000 bytes
+  !
+ !
+ end-policy-map
+!
+policy-map IDE_SHAPE_6M_IN
+ class class-default
+  service-policy INT_IDE_IN
+  police rate 6000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map IDE_SHAPE_8M_IN
+ class class-default
+  service-policy INT_IDE_IN
+  police rate 8000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map INT_I1I2ETH_OUT
+ class INET2
+  bandwidth remaining percent 80
+  set cos 1
+  police rate percent 100
+   conform-action set dscp 0
+   exceed-action set dscp 0
+  !
+ !
+ class class-default
+  bandwidth remaining percent 20
+  set cos 1
+  police rate percent 100
+   conform-action set dscp 0
+   exceed-action set dscp 0
+  !
+ !
+ end-policy-map
+!
+policy-map IDE_SHAPE_10M_IN
+ class class-default
+  service-policy INT_IDE_IN
+  police rate 10000000 bps burst 312500 bytes peak-burst 312500 bytes
+  !
+ !
+ end-policy-map
+!
+policy-map IDE_SHAPE_20M_IN
+ class class-default
+  service-policy INT_IDE_IN
+  police rate 20000000 bps burst 625000 bytes peak-burst 625000 bytes
+  !
+ !
+ end-policy-map
+!
+policy-map IDE_SHAPE_30M_IN
+ class class-default
+  service-policy INT_IDE_IN
+  police rate 30000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map IDE_SHAPE_40M_IN
+ class class-default
+  service-policy INT_IDE_IN
+  police rate 40000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map IDE_SHAPE_50M_IN
+ class class-default
+  service-policy INT_IDE_IN
+  police rate 50000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map IDE_SHAPE_60M_IN
+ class class-default
+  service-policy INT_IDE_IN
+  police rate 60000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map IDE_SHAPE_100M_IN
+ class class-default
+  service-policy INT_IDE_IN
+  police rate 100000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map IDE_SHAPE_512K_IN
+ class class-default
+  service-policy INT_IDE_IN
+  police rate 512000 bps burst 16000 bytes peak-burst 16000 bytes
+  !
+ !
+ end-policy-map
+!
+policy-map IDETH_SHAPE_2M_OUT
+ class class-default
+  service-policy INT_IDETH_OUT
+  shape average 2000000 bps
+ !
+ end-policy-map
+!
+policy-map IDETH_SHAPE_4M_OUT
+ class class-default
+  service-policy INT_IDETH_OUT
+  shape average 4000000 bps
+ !
+ end-policy-map
+!
+policy-map IDETH_SHAPE_6M_OUT
+ class class-default
+  service-policy INT_IDETH_OUT
+  shape average 6000000 bps
+ !
+ end-policy-map
+!
+policy-map IDETH_SHAPE_8M_OUT
+ class class-default
+  service-policy INT_IDETH_OUT
+  shape average 8000000 bps
+ !
+ end-policy-map
+!
+policy-map IDE_SHAPE_1024K_IN
+ class class-default
+  service-policy INT_IDE_IN
+  police rate 1024000 bps burst 32000 bytes peak-burst 32000 bytes
+  !
+ !
+ end-policy-map
+!
+policy-map IDE_SHAPE_512K_OUT
+ class class-default
+  service-policy INT_IDE_OUT
+  shape average 512000 bps
+ !
+ end-policy-map
+!
+policy-map I1_1024K+I2_1024K
+ class INET2
+  police rate 1024000 bps burst 32000 bytes peak-burst 32000 bytes
+   conform-action set precedence 1
+   exceed-action drop
+  !
+ !
+ class INET
+  police rate 1024000 bps burst 32000 bytes peak-burst 32000 bytes
+   conform-action set precedence 0
+   exceed-action drop
+  !
+ !
+ class class-default
+ !
+ end-policy-map
+!
+policy-map IDETH_SHAPE_10M_OUT
+ class class-default
+  service-policy INT_IDETH_OUT
+  shape average 10000000 bps
+ !
+ end-policy-map
+!
+policy-map IDETH_SHAPE_20M_OUT
+ class class-default
+  service-policy INT_IDETH_OUT
+  shape average 20000000 bps
+ !
+ end-policy-map
+!
+policy-map IDETH_SHAPE_30M_OUT
+ class class-default
+  service-policy INT_IDETH_OUT
+  shape average 30000000 bps
+ !
+ end-policy-map
+!
+policy-map IDETH_SHAPE_40M_OUT
+ class class-default
+  service-policy INT_IDETH_OUT
+  shape average 40000000 bps
+ !
+ end-policy-map
+!
+policy-map IDETH_SHAPE_50M_OUT
+ class class-default
+  service-policy INT_IDETH_OUT
+  shape average 50000000 bps
+ !
+ end-policy-map
+!
+policy-map IDETH_SHAPE_60M_OUT
+ class class-default
+  service-policy INT_IDETH_OUT
+  shape average 60000000 bps
+ !
+ end-policy-map
+!
+policy-map IDE_SHAPE_1024K_OUT
+ class class-default
+  service-policy INT_IDE_OUT
+  shape average 1024000 bps
+ !
+ end-policy-map
+!
+policy-map IDETH_SHAPE_100M_OUT
+ class class-default
+  service-policy INT_IDETH_OUT
+  shape average 100000000 bps
+ !
+ end-policy-map
+!
+switch-fabric
+ service-policy tofab
+!
+interface Loopback0
+ ipv4 address 201.154.56.184 255.255.255.255
+!
+interface MgmtEth0/8/CPU0/0
+ ipv4 redirects
+ shutdown
+!
+interface MgmtEth0/8/CPU0/1
+ ipv4 redirects
+ shutdown
+!
+interface MgmtEth0/8/CPU0/2
+ ipv4 address 77.1.108.1 255.255.0.0
+ ipv4 redirects
+!
+interface MgmtEth0/9/CPU0/0
+ ipv4 redirects
+ shutdown
+!
+interface MgmtEth0/9/CPU0/1
+ ipv4 redirects
+ shutdown
+!
+interface MgmtEth0/9/CPU0/2
+ ipv4 redirects
+ shutdown
+!
+interface GigabitEthernet0/1/0/0
+ proxy-arp
+ ipv4 redirects
+ shutdown
+!
+interface GigabitEthernet0/1/0/1
+ description CONEXION GE A smvel-tam-nuevolaredo-1-PC2 BTB VGJ 20/12/12
+ bandwidth 1000000
+ ipv4 address 201.96.126.210 255.255.255.252
+ proxy-arp
+ ipv4 redirects
+ ipv4 access-group 2214 egress
+!
+interface GigabitEthernet0/1/0/2
+ description ITX GE A CE_COHNLA_001CNTE_01 NLA IDATA CE_TELMEX YRG-1605-1169 I24081677A CNIEVES
+ bandwidth 1000000
+ proxy-arp
+ ipv4 redirects
+ load-interval 30
+!
+interface GigabitEthernet0/1/0/2.13
+ description IC EDITORA_ARGOS 8677190364 I06091614B IMH 06/09/16 BAJA TEMPORAL
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 201.117.135.106 255.255.255.252
+ shutdown
+ ethernet cfm
+  mep domain UNINET service UNINET_TAMNUEVOLAREDO-18_5013 mep-id 13
+   cos 2
+  !
+ !
+ dot1q vlan 1405 100
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3
+ description IC SIU_15_1510_CTL__NUEVO_LAREDO UD1-1510-0072 I18111501C 1000M GAF
+ bandwidth 1000000
+ proxy-arp
+ ipv4 redirects
+ load-interval 30
+!
+interface GigabitEthernet0/1/0/3.1
+ description IC OFICINAS_EL_PALOMAR C00-1605-0008 I05071639A servautom 12/07/16 30174168
+ bandwidth 100000
+ service-policy input IDE_SHAPE_100M_IN
+ service-policy output IDETH_SHAPE_100M_OUT
+ ipv4 address 201.96.98.218 255.255.255.252
+ dot1q vlan 306
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.2
+ description IC ALCOA_FASTENING_SYSTEMS_MEXICO_I CB4-1607-0026 I28071627B servautom 29/07/16 30360249
+ bandwidth 4000
+ service-policy input IDE_SHAPE_4M_IN
+ service-policy output IDETH_SHAPE_4M_OUT
+ ipv4 address 187.130.230.118 255.255.255.252
+ dot1q vlan 243
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.3
+ description IC RASSINI_PIEDRAS_NEGRAS_BRAVO C03-1607-0050 I05091668A servautom 17/10/16 30416214
+ bandwidth 30000
+ service-policy input IDE_SHAPE_30M_IN
+ service-policy output IDETH_SHAPE_30M_OUT
+ ipv4 address 187.130.239.130 255.255.255.252
+ dot1q vlan 316
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.4
+ description IC PIEDRAS_NEGRAS C01-1607-0222 I08091675A servautom 14/09/16 30396072
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.238.78 255.255.255.252
+ dot1q vlan 308
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.5
+ description IC VINAKOM__ACUNA_PGLA_17456_NSR_MXXXN15229 C01-1608-0220 I12091677A JAC 05/10/16 30490643
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 201.96.122.198 255.255.255.252
+ dot1q vlan 314
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.6
+ description IC CONTROLES_TEMEX_NUEVO_LAREDO C05-1607-0029 I13091671A servautom 29/09/16 30410140
+ bandwidth 50000
+ service-policy input IDE_SHAPE_50M_IN
+ service-policy output IDETH_SHAPE_50M_OUT
+ ipv4 address 201.96.113.134 255.255.255.252
+ dot1q vlan 244
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.7
+ description IC LASER_RAMOS_NL C01-1607-0134 I16091615A servautom 28/09/16 30305871
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 201.96.116.82 255.255.255.252
+ dot1q vlan 307
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.8
+ description IC WIEGAND_NUEVO_LAREDO C01-1608-0038 I05101612B servautom 19/10/16 30448543
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 201.96.121.38 255.255.255.252
+ dot1q vlan 312
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.9
+ description IC PARQUE_INDUSTRIAL CB2-1608-0674 I17101613B servautom 19/10/16 30474473
+ bandwidth 2000
+ service-policy input IDE_SHAPE_2M_IN
+ service-policy output IDETH_SHAPE_2M_OUT
+ ipv4 address 201.96.118.122 255.255.255.252
+ dot1q vlan 310
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.10
+ description IC PLANTA_4_ARNESES_Y_ACCESORIOS C04-1608-0021 I27101657B servautom 03/11/16 30499907
+ bandwidth 40000
+ service-policy input IDE_SHAPE_40M_IN
+ service-policy output IDETH_SHAPE_40M_OUT
+ ipv4 address 201.96.123.70 255.255.255.252
+ dot1q vlan 315
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.11
+ description IC BUFETE_MEXICANO_DE_ADUANAS C01-1608-0090 I03111657A servautom 09/11/16 30465287
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 201.96.97.22 255.255.255.252
+ dot1q vlan 311
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.12
+ description IC INDUSTRIAS_RHEEM_DOS_LAREDOS CB4-1610-0013 I16111649B servautom 22/11/16 30530883
+ bandwidth 4000
+ service-policy input IDE_SHAPE_4M_IN
+ service-policy output IDETH_SHAPE_4M_OUT
+ ipv4 address 201.96.123.250 255.255.255.252
+ dot1q vlan 320
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.13
+ description IC TRANSPORTES_MOR_IDE CB2-1610-0481 I18111615B servautom 25/11/16 30561944
+ bandwidth 2000
+ service-policy input IDE_SHAPE_2M_IN
+ service-policy output IDETH_SHAPE_2M_OUT
+ ipv4 address 201.96.101.30 255.255.255.252
+ dot1q vlan 325
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.14
+ description IC INDUSTRIAS_RHEEM_ORADEL CB4-1608-0154 I01121630A servautom 16/12/16 30530966
+ bandwidth 4000
+ service-policy input IDE_SHAPE_4M_IN
+ service-policy output IDETH_SHAPE_4M_OUT
+ ipv4 address 201.96.123.210 255.255.255.252
+ dot1q vlan 317
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.15
+ description IC CAJERO_PEASA_2 C02-1608-0090 I08121657A servautom 12/12/16 30488157
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 201.96.122.110 255.255.255.252
+ dot1q vlan 313
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.16
+ description IC ATLAS_EXPEDITORS_NUEVO_LAREDO C01-1610-0152 I14121698A servautom 23/12/16 30600459
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.230.14 255.255.255.252
+ dot1q vlan 323
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.17
+ description IC CENTROS_COMERCIALES_D_NORTE_FCO CB6-1611-0001 I20021777A servautom 28/03/17 30680981
+ bandwidth 6000
+ service-policy input IDE_SHAPE_6M_IN
+ service-policy output IDETH_SHAPE_6M_OUT
+ ipv4 address 187.130.226.150 255.255.255.252
+ dot1q vlan 328
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.18
+ description IC FUJIKURA_PLANTA_PIEDRAS_NEGRAS C00-1612-0035 I20021792A servautom 01/03/17 30750442
+ bandwidth 100000
+ service-policy input IDE_SHAPE_100M_IN
+ service-policy output IDETH_SHAPE_100M_OUT
+ ipv4 address 201.96.102.78 255.255.255.252
+ dot1q vlan 330
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.19
+ description IC CORPORATIVO C02-1611-0051 I22021782A servautom 28/02/17 30697393
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 201.96.96.22 255.255.255.252
+ dot1q vlan 327
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.20
+ description IC AMISTAD_8 C01-1612-0267 I05041723A servautom 12/04/17 30888234
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 201.96.103.138 255.255.255.252
+ dot1q vlan 329
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.21
+ description IC ELW_INDUSTRIAL_LOTE_5 C02-1702-0096 I08041733A COU POR INSTALAR
+ bandwidth 20000
+!
+interface GigabitEthernet0/1/0/3.22
+ description IC ERMILO_E_RICHER_AG_AD, C02-1703-0044 I12051767A servautom 23/05/17 31037045
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 201.96.109.174 255.255.255.252
+ dot1q vlan 339
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.23
+ description IC JAROPAMEX_ACUNA_PLANTA_IV C02-1703-0117 I16051779A servautom 16/05/17 31158491
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 201.96.112.178 255.255.255.252
+ dot1q vlan 341
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.24
+ description IC CORPORATIVO_LABASA C02-1706-0007 I14061799A VHGA 14/06/17 31134450
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 201.96.105.106 255.255.255.252
+ dot1q vlan 340
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.25
+ description IC HIGUCHI_MANUFACTURING_CD_ACUNA C01-1704-0205 I05071713A servautom 12/07/17 31260461
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 201.96.117.46 255.255.255.252
+ dot1q vlan 345
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.26
+ description IC PIEDRAS_NEGRAS C02-1703-0057 I14071743B servautom 21/07/17 31136134
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 187.130.224.98 255.255.255.252
+ dot1q vlan 343
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/1/0/3.27
+ description IC AGENCIA_CONSULAR_EU_PIEDRAS_NEGRAS CB2-1703-0055 I26071710B COU POR INSTALAR
+ bandwidth 2000
+!
+interface GigabitEthernet0/1/0/4
+ description IC SIU_16_0712_CTL__NUEVO_LAREDO UD1-1608-0002 I07111654A 1000M MDTR
+ bandwidth 1000000
+ cdp
+ proxy-arp
+ load-interval 30
+!
+interface GigabitEthernet0/5/0/0
+ description VPN SIU_11_1298_NVO_LAREDO_NVO_LAREDO_1 UD1-1110-0011 I02021224A BW 1000M
+ proxy-arp
+ ipv4 redirects
+!
+interface GigabitEthernet0/5/0/0.1
+ description IC NUEVO_NODO_CENTRAL_NUEVO_LAREDO C03-1702-0037 I09031736A JJSR 09/03/17 25262639
+ bandwidth 30000
+ service-policy input IDE_SHAPE_30M_IN
+ service-policy output IDETH_SHAPE_30M_OUT
+ ipv4 address 201.96.125.142 255.255.255.252
+ dot1q vlan 218
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.4
+ description IC CASTAQEDA_NUEVO_LAREDO_CENTRO_MADERO CB4-1309-0055 I29101348A JVALCANT 04/11/13 25805812
+ bandwidth 4000
+ service-policy input IDE_SHAPE_4M_IN
+ service-policy output IDETH_SHAPE_4M_OUT
+ ipv4 address 187.130.239.78 255.255.255.252
+ dot1q vlan 202
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.5
+ description IC GRUPO_CARGOQUIN_SA_DE_CV C02-1512-0111 I15011664A IPOC 15/01/16 25701004
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 187.130.238.182 255.255.255.252
+ dot1q vlan 205
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.6
+ description IC LITTLEFUSE_PIEDRAS_NEGRAS_MAGISTERIAL C02-1706-0103 I03071732B LNGM 03/07/17 25854111
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 187.130.238.190 255.255.255.252
+ dot1q vlan 203
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.7
+ description IC LITTLEFUSE_LOMAS_DE_LA_VILLA C03-1706-0021 I16061792B MJVV 16/06/17 25880253
+ bandwidth 30000
+ service-policy input IDE_SHAPE_30M_IN
+ service-policy output IDETH_SHAPE_30M_OUT
+ ipv4 address 187.130.238.174 255.255.255.252
+ dot1q vlan 206
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.8
+ description IC LITTLEFUSE_LOMAS_DE_LA_VILLA C02-1706-0033 I13061744B MJVV 13/06/17 25830208
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 187.130.238.166 255.255.255.252
+ dot1q vlan 210
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.9
+ description IC PROYECCION_LOGISTICA_MELVIN CB4-1310-0113 I19121370A perezm 01/01/13 25816466
+ bandwidth 4000
+ service-policy input IDE_SHAPE_4M_IN
+ service-policy output IDETH_SHAPE_4M_OUT
+ ipv4 address 187.130.238.178 255.255.255.252
+ dot1q vlan 208
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.10
+ description IC CONTROLADORA_INMOBILIARIA_DE_NL C01-1403-0017 I11041493A CGV 25/04/14 26319684
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.237.178 255.255.255.252
+ dot1q vlan 217
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.11
+ description IC ELECTRONICA_Y_COMUNICACIONES_COL_ELECTRICISTAS C01-1403-0009 I23041402B GTP 30/04/14 26428195
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.237.134 255.255.255.252
+ dot1q vlan 216
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.12
+ description IC BLUELINE_CARR_PRESA_LA_AMISTAD C05-1611-0002 I27011785X JLCH 27/01/17 26265426
+ bandwidth 50000
+ service-policy input IDE_SHAPE_50M_IN
+ service-policy output IDETH_SHAPE_50M_OUT
+ ipv4 address 187.130.237.130 255.255.255.252
+ dot1q vlan 215
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.13
+ description IC INSTITUTO_TECNOLOGICO_ACUNA_CTR_PRESA_LA C02-1412-0029 I09021531B MJVV 09/02/15 25896723
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 187.130.237.126 255.255.255.252
+ dot1q vlan 212
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.14
+ description IC JAROPAMEX_ACUNA C02-1609-0005 I14091604B AJZ 14/09/16 26550013
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 187.130.237.62 255.255.255.252
+ dot1q vlan 220
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.15
+ description IC INDUSTRIAS_IRVIN_ACUQA C02-1610-0039 I22101624A JAC 22/10/16 26603008
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 187.130.236.202 255.255.255.252
+ dot1q vlan 225
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.16
+ description IC GENTHERM_DE_MEXICO_SA_DE_CV C00-1701-0045 I31011774A FFR 31/01/17 26829787
+ bandwidth 100000
+ service-policy input IDE_SHAPE_100M_IN
+ service-policy output IDETH_SHAPE_100M_OUT
+ ipv4 address 187.130.236.34 255.255.255.252
+ dot1q vlan 227
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.17
+ description IC EZO_TUBE_SOLUTIONS_NUEVO_LAREDO C01-1408-0045 I25091447B RGVL 26/09/14 26952767
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.254.38 255.255.255.252
+ dot1q vlan 232
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.18
+ description IC C4_PIEDRAS_NEGRAS C02-1606-0106 I14071655A JAC 14/07/16 26892973
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 187.130.254.30 255.255.255.252
+ dot1q vlan 229
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.19
+ description IC SERVICIOS_ADUANALES_DE_PIEDRAS_NEGRAS C01-1407-0209 I09101473A APA 26/010/14 26729863
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.255.246 255.255.255.252
+ dot1q vlan 231
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.20
+ description IC NUEVO_LAREDO C01-1408-0121 I15101461B IAM 14/11/14 71346731
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.255.190 255.255.255.252
+ dot1q vlan 234
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.21
+ description IC DYLSA_CD_ACUNA C03-1511-0031 I03121569C AJZ 03/12/15 27116040
+ bandwidth 30000
+ service-policy input IDE_SHAPE_30M_IN
+ service-policy output IDETH_SHAPE_30M_OUT
+ ipv4 address 187.130.253.14 255.255.255.252
+ dot1q vlan 235
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.22
+ description IC ELEKTROKINTAKT_COAHUILA C01-1406-0211 I05121414B CGV 14/12/14 26645170
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.253.154 255.255.255.252
+ dot1q vlan 228
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.23
+ description IC GRUPO_MH_NAVA CB6-1404-0012 I05121416B LFCF 11/12/14 26542917
+ bandwidth 6000
+ service-policy input IDE_SHAPE_6M_IN
+ service-policy output IDETH_SHAPE_6M_OUT
+ ipv4 address 187.130.253.158 255.255.255.252
+ dot1q vlan 219
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.24
+ description IC UANE_PIEDRAS_NEGRAS C01-1410-0288 I08011551A CGV 27/01/15 27423684
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.251.186 255.255.255.252
+ dot1q vlan 236
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.25
+ description IC MEXALIT_NUEVO_LAREDO C02-1609-0101 I11101667B MJVV 11/10/16 28116106
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 187.130.226.174 255.255.255.252
+ dot1q vlan 209
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.26
+ description IC MS_CARRIERS_NUEVO_LAREDO_LIB_MEXICO_II C02-1408-0049 I12011517B RGVL 26/01/15 27042126
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 187.130.251.98 255.255.255.252
+ dot1q vlan 233
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.27
+ description IC SAUL_BALDOMERO_CTR C01-1704-0137 I05051740A JJSR 05/05/17 27502128
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.239.46 255.255.255.252
+ dot1q vlan 240
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.28
+ description IC MUNICIPIO_PIEDRAS_NEGRAS_LAS_FUENTES C02-1411-0067 I23011595B JOV 05/02/15 27438669
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 187.130.251.130 255.255.255.252
+ dot1q vlan 245
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.29
+ description IC XPRESS_INTER_NUEVO_LAREDO_TAMP C02-1411-0005 I29011565B JAC 08/02/15 27427083
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 187.130.254.54 255.255.255.252
+ dot1q vlan 247
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.30
+ description IC MUNICIPIO_PIEDRAS_NEGRAS_LAS_FUENTES CB2-1411-0232 I30011566A JOV 05/02/15 27438683
+ bandwidth 2000
+ service-policy input IDE_SHAPE_2M_IN
+ service-policy output IDETH_SHAPE_2M_OUT
+ ipv4 address 187.130.252.254 255.255.255.252
+ dot1q vlan 239
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.31
+ description IC HOLIDAY_INN_EXPRESS_PIEDRAS_NEGRAS C01-1702-0066 I16021723A JLCH 16/02/17 27459941
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.252.10 255.255.255.252
+ dot1q vlan 254
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.34
+ description IC STD_COMPONENTS_CIUDAD_ACUNA_LA_AMISTAD C02-1412-0088 I27021573B LFCF 03/03/15 27650733
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 187.130.252.190 255.255.255.252
+ dot1q vlan 252
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.35
+ description IC ISABEL_A_RAMO_SC CB2-1501-0161 I02031563A CGV 06/03/15 27756810
+ bandwidth 2000
+ service-policy input IDE_SHAPE_2M_IN
+ service-policy output IDETH_SHAPE_2M_OUT
+ ipv4 address 187.130.252.182 255.255.255.252
+ dot1q vlan 256
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.36
+ description IC INMOBILIARIA_CUMA_LAREDO C01-1504-0171 I15051533A CGV 15/05/15 27655988
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.252.86 255.255.255.252
+ dot1q vlan 246
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.37
+ description IC GRUPO_PROFUTURO_NUEVO_LAREDO C01-1611-0020 I11071757A JLCH 11/07/17 27767535
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.252.114 255.255.255.252
+ dot1q vlan 326
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.38
+ description IC COMERCIALIZADORA_MINERA_DEL_NORTE CB2-1412-0475 I24031544A CGV 27/03/15 27426382
+ bandwidth 2000
+ service-policy input IDE_SHAPE_2M_IN
+ service-policy output IDETH_SHAPE_2M_OUT
+ ipv4 address 187.130.252.138 255.255.255.252
+ dot1q vlan 249
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.39
+ description IC SYNTRANET_CONSORCIO_ADUANAL_SC CB2-1501-0156 I24031575A CGV 30/03/15 27765360
+ bandwidth 2000
+ service-policy input IDE_SHAPE_2M_IN
+ service-policy output IDETH_SHAPE_2M_OUT
+ ipv4 address 187.130.252.22 255.255.255.252
+ dot1q vlan 255
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.41
+ description IC LINAMAR_DRIVELINE C02-1502-0092 I26031546A VHGA 05/05/15 27873538
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 187.130.233.254 255.255.255.252
+ dot1q vlan 261
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.42
+ description IC MUNICIPIO_ACUNA_COAH C02-1502-0086 I26031548A MAAE 30/03/15 27866948
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 187.130.252.142 255.255.255.252
+ dot1q vlan 260
+!
+interface GigabitEthernet0/5/0/0.43
+ description IC GST_PLANTA_LAREDO C01-1503-0015 I15041553A MAAE 27/04/15 27928165
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.224.42 255.255.255.252
+ dot1q vlan 264
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.46
+ description IC INDUSTRIAS_RHEEM_SA_DE_CV CB2-1412-0370 I27041582A CGV 04/05/15 27642842
+ bandwidth 2000
+ service-policy input IDE_SHAPE_2M_IN
+ service-policy output IDETH_SHAPE_2M_OUT
+ ipv4 address 187.130.235.94 255.255.255.252
+ dot1q vlan 250
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.47
+ description IC ALCOA_FASTENING_SYSTEMS_MEXICO_I C01-1502-0051 I05051518A JAC 31/05/15 27858465
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.228.90 255.255.255.252
+ dot1q vlan 258
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.48
+ description IC CONSORCIO_ADUANAL_CASTANEDA_RIVERO_NUEVO C01-1606-0242 I25071695A MJVV 25/07/15 27965217
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.238.50 255.255.255.252
+ dot1q vlan 266
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.49
+ description IC HOSPITAL_GENERAL_ACUNA CB2-1505-0024 I12051531A VHGA 22/05/15 28114330
+ bandwidth 2000
+ service-policy input IDE_SHAPE_2M_IN
+ service-policy output IDETH_SHAPE_2M_OUT
+ ipv4 address 201.117.128.58 255.255.255.252
+ dot1q vlan 248
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.50
+ description IC CONSORCIO_ADUANAL_CASTANEDA_RIVERO_PIEDRAS_NEGRAS C01-1606-0228 I26071648B IMH 26/07/16 27965192
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.233.170 255.255.255.252
+ dot1q vlan 267
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/0.51
+ description IC CLC_NVO_LAREDO_JARDIN CB2-1511-0371 I11121599C FCP 18/12/15 29130169
+ bandwidth 2000
+ service-policy input IDE_SHAPE_2M_IN
+ service-policy output IDETH_SHAPE_2M_OUT
+ ipv4 address 201.117.159.174 255.255.255.252
+ dot1q vlan 293
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1
+ description IC CTL__NUEVO_LAREDO UD1-1502-0047 I06051543A 1000M MDTR
+ bandwidth 1000000
+ cdp
+ proxy-arp
+ ipv4 redirects
+ load-interval 30
+!
+interface GigabitEthernet0/5/0/1.1
+ description IC SAN_BARR_Y_CIA_NUEVO_LAREDO CB2-1505-0189 I01071549B CDOR 07/07/15 28129294
+ bandwidth 2000
+ service-policy input IDE_SHAPE_2M_IN
+ service-policy output IDETH_SHAPE_2M_OUT
+ ipv4 address 187.130.233.78 255.255.255.252
+ dot1q vlan 275
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.2
+ description IC NUEVO_LAREDO_CTL_NUEVA CB2-1505-0104 I09071584A IPOC 15/07/15 28126964
+ bandwidth 2000
+ service-policy input IDE_SHAPE_2M_IN
+ service-policy output IDETH_SHAPE_2M_OUT
+ ipv4 address 187.130.224.166 255.255.255.252
+ dot1q vlan 270
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.3
+ description IC GAMAS_NUEVO_LAREDO C01-1505-0233 I13071582A JAC 25/07/15 28150106
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 201.117.128.22 255.255.255.252
+ dot1q vlan 273
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.4
+ description IC RHINO_EXPRESS C01-1505-0256 I13071585A FCP 17/07/15 28138665
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.230.250 255.255.255.252
+ dot1q vlan 274
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.5
+ description IC GOMSA_NUEVO_LAREDO C01-1505-0207 I13071539B RGVL 19/07/15 28152323
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.229.154 255.255.255.252
+ dot1q vlan 272
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.6
+ description IC TERMINAL_NUEVO_LAREDO_EN_MEX_II C01-1505-0114 I03081569B CGV 17/08/15 28129085
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 200.79.111.38 255.255.255.252
+ dot1q vlan 271
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.7
+ description IC ISABEL_A_RAMON_SC CB2-1504-0017 I11081522B VHGA 17/08/15 27882464
+ bandwidth 2000
+ service-policy input IDE_SHAPE_2M_IN
+ service-policy output IDETH_SHAPE_2M_OUT
+ ipv4 address 201.96.97.142 255.255.255.252
+ dot1q vlan 268
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.8
+ description IC AA_BENITO_MTZ_PIEDRAS_NEGRAS C01-1507-0049 I27081511A CGV 27/08/15 27619102
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.252.58 255.255.255.252
+ dot1q vlan 277
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.9
+ description IC CONSTRUCTORA_Y_URBANIZADORA_MURALLA C01-1506-0076 I28081586B JCSP 04/09/15 28175269
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.229.42 255.255.255.252
+ dot1q vlan 276
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.10
+ description IC CASS_NUEVO_LAREDO_TAMP CB2-1508-3221 I04091503B RGVL 13/09/15 28679155
+ bandwidth 2000
+ service-policy input IDE_SHAPE_2M_IN
+ service-policy output IDETH_SHAPE_2M_OUT
+ ipv4 address 200.79.122.70 255.255.255.252
+ dot1q vlan 282
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.11
+ description IC CASS_PIEDRAS_NEGRAS_COAH CB2-1508-3219 I08091512C IANAYA 21/09/15 28679336
+ bandwidth 2000
+ service-policy input IDE_SHAPE_2M_IN
+ service-policy output IDETH_SHAPE_2M_OUT
+ ipv4 address 200.79.122.22 255.255.255.252
+ dot1q vlan 281
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.12
+ description IC HOLIDAY_INN_EXPRESS_PIEDRAS_NEGRAS C05-1702-0007 I16021743A RGVL 16/02/17 27459879
+ bandwidth 50000
+ service-policy input IDE_SHAPE_50M_IN
+ service-policy output IDETH_SHAPE_50M_OUT
+ ipv4 address 187.130.252.14 255.255.255.252
+ dot1q vlan 284
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.13
+ description IC AUTOMOTORES_LAREDO C01-1507-0155 I28091590C FFR 05/010/15 28270473
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 201.96.127.190 255.255.255.252
+ dot1q vlan 214
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.14
+ description IC AMISTAD_GLOBAL_DEVELOPMENT C01-1509-0034 I29091552C IPOC 29/09/15 27866703
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.246.242 255.255.255.252
+ dot1q vlan 285
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.15
+ description IC VELA_Y_VELA_DESPACHOS_ADUANALES C01-1702-0143 I21041750A JJSR 21/04/17 27873494
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.227.194 255.255.255.252
+ dot1q vlan 333
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.16
+ description IC MOTELES_CASA_BLANCA C02-1509-0093 I05101526A RGVL 05/10/15 27443078
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 187.130.251.178 255.255.255.252
+ dot1q vlan 287
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.17
+ description IC ELECTRONICA_Y_ALARMAS_DE_SEGURIDAD_INTEGRAL CB2-1505-0391 I05101535B FFR 12/10/15 28136438
+ bandwidth 2000
+ service-policy input IDE_SHAPE_2M_IN
+ service-policy output IDETH_SHAPE_2M_OUT
+ ipv4 address 200.79.111.254 255.255.255.252
+ dot1q vlan 211
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.18
+ description IC PG_SERVICIOS_DE_LOGISTICA_CRT_AEROPUERTO C06-1706-0005 I13061780A VHGA 13/6/17 28279224
+ bandwidth 60000
+ service-policy input IDE_SHAPE_60M_IN
+ service-policy output IDETH_SHAPE_60M_OUT
+ ipv4 address 201.117.137.70 255.255.255.252
+ dot1q vlan 283
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.19
+ description IC CAROLINA_PROCESSSING C02-1609-0128 I17101662A FCP 17/10/16 28186066
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 201.117.131.106 255.255.255.252
+ dot1q vlan 213
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.20
+ description IC TAMAULIPAS CB2-1506-0007 I21101558B FFR 26/10/15 28118788
+ bandwidth 2000
+ service-policy input IDE_SHAPE_2M_IN
+ service-policy output IDETH_SHAPE_2M_OUT
+ ipv4 address 201.117.131.166 255.255.255.252
+ dot1q vlan 278
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.21
+ description IC DANHIL__CIUDAD_ACUNA_COAH CB2-1507-2032 I21101592B FCP 29/10/15 6497212
+ bandwidth 2000
+ service-policy input IDE_SHAPE_2M_IN
+ service-policy output IDETH_SHAPE_2M_OUT
+ ipv4 address 187.130.226.154 255.255.255.252
+ dot1q vlan 221
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.22
+ description IC STI_NUEVO_LAREDO C02-1508-0127 I29101531A RGVL 30/10/15 28690083
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 201.117.136.158 255.255.255.252
+ dot1q vlan 222
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.23
+ description IC PERIODICO_LA_VOZ_PIEDRAS_NEGRAS CB2-1511-0143 I12111559C FCP 13/11/15 29116065
+ bandwidth 2000
+ service-policy input IDE_SHAPE_2M_IN
+ service-policy output IDETH_SHAPE_2M_OUT
+ ipv4 address 200.79.122.158 255.255.255.252
+ dot1q vlan 291
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.24
+ description IC PARQUES_INDUSTRIALES_AMISTAD C01-1509-0041 I19111503C JCSP 27/11/15 28711091
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.226.78 255.255.255.252
+ dot1q vlan 223
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.25
+ description IC COMAPA_NLAREDO_VICTORIA4610 CB8-1507-0010 I20111510C CGV 27/11/15 28262307
+ bandwidth 8000
+ service-policy input IDE_SHAPE_8M_IN
+ service-policy output IDETH_SHAPE_8M_OUT
+ ipv4 address 201.147.28.154 255.255.255.252
+ dot1q vlan 279
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.26
+ description IC CITYEXPRESS_PIEDRAS_NEGRAS C01-1510-0246 I03121566C FCP 18/12/15 28834258
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 200.79.122.190 255.255.255.252
+ dot1q vlan 224
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.27
+ description IC MEX_STEELOP_CO_S_DE_RL_DE_CV C02-1508-0051 I18121519C FCP 23/12/15 28303110
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 201.117.131.178 255.255.255.252
+ dot1q vlan 280
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.28
+ description IC GRUPO_COMERCIAL_CASTANON__CENTRAL C02-1704-0068 I02051772A AJZ 02/05/17 28680281
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 187.130.227.178 255.255.255.252
+ dot1q vlan 288
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.29
+ description IC UTNC C00-1603-0008 I21031726A servautom 30/03/17 28669578
+ bandwidth 100000
+ service-policy input IDE_SHAPE_100M_IN
+ service-policy output IDETH_SHAPE_100M_OUT
+ ipv4 address 201.96.106.26 255.255.255.252
+ dot1q vlan 304
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.30
+ description IC NUEVO_LAREDO C01-1511-0150 I08011659C CGV 14/02/16 29146726
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 200.79.123.106 255.255.255.252
+ dot1q vlan 292
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.31
+ description IC HENDRICKSON_SPRING_PIEDRAS_NEGRAS C02-1511-0103 I29011670A LNGM 09/02/16 28823018
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 201.96.125.254 255.255.255.252
+ dot1q vlan 295
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.32
+ description IC THE_HOME_DEPOT_8796_NUEVO_LAREDO CB2-1512-0508 I22021693A JAC 11/03/16 29331216
+ bandwidth 2000
+ service-policy input IDE_SHAPE_2M_IN
+ service-policy output IDETH_SHAPE_2M_OUT
+ ipv4 address 201.96.98.182 255.255.255.252
+ dot1q vlan 296
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.33
+ description IC THE_HOME_DEPOT_8638_PIEDRAS_NEGRAS CB2-1512-0342 I22021603B JAC 11/03/16 29331289
+ bandwidth 2000
+ service-policy input IDE_SHAPE_2M_IN
+ service-policy output IDETH_SHAPE_2M_OUT
+ ipv4 address 200.79.123.102 255.255.255.252
+ dot1q vlan 297
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.34
+ description IC CONSTRU_PLAZA CB2-1601-0240 I07031665B MJVV 29/04/16 29442027
+ bandwidth 2000
+ service-policy input IDE_SHAPE_2M_IN
+ service-policy output IDETH_SHAPE_2M_OUT
+ ipv4 address 201.117.133.206 255.255.255.252
+ dot1q vlan 298
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.35
+ description IC MEDLINE_NUEVO_LAREDO_INDUSTRIAL_ORADEL C05-1602-0025 I08031627C JCSP 11/03/16 29475074
+ bandwidth 50000
+ service-policy input IDE_SHAPE_50M_IN
+ service-policy output IDETH_SHAPE_50M_OUT
+ ipv4 address 187.130.246.222 255.255.255.252
+ dot1q vlan 303
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.36
+ description IC GACSA_SITIO_NAVA_COAHUILA C01-1607-0088 I04081649B IMH 04/08/16 28006692
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.227.86 255.255.255.252
+ dot1q vlan 301
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.39
+ description IC GRUPO_DIAZ_NUEVO_LAREDO_TAMP C05-1605-0010 I15061661A servautom 17/06/16 30198983
+ bandwidth 50000
+ service-policy input IDE_SHAPE_50M_IN
+ service-policy output IDETH_SHAPE_50M_OUT
+ ipv4 address 201.117.129.250 255.255.255.252
+ dot1q vlan 756
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.40
+ description IC CENTRAL_DE_SERVICIOS_DE_CARGA_DE_NUEVO_LAREDO C01-1605-0109 I19071613C servautom 30/07/16 30160359
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 201.117.141.90 255.255.255.252
+ dot1q vlan 226
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.41
+ description IC TEA_NUEVO_LAREDO_CRT_MEXICO_NVO_LAREDO CB2-1605-0658 I20071640B servautom 22/07/16 30145247
+ bandwidth 2000
+ service-policy input IDE_SHAPE_2M_IN
+ service-policy output IDETH_SHAPE_2M_OUT
+ ipv4 address 187.130.230.154 255.255.255.252
+ dot1q vlan 230
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.42
+ description IC PLAZA_CRISTAL_NUEVO_LAREDO C03-1610-0013 I22111696A VHGA 22/11/16 30300568
+ bandwidth 30000
+ service-policy input IDE_SHAPE_30M_IN
+ service-policy output IDETH_SHAPE_30M_OUT
+ ipv4 address 187.130.240.70 255.255.255.252
+ dot1q vlan 324
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.43
+ description IC LTS_AGENCIA_ADUANAL_SECTOR_ADUANA C01-1606-0093 I05081670A servautom 16/08/16 30283494
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 187.130.226.202 255.255.255.252
+ dot1q vlan 241
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.44
+ description IC TRANSMONTES_NUEVO_LAREDO C01-1604-0095 I18081650A servautom 24/08/16 29423376
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 201.96.106.174 255.255.255.252
+ dot1q vlan 755
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.45
+ description IC RIO_GRANDE_MOTORS CB2-1607-0623 I16091611A servautom 22/09/16 30412509
+ bandwidth 2000
+ service-policy input IDE_SHAPE_2M_IN
+ service-policy output IDETH_SHAPE_2M_OUT
+ ipv4 address 187.130.225.26 255.255.255.252
+ dot1q vlan 757
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.46
+ description IC SUPER_GAS_DE_PIEDRAS_NEGRAS C01-1604-0003 I30091645A servautom 12/10/16 30012322
+ bandwidth 10000
+ service-policy input IDE_SHAPE_10M_IN
+ service-policy output IDETH_SHAPE_10M_OUT
+ ipv4 address 201.96.123.38 255.255.255.252
+ dot1q vlan 305
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface GigabitEthernet0/5/0/1.47
+ description IC COMAPA_NLAREDO_VICTORIA_4610 C02-1609-0132 I14101697B servautom 24/10/16 30449021
+ bandwidth 20000
+ service-policy input IDE_SHAPE_20M_IN
+ service-policy output IDETH_SHAPE_20M_OUT
+ ipv4 address 201.96.101.58 255.255.255.252
+ dot1q vlan 319
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface TenGigE0/6/0/0
+ description CONEXION TGE A sec-tam-nuevolaredo-24-tge0-2-0-10 BTB YPG 11/05/17
+ bandwidth 10000000
+ mtu 2014
+ service-policy output 10GE_bwrem
+ ipv4 mtu 1500
+ ipv4 address 201.125.92.138 255.255.255.252
+ mpls
+  mtu 2000
+ !
+ load-interval 30
+!
+interface TenGigE0/7/0/0
+ description CONEXION TGE A sec-tam-nuevolaredo-27-tge0-2-0-9 BTB YPG 11/05/17
+ bandwidth 10000000
+ mtu 2014
+ service-policy output 10GE_bwrem
+ ipv4 mtu 1500
+ ipv4 address 201.125.92.246 255.255.255.252
+ mpls
+  mtu 2000
+ !
+ load-interval 30
+!
+interface Serial0/0/0/2:0
+ description IC BRANIFF_NUEVO_LAREDO_BOLIVAR A32-1303-0108 I09041373A servautom 23/04/13 25270493
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.96.125.170 255.255.255.252
+ ipv4 redirects
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/0/7:0
+ ipv4 redirects
+!
+interface Serial0/0/1/2:0
+ description IC CICESE_COLEF_SUB36 D32-0908-0480 I14090984W servautom 03/11/09 7102761
+ bandwidth 1984
+ service-policy input INT_I1I2_IN
+ service-policy output INT_I1I2_OUT
+ ipv4 address 201.96.102.30 255.255.255.252
+ ipv4 redirects
+ encapsulation ppp
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/2/0/1/1/1/1:0
+ shutdown
+!
+interface Serial0/0/2/0/1/1/1/2:0
+ description IC INTRANSIT_SA_DE_CV A32-1309-0145 I25091344A MJESUSV 07/10/13 25778663
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 187.130.227.130 255.255.255.252
+ ipv4 redirects
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/2/0/1/1/1/3:0
+ description IC GREYYHUOND_LINES_MEXICO A32-1310-0065 I22101378A servautom 01/11/13 25802211
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 187.130.239.90 255.255.255.252
+ ipv4 redirects
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/2/0/1/1/2/1:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/1/2/2:0
+ shutdown
+!
+interface Serial0/0/2/0/1/1/2/3:0
+ description IC PEDRO_MTZ_CANALES_NVO_LAREDO A32-1401-0959 I19021403B servautom 07/03/14 26283166
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 187.130.229.230 255.255.255.252
+ ipv4 redirects
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/2/0/1/1/3/1:0
+ description IC AUTOTRANSP_ALANIS_SA_DE_CV A32-1402-0133 I28021488A servautom 19/03/14 26339915
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 187.130.230.46 255.255.255.252
+ ipv4 redirects
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/2/0/1/1/3/2:0
+ description IC NUEVO_LAREDO__GASOLINERAS_LA_ADUANA A32-1402-0202 I04031416A servautom 14/03/14 26339716
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 187.130.230.62 255.255.255.252
+ ipv4 redirects
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/2/0/1/1/3/3:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/1/4/1:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/1/4/2:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/1/4/3:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/1/5/1:0
+ description IC VISTA_HERMOSA_LAREDO_MOTORS_TAM A32-1403-1096 I04041432A servautom 23/04/14 26434720
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 187.130.237.206 255.255.255.252
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/2/0/1/1/5/2:0
+ description IC TRANSERVICIOS_EN_NUEVO_LAREDO A32-1403-1251 I04041423A servautom 09/04/14 26505418
+ bandwidth 1024
+ service-policy input IDE_SHAPE_1024K_IN
+ service-policy output IDE_SHAPE_1024K_OUT
+ ipv4 address 187.130.238.246 255.255.255.252
+ ipv4 redirects
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/2/0/1/1/5/3:0
+ description IC NUEVO_LAREDO_2 A32-1403-1482 I15041403B servautom 25/08/14 26517956
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 187.130.237.166 255.255.255.252
+ ipv4 redirects
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/2/0/1/1/6/1:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/1/6/2:0
+ description IC SABINAS_HIDALGO_512 A32-1404-0503 I27051432A servautom 02/06/14 26573977
+ bandwidth 512
+ service-policy input IDE_SHAPE_512K_IN
+ service-policy output IDE_SHAPE_512K_OUT
+ ipv4 address 187.130.237.10 255.255.255.252
+ ipv4 redirects
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/2/0/1/1/6/3:0
+ description IC NUEVO_LAREDO__TAMAULIPAS A32-1610-0097 I10121624A KMM 20/06/17 30617800
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.96.106.50 255.255.255.252
+ encapsulation hdlc
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/2/0/1/1/7/1:0
+ description IC DISTROMED_NUEVO_LAREDO A32-1406-0341 I23061456A servautom 30/06/14 26465726
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 187.130.236.158 255.255.255.252
+ ipv4 redirects
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/2/0/1/1/7/2:0
+ description IC NVO_LAREDO_MORELOS A32-1408-0084 I22081490A servautom 26/08/14 27015633
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 187.130.254.178 255.255.255.252
+ ipv4 redirects
+ encapsulation ppp
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/2/0/1/1/7/3:0
+ description IC CASAS_DE_SALUD_NUEVO_LAREDO A32-1408-0344 I05091468A servautom 29/09/14 26963693
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 187.130.254.114 255.255.255.252
+ ipv4 redirects
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/2/0/1/2/1/1:0
+ description IC SUPER_COMERCIAL_GONZALEZ_BELLAVISTA A32-1410-0173 I12111492V LGB 20/11/14 27265314
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 187.130.253.46 255.255.255.252
+ ipv4 redirects
+ encapsulation hdlc
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/2/0/1/2/1/2:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/2/1/3:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/2/2/1:0
+ description IC MITUSBA_VILLALDAMA A32-1507-0305 I26081582A FCP 03/09/15 28301023
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.96.97.226 255.255.255.252
+ encapsulation hdlc
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/2/0/1/2/2/2:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/2/2/3:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/2/3/1:0
+ description IC MATERIAS_PRIMAS_HIDALGO_COAHUILA D32-1509-0168 I11111580C MDCH 04/12/15 28700697
+ encapsulation ppp
+ multilink
+  group 2
+ !
+!
+interface Serial0/0/2/0/1/2/3/2:0
+ description IC MATERIAS_PRIMAS_HIDALGO_COAHUILA D32-1509-0167 I11111566C JCSP 04/12/15 28700697
+ encapsulation ppp
+ multilink
+  group 2
+ !
+!
+interface Serial0/0/2/0/1/2/3/3:0
+ description IC VALERO_NVO_LAREDO_TERCER_MILENIO A32-1510-1198 I11111508M CGV 23/11/15 28792392
+ encapsulation ppp
+ multilink
+  group 1
+ !
+!
+interface Serial0/0/2/0/1/2/4/1:0
+ description IC VALERO_NVO_LAREDO_TERCER_MILENIO A32-1510-1180 I11111560K CGV 23/11/15 28792414
+ encapsulation ppp
+ multilink
+  group 1
+ !
+!
+interface Serial0/0/2/0/1/2/4/2:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/2/4/3:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/2/5/1:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/2/5/2:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/2/5/3:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/2/6/1:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/2/6/2:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/2/6/3:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/2/7/1:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/2/7/2:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/2/7/3:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/3/1/1:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/3/1/2:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/3/1/3:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/3/2/1:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/3/2/2:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/3/2/3:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/3/3/1:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/3/3/2:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/3/3/3:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/3/4/1:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/3/4/2:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/3/4/3:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/3/5/1:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/3/5/2:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/3/5/3:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/3/6/1:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/3/6/2:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/3/6/3:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/3/7/1:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/3/7/2:0
+ ipv4 redirects
+!
+interface Serial0/0/2/0/1/3/7/3:0
+ ipv4 redirects
+!
+interface Serial0/0/3/0/1/1/1/1:0
+ description IC GAS_ORSAN_NUEVO_LAREDO_CTR_MONTERREY D32-1602-0740 I01031613B MAAE 11/07/16 29514133
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 187.130.232.206 255.255.255.252
+ encapsulation hdlc
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/3/0/1/1/1/2:0
+ bandwidth 1984
+ ipv4 redirects
+ shutdown
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/3/0/1/1/1/3:0
+ bandwidth 1984
+ ipv4 redirects
+ shutdown
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/3/0/1/1/2/1:0
+ description IC XPRESS_INTER_NUEVO_LAREDO_TAMP D32-1007-0540 I05081030A servautom 29/11/10 22389478
+ encapsulation ppp
+ multilink
+  group 5
+ !
+!
+interface Serial0/0/3/0/1/1/2/2:0
+ shutdown
+!
+interface Serial0/0/3/0/1/1/2/3:0
+ description IC CENTROS_COMERCIALES_CLL_SIMON_BOLIVAR A32-1210-0869 I10011381A CSANCHEL 10/01/13 22409574
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.96.106.102 255.255.255.252
+ ipv4 redirects
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/3/0/1/1/3/1:0
+ shutdown
+!
+interface Serial0/0/3/0/1/1/3/2:0
+ description IC INDUSTRIAS_TRICON_NUEVO_LAREDO D32-1407-0919 I22081423A servautom 31/10/14 26971598
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 187.130.254.186 255.255.255.252
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/3/0/1/1/3/3:0
+ shutdown
+!
+interface Serial0/0/3/0/1/1/4/1:0
+ bandwidth 1984
+ ipv4 redirects
+ shutdown
+!
+interface Serial0/0/3/0/1/1/4/2:0
+ description IC LINAMAR_DRIVELINE D32-1011-0560 I23031145A JBMIRAFU 23/03/11 6110805
+ encapsulation ppp
+ multilink
+  group 4
+ !
+!
+interface Serial0/0/3/0/1/1/4/3:0
+ description IC LINAMAR_DRIVELINE D32-1011-0595 I24121093J servautom 29/12/10 22590883
+ encapsulation ppp
+ multilink
+  group 4
+ !
+!
+interface Serial0/0/3/0/1/1/5/1:0
+ description IC CSC_NUEVO_LAREDO A32-1011-0279 I29121058G servautom 06/01/11 22609519
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.96.106.150 255.255.255.252
+ ipv4 redirects
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/3/0/1/1/5/2:0
+ description IC NUEVO_LAREDO A32-1011-0391 I20121075K servautom 23/12/10 22624287
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.96.106.170 255.255.255.252
+ ipv4 redirects
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/3/0/1/1/5/3:0
+ shutdown
+!
+interface Serial0/0/3/0/1/1/6/1:0
+ bandwidth 1984
+ ipv4 redirects
+ shutdown
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/3/0/1/1/6/2:0
+ shutdown
+!
+interface Serial0/0/3/0/1/1/6/3:0
+ shutdown
+!
+interface Serial0/0/3/0/1/1/7/1:0
+ description IC MS_CARRIERS_NUEVO_LAREDO_LIB_MEXICO_VI D32-1101-0206 I31011191K servautom 04/03/11 22792426
+ encapsulation ppp
+ multilink
+  group 3
+ !
+!
+interface Serial0/0/3/0/1/1/7/2:0
+ shutdown
+!
+interface Serial0/0/3/0/1/1/7/3:0
+ shutdown
+!
+interface Serial0/0/3/0/1/2/1/1:0
+ description IC MS_CARRIERS_NUEVO_LAREDO_LIB_MEXICO_X D32-1101-0208 I31011177X servautom 04/03/11 22792392
+ encapsulation ppp
+ multilink
+  group 3
+ !
+!
+interface Serial0/0/3/0/1/2/1/2:0
+ shutdown
+!
+interface Serial0/0/3/0/1/2/1/3:0
+ ipv4 redirects
+!
+interface Serial0/0/3/0/1/2/2/1:0
+ ipv4 redirects
+!
+interface Serial0/0/3/0/1/2/2/2:0
+ description IC CONTROLES_TEMEX_NUEVO_LAREDO D32-1103-0822 I03051114V servautom 11/05/11 23122131
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.96.108.226 255.255.255.252
+ ipv4 redirects
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/3/0/1/2/2/3:0
+ shutdown
+!
+interface Serial0/0/3/0/1/2/3/1:0
+ shutdown
+!
+interface Serial0/0/3/0/1/2/3/2:0
+ shutdown
+!
+interface Serial0/0/3/0/1/2/3/3:0
+ description IC KENWORTH_NUEVO_LAREDO_TAMP A32-1106-1086 I07071180Q servautom 20/07/11 23311834
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.96.111.2 255.255.255.252
+ ipv4 redirects
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/3/0/1/2/4/1:0
+ bandwidth 1984
+ ipv4 redirects
+ shutdown
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/3/0/1/2/4/2:0
+ description IC CARRETERA_AL_AEROPOUERTO_PIEDRAS_NEGRAS A32-1107-0575 I17081145Y servautom 07/09/11 23382812
+ encapsulation ppp
+ multilink
+  group 6
+ !
+!
+interface Serial0/0/3/0/1/2/4/3:0
+ description IC ALR_NUEVO_LAREDO_CRT_AEROPUERTO A32-1108-0279 I30081152O servautom 13/09/11 23460079
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.96.112.106 255.255.255.252
+ ipv4 redirects
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/3/0/1/2/5/1:0
+ ipv4 redirects
+!
+interface Serial0/0/3/0/1/2/5/2:0
+ description IC CARRETERA_AL_AEROPOUERTO_PIEDRAS_NEGRAS A32-1108-0650 I09091163A VMVG 09/09/11 21773406
+ encapsulation ppp
+ multilink
+  group 6
+ !
+!
+interface Serial0/0/3/0/1/2/5/3:0
+ shutdown
+!
+interface Serial0/0/3/0/1/2/6/1:0
+ shutdown
+!
+interface Serial0/0/3/0/1/2/6/2:0
+ bandwidth 1984
+ ipv4 redirects
+ shutdown
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/3/0/1/2/6/3:0
+ shutdown
+!
+interface Serial0/0/3/0/1/2/7/1:0
+ description IC LOGIS_AGENCIAS_ADUANALES_NUEVO_LAREDO A32-1201-0377 I21021289A servautom 29/02/12 23902210
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.96.116.202 255.255.255.252
+ ipv4 redirects
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/3/0/1/2/7/2:0
+ description IC TOKYO_SABINAS_HIDALGO A32-1201-0615 I22031215M servautom 28/03/12 23903627
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.96.117.26 255.255.255.252
+ ipv4 redirects
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/3/0/1/2/7/3:0
+ description IC CRI_CENTRO_DE_REHABILITACION_INFANTIL A32-1202-0360 I18041214Y servautom 23/04/12 24008883
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.96.117.162 255.255.255.252
+ ipv4 redirects
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/3/0/1/3/1/1:0
+ shutdown
+!
+interface Serial0/0/3/0/1/3/1/2:0
+ description IC FRIALSA_COLOMBIA_NL A32-1206-0150 I05071261A servautom 18/07/12 24298840
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.96.121.34 255.255.255.252
+ ipv4 redirects
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/3/0/1/3/1/3:0
+ description IC SIST_DE_APOYO_LOG_LIB_MEX_2_KM_7_SN A32-1206-0386 I05071266U JLCH 19/01/17 24312834
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.96.121.130 255.255.255.252
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/3/0/1/3/2/1:0
+ shutdown
+!
+interface Serial0/0/3/0/1/3/2/2:0
+ shutdown
+!
+interface Serial0/0/3/0/1/3/2/3:0
+ shutdown
+!
+interface Serial0/0/3/0/1/3/3/1:0
+ ipv4 redirects
+!
+interface Serial0/0/3/0/1/3/3/2:0
+ shutdown
+!
+interface Serial0/0/3/0/1/3/3/3:0
+ ipv4 redirects
+!
+interface Serial0/0/3/0/1/3/4/1:0
+ description IC NUEVO_LAREDO D32-1511-0366 I10121522C FCP 08/01/16 29144910
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.96.100.34 255.255.255.252
+ encapsulation hdlc
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/3/0/1/3/4/2:0
+ shutdown
+!
+interface Serial0/0/3/0/1/3/4/3:0
+ description IC ELW_INDUSTRIAL_LOTE_5 A32-1211-0205 I04121217K MDCHAVEZ 14/12/12 24790349
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.117.154.238 255.255.255.252
+ ipv4 redirects
+ encapsulation ppp
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/3/0/1/3/5/1:0
+ description IC SETASA_NUEVO_LAREDO A32-1211-0343 I13021346B MPEREZR 13/02/13 24878928
+ encapsulation ppp
+ multilink
+  group 2
+ !
+!
+interface Serial0/0/3/0/1/3/5/2:0
+ shutdown
+!
+interface Serial0/0/3/0/1/3/5/3:0
+ description IC SETASA_NUEVO_LAREDO A32-1608-0324 I21101683B MJVV 11/11/16 30416403
+ encapsulation ppp
+ multilink
+  group 2
+ !
+!
+interface Serial0/0/3/0/1/3/6/1:0
+ shutdown
+!
+interface Serial0/0/3/0/1/3/6/2:0
+ description IC GRUPO_ADUANAL_GALVAN A32-1303-0547 I11051300A EDGL 11/5/13 5038450
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.117.137.162 255.255.255.252
+ ipv4 redirects
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/3/0/1/3/6/3:0
+ description IC NCH_NUEVO_LAREDO A32-1305-0202 null servautom 06/06/13 25393845
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.117.159.130 255.255.255.252
+ ipv4 redirects
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/3/0/1/3/7/1:0
+ description IC NUEVO_LAREDO A32-1304-0469 I10121482B servautom 10/12/14 25339421
+ bandwidth 1984
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.117.158.250 255.255.255.252
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/0/3/0/1/3/7/2:0
+ shutdown
+!
+interface Serial0/0/3/0/1/3/7/3:0
+ shutdown
+!
+interface Serial0/5/3/0
+ description IC SHELTER_GUSTAVO_DIAZ_ORDAZ_3802_NVO_LAREDO D34-1201-0001 I16011216A servautom 18/01/12 23866932
+ bandwidth 34010
+ mtu 1504
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.96.116.130 255.255.255.252
+ ipv4 redirects
+ load-interval 30
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Serial0/5/3/1
+ description PRUEBA DE LOOP OK FILA A GAB 3 PP 5 POS 2 JCCC 140112
+ mtu 1504
+ ipv4 redirects
+ shutdown
+!
+interface Serial0/5/3/2
+ description PRUEBA DE LOOP OK FILA A GAB 3 PP 5 POS 3 JCCC 140112
+ mtu 1504
+ ipv4 redirects
+ shutdown
+!
+interface Serial0/5/3/3
+ description PRUEBA DE LOOP OK FILA A GAB 3 PP 5 POS 4 JCCC 140112
+ mtu 1504
+ ipv4 redirects
+ shutdown
+!
+interface Multilink0/0/2/0/1
+ description VALERO_NVO_LAREDO_TERCER_MILENIO A32-1510-1198 A32-1510-1180 CGV 23/11/15
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.96.98.10 255.255.255.252
+ encapsulation ppp
+ keepalive disable
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Multilink0/0/2/0/2
+ description IC MATERIAS_PRIMAS_HIDALGO_COAHUILA D32-1509-0168 D32-1509-0167 JAC 07/12/15
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 187.130.230.246 255.255.255.252
+ encapsulation ppp
+ keepalive disable
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Multilink0/0/3/0/2
+ description IC SETASA_NUEVO_LAREDO A32-1211-0343 A32-1608-0324 JAC 12/11/16
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.117.155.30 255.255.255.252
+ encapsulation ppp
+ keepalive disable
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Multilink0/0/3/0/3
+ description IC MS_CARRIERS_NUEVO_LAREDO_LIB_MEXICO_X D32-1101-0208 D32-1101-0206 LGB 04/03/11
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.96.107.134 255.255.255.252
+ ipv4 redirects
+ keepalive disable
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Multilink0/0/3/0/4
+ description IC LINAMAR_DRIVELINE D32-1011-0595 D32-1011-0560 pama 17/04/11
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.96.106.146 255.255.255.252
+ ipv4 redirects
+ keepalive disable
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Multilink0/0/3/0/5
+ description IC XPRESS_INTER_NUEVO_LAREDO_TAMP D32-1007-0540 EMAM 28/07/11
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.117.133.106 255.255.255.252
+ ipv4 redirects
+ keepalive disable
+ ipv4 access-group PROTECCION_IDE ingress
+!
+interface Multilink0/0/3/0/6
+ description CARRETERA_AL_AEROPOUERTO_PIEDRAS_NEGRAS A32-1107-0575 A32-1108-0650 VMVG 09/09/11
+ service-policy input INT_IDE_IN
+ service-policy output INT_IDE_OUT
+ ipv4 address 201.96.97.30 255.255.255.252
+ ipv4 redirects
+ keepalive disable
+ ipv4 access-group PROTECCION_IDE ingress
+!
+controller SONET0/0/2/0
+ description IC SIU_13_0258_CTL__NUEVO_LAREDO S1M-1304-0021 I05071334A
+ ais-shut
+ framing sdh
+ report lais
+ report lrdi
+ report sd-ber
+ overhead s1s0 2
+ threshold b1-tca 7
+ threshold b2-tca 7
+ threshold sd-ber 7
+ threshold sf-ber 7
+ au 1
+  width 3
+  mode tug3
+  tug3 1
+   mode c12-e1
+  !
+  tug3 2
+   mode c12-e1
+  !
+  tug3 3
+   mode c12-e1
+  !
+ !
+ clock source line
+!
+controller SONET0/0/3/0
+ description IC SIU_09_1765_STM1_PMP_CTL_NVO_LAREDO S1M-0912-0054 I24021022A
+ ais-shut
+ framing sdh
+ report lais
+ report lrdi
+ report sd-ber
+ overhead s1s0 2
+ threshold b1-tca 7
+ threshold b2-tca 7
+ threshold sd-ber 7
+ threshold sf-ber 7
+ au 1
+  width 3
+  mode tug3
+  tug3 1
+   mode c12-e1
+  !
+  tug3 2
+   mode c12-e1
+  !
+  tug3 3
+   mode c12-e1
+  !
+ !
+ clock source line
+!
+controller E1 0/0/0/0
+ framing no-crc4
+ clock source line
+ shutdown
+!
+controller E1 0/0/0/1
+ framing no-crc4
+ clock source internal
+!
+controller E1 0/0/0/2
+ description IC BRANIFF_NUEVO_LAREDO_BOLIVAR A32-1303-0108 I09041373A servautom 23/04/13 25270493
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/0/3
+ clock source line
+!
+controller E1 0/0/0/4
+ clock source line
+!
+controller E1 0/0/0/5
+ clock source line
+!
+controller E1 0/0/0/6
+ clock source line
+!
+controller E1 0/0/0/7
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source internal
+!
+controller E1 0/0/1/0
+ framing no-crc4
+ clock source line
+ shutdown
+!
+controller E1 0/0/1/1
+ framing no-crc4
+ clock source line
+ shutdown
+!
+controller E1 0/0/1/2
+ description IC CICESE_COLEF_SUB36 D32-0908-0480 I14090984W servautom 03/11/09 7102761
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/1/3
+ framing no-crc4
+ clock source line
+ shutdown
+!
+controller E1 0/0/1/4
+ framing no-crc4
+ clock source line
+ shutdown
+!
+controller E1 0/0/1/5
+ framing no-crc4
+ clock source line
+ shutdown
+!
+controller E1 0/0/1/6
+ framing no-crc4
+ clock source line
+ shutdown
+!
+controller E1 0/0/1/7
+ framing no-crc4
+ clock source line
+ shutdown
+!
+controller E1 0/0/2/0/1/1/1/1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/1/1/2
+ description IC INTRANSIT_SA_DE_CV A32-1309-0145 I25091344A MJESUS
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/1/1/3
+ description IC GREYYHUOND_LINES_MEXICO A32-1310-0065 I22101378A K
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/1/2/1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/1/2/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/1/2/3
+ description IC PEDRO_MTZ_CANALES_NVO_LAREDO A32-1401-0959 I190214
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/1/3/1
+ description IC AUTOTRANSP_ALANIS_SA_DE_CV A32-1402-0133 I28021488
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/1/3/2
+ description IC NUEVO_LAREDO__GASOLINERAS_LA_ADUANA A32-1402-0202
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/1/3/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/1/4/1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/1/4/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/1/4/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/1/5/1
+ description IC VISTA_HERMOSA_LAREDO_MOTORS_TAM A32-1403-1096 I040
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/1/5/2
+ description IC TRANSERVICIOS_EN_NUEVO_LAREDO A32-1403-1251 I04041
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/1/5/3
+ description IC NUEVO_LAREDO_2 A32-1403-1482 I15041403B fcarpio PO
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/1/6/1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/1/6/2
+ description IC SABINAS_HIDALGO_512 A32-1404-0503 I27051432A serva
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/1/6/3
+ description IC NUEVO_LAREDO__TAMAULIPAS A32-1610-0097 I10121624A KMM 20/06/17 30617800
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/1/7/1
+ description IC DISTROMED_NUEVO_LAREDO A32-1406-0341 I23061456A AP
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/1/7/2
+ description IC NVO_LAREDO_MORELOS A32-1408-0084 I22081490A FFR PO
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/1/7/3
+ description IC CASAS_DE_SALUD_NUEVO_LAREDO A32-1408-0344 I0509146
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/2/1/1
+ description IC SUPER_COMERCIAL_GONZALEZ_BELLAVISTA A32-1410-0173 I12111492V LGB 20/11/14 27265314
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/2/1/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/2/1/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/2/2/1
+ description IC MITUSBA_VILLALDAMA A32-1507-0305 I26081582A FCP 03/09/15 28301023
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/2/2/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/2/2/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/2/3/1
+ description IC MATERIAS_PRIMAS_HIDALGO_COAHUILA D32-1509-0168 I11111580C MDCH 04/12/15 28700697
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/2/3/2
+ description IC MATERIAS_PRIMAS_HIDALGO_COAHUILA D32-1509-0167 I11111566C JCSP 04/12/15 28700697
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/2/3/3
+ description IC VALERO_NVO_LAREDO_TERCER_MILENIO A32-1510-1198 I11111508M CGV 23/11/15 28792392
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/2/4/1
+ description IC VALERO_NVO_LAREDO_TERCER_MILENIO A32-1510-1180 I11111560K CGV 23/11/15 28792414
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/2/4/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/2/4/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/2/5/1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/2/5/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/2/5/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/2/6/1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/2/6/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/2/6/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/2/7/1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/2/7/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/2/7/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/3/1/1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/3/1/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/3/1/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/3/2/1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/3/2/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/3/2/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/3/3/1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/3/3/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/3/3/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/3/4/1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/3/4/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/3/4/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/3/5/1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/3/5/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/3/5/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/3/6/1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/3/6/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/3/6/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/3/7/1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/3/7/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/2/0/1/3/7/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/1/1/1
+ description IC GAS_ORSAN_NUEVO_LAREDO_CTR_MONTERREY D32-1602-0740 I01031613B MAAE 11/07/16 29514133
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/1/1/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+!
+controller E1 0/0/3/0/1/1/1/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+!
+controller E1 0/0/3/0/1/1/2/1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+!
+controller E1 0/0/3/0/1/1/2/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/1/2/3
+ description IC CENTROS_COMERCIALES_CLL_SIMON_BOLIVAR A32-1210-086
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/1/3/1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/1/3/2
+ description IC INDUSTRIAS_TRICON_NUEVO_LAREDO D32-1407-0919 I2208
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/1/3/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/1/4/1
+ description IC NUEVO_LAREDO A32-1011-0174 I26111037N servautom 09
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/1/4/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/1/4/3
+ description ENLACE IC LINAMAR_DRIVELINE D32-1011-0595 I24121093J
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/1/5/1
+ description ENLACE IC CSC_NUEVO_LAREDO A32-1011-0279 I29121058G P
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/1/5/2
+ description ENLACE IC NUEVO_LAREDO A32-1011-0391 I20121075K POR I
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/1/5/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/1/6/1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+!
+controller E1 0/0/3/0/1/1/6/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/1/6/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/1/7/1
+ description ENLACE IC MS_CARRIERS_NUEVO_LAREDO_LIB_MEXICO_II D32-
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/1/7/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/1/7/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/2/1/1
+ description ENLACE IC MS_CARRIERS_NUEVO_LAREDO_LIB_MEXICO_II D32-
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/2/1/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/2/1/3
+ description ENLACE IC INDUSTRIAS_TRICON_NUEVO_LAREDO D32-1103-057
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/2/2/1
+ description IC BAS INDUSTRIAS_TRICON_NUEVO_LAREDO D32-1103-0572 I
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/2/2/2
+ description IC CONTROLES_TEMEX_NUEVO_LAREDO D32-1103-0822 I030511
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/2/2/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/2/3/1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/2/3/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/2/3/3
+ description ENLACE IC KENWORTH_NUEVO_LAREDO_TAMP A32-1106-1086 I0
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/2/4/1
+ description ENLACE IC OFICINAS_NUEVAS_DE_NUEVO_LAREDO A32-1207-03
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/2/4/2
+ description ENLACE IC CARRETERA_AL_AEROPOUERTO_PIEDRAS_NEGRAS A32
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/2/4/3
+ description ENLACE IC ALR_NUEVO_LAREDO_CRT_AEROPUERTO A32-1108-02
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/2/5/1
+ description IC D32-1108-0748 I08091148B jmunguia POR INSTALAR
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/2/5/2
+ description IC CARRETERA_AL_AEROPOUERTO_PIEDRAS_NEGRAS A32-1108-0
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/2/5/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/2/6/1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/2/6/2
+ description IC DESPACHOS_ADUANALES_GONZALEZ_CASTILLO A32-1210-059
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/2/6/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/2/7/1
+ description ENLACE IC LOGIS_AGENCIAS_ADUANALES_NUEVO_LAREDO A32-1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/2/7/2
+ description ENLACE IC TOKYO_SABINAS_HIDALGO A32-1201-0615 I220312
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/2/7/3
+ description ENLACE IC CRI_CENTRO_DE_REHABILITACION_INFANTIL A32-1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/3/1/1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/3/1/2
+ description ENLACE IC FRIALSA_COLOMBIA_NL A32-1206-0150 I05071261
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/3/1/3
+ description IC SIST_DE_APOYO_LOG_LIB_MEX_2_KM_7_SN A32-1206-0386 I05071266U JLCH 19/01/17 24312834
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/3/2/1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/3/2/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/3/2/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/3/3/1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+!
+controller E1 0/0/3/0/1/3/3/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/3/3/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+!
+controller E1 0/0/3/0/1/3/4/1
+ description IC NUEVO_LAREDO D32-1511-0366 I10121522C FCP 08/01/16 29144910
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/3/4/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/3/4/3
+ description IC ELW_INDUSTRIAL_LOTE_5 A32-1211-0205
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/3/5/1
+ description IC SETASA_NUEVO_LAREDO A32-1211-0343 I13021346B MPEREZR 13/02/13 24878928
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/3/5/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/3/5/3
+ description IC SETASA_NUEVO_LAREDO A32-1608-0324 I21101683B MJVV 11/11/16 30416403
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/3/6/1
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/3/6/2
+ description IC GRUPO_ADUANAL_GALVAN A32-1303-0547 I11051300A EDGL
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/3/6/3
+ description IC NCH_NUEVO_LAREDO A32-1305-0202 I29051329A APASCACI
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/3/7/1
+ description IC NUEVO_LAREDO A32-1304-0469 I15051377A APASCACI POR
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E1 0/0/3/0/1/3/7/2
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+!
+controller E1 0/0/3/0/1/3/7/3
+ framing no-crc4
+ channel-group 0
+  timeslots 1-31
+ !
+ clock source line
+!
+controller E3 0/5/3/0
+ mode serial
+ clock source internal
+!
+controller E3 0/5/3/1
+ mode serial
+!
+controller E3 0/5/3/2
+ mode serial
+!
+controller E3 0/5/3/3
+ mode serial
+!
+controller MgmtMultilink0/0/2/0
+ bundle 1
+ bundle 2
+!
+controller MgmtMultilink0/0/3/0
+ bundle 2
+ bundle 3
+ bundle 4
+ bundle 5
+ bundle 6
+!
+prefix-set 1
+  0.0.0.0/0 le 32
+end-set
+!
+prefix-set 2
+  0.0.0.0/0 le 32
+end-set
+!
+prefix-set RTBHR
+  192.168.250.0/24,
+  192.168.252.0/24,
+  192.168.251.0/24
+end-set
+!
+prefix-set MAS_24
+  0.0.0.0/0 le 24
+end-set
+!
+prefix-set RUTA_CERO
+  0.0.0.0/0
+end-set
+!
+prefix-set REDES_PRIVADAS
+  10.0.0.0/8 le 32,
+  172.16.0.0/12 le 32,
+  192.168.0.0/16 le 32
+end-set
+!
+prefix-set BGP_IPS_00_UNINET
+  187.216.34.176/28 le 32,
+  201.116.135.16/28 le 32,
+  187.141.239.32/28 le 32
+end-set
+!
+prefix-set BGP_IPS_00_CLIENTE
+  200.12.123.0/24 le 32,
+  200.12.124.0/24 le 32,
+  200.12.125.0/24 le 32
+end-set
+!
+prefix-set ESTATICAS_IPS_UNINET
+  189.254.153.192/28 le 32,
+  189.254.156.208/28 le 32,
+  187.141.253.112/28 le 32,
+  189.254.187.208/28 le 32,
+  201.116.145.192/28 le 32,
+  187.216.56.112/28 le 32,
+  187.141.234.160/28 le 32,
+  187.141.245.224/28 le 32,
+  187.141.253.48/28 le 32,
+  187.141.255.80/28 le 32,
+  187.216.62.64/28 le 32,
+  189.254.129.96/28 le 32,
+  189.254.132.128/28 le 32,
+  189.254.132.160/28 le 32,
+  189.254.135.144/28 le 32,
+  189.254.135.176/28 le 32,
+  189.254.136.64/28 le 32,
+  189.254.140.208/28 le 32,
+  189.254.140.224/28 le 32,
+  189.254.144.128/28 le 32,
+  189.254.149.144/28 le 32,
+  189.254.149.208/28 le 32,
+  189.254.150.16/28 le 32,
+  189.254.152.112/28 le 32,
+  189.254.164.64/28 le 32,
+  189.254.166.176/28 le 32,
+  189.254.169.64/28 le 32,
+  201.96.126.246/32,
+  201.116.5.112/28 le 32,
+  201.116.118.48/28 le 32,
+  201.116.153.112/28 le 32,
+  201.134.9.176/28 le 32,
+  201.144.97.128/28 le 32,
+  201.144.113.96/28 le 32,
+  201.144.120.160/28 le 32,
+  187.216.48.144/28 le 32,
+  187.216.46.144/28 le 32,
+  187.216.42.240/28 le 32,
+  187.216.43.32/28 le 32,
+  187.216.42.208/28 le 32,
+  187.216.42.160/28 le 32,
+  187.216.42.224/28 le 32,
+  187.216.46.192/28 le 32,
+  187.216.34.160/28 le 32,
+  187.141.230.240/28 le 32,
+  189.254.149.224/28 le 32,
+  187.216.33.64/28 le 32,
+  187.216.32.128/28 le 32,
+  187.216.31.48/28 le 32,
+  201.144.97.224/28 le 32,
+  201.116.135.32/28 le 32,
+  187.216.25.224/28 le 32,
+  187.216.2.176/28 le 32,
+  187.216.25.96/28 le 32,
+  187.141.230.112/28 le 32,
+  187.216.25.32/28 le 32,
+  187.216.22.112/28 le 32,
+  187.216.59.96/28 le 32,
+  187.216.46.48/28 le 32,
+  187.216.40.16/28 le 32,
+  187.216.20.80/28 le 32,
+  187.216.20.64/28 le 32,
+  187.216.22.128/28 le 32,
+  187.216.19.128/28 le 32,
+  187.216.2.144/28 le 32,
+  187.216.9.160/28 le 32,
+  187.216.19.96/28 le 32,
+  187.216.19.48/28 le 32,
+  187.216.19.32/28 le 32,
+  187.141.225.144/28 le 32,
+  187.216.35.224/28 le 32,
+  148.223.22.16/28 le 32,
+  189.254.175.48/28 le 32,
+  200.79.110.16/28 le 32,
+  187.216.18.48/28 le 32,
+  187.216.18.32/28 le 32,
+  187.216.17.240/28 le 32,
+  201.144.99.112/28 le 32,
+  189.254.136.240/28 le 32,
+  189.254.140.240/28 le 32,
+  201.144.100.16/28 le 32,
+  187.216.11.0/28 le 32,
+  187.141.234.176/28 le 32,
+  187.216.26.128/28 le 32,
+  187.216.27.64/28 le 32,
+  187.216.3.80/28 le 32,
+  187.216.30.80/28 le 32,
+  187.216.35.32/28 le 32,
+  187.216.37.240/28 le 32,
+  187.216.38.32/28 le 32,
+  187.216.39.64/28 le 32,
+  187.216.48.240/28 le 32,
+  187.216.58.144/28 le 32,
+  189.254.144.112/28 le 32,
+  201.116.147.160/28 le 32,
+  187.216.10.16/28 le 32,
+  201.144.123.240/28 le 32,
+  187.216.16.192/28 le 32,
+  187.216.16.208/28 le 32,
+  201.144.106.32/28 le 32,
+  187.216.16.240/28 le 32,
+  201.147.17.64/28 le 32,
+  187.216.11.240/28 le 32,
+  189.254.131.48/28 le 32,
+  187.216.12.48/28 le 32,
+  187.216.15.48/28 le 32,
+  201.116.134.32/28 le 32,
+  187.216.14.144/28 le 32,
+  187.216.18.112/28 le 32,
+  200.79.110.32/28 le 32,
+  187.216.14.80/28 le 32,
+  187.141.237.64/28 le 32,
+  200.79.110.240/28 le 32,
+  187.141.246.0/28 le 32,
+  201.144.106.240/28 le 32,
+  201.144.109.240/28 le 32,
+  187.216.12.80/28 le 32,
+  201.144.110.0/28 le 32,
+  187.216.13.224/28 le 32,
+  201.144.97.32/28 le 32,
+  201.134.30.128/28 le 32,
+  187.216.34.208/28 le 32,
+  189.254.133.112/28 le 32,
+  187.216.38.192/28 le 32,
+  201.116.138.80/28 le 32,
+  189.254.141.192/28 le 32,
+  187.141.226.48/28 le 32,
+  187.141.247.224/28 le 32,
+  187.141.251.112/28 le 32,
+  201.144.122.144/28 le 32,
+  201.116.140.48/28 le 32,
+  200.79.121.64/28 le 32,
+  201.116.134.0/28 le 32,
+  201.144.107.224/28 le 32,
+  187.216.13.96/28 le 32,
+  201.144.104.16/28 le 32,
+  187.216.12.192/28 le 32,
+  187.216.34.192/28 le 32,
+  187.216.30.176/28 le 32,
+  201.144.101.48/28 le 32,
+  187.216.35.80/28 le 32,
+  201.116.130.160/28 le 32,
+  201.144.123.100/30 le 32,
+  187.216.37.80/28 le 32,
+  201.144.105.224/28 le 32,
+  201.144.116.64/28 le 32,
+  189.254.139.176/28 le 32,
+  187.216.34.144/28 le 32,
+  189.254.173.112/28 le 32,
+  201.134.9.240/28 le 32,
+  201.144.117.160/28 le 32,
+  201.116.148.176/28 le 32,
+  187.141.250.64/28 le 32,
+  201.144.125.144/28 le 32,
+  201.144.118.32/28 le 32,
+  189.254.137.160/28 le 32,
+  187.216.39.32/28 le 32,
+  201.116.148.48/28 le 32,
+  187.216.42.144/28 le 32,
+  187.141.243.0/28 le 32,
+  187.216.54.176/28 le 32,
+  187.216.42.0/28 le 32,
+  187.141.254.192/28 le 32,
+  201.116.149.96/28 le 32,
+  189.254.142.144/28 le 32,
+  200.79.113.192/28 le 32,
+  189.254.146.160/28 le 32,
+  200.79.118.32/28 le 32,
+  189.254.176.240/28 le 32,
+  189.254.132.80/28 le 32,
+  187.141.247.32/28 le 32
+end-set
+!
+prefix-set ESTATICAS_IPS_CLIENTE
+  198.254.132.112/28 le 32
+end-set
+!
+prefix-set IC_I1_I2_CICESE_COLEF_SUB36
+  201.116.135.16/28 le 32
+end-set
+!
+prefix-set IC_ELECTRONICA_Y_COMUNICACIONES
+  187.141.239.32/28 le 32,
+  200.12.123.0/24 le 32,
+  200.12.124.0/24 le 32,
+  200.12.125.0/24 le 32
+end-set
+!
+prefix-set IC_ELECTRONICA_Y_COMUNICACIONES_COL_ELECTRICISTAS
+  187.216.34.176/28 le 32,
+  200.12.123.0/24 le 32,
+  200.12.124.0/24 le 32,
+  200.12.125.0/24 le 32
+end-set
+!
+community-set 1
+  8151:277,
+  8151:285
+end-set
+!
+community-set 2
+  8151:277,
+  8151:286
+end-set
+!
+community-set 3
+  8151:277,
+  8151:287
+end-set
+!
+community-set 4
+  8151:277,
+  8151:288
+end-set
+!
+community-set 5
+  8151:278,
+  8151:285
+end-set
+!
+community-set 6
+  8151:278,
+  8151:286
+end-set
+!
+community-set 7
+  8151:278,
+  8151:287
+end-set
+!
+community-set 8
+  8151:278,
+  8151:288
+end-set
+!
+community-set SAMECLUSTER
+  8151:1005
+end-set
+!
+community-set TERCERRESPALDO
+  8151:1007
+end-set
+!
+community-set SEGUNDORESPALDO
+  8151:1006
+end-set
+!
+route-policy PASS
+  pass
+end-policy
+!
+route-policy TRANS_INT
+  if (destination in MAS_24) then
+    pass
+  elseif (community matches-every 5) then
+    set local-preference 100
+    set community (8151:299, 8151:278) additive
+  elseif (community matches-every 6) then
+    set local-preference 98
+    set community (8151:299, 8151:278) additive
+  elseif (community matches-every 7) then
+    set local-preference 96
+    set community (8151:299, 8151:278) additive
+  elseif (community matches-every 8) then
+    set local-preference 94
+    set community (8151:299, 8151:278) additive
+  endif
+end-policy
+!
+route-policy DUAL_HOMED
+  if (community matches-every 1) then
+    set local-preference 100
+    set community (no-export) additive
+  elseif (community matches-every 2) then
+    set local-preference 98
+    set community (no-export) additive
+  elseif (community matches-every 3) then
+    set local-preference 96
+    set community (no-export) additive
+  elseif (community matches-every 4) then
+    set local-preference 94
+    set community (no-export) additive
+  elseif (community matches-every 5) then
+    set local-preference 100
+  elseif (community matches-every 6) then
+    set local-preference 98
+  elseif (community matches-every 7) then
+    set local-preference 96
+  elseif (community matches-every 8) then
+    set local-preference 94
+  else
+    pass
+  endif
+end-policy
+!
+route-policy MAXAS_LIMIT
+  if (as-path length ge 31) then
+    drop
+  else
+    pass
+  endif
+end-policy
+!
+route-policy SAMECLUSTER
+  if ((community matches-any SAMECLUSTER) and (destination in RUTA_CERO)) then
+    pass
+  elseif ((community matches-any TERCERRESPALDO) and (destination in RUTA_CERO)) then
+    set local-preference 50
+  elseif (destination in RUTA_CERO) then
+    drop
+  else
+    pass
+  endif
+end-policy
+!
+route-policy MARCA_REGION
+  set community (8151:623) additive
+end-policy
+!
+route-policy OTHERCLUSTER
+  if ((community matches-any SEGUNDORESPALDO) and (destination in RUTA_CERO)) then
+    set local-preference 75
+  elseif (destination in RUTA_CERO) then
+    drop
+  else
+    pass
+  endif
+end-policy
+!
+route-policy BGP_MARCA_IPS_00
+  if (destination in BGP_IPS_00_UNINET) then
+    set local-preference 100
+    set community (8151:277, no-export) additive
+  elseif (destination in BGP_IPS_00_CLIENTE) then
+    set local-preference 100
+    set community (8151:278) additive
+  endif
+end-policy
+!
+route-policy SERIALES_MONTERREY
+  if (destination in 1) then
+    set community (8151:277, 8151:280, no-export)
+  endif
+end-policy
+!
+route-policy ESTATICAS_CLIENTES_IDE
+  if (destination in RTBHR) then
+    drop
+  elseif (destination in REDES_PRIVADAS) then
+    set community (no-export)
+  elseif (destination in ESTATICAS_IPS_UNINET) then
+    set community (8151:277, no-export)
+  elseif (destination in ESTATICAS_IPS_CLIENTE) then
+    set community (8151:278)
+  elseif (destination in 1) then
+    pass
+  endif
+end-policy
+!
+route-policy BGP_IPV4_IC_I1_I2_CICESE_COLEF_SUB36
+  if (destination in IC_I1_I2_CICESE_COLEF_SUB36) then
+    apply BGP_MARCA_IPS_00
+  endif
+end-policy
+!
+route-policy BGP_IPV4_IC_ELECTRONICA_Y_COMUNICACIONES_COL_ELECTRICISTAS
+  if (destination in IC_ELECTRONICA_Y_COMUNICACIONES_COL_ELECTRICISTAS) then
+    apply BGP_MARCA_IPS_00
+  endif
+end-policy
+!
+router static
+ address-family ipv4 unicast
+  127.0.0.0/8 Null0
+  148.223.22.16/28 GigabitEthernet0/5/0/0.34 187.130.252.189
+  187.141.225.144/28 GigabitEthernet0/5/0/1.8 187.130.252.57
+  187.141.226.48/28 Serial0/0/3/0/1/3/4/1:0 201.96.100.33
+  187.141.230.112/28 GigabitEthernet0/5/0/0.21 187.130.253.13
+  187.141.230.240/28 GigabitEthernet0/5/0/0.13 187.130.237.125
+  187.141.234.160/28 GigabitEthernet0/5/0/0.10 187.130.237.177
+  187.141.234.176/28 Serial0/0/2/0/1/1/5/2:0 187.130.238.245
+  187.141.237.64/28 GigabitEthernet0/5/0/0.25 187.130.226.173
+  187.141.243.0/28 GigabitEthernet0/1/0/3.16 187.130.230.13
+  187.141.245.224/28 GigabitEthernet0/5/0/1.30 200.79.123.105
+  187.141.246.0/28 GigabitEthernet0/5/0/1.18 201.117.137.69
+  187.141.247.32/28 GigabitEthernet0/1/0/3.26 187.130.224.97
+  187.141.247.224/28 GigabitEthernet0/5/0/1.28 187.130.227.177
+  187.141.250.64/28 GigabitEthernet0/1/0/3.10 201.96.123.69
+  187.141.251.112/28 GigabitEthernet0/5/0/1.31 201.96.125.253
+  187.141.253.48/28 GigabitEthernet0/5/0/1.39 201.117.129.249
+  187.141.253.112/28 GigabitEthernet0/1/0/3.17 187.130.226.149
+  187.141.254.192/28 Serial0/0/3/0/1/1/2/3:0 201.96.106.101
+  187.141.255.80/28 Multilink0/0/3/0/5 201.117.133.105
+  187.216.2.144/28 GigabitEthernet0/5/0/0.30 187.130.252.253
+  187.216.2.176/28 GigabitEthernet0/5/0/0.18 187.130.254.29
+  187.216.3.80/28 Serial0/0/3/0/1/1/3/2:0 187.130.254.185
+  187.216.9.160/28 GigabitEthernet0/5/0/0.27 187.130.239.45
+  187.216.10.16/28 GigabitEthernet0/5/0/0.46 187.130.235.93
+  187.216.11.0/28 GigabitEthernet0/5/0/1.14 187.130.246.241
+  187.216.11.240/28 GigabitEthernet0/5/0/1.2 187.130.224.165
+  187.216.12.48/28 GigabitEthernet0/5/0/1.6 200.79.111.37
+  187.216.12.80/28 GigabitEthernet0/5/0/1.21 187.130.226.153
+  187.216.12.192/28 GigabitEthernet0/5/0/1.41 187.130.230.153
+  187.216.13.96/28 Serial0/0/3/0/1/1/1/1:0 187.130.232.205
+  187.216.13.224/28 GigabitEthernet0/5/0/1.23 200.79.122.157
+  187.216.14.80/28 GigabitEthernet0/5/0/1.13 201.96.127.189
+  187.216.14.144/28 GigabitEthernet0/5/0/1.9 187.130.229.41
+  187.216.15.48/28 GigabitEthernet0/5/0/1.7 201.96.97.141
+  187.216.16.192/28 GigabitEthernet0/5/0/0.50 187.130.233.169
+  187.216.16.208/28 GigabitEthernet0/5/0/0.48 187.130.238.49
+  187.216.16.240/28 GigabitEthernet0/5/0/0.47 187.130.228.89
+  187.216.17.240/28 GigabitEthernet0/5/0/0.37 187.130.252.113
+  187.216.18.32/28 GigabitEthernet0/5/0/0.36 187.130.252.85
+  187.216.18.48/28 GigabitEthernet0/5/0/0.35 187.130.252.181
+  187.216.18.112/28 GigabitEthernet0/5/0/1.10 200.79.122.69
+  187.216.19.32/28 GigabitEthernet0/5/0/1.12 187.130.252.13
+  187.216.19.48/28 GigabitEthernet0/5/0/0.31 187.130.252.9
+  187.216.19.96/28 GigabitEthernet0/5/0/0.29 187.130.254.53
+  187.216.19.128/28 GigabitEthernet0/5/0/0.28 187.130.251.129
+  187.216.20.64/28 GigabitEthernet0/5/0/0.26 187.130.251.97
+  187.216.20.80/28 GigabitEthernet0/5/0/1.16 187.130.251.177
+  187.216.22.112/28 Serial0/0/2/0/1/2/1/1:0 187.130.253.45
+  187.216.22.128/28 GigabitEthernet0/5/0/0.24 187.130.251.185
+  187.216.25.32/28 GigabitEthernet0/5/0/0.20 187.130.255.189
+  187.216.25.96/28 GigabitEthernet0/5/0/0.19 187.130.255.245
+  187.216.25.224/28 GigabitEthernet0/5/0/0.17 187.130.254.37
+  187.216.26.128/28 Serial0/0/2/0/1/1/7/3:0 187.130.254.113
+  187.216.27.64/28 Serial0/0/2/0/1/1/7/2:0 187.130.254.177
+  187.216.30.80/28 Serial0/0/2/0/1/1/7/1:0 187.130.236.157
+  187.216.30.176/28 GigabitEthernet0/5/0/1.40 201.117.141.89
+  187.216.31.48/28 GigabitEthernet0/5/0/0.15 187.130.236.201
+  187.216.32.128/28 Serial0/0/2/0/1/1/6/2:0 187.130.237.9
+  187.216.33.64/28 GigabitEthernet0/5/0/0.14 187.130.237.61
+  187.216.34.144/28 GigabitEthernet0/1/0/3.5 201.96.122.197
+  187.216.34.160/28 GigabitEthernet0/5/0/0.12 187.130.237.129
+  187.216.34.192/28 GigabitEthernet0/1/0/3.2 187.130.230.117
+  187.216.34.208/28 GigabitEthernet0/5/0/1.24 187.130.226.77
+  187.216.35.32/28 Serial0/0/2/0/1/1/5/3:0 187.130.237.165
+  187.216.35.80/28 GigabitEthernet0/5/0/1.43 187.130.226.201
+  187.216.35.224/28 Serial0/0/2/0/1/1/5/1:0 187.130.237.205
+  187.216.37.80/28 GigabitEthernet0/1/0/3.4 187.130.238.77
+  187.216.37.240/28 Serial0/0/2/0/1/1/3/2:0 187.130.230.61
+  187.216.38.32/28 Serial0/0/2/0/1/1/3/1:0 187.130.230.45
+  187.216.38.192/28 Multilink0/0/2/0/2 187.130.230.245
+  187.216.39.32/28 GigabitEthernet0/1/0/3.13 201.96.101.29
+  187.216.39.64/28 Serial0/0/2/0/1/1/2/3:0 187.130.229.229
+  187.216.40.16/28 GigabitEthernet0/5/0/0.22 187.130.253.153
+  187.216.42.0/28 GigabitEthernet0/1/0/3.18 201.96.102.77
+  187.216.42.144/28 GigabitEthernet0/1/0/3.14 201.96.123.209
+  187.216.42.160/28 GigabitEthernet0/5/0/0.8 187.130.238.165
+  187.216.42.208/28 GigabitEthernet0/5/0/0.7 187.130.238.173
+  187.216.42.224/28 GigabitEthernet0/5/0/0.9 187.130.238.177
+  187.216.42.240/28 GigabitEthernet0/5/0/0.5 187.130.238.181
+  187.216.43.32/28 GigabitEthernet0/5/0/0.6 187.130.238.189
+  187.216.46.48/28 GigabitEthernet0/5/0/0.23 187.130.253.157
+  187.216.46.144/28 GigabitEthernet0/5/0/0.4 187.130.239.77
+  187.216.46.192/28 Serial0/0/2/0/1/1/1/3:0 187.130.239.89
+  187.216.48.144/28 Serial0/0/2/0/1/1/1/2:0 187.130.227.129
+  187.216.48.240/28 GigabitEthernet0/5/0/0.51 201.117.159.173
+  187.216.54.176/28 GigabitEthernet0/1/0/3.19 201.96.96.21
+  187.216.56.112/28 GigabitEthernet0/5/0/0.1 201.96.125.141
+  187.216.58.144/28 Serial0/0/3/0/1/3/6/3:0 201.117.159.129
+  187.216.59.96/28 Serial0/0/3/0/1/3/7/1:0 201.117.158.249
+  187.216.62.64/28 Serial0/0/0/2:0 201.96.125.169
+  189.254.129.96/28 Multilink0/0/3/0/6 201.96.97.29
+  189.254.131.48/28 GigabitEthernet0/5/0/1.4 187.130.230.249
+  189.254.132.80/28 GigabitEthernet0/1/0/3.25 201.96.117.45
+  189.254.132.128/28 Multilink0/0/3/0/3 201.96.107.133
+  189.254.132.160/28 Multilink0/0/3/0/3 201.96.107.133
+  189.254.133.112/28 Multilink0/0/2/0/2 187.130.230.245
+  189.254.135.144/28 Multilink0/0/3/0/4 201.96.106.145
+  189.254.135.176/28 Serial0/0/3/0/1/1/5/2:0 201.96.106.169
+  189.254.136.64/28 Serial0/0/3/0/1/1/5/1:0 201.96.106.149
+  189.254.136.240/28 GigabitEthernet0/5/0/0.39 187.130.252.21
+  189.254.137.160/28 GigabitEthernet0/1/0/3.12 201.96.123.249
+  189.254.139.176/28 GigabitEthernet0/1/0/3.6 201.96.113.133
+  189.254.140.208/28 Serial0/0/3/0/1/3/1/2:0 201.96.121.33
+  189.254.140.224/28 Serial0/0/3/0/1/3/1/3:0 201.96.121.129
+  189.254.140.240/28 GigabitEthernet0/5/0/0.42 187.130.252.141
+  189.254.141.192/28 GigabitEthernet0/5/0/1.27 201.117.131.177
+  189.254.142.144/28 GigabitEthernet0/1/0/3.20 201.96.103.137
+  189.254.144.112/28 GigabitEthernet0/5/0/0.43 187.130.224.41
+  189.254.144.128/28 Serial0/0/3/0/1/2/2/2:0 201.96.108.225
+  189.254.146.160/28 GigabitEthernet0/1/0/3.22 201.96.109.173
+  189.254.149.144/28 Serial0/0/3/0/1/2/4/3:0 201.96.112.105
+  189.254.149.224/28 GigabitEthernet0/5/0/0.13 187.130.237.125
+  189.254.150.16/28 Serial0/0/3/0/1/2/3/3:0 201.96.111.1
+  189.254.152.112/28 GigabitEthernet0/1/0/3.8 201.96.121.37
+  189.254.153.192/28 Serial0/5/3/0 201.96.116.129
+  189.254.156.208/28 Serial0/0/3/0/1/3/4/3:0 201.117.154.237
+  189.254.164.64/28 Serial0/0/3/0/1/2/7/1:0 201.96.116.201
+  189.254.166.176/28 Serial0/0/3/0/1/2/7/3:0 201.96.117.161
+  189.254.169.64/28 Serial0/0/3/0/1/2/7/2:0 201.96.117.25
+  189.254.173.112/28 GigabitEthernet0/5/0/1.46 201.96.123.37
+  189.254.175.48/28 GigabitEthernet0/5/0/0.34 187.130.252.189
+  189.254.176.240/28 Serial0/0/2/0/1/1/6/3:0 201.96.106.49
+  189.254.187.208/28 Multilink0/0/3/0/2 201.117.155.29
+  192.168.250.0/24 Null0
+  198.254.132.112/28 Multilink0/0/3/0/3 201.96.107.133
+  200.79.110.16/28 GigabitEthernet0/5/0/0.34 187.130.252.189
+  200.79.110.32/28 GigabitEthernet0/5/0/1.11 200.79.122.21
+  200.79.110.240/28 GigabitEthernet0/5/0/1.17 200.79.111.253
+  200.79.113.192/28 GigabitEthernet0/1/0/3.23 201.96.112.177
+  200.79.118.32/28 GigabitEthernet0/1/0/3.24 201.96.105.105
+  200.79.121.64/28 GigabitEthernet0/5/0/1.33 200.79.123.101
+  201.96.126.246/32 GigabitEthernet0/1/0/1 201.96.126.209
+  201.116.5.112/28 Serial0/0/3/0/1/2/7/2:0 201.96.117.25
+  201.116.118.48/28 Serial0/0/3/0/1/2/7/2:0 201.96.117.25
+  201.116.130.160/28 GigabitEthernet0/5/0/1.44 201.96.106.173
+  201.116.134.0/28 GigabitEthernet0/5/0/1.36 187.130.227.85
+  201.116.134.32/28 Serial0/0/2/0/1/2/2/1:0 201.96.97.225
+  201.116.135.32/28 GigabitEthernet0/5/0/0.16 187.130.236.33
+  201.116.138.80/28 GigabitEthernet0/5/0/1.26 200.79.122.189
+  201.116.140.48/28 GigabitEthernet0/5/0/1.32 201.96.98.181
+  201.116.145.192/28 Serial0/0/3/0/1/3/6/2:0 201.117.137.161
+  201.116.147.160/28 Multilink0/0/3/0/5 201.117.133.105
+  201.116.148.48/28 GigabitEthernet0/1/0/3.15 201.96.122.109
+  201.116.148.176/28 GigabitEthernet0/5/0/1.25 201.147.28.153
+  201.116.149.96/28 GigabitEthernet0/5/0/1.29 201.96.106.25
+  201.116.153.112/28 Multilink0/0/3/0/4 201.96.106.145
+  201.134.9.176/28 Multilink0/0/3/0/3 201.96.107.133
+  201.134.9.240/28 GigabitEthernet0/1/0/3.3 187.130.239.129
+  201.134.30.128/28 Multilink0/0/2/0/1 201.96.98.9
+  201.144.97.32/28 Multilink0/0/2/0/1 201.96.98.9
+  201.144.97.128/28 GigabitEthernet0/5/0/1.3 201.117.128.21
+  201.144.97.224/28 GigabitEthernet0/5/0/1.5 187.130.229.153
+  201.144.99.112/28 GigabitEthernet0/5/0/0.38 187.130.252.137
+  201.144.100.16/28 GigabitEthernet0/5/0/1.15 187.130.227.193
+  201.144.101.48/28 GigabitEthernet0/5/0/1.42 187.130.240.69
+  201.144.104.16/28 GigabitEthernet0/1/0/3.1 201.96.98.217
+  201.144.105.224/28 GigabitEthernet0/5/0/1.45 187.130.225.25
+  201.144.106.32/28 GigabitEthernet0/5/0/0.49 201.117.128.57
+  201.144.106.240/28 GigabitEthernet0/5/0/1.20 201.117.131.165
+  201.144.107.224/28 GigabitEthernet0/5/0/1.34 201.117.133.205
+  201.144.109.240/28 GigabitEthernet0/5/0/1.19 201.117.131.105
+  201.144.110.0/28 GigabitEthernet0/5/0/1.22 201.117.136.157
+  201.144.113.96/28 GigabitEthernet0/5/0/1.47 201.96.101.57
+  201.144.116.64/28 GigabitEthernet0/1/0/3.7 201.96.116.81
+  201.144.117.160/28 GigabitEthernet0/1/0/3.9 201.96.118.121
+  201.144.118.32/28 Multilink0/0/3/0/2 201.117.155.29
+  201.144.120.160/28 Multilink0/0/3/0/6 201.96.97.29
+  201.144.122.144/28 GigabitEthernet0/5/0/1.35 187.130.246.221
+  201.144.123.100/30 GigabitEthernet0/1/0/2.13 201.117.135.105
+  201.144.123.240/28 GigabitEthernet0/5/0/0.41 187.130.233.253
+  201.144.125.144/28 GigabitEthernet0/1/0/3.11 201.96.97.21
+  201.147.17.64/28 GigabitEthernet0/5/0/1.1 187.130.233.77
+ !
+!
+router ospf 64512
+ log adjacency changes
+ router-id 201.154.56.184
+ passive enable
+ auto-cost reference-bandwidth 1000000
+ area 3.3.16.1
+  authentication message-digest
+  nssa
+  interface Loopback0
+  !
+  interface TenGigE0/6/0/0
+   cost 1500
+   message-digest-key 1 md5 encrypted 105E480C53405305180532
+   network point-to-point
+   passive disable
+  !
+  interface TenGigE0/7/0/0
+   cost 1500
+   message-digest-key 1 md5 encrypted 1407531E5A536B2530292B
+   network point-to-point
+   passive disable
+  !
+ !
+!
+snmp-server traps bgp
+router bgp 8151
+ bgp router-id 201.154.56.184
+ address-family ipv4 unicast
+  table-policy MAXAS_LIMIT
+  network 187.130.224.40/30 route-policy SERIALES_MONTERREY
+  network 187.130.224.96/30 route-policy SERIALES_MONTERREY
+  network 187.130.224.164/30 route-policy SERIALES_MONTERREY
+  network 187.130.225.24/30 route-policy SERIALES_MONTERREY
+  network 187.130.226.76/30 route-policy SERIALES_MONTERREY
+  network 187.130.226.148/30 route-policy SERIALES_MONTERREY
+  network 187.130.226.152/30 route-policy SERIALES_MONTERREY
+  network 187.130.226.172/30 route-policy SERIALES_MONTERREY
+  network 187.130.226.200/30 route-policy SERIALES_MONTERREY
+  network 187.130.227.84/30 route-policy SERIALES_MONTERREY
+  network 187.130.227.128/30 route-policy SERIALES_MONTERREY
+  network 187.130.227.176/30 route-policy SERIALES_MONTERREY
+  network 187.130.227.192/30 route-policy SERIALES_MONTERREY
+  network 187.130.228.88/30 route-policy SERIALES_MONTERREY
+  network 187.130.229.40/30 route-policy SERIALES_MONTERREY
+  network 187.130.229.152/30 route-policy SERIALES_MONTERREY
+  network 187.130.229.228/30 route-policy SERIALES_MONTERREY
+  network 187.130.230.12/30 route-policy SERIALES_MONTERREY
+  network 187.130.230.44/30 route-policy SERIALES_MONTERREY
+  network 187.130.230.60/30 route-policy SERIALES_MONTERREY
+  network 187.130.230.116/30 route-policy SERIALES_MONTERREY
+  network 187.130.230.152/30 route-policy SERIALES_MONTERREY
+  network 187.130.230.244/30 route-policy SERIALES_MONTERREY
+  network 187.130.230.248/30 route-policy SERIALES_MONTERREY
+  network 187.130.232.204/30 route-policy SERIALES_MONTERREY
+  network 187.130.233.76/30 route-policy SERIALES_MONTERREY
+  network 187.130.233.168/30 route-policy SERIALES_MONTERREY
+  network 187.130.233.252/30 route-policy SERIALES_MONTERREY
+  network 187.130.235.92/30 route-policy SERIALES_MONTERREY
+  network 187.130.236.32/30 route-policy SERIALES_MONTERREY
+  network 187.130.236.156/30 route-policy SERIALES_MONTERREY
+  network 187.130.236.200/30 route-policy SERIALES_MONTERREY
+  network 187.130.237.8/30 route-policy SERIALES_MONTERREY
+  network 187.130.237.60/30 route-policy SERIALES_MONTERREY
+  network 187.130.237.124/30 route-policy SERIALES_MONTERREY
+  network 187.130.237.128/30 route-policy SERIALES_MONTERREY
+  network 187.130.237.132/30 route-policy SERIALES_MONTERREY
+  network 187.130.237.164/30 route-policy SERIALES_MONTERREY
+  network 187.130.237.176/30 route-policy SERIALES_MONTERREY
+  network 187.130.237.204/30 route-policy SERIALES_MONTERREY
+  network 187.130.238.48/30 route-policy SERIALES_MONTERREY
+  network 187.130.238.76/30 route-policy SERIALES_MONTERREY
+  network 187.130.238.164/30 route-policy SERIALES_MONTERREY
+  network 187.130.238.172/30 route-policy SERIALES_MONTERREY
+  network 187.130.238.176/30 route-policy SERIALES_MONTERREY
+  network 187.130.238.180/30 route-policy SERIALES_MONTERREY
+  network 187.130.238.188/30 route-policy SERIALES_MONTERREY
+  network 187.130.238.244/30 route-policy SERIALES_MONTERREY
+  network 187.130.239.44/30 route-policy SERIALES_MONTERREY
+  network 187.130.239.76/30 route-policy SERIALES_MONTERREY
+  network 187.130.239.88/30 route-policy SERIALES_MONTERREY
+  network 187.130.239.128/30 route-policy SERIALES_MONTERREY
+  network 187.130.240.68/30 route-policy SERIALES_MONTERREY
+  network 187.130.246.220/30 route-policy SERIALES_MONTERREY
+  network 187.130.246.240/30 route-policy SERIALES_MONTERREY
+  network 187.130.251.96/30 route-policy SERIALES_MONTERREY
+  network 187.130.251.128/30 route-policy SERIALES_MONTERREY
+  network 187.130.251.176/30 route-policy SERIALES_MONTERREY
+  network 187.130.251.184/30 route-policy SERIALES_MONTERREY
+  network 187.130.252.8/30 route-policy SERIALES_MONTERREY
+  network 187.130.252.12/30 route-policy SERIALES_MONTERREY
+  network 187.130.252.20/30 route-policy SERIALES_MONTERREY
+  network 187.130.252.56/30 route-policy SERIALES_MONTERREY
+  network 187.130.252.84/30 route-policy SERIALES_MONTERREY
+  network 187.130.252.112/30 route-policy SERIALES_MONTERREY
+  network 187.130.252.136/30 route-policy SERIALES_MONTERREY
+  network 187.130.252.140/30 route-policy SERIALES_MONTERREY
+  network 187.130.252.180/30 route-policy SERIALES_MONTERREY
+  network 187.130.252.188/30 route-policy SERIALES_MONTERREY
+  network 187.130.252.252/30 route-policy SERIALES_MONTERREY
+  network 187.130.253.12/30 route-policy SERIALES_MONTERREY
+  network 187.130.253.44/30 route-policy SERIALES_MONTERREY
+  network 187.130.253.152/30 route-policy SERIALES_MONTERREY
+  network 187.130.253.156/30 route-policy SERIALES_MONTERREY
+  network 187.130.254.28/30 route-policy SERIALES_MONTERREY
+  network 187.130.254.36/30 route-policy SERIALES_MONTERREY
+  network 187.130.254.52/30 route-policy SERIALES_MONTERREY
+  network 187.130.254.112/30 route-policy SERIALES_MONTERREY
+  network 187.130.254.176/30 route-policy SERIALES_MONTERREY
+  network 187.130.254.184/30 route-policy SERIALES_MONTERREY
+  network 187.130.255.188/30 route-policy SERIALES_MONTERREY
+  network 187.130.255.244/30 route-policy SERIALES_MONTERREY
+  network 200.79.111.36/30 route-policy SERIALES_MONTERREY
+  network 200.79.111.252/30 route-policy SERIALES_MONTERREY
+  network 200.79.122.20/30 route-policy SERIALES_MONTERREY
+  network 200.79.122.68/30 route-policy SERIALES_MONTERREY
+  network 200.79.122.156/30 route-policy SERIALES_MONTERREY
+  network 200.79.122.188/30 route-policy SERIALES_MONTERREY
+  network 200.79.123.100/30 route-policy SERIALES_MONTERREY
+  network 200.79.123.104/30 route-policy SERIALES_MONTERREY
+  network 201.96.96.20/30 route-policy SERIALES_MONTERREY
+  network 201.96.97.20/30 route-policy SERIALES_MONTERREY
+  network 201.96.97.28/30 route-policy SERIALES_MONTERREY
+  network 201.96.97.140/30 route-policy SERIALES_MONTERREY
+  network 201.96.97.224/30 route-policy SERIALES_MONTERREY
+  network 201.96.98.8/30 route-policy SERIALES_MONTERREY
+  network 201.96.98.180/30 route-policy SERIALES_MONTERREY
+  network 201.96.98.216/30 route-policy SERIALES_MONTERREY
+  network 201.96.100.32/30 route-policy SERIALES_MONTERREY
+  network 201.96.101.28/30 route-policy SERIALES_MONTERREY
+  network 201.96.101.56/30 route-policy SERIALES_MONTERREY
+  network 201.96.102.28/30 route-policy SERIALES_MONTERREY
+  network 201.96.102.76/30 route-policy SERIALES_MONTERREY
+  network 201.96.103.136/30 route-policy SERIALES_MONTERREY
+  network 201.96.105.104/30 route-policy SERIALES_MONTERREY
+  network 201.96.106.24/30 route-policy SERIALES_MONTERREY
+  network 201.96.106.48/30 route-policy SERIALES_MONTERREY
+  network 201.96.106.100/30 route-policy SERIALES_MONTERREY
+  network 201.96.106.144/30 route-policy SERIALES_MONTERREY
+  network 201.96.106.148/30 route-policy SERIALES_MONTERREY
+  network 201.96.106.168/30 route-policy SERIALES_MONTERREY
+  network 201.96.106.172/30 route-policy SERIALES_MONTERREY
+  network 201.96.107.132/30 route-policy SERIALES_MONTERREY
+  network 201.96.108.224/30 route-policy SERIALES_MONTERREY
+  network 201.96.109.172/30 route-policy SERIALES_MONTERREY
+  network 201.96.111.0/30 route-policy SERIALES_MONTERREY
+  network 201.96.112.104/30 route-policy SERIALES_MONTERREY
+  network 201.96.112.176/30 route-policy SERIALES_MONTERREY
+  network 201.96.113.132/30 route-policy SERIALES_MONTERREY
+  network 201.96.116.80/30 route-policy SERIALES_MONTERREY
+  network 201.96.116.128/30 route-policy SERIALES_MONTERREY
+  network 201.96.116.200/30 route-policy SERIALES_MONTERREY
+  network 201.96.117.24/30 route-policy SERIALES_MONTERREY
+  network 201.96.117.44/30 route-policy SERIALES_MONTERREY
+  network 201.96.117.160/30 route-policy SERIALES_MONTERREY
+  network 201.96.118.120/30 route-policy SERIALES_MONTERREY
+  network 201.96.121.32/30 route-policy SERIALES_MONTERREY
+  network 201.96.121.36/30 route-policy SERIALES_MONTERREY
+  network 201.96.121.128/30 route-policy SERIALES_MONTERREY
+  network 201.96.122.108/30 route-policy SERIALES_MONTERREY
+  network 201.96.122.196/30 route-policy SERIALES_MONTERREY
+  network 201.96.123.36/30 route-policy SERIALES_MONTERREY
+  network 201.96.123.68/30 route-policy SERIALES_MONTERREY
+  network 201.96.123.208/30 route-policy SERIALES_MONTERREY
+  network 201.96.123.248/30 route-policy SERIALES_MONTERREY
+  network 201.96.125.140/30 route-policy SERIALES_MONTERREY
+  network 201.96.125.168/30 route-policy SERIALES_MONTERREY
+  network 201.96.125.252/30 route-policy SERIALES_MONTERREY
+  network 201.96.126.208/30 route-policy SERIALES_MONTERREY
+  network 201.96.127.188/30 route-policy SERIALES_MONTERREY
+  network 201.117.128.20/30 route-policy SERIALES_MONTERREY
+  network 201.117.128.56/30 route-policy SERIALES_MONTERREY
+  network 201.117.129.248/30 route-policy SERIALES_MONTERREY
+  network 201.117.131.104/30 route-policy SERIALES_MONTERREY
+  network 201.117.131.164/30 route-policy SERIALES_MONTERREY
+  network 201.117.131.176/30 route-policy SERIALES_MONTERREY
+  network 201.117.133.104/30 route-policy SERIALES_MONTERREY
+  network 201.117.133.204/30 route-policy SERIALES_MONTERREY
+  network 201.117.135.104/30 route-policy SERIALES_MONTERREY
+  network 201.117.136.156/30 route-policy SERIALES_MONTERREY
+  network 201.117.137.68/30 route-policy SERIALES_MONTERREY
+  network 201.117.137.160/30 route-policy SERIALES_MONTERREY
+  network 201.117.141.88/30 route-policy SERIALES_MONTERREY
+  network 201.117.154.236/30 route-policy SERIALES_MONTERREY
+  network 201.117.155.28/30 route-policy SERIALES_MONTERREY
+  network 201.117.158.248/30 route-policy SERIALES_MONTERREY
+  network 201.117.159.128/30 route-policy SERIALES_MONTERREY
+  network 201.117.159.172/30 route-policy SERIALES_MONTERREY
+  network 201.147.28.152/30 route-policy SERIALES_MONTERREY
+  redistribute static route-policy ESTATICAS_CLIENTES_IDE
+ !
+ neighbor 201.96.102.29
+  remote-as 65472
+  description IC I1+I2_CICESE_COLEF_SUB36 D32-0908-0480 PPO
+  address-family ipv4 unicast
+   send-community-ebgp
+   route-policy BGP_IPV4_IC_I1_I2_CICESE_COLEF_SUB36 in
+   remove-private-AS
+  !
+ !
+ neighbor 189.246.233.28
+  remote-as 8151
+  description rride-nvl-mayo-49
+  update-source Loopback0
+  address-family ipv4 unicast
+   route-policy SAMECLUSTER in
+   route-policy MARCA_REGION out
+  !
+ !
+ neighbor 189.246.233.33
+  remote-as 8151
+  description rride-nvl-revolucion-54
+  update-source Loopback0
+  address-family ipv4 unicast
+   route-policy OTHERCLUSTER in
+   route-policy MARCA_REGION out
+  !
+ !
+ neighbor 187.130.237.133
+  remote-as 7080
+  description IC ELECTRONICA_Y_COMUNICACIONES_COL_ELECTRICISTAS C01-1403-0009 MJVV 27/08/14
+  address-family ipv4 unicast
+   send-community-ebgp
+   route-policy BGP_IPV4_IC_ELECTRONICA_Y_COMUNICACIONES_COL_ELECTRICISTAS in
+   default-originate
+   remove-private-AS
+  !
+ !
+!
+snmp-server traps frame-relay pvc interval 30
+snmp-server traps hsrp
+snmp-server traps mpls ldp up
+snmp-server traps mpls ldp down
+snmp-server traps mpls ldp threshold
+snmp-server traps mpls l3vpn all
+mpls ldp
+ router-id 201.154.56.184
+ interface TenGigE0/6/0/0
+ !
+ interface TenGigE0/7/0/0
+ !
+!
+mpls ip-ttl-propagate disable forwarded
+end
+
+   
+</body>
+</html>
+

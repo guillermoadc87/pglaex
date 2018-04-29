@@ -1,0 +1,12 @@
+terminal length 0
+Tue Mar 20 11:42:24.197 COL
+RP/0/RSP0/CPU0:THBATVMONTERIA#show configuration running-config
+Tue Mar 20 11:42:24.756 COL
+Building configuration...
+!! IOS XR Configuration 4.3.4
+!! Last configuration change at Thu Nov  9 22:12:44 2017 by sdevia
+!
+configuration display interface slot-order
+end
+
+RP/0/RSP0/CPU0:THBATVMONTERIA#

@@ -1,0 +1,7 @@
+{% load i18n %}
+<h3>{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</h3>
+<select>
+{% for choice in choices %}
+    <option value="{{ choice.display }}">{{ choice.display }}</option>
+{% endfor %}
+</select>

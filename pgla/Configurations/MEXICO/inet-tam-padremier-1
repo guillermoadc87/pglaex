@@ -1,0 +1,1179 @@
+<!-- Manual de PHP -->
+<html>
+<head>
+   <title>LG VPN UniNet</title>
+</head>
+<body>
+
+<!--<table cellpadding="0" cellspacing="0" border="0" width="250" align="center">-->
+<table border="0" width="850">
+  <tr>
+	<td colspan="2">
+		<img src="uninet_top_full.jpg" border="0" alt="VPN UniNet">
+	 
+  </tr>
+  <tr>
+    <td><font size="5" face="Courier" color='#3366FF'>VPN UniNet Looking Glass   
+    <td align="right"><font size="3" face="Courier" color='#3366FF'>Friday 12th of January 2018 02:51:35 PM
+12.145.193.9
+gestionred@reduno.com.mx   
+  </tr>
+</table>
+
+<table border="0" width='850'>
+<tr><td valign='top'><font size="3" face="Courier" color='#3366FF'>
+Available commands:
+
+traceroute a.b.c.d
+traceroute vrf &lt;arguments&gt;
+ping a.b.c.d
+ping vrf &lt;arguments&gt;	 
+ 
+<td><font size="3" face="Courier" color='#3366FF'>
+IOS commands:
+
+show atm pvc
+show policy-map
+show policy-map interface &lt;arguments&gt;
+show route-map
+show ip vrf
+show ip route vrf &lt;arguments&gt;
+show ip bgp vpnv4 &lt;arguments&gt;
+show ip interface brief
+show ip prefix-list
+show ip access-list
+show interface &#91;arguments&#93;
+show interface description
+show controllers &lt;arguments&gt;
+show configuration
+show running-config
+show running-config interface &lt;arguments&gt;
+show running-config | include route-map
+show running-config | include address-family ipv4 vrf
+show running-config | include interface
+show running-config | include class-map
+show running-config | include policy-map
+show running-config | include ip route vrf
+show running-config | include access-list	 
+ 
+<td valign='top'><font size="3" face="Courier" color='#3366FF'>
+IOSXR commands:
+
+show rpl policy-global
+show vrf
+show route vrf &lt;arguments&gt;
+show bgp vpnv4 unicast vrf &lt;arguments&gt;
+show bgp vrf &lt;arguments&gt;
+show prefix-list
+show access-list	 
+ 
+</tr>
+</table>
+
+
+
+<font size="3" face="Courier" color='#3366FF'>
+<form action="lgvpnuninet.php" method="post">
+Source [IP|hostname]:
+<input type="text" name="ip" size="71" maxlength="70"/>
+-l0.uninet.net.mx
+
+
+
+Command             :
+<input type="text" name="cmd" size="71" maxlength="70"/>
+<input type="submit" name='submit' value="Submit" />
+
+</form>
+ 
+
+<font size="-1" face="Courier">
+
+   Granted
+Source IP: 148.223.31.189
+Command  : show running-config
+Equipment model: cisco7507z
+
+
+
+ R E S U L T :
+
+Building configuration...
+
+Current configuration : 37758 bytes
+!
+! Last configuration change at 03:05:26 CDT Thu Dec 28 2017 by ddjimare
+! NVRAM config last updated at 05:16:05 CDT Fri Jan 12 2018 by ssrcsu
+!
+version 12.0
+service tcp-keepalives-in
+service tcp-keepalives-out
+service timestamps debug datetime localtime
+service timestamps log datetime localtime
+service password-encryption
+service compress-config
+service single-slot-reload-enable
+!
+hostname inet-tam-padremier-1
+!
+boot-start-marker
+boot system flash slot0:rsp-pv-mz.120-32.S10.bin
+boot bootldr bootflash:rsp-boot-mz.120-32.S10.bin
+boot-end-marker
+!
+card type e1 1 1
+card type e1 4 1
+redundancy
+ no keepalive-enable
+ mode rpr-plus
+logging buffered 1000000 debugging
+no logging console
+aaa new-model
+aaa authentication login default tacacs+ local enable
+aaa authentication enable default tacacs+ enable
+aaa authentication ppp default none
+aaa authorization commands 15 default tacacs+ none
+aaa accounting exec default start-stop tacacs+
+aaa accounting commands 1 default start-stop tacacs+
+aaa accounting commands 15 default start-stop tacacs+
+aaa accounting network default start-stop tacacs+
+enable secret 5 $1$2ET2$Rv4zDkrzWVpeD7Z1dNS/g.
+enable password 7 141A430A0A0A6C3162
+!
+username ssrdivmty password 7 120909431D0349086E
+clock timezone CDT -6
+clock summer-time DST recurring 1 Sun Apr 2:00 last Sun Oct 2:00
+ip subnet-zero
+ip cef distributed
+no ip finger
+ip telnet source-interface Loopback0
+ip tftp source-interface Loopback0
+no ip bootp server
+no ip domain-lookup
+ip domain-name uninet.net.mx
+ip name-server 200.33.148.193
+ip name-server 200.33.148.201
+ip receive access-list 156
+mpls label protocol ldp
+no mpls traffic-eng auto-bw timers frequency 0
+no tag-switching ip propagate-ttl forwarded
+hw-module slot 2 image slot0:rsp-pv-mz.120-32.S10.bin
+hw-module slot 3 image slot0:rsp-pv-mz.120-32.S10.bin
+!
+!
+controller E1 0/1/0
+ description PADRE MIER ESC 6 UNI 5 INT 1 E1-0006-0085 jivl 000918
+ framing no-crc4
+ channel-group 14 timeslots 15-16
+ channel-group 16 timeslots 17-18
+!
+controller E1 0/1/1
+ shutdown
+ framing no-crc4
+!
+controller E1 0/1/2
+ shutdown
+ framing no-crc4
+!
+controller E1 0/1/3
+ framing no-crc4
+!
+controller E1 0/1/4
+ description ENLACE PMP E1-0401-0122 30357 UNI2 INT2 CP-0402130A
+ framing no-crc4
+ channel-group 16 timeslots 17-24
+!
+controller E1 0/1/5
+ framing no-crc4
+!
+controller E1 0/1/6
+ description CONEXION A CASCADE PADRE MIER 9/2 GGR,23/08/00
+ framing no-crc4
+ channel-group 0 timeslots 1-31
+!
+controller E1 0/1/7
+ shutdown
+ framing no-crc4
+!
+controller E1 1/1/0
+ shutdown
+ framing no-crc4
+!
+controller E1 1/1/1
+ framing no-crc4
+ channel-group 0 timeslots 1-31
+!
+controller E1 1/1/2
+ description IC IT_REYNOSA IT_REYNOSA A32-0906-0140 I27060961U servautom 31/08/09 21985794
+ framing no-crc4
+ channel-group 0 timeslots 1-31
+!
+controller E1 1/1/3
+ description ENLACE TIPO PMP E1-0708-0064 NODO300354 U25 IF1 I12090792K
+ framing no-crc4
+ channel-group 0 timeslots 1-6
+!
+controller E1 1/1/4
+ shutdown
+ framing no-crc4
+!
+controller E1 1/1/5
+ shutdown
+!
+controller E1 1/1/6
+ shutdown
+ framing no-crc4
+!
+controller E1 1/1/7
+ description ENLACE TIPO PMP E1-0711-0199 NODO30357 U20 IF3 I13120793C
+ framing no-crc4
+!
+controller E1 4/1/0
+ framing no-crc4
+ channel-group 0 timeslots 1-31
+!
+controller E1 4/1/1
+ description ENLACE PMP E1-0709-0034 Nodo 30354 UNI 25 INT 22 I05100742I
+ framing no-crc4
+!
+controller E1 4/1/2
+ description IC STANDARD_MOTOR A32-0710-0001 I23100755M servautom 24/10/07 6188578
+ framing no-crc4
+ channel-group 0 timeslots 1-31
+!
+controller E1 4/1/3
+ description IC CALFRAC_DE_MEXICO_SA_DE_CV A32-0710-0042 I20110702E servautom 21/11/07 6235081
+ framing no-crc4
+ channel-group 0 timeslots 1-31
+!
+controller E1 4/1/4
+ shutdown
+ framing no-crc4
+!
+controller E1 4/1/5
+ shutdown
+!
+controller E1 4/1/6
+ shutdown
+ framing no-crc4
+!
+controller E1 4/1/7
+ framing no-crc4
+!
+controller E1 6/1/0
+ description ENLACE TIPO PMP E1-0108-0079 NODO ESC 7 UNI 8 INT 3 I11111054A
+ framing no-crc4
+!
+controller E1 6/1/1
+ framing no-crc4
+!
+controller E1 6/1/2
+ shutdown
+ framing no-crc4
+!
+controller E1 6/1/3
+ framing no-crc4
+ channel-group 0 timeslots 1-31
+!
+controller E1 6/1/4
+ description ENLACE PMP E1-0504-0073 30300 ESC 7 UNI 6 POS 1 I18040570X
+ framing no-crc4
+ channel-group 0 timeslots 1-16
+!
+controller E1 6/1/5
+ description IC SEP IT REYNOSA TAMP D32-0504-0380 I04050528W JLHP 10/06/05 1754976
+ framing no-crc4
+ channel-group 0 timeslots 1-31
+!
+controller E1 6/1/6
+ shutdown
+ framing no-crc4
+!
+controller E1 6/1/7
+ description ENLACE TIPO PMP E1-0706-0141 NODO30300 ESC3 UNIT6 INT2 I27060780S
+ framing no-crc4
+ channel-group 16 timeslots 17
+ channel-group 19 timeslots 20-23
+!
+!
+interface Loopback0
+ description inet-tam-padremier-1-l0
+ ip address 148.223.31.189 255.255.255.255
+ no ip directed-broadcast
+!
+interface Serial0/0/0
+ description IC MUNDO_DE_COMPUTACION_TAMAULIPAS D32-0303-0302 I22040362Q EBO03/04/28 1731242
+ bandwidth 1984
+ no ip address
+ no ip directed-broadcast
+ shutdown
+ fair-queue
+ serial restart-delay 0
+ no cdp enable
+!
+interface Serial0/0/1
+ bandwidth 1984
+ no ip address
+ no ip redirects
+ no ip directed-broadcast
+ shutdown
+ fair-queue
+ timeslot 1-31
+ ts16
+ serial restart-delay 0
+ no cdp enable
+!
+interface Serial0/0/2
+ bandwidth 1984
+ no ip address
+ no ip redirects
+ no ip directed-broadcast
+ encapsulation frame-relay IETF
+ no ip mroute-cache
+ fair-queue
+ timeslot 1-31
+ ts16
+ serial restart-delay 0
+ frame-relay lmi-type ansi
+!
+interface Serial0/0/2.7 point-to-point
+ description IC INST TEC REYNOSA 85679 B-72041789 AH 27/02/01
+ bandwidth 64
+ ip address 148.233.23.54 255.255.255.252
+ no ip redirects
+ no ip directed-broadcast
+ snmp trap link-status
+ no arp frame-relay
+ no cdp enable
+ frame-relay interface-dlci 35
+!
+interface Serial0/0/3
+ bandwidth 1984
+ no ip address
+ no ip directed-broadcast
+ load-interval 30
+ shutdown
+ no fair-queue
+ timeslot 1-31
+ ts16
+ serial restart-delay 0
+ no cdp enable
+!
+interface Serial0/1/0:14
+ description IC MERCANTIL_DIST_REYNOSA_EL_ANHELO A02-0609-0953 I11100668L CMG 11/10/06 4741862
+ bandwidth 128
+ ip address 201.147.28.38 255.255.255.252
+ no ip directed-broadcast
+ fair-queue
+ no cdp enable
+!
+interface Serial0/1/0:16
+ description IC S_S_TAMAULIPAS__BLVD_MORELOS A02-0707-0389 I09080720V servautom 14/08/07 6049764
+ bandwidth 128
+ ip address 201.117.161.166 255.255.255.252
+ no ip directed-broadcast
+ fair-queue
+ no cdp enable
+!
+interface Serial0/1/4:16
+ description IC COM MPAL DE AGUA POTABLE REYNOSA A08-0510-0050 I21100583J APROV 06/01/09 4492405
+ bandwidth 512
+ ip address 201.147.1.66 255.255.255.252
+ no ip redirects
+ no ip directed-broadcast
+ fair-queue
+ no cdp enable
+!
+interface Serial0/1/6:0
+ bandwidth 1984
+ no ip address
+ no ip redirects
+ no ip directed-broadcast
+ encapsulation frame-relay IETF
+ no fair-queue
+ frame-relay lmi-type ansi
+!
+interface FastEthernet1/0/0
+ description CONEXION FT A lansw-tam-padremier-6-ft9-2 LANSW_RESPALDO NOG 15/01/09
+ bandwidth 100000
+ ip address 201.125.39.217 255.255.255.224
+ ip access-group 2014 in
+ no ip directed-broadcast
+ no ip proxy-arp
+ ip ospf message-digest-key 1 md5 7 131040414D050B3A6A3620
+ ip ospf cost 7000
+ ip ospf priority 0
+ load-interval 30
+ delay 1
+ full-duplex
+ mpls label protocol ldp
+ tag-switching mtu 1526
+ tag-switching ip
+!
+interface Serial1/1/1:0
+ no ip address
+ no ip directed-broadcast
+ shutdown
+ no fair-queue
+ no cdp enable
+!
+interface Serial1/1/2:0
+ description IC IT_REYNOSA IT_REYNOSA A32-0906-0140 I27060961U servautom 31/08/09 21985794
+ bandwidth 1984
+ ip address 201.117.167.210 255.255.255.252
+ no ip directed-broadcast
+ ip load-sharing per-packet
+ fair-queue
+ no cdp enable
+!
+interface Serial1/1/3:0
+ no ip address
+ no ip directed-broadcast
+ no fair-queue
+ no cdp enable
+!
+interface FastEthernet4/0/0
+ no ip address
+ no ip directed-broadcast
+ no ip proxy-arp
+ shutdown
+!
+interface FastEthernet4/0/1
+ no ip address
+ no ip directed-broadcast
+ no ip proxy-arp
+ shutdown
+!
+interface Serial4/1/0:0
+ no ip address
+ no ip directed-broadcast
+ shutdown
+ fair-queue
+ no cdp enable
+!
+interface Serial4/1/2:0
+ description IC STANDARD_MOTOR A32-0710-0001 I23100755M servautom 24/10/07 6188578
+ bandwidth 1984
+ ip address 201.117.162.106 255.255.255.252
+ no ip directed-broadcast
+ fair-queue
+ no cdp enable
+!
+interface Serial4/1/3:0
+ no ip address
+ no ip directed-broadcast
+ no fair-queue
+ no cdp enable
+!
+interface GigabitEthernet5/0/0
+ description CONEXION GE A lansw-tam-padremier-9-g1-2 LANSW_RESPALDO NOG 16/01/09
+ ip address 201.125.39.246 255.255.255.224
+ ip access-group 2014 in
+ no ip directed-broadcast
+ no ip proxy-arp
+ ip ospf message-digest-key 1 md5 7 021353084D0F00310D5C01
+ ip ospf cost 5000
+ ip ospf priority 0
+ load-interval 30
+ no negotiation auto
+ mpls label protocol ldp
+ tag-switching mtu 1526
+ tag-switching ip
+!
+interface Serial6/1/3:0
+ no ip address
+ no ip directed-broadcast
+ shutdown
+ fair-queue
+ no cdp enable
+!
+interface Serial6/1/4:0
+ description IC AEROPUERTO_REYNOSA D16-0607-0058 I03100661M, JCAC 17/11/06
+ bandwidth 1024
+ ip address 201.134.5.210 255.255.255.252
+ no ip directed-broadcast
+ encapsulation ppp
+ no peer neighbor-route
+ fair-queue
+ no cdp enable
+!
+interface Serial6/1/5:0
+ description IC SEP IT REYNOSA TAMP D32-0504-0380 I04050528W JLHP 10/06/05 1754976
+ bandwidth 1984
+ ip address 148.233.7.230 255.255.255.252
+ no ip redirects
+ no ip directed-broadcast
+ ip load-sharing per-packet
+ fair-queue
+ no cdp enable
+!
+interface Serial6/1/7:16
+ description IC RIO_BRAVO_SUCURSAL_3034 A01-1704-0046 I24051773A JAC 24/05/17 6437609
+ bandwidth 64
+ ip address 201.117.163.82 255.255.255.252
+ no ip directed-broadcast
+ encapsulation ppp
+ fair-queue
+ no cdp enable
+!
+interface Serial6/1/7:19
+ description IC ECTIPSA_REYNOSA A04-0908-0319 I17090975I servautom 18/09/09 22081109
+ bandwidth 256
+ ip address 201.117.168.94 255.255.255.252
+ no ip directed-broadcast
+ no fair-queue
+ no cdp enable
+!
+router ospf 64512
+ router-id 148.223.31.189
+ log-adjacency-changes
+ auto-cost reference-bandwidth 1000000
+ area 3.3.23.1 authentication message-digest
+ area 3.3.23.1 nssa
+ passive-interface default
+ no passive-interface FastEthernet1/0/0
+ no passive-interface GigabitEthernet5/0/0
+ network 148.223.31.189 0.0.0.0 area 3.3.23.1
+ network 201.125.38.208 0.0.0.15 area 3.3.23.1
+ network 201.125.39.192 0.0.0.31 area 3.3.23.1
+ network 201.125.39.224 0.0.0.31 area 3.3.23.1
+!
+router bgp 8151
+ bgp router-id 148.223.31.189
+ bgp maxas-limit 30
+ bgp log-neighbor-changes
+ neighbor 189.246.233.48 remote-as 8151
+ neighbor 189.246.233.48 description rride-tam-padremier-29
+ neighbor 189.246.233.48 update-source Loopback0
+ neighbor 189.246.233.49 remote-as 8151
+ neighbor 189.246.233.49 description rride-tam-padremier-30
+ neighbor 189.246.233.49 update-source Loopback0
+ neighbor 201.144.133.81 remote-as 65001
+ neighbor 201.144.133.81 description IT_REYNOSA A32-0906-0140 D32-0504-0380
+ neighbor 201.144.133.81 ebgp-multihop 2
+ neighbor 201.144.133.81 update-source Loopback0
+ !
+ address-family ipv4
+ redistribute static route-map ESTATICAS_CLIENTES_IDE
+ neighbor 189.246.233.48 activate
+ neighbor 189.246.233.48 send-community
+ neighbor 189.246.233.48 route-map OTHERCLUSTER in
+ neighbor 189.246.233.48 route-map MARCA_REGION out
+ neighbor 189.246.233.49 activate
+ neighbor 189.246.233.49 send-community
+ neighbor 189.246.233.49 route-map SAMECLUSTER in
+ neighbor 189.246.233.49 route-map MARCA_REGION out
+ neighbor 201.144.133.81 activate
+ neighbor 201.144.133.81 send-community
+ neighbor 201.144.133.81 remove-private-as
+ neighbor 201.144.133.81 prefix-list IT_REYNOSA in
+ neighbor 201.144.133.81 distribute-list 2 out
+ no auto-summary
+ no synchronization
+ network 148.223.11.96 mask 255.255.255.224 route-map seriales-monterrey
+ network 148.233.7.144 mask 255.255.255.252 route-map seriales-monterrey
+ network 148.233.7.228 mask 255.255.255.252 route-map seriales-monterrey
+ network 148.233.23.52 mask 255.255.255.252 route-map seriales-monterrey
+ network 201.117.161.164 mask 255.255.255.252 route-map seriales-monterrey
+ network 201.117.162.104 mask 255.255.255.252 route-map seriales-monterrey
+ network 201.117.163.80 mask 255.255.255.252 route-map seriales-monterrey
+ network 201.117.167.208 mask 255.255.255.252 route-map seriales-monterrey
+ network 201.117.168.92 mask 255.255.255.252 route-map seriales-monterrey
+ network 201.134.5.208 mask 255.255.255.252 route-map seriales-monterrey
+ network 201.147.1.64 mask 255.255.255.252 route-map seriales-monterrey
+ network 201.147.28.36 mask 255.255.255.252 route-map seriales-monterrey
+ exit-address-family
+!
+ip classless
+ip route 127.0.0.0 255.0.0.0 Null0
+ip route 148.233.16.192 255.255.255.240 148.235.7.205
+ip route 148.233.16.208 255.255.255.240 148.233.23.53
+ip route 148.235.21.83 255.255.255.255 201.125.38.209
+ip route 192.168.250.0 255.255.255.0 Null0
+ip route 200.79.112.64 255.255.255.240 201.147.28.37
+ip route 201.116.153.176 255.255.255.240 148.235.7.205
+ip route 201.116.165.240 255.255.255.240 201.117.161.165
+ip route 201.116.172.208 255.255.255.240 Serial6/1/7:16 201.117.163.81
+ip route 201.116.174.16 255.255.255.240 201.117.162.105
+ip route 201.144.129.240 255.255.255.240 Serial6/1/7:19 201.117.168.93
+ip route 201.144.133.81 255.255.255.255 Serial1/1/2:0
+ip route 201.144.133.81 255.255.255.255 Serial6/1/5:0
+ip route 201.147.27.64 255.255.255.240 201.147.1.65
+ip tacacs source-interface Loopback0
+!
+ip bgp-community new-format
+ip community-list 1 permit 8151:277 8151:285
+ip community-list 2 permit 8151:277 8151:286
+ip community-list 3 permit 8151:277 8151:287
+ip community-list 4 permit 8151:277 8151:288
+ip community-list 5 permit 8151:278 8151:285
+ip community-list 6 permit 8151:278 8151:286
+ip community-list 7 permit 8151:278 8151:287
+ip community-list 8 permit 8151:278 8151:288
+ip community-list 102 permit ^$
+ip community-list 102 permit ^[0-9]+:[0-9]+$
+ip community-list 102 permit ^[0-9]+:[0-9]+_[0-9]+:[0-9]+$
+ip community-list 102 permit ^[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+$
+ip community-list 102 permit ^[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+$
+ip community-list 102 permit ^[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+$
+ip community-list 102 permit ^[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+$
+ip community-list 102 permit ^[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+$
+ip community-list 102 permit ^[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+$
+ip community-list 102 permit ^[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+$
+ip community-list 102 permit ^[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+$
+ip community-list 102 permit ^[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+$
+ip community-list 102 permit ^[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+_[0-9]+:[0-9]+$
+ip community-list standard SAMECLUSTER permit 8151:1006
+ip community-list standard SEGUNDORESPALDO permit 8151:1005
+ip community-list standard TERCERRESPALDO permit 8151:1008
+!
+!
+ip prefix-list BGP_IPS_00_CLIENTE seq 40 permit 192.168.255.253/32
+!
+ip prefix-list BGP_IPS_00_UNINET seq 40 permit 192.168.255.254/32
+!
+ip prefix-list CBG_Y_CEC_REYNOSA_ seq 50 permit 201.144.164.32/28 le 32
+!
+ip prefix-list ESTATICAS_IPS_CLIENTE seq 40 permit 192.168.255.253/32
+!
+ip prefix-list ESTATICAS_IPS_UNINET seq 40 permit 192.168.255.254/32
+ip prefix-list ESTATICAS_IPS_UNINET seq 100 permit 148.233.16.192/28 le 32
+ip prefix-list ESTATICAS_IPS_UNINET seq 110 permit 148.233.16.208/28 le 32
+ip prefix-list ESTATICAS_IPS_UNINET seq 120 permit 148.235.21.83/32
+ip prefix-list ESTATICAS_IPS_UNINET seq 130 permit 148.235.21.84/32
+ip prefix-list ESTATICAS_IPS_UNINET seq 150 permit 200.79.112.64/28 le 32
+ip prefix-list ESTATICAS_IPS_UNINET seq 160 permit 200.79.121.192/28 le 32
+ip prefix-list ESTATICAS_IPS_UNINET seq 180 permit 201.104.71.128/25 le 32
+ip prefix-list ESTATICAS_IPS_UNINET seq 190 permit 201.116.131.240/28 le 32
+ip prefix-list ESTATICAS_IPS_UNINET seq 200 permit 201.116.153.176/28 le 32
+ip prefix-list ESTATICAS_IPS_UNINET seq 210 permit 201.116.165.240/28 le 32
+ip prefix-list ESTATICAS_IPS_UNINET seq 250 permit 201.116.172.208/28 le 32
+ip prefix-list ESTATICAS_IPS_UNINET seq 270 permit 201.116.173.96/28 le 32
+ip prefix-list ESTATICAS_IPS_UNINET seq 280 permit 201.116.174.16/28 le 32
+ip prefix-list ESTATICAS_IPS_UNINET seq 300 permit 201.144.191.16/28 le 32
+ip prefix-list ESTATICAS_IPS_UNINET seq 330 permit 201.116.184.160/28 le 32
+ip prefix-list ESTATICAS_IPS_UNINET seq 360 permit 201.134.13.80/28 le 32
+ip prefix-list ESTATICAS_IPS_UNINET seq 370 permit 201.144.129.240/28 le 32
+ip prefix-list ESTATICAS_IPS_UNINET seq 380 permit 201.144.133.81/32
+ip prefix-list ESTATICAS_IPS_UNINET seq 390 permit 201.144.144.96/28 le 32
+ip prefix-list ESTATICAS_IPS_UNINET seq 440 permit 201.147.27.64/28 le 32
+!
+ip prefix-list IT_REYNOSA seq 50 permit 201.144.133.80/28 le 32
+ip prefix-list IT_REYNOSA seq 60 permit 148.208.138.0/24 le 32
+!
+ip prefix-list REDES_PRIVADAS seq 10 permit 10.0.0.0/8 le 32
+ip prefix-list REDES_PRIVADAS seq 20 permit 172.16.0.0/12 le 32
+ip prefix-list REDES_PRIVADAS seq 30 permit 192.168.0.0/16 le 32
+!
+ip prefix-list RTBHR seq 10 permit 192.168.250.0/24
+ip prefix-list RTBHR seq 20 permit 192.168.252.0/24
+ip prefix-list RTBHR seq 30 permit 192.168.251.0/24
+!
+ip prefix-list RUTA_CERO seq 10 permit 0.0.0.0/0
+logging trap debugging
+logging source-interface Loopback0
+logging 200.33.150.74
+logging 200.33.150.106
+logging 200.33.150.14
+logging 201.125.120.160
+logging 200.33.150.147
+access-list compiled
+access-list 1 permit any
+access-list 2 deny   any
+access-list 13 permit 187.210.234.0 0.0.0.255
+access-list 13 permit 189.254.31.0 0.0.0.63
+access-list 13 permit 192.100.232.0 0.0.0.127
+access-list 13 permit 200.33.150.0 0.0.0.63
+access-list 13 permit 200.33.150.128 0.0.0.63
+access-list 13 permit 200.33.150.192 0.0.0.63
+access-list 13 permit 200.33.150.64 0.0.0.63
+access-list 13 permit 201.125.120.128 0.0.0.7
+access-list 13 permit 201.125.120.136 0.0.0.3
+access-list 13 permit 201.125.120.140 0.0.0.3
+access-list 13 permit 201.125.120.144 0.0.0.3
+access-list 13 permit 201.125.120.148 0.0.0.3
+access-list 13 permit 201.125.120.152 0.0.0.3
+access-list 13 permit 201.125.120.160 0.0.0.31
+access-list 13 permit 201.125.120.192 0.0.0.63
+access-list 13 deny   any
+access-list 15 permit 201.134.77.2
+access-list 15 permit 200.36.40.205
+access-list 15 permit 192.100.232.64
+access-list 15 permit 148.223.54.105
+access-list 15 permit 148.223.201.153
+access-list 15 permit 192.100.232.81
+access-list 15 permit 148.235.143.209
+access-list 15 permit 148.223.149.249
+access-list 15 permit 148.233.15.93
+access-list 15 permit 148.233.152.165
+access-list 15 permit 201.125.120.141
+access-list 15 permit 201.125.120.143
+access-list 15 permit 201.125.120.136
+access-list 15 permit 192.100.232.10
+access-list 15 permit 201.125.120.139
+access-list 15 permit 201.125.120.129
+access-list 15 permit 192.100.232.31
+access-list 15 permit 200.33.144.45
+access-list 15 permit 148.233.142.165
+access-list 15 permit 201.125.120.146
+access-list 15 permit 201.125.120.172
+access-list 15 permit 201.125.120.170
+access-list 15 permit 148.223.206.237
+access-list 15 permit 192.100.232.38
+access-list 15 permit 148.233.139.157
+access-list 15 permit 148.223.107.77
+access-list 15 permit 192.100.232.60
+access-list 15 permit 148.233.238.225
+access-list 15 permit 192.100.232.59
+access-list 15 permit 192.100.232.54
+access-list 15 permit 192.100.232.51
+access-list 15 permit 148.223.104.169
+access-list 15 permit 148.223.181.105
+access-list 15 permit 148.223.240.33
+access-list 15 permit 200.36.50.121
+access-list 15 permit 200.79.68.6
+access-list 15 permit 148.233.75.241
+access-list 15 permit 200.79.11.71
+access-list 15 permit 148.223.210.65
+access-list 15 permit 148.223.223.77
+access-list 15 permit 148.233.164.4
+access-list 15 permit 148.223.167.13
+access-list 15 permit 148.235.231.121
+access-list 15 permit 148.223.32.153
+access-list 15 permit 148.223.58.141
+access-list 15 permit 192.100.232.0 0.0.0.7
+access-list 15 permit 192.100.232.8 0.0.0.1
+access-list 15 permit 192.100.232.32 0.0.0.3
+access-list 15 permit 192.100.232.36 0.0.0.1
+access-list 15 permit 192.100.232.52 0.0.0.1
+access-list 15 permit 192.100.232.82 0.0.0.1
+access-list 15 permit 192.100.232.84 0.0.0.3
+access-list 15 permit 200.33.150.0 0.0.0.255
+access-list 15 permit 201.125.120.144 0.0.0.1
+access-list 15 permit 200.66.128.0 0.0.0.15
+access-list 15 permit 189.246.0.0 0.0.255.255
+access-list 15 permit 201.125.0.0 0.0.255.255
+access-list 15 permit 201.154.0.0 0.0.255.255
+access-list 15 permit 148.223.15.0 0.0.0.255
+access-list 15 permit 148.223.31.0 0.0.0.255
+access-list 15 permit 148.223.43.0 0.0.0.255
+access-list 15 permit 148.223.79.0 0.0.0.255
+access-list 15 permit 148.223.84.0 0.0.0.255
+access-list 15 permit 148.223.95.0 0.0.0.255
+access-list 15 permit 148.223.97.0 0.0.0.255
+access-list 15 permit 148.223.121.0 0.0.0.255
+access-list 15 permit 148.223.144.0 0.0.0.255
+access-list 15 permit 148.223.182.0 0.0.0.255
+access-list 15 permit 148.223.184.0 0.0.0.255
+access-list 15 permit 148.223.190.0 0.0.0.255
+access-list 15 permit 148.223.191.0 0.0.0.255
+access-list 15 permit 148.223.202.0 0.0.0.255
+access-list 15 permit 148.223.219.0 0.0.0.255
+access-list 15 permit 148.223.243.0 0.0.0.255
+access-list 15 permit 148.233.23.0 0.0.0.255
+access-list 15 permit 148.233.31.0 0.0.0.255
+access-list 15 permit 148.233.118.0 0.0.0.255
+access-list 15 permit 148.233.131.0 0.0.0.255
+access-list 15 permit 148.233.135.0 0.0.0.255
+access-list 15 permit 148.233.153.0 0.0.0.255
+access-list 15 permit 148.233.158.0 0.0.0.255
+access-list 15 permit 148.233.159.0 0.0.0.255
+access-list 15 permit 148.233.175.0 0.0.0.255
+access-list 15 permit 148.233.187.0 0.0.0.255
+access-list 15 permit 148.233.191.0 0.0.0.255
+access-list 15 permit 148.233.229.224 0.0.0.31
+access-list 15 permit 148.233.239.0 0.0.0.255
+access-list 15 permit 148.235.14.0 0.0.0.255
+access-list 15 permit 148.235.24.0 0.0.0.255
+access-list 15 permit 148.235.39.0 0.0.0.255
+access-list 15 permit 148.235.58.0 0.0.0.255
+access-list 15 permit 148.235.59.0 0.0.0.255
+access-list 15 permit 148.235.71.0 0.0.0.255
+access-list 15 permit 148.235.75.0 0.0.0.255
+access-list 15 permit 148.235.78.0 0.0.0.255
+access-list 15 permit 148.235.81.0 0.0.0.255
+access-list 15 permit 148.235.85.0 0.0.0.255
+access-list 15 permit 148.235.87.0 0.0.0.255
+access-list 15 permit 148.235.109.0 0.0.0.255
+access-list 15 permit 148.235.110.0 0.0.0.255
+access-list 15 permit 148.235.127.48 0.0.0.7
+access-list 15 permit 148.235.139.0 0.0.0.255
+access-list 15 permit 148.235.145.0 0.0.0.255
+access-list 15 permit 148.235.149.0 0.0.0.255
+access-list 15 permit 148.235.155.0 0.0.0.255
+access-list 15 permit 148.235.157.0 0.0.0.255
+access-list 15 permit 148.235.159.224 0.0.0.15
+access-list 15 permit 148.235.165.0 0.0.0.255
+access-list 15 permit 148.235.167.0 0.0.0.255
+access-list 15 permit 148.235.175.0 0.0.0.255
+access-list 15 permit 148.235.186.0 0.0.0.255
+access-list 15 permit 200.79.4.0 0.0.0.255
+access-list 15 permit 200.79.21.0 0.0.0.255
+access-list 15 permit 200.79.26.0 0.0.0.255
+access-list 15 permit 200.79.39.0 0.0.0.255
+access-list 15 permit 200.79.44.0 0.0.0.255
+access-list 15 permit 200.79.88.0 0.0.0.255
+access-list 15 permit 200.79.111.0 0.0.0.255
+access-list 15 permit 201.134.5.0 0.0.0.255
+access-list 15 permit 201.134.33.0 0.0.0.255
+access-list 15 permit 201.134.64.0 0.0.0.255
+access-list 15 permit 201.134.105.0 0.0.0.255
+access-list 15 permit 201.134.125.0 0.0.0.255
+access-list 15 permit 201.134.130.0 0.0.0.255
+access-list 15 permit 201.134.163.0 0.0.0.255
+access-list 15 permit 201.134.176.0 0.0.0.255
+access-list 15 permit 201.134.201.0 0.0.0.255
+access-list 15 permit 201.134.208.0 0.0.0.255
+access-list 15 permit 201.134.211.0 0.0.0.255
+access-list 15 permit 204.124.107.0 0.0.0.255
+access-list 15 deny   any
+access-list 17 permit 192.100.232.3
+access-list 146 permit tcp any any
+access-list 146 permit udp any any
+access-list 146 deny   53 any any
+access-list 146 deny   55 any any
+access-list 146 deny   77 any any
+access-list 146 deny   pim any any
+access-list 146 permit ip any any
+access-list 156 deny   ip 200.38.207.0 0.0.0.255 any
+access-list 156 deny   ip 200.38.208.0 0.0.0.255 any
+access-list 156 deny   ip 200.38.210.0 0.0.0.255 any
+access-list 156 deny   ip 200.38.214.0 0.0.0.255 any
+access-list 156 deny   ip 200.38.219.0 0.0.0.255 any
+access-list 156 deny   ip 200.38.220.0 0.0.0.255 any
+access-list 156 deny   ip 200.38.221.0 0.0.0.255 any
+access-list 156 permit ip 200.66.128.0 0.0.0.127 any
+access-list 156 permit ip 200.38.192.0 0.0.31.255 any
+access-list 156 permit ip 201.125.0.0 0.0.255.255 any
+access-list 156 permit ip 148.223.0.0 0.0.255.255 any
+access-list 156 permit ip 148.233.0.0 0.0.255.255 any
+access-list 156 permit ip 148.235.0.0 0.0.255.255 any
+access-list 156 permit ip 200.79.0.0 0.0.127.255 any
+access-list 156 permit ip 201.134.0.0 0.0.255.255 any
+access-list 156 permit ip 200.23.240.0 0.0.7.255 any
+access-list 156 permit ip 200.36.40.0 0.0.1.255 any
+access-list 156 permit ip 200.33.144.0 0.0.7.255 any
+access-list 156 permit ip 200.4.144.0 0.0.0.255 any
+access-list 156 permit ip 192.100.232.0 0.0.0.255 any
+access-list 156 permit ip 204.124.106.128 0.0.0.127 any
+access-list 156 permit ip 204.124.107.0 0.0.0.255 any
+access-list 156 permit ip 200.4.157.0 0.0.0.255 any
+access-list 156 permit ip 200.4.155.0 0.0.0.255 any
+access-list 156 permit ip 200.33.137.0 0.0.0.255 any
+access-list 156 permit ip 201.154.0.0 0.0.127.255 any
+access-list 156 permit ip 201.145.111.0 0.0.0.255 any
+access-list 156 permit ip 187.141.65.0 0.0.0.248 any
+access-list 156 permit ip 187.141.30.0 0.0.0.255 any
+access-list 156 permit ip 201.116.137.144 0.0.0.7 any
+access-list 156 permit ip 201.144.94.0 0.0.0.255 any
+access-list 156 permit ip 201.116.191.0 0.0.0.255 any
+access-list 156 permit ip 201.144.127.0 0.0.0.255 any
+access-list 156 permit ip 187.141.158.0 0.0.0.255 any
+access-list 156 permit ip 187.141.190.0 0.0.0.255 any
+access-list 156 permit ip any 200.36.50.0 0.0.0.255
+access-list 156 permit ip 189.246.0.0 0.0.255.255 any
+access-list 156 permit tcp any any eq bgp
+access-list 156 permit tcp any eq bgp any established
+access-list 156 deny   ip any any
+access-list 2014 permit udp any any
+access-list 2014 permit tcp host 189.246.108.2 eq 646 any
+access-list 2014 permit tcp host 189.246.108.2 any eq 646
+access-list 2014 permit tcp host 189.246.108.3 eq 646 any
+access-list 2014 permit tcp host 189.246.108.3 any eq 646
+access-list 2014 deny   tcp any eq 646 any
+access-list 2014 deny   tcp any any eq 646
+access-list 2014 permit tcp any any
+access-list 2014 deny   53 any any
+access-list 2014 deny   55 any any
+access-list 2014 deny   77 any any
+access-list 2014 deny   pim any any
+access-list 2014 permit ip any any
+access-list 2030 permit ip 7.0.0.0 0.255.255.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 10.3.1.0 0.0.0.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 10.32.0.0 0.0.255.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 10.33.1.0 0.0.0.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 129.1.0.0 0.0.0.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 129.170.198.0 0.0.0.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 130.10.0.0 0.0.255.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 130.20.0.0 0.0.255.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 132.1.0.0 0.0.255.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 162.87.155.20 0.0.0.3 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 165.197.91.0 0.0.0.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 170.200.0.0 0.0.255.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 172.16.0.0 0.0.255.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 172.17.0.0 0.0.255.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 172.18.0.0 0.0.255.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 172.19.0.0 0.0.255.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 172.21.0.0 0.0.255.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 172.22.0.0 0.0.255.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 172.23.0.0 0.0.255.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 172.24.0.0 0.0.255.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 172.25.128.0 0.0.127.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 172.26.0.0 0.0.255.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 192.168.0.0 0.0.255.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 192.169.0.0 0.0.0.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 200.33.29.0 0.0.0.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 200.33.147.0 0.0.0.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 200.33.148.0 0.0.0.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 200.33.150.0 0.0.0.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 200.34.218.0 0.0.0.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 200.35.218.0 0.0.0.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 200.36.218.0 0.0.0.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 200.38.131.0 0.0.0.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 200.38.200.0 0.0.3.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 201.133.0.0 0.0.0.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip any 148.233.0.0 0.0.255.255
+access-list 2030 permit ip any 148.221.0.0 0.0.255.255
+access-list 2030 permit ip any 148.223.0.0 0.0.255.255
+access-list 2030 permit ip any 148.235.0.0 0.0.255.255
+access-list 2030 permit ip any 200.64.0.0 0.0.255.255
+access-list 2030 permit ip any 200.65.0.0 0.0.255.255
+access-list 2030 permit ip any 200.66.128.0 0.0.127.255
+access-list 2030 permit ip any 200.67.0.0 0.0.255.255
+access-list 2030 permit ip any 201.133.0.0 0.0.255.255
+access-list 2030 permit ip any 201.138.0.0 0.0.255.255
+access-list 2030 permit ip any 200.79.0.0 0.0.127.255
+access-list 2030 permit ip any 201.144.0.0 0.3.255.255
+access-list 2030 permit ip any 201.152.0.0 0.0.255.255
+access-list 2030 permit ip any 201.153.0.0 0.0.255.255
+access-list 2030 permit ip any 201.154.0.0 0.0.255.255
+access-list 2030 permit ip any 201.155.0.0 0.0.255.255
+access-list 2030 permit ip any 201.134.0.0 0.0.255.255
+access-list 2030 permit ip any 201.120.0.0 0.0.255.255
+access-list 2030 permit ip any 201.121.0.0 0.0.255.255
+access-list 2030 permit ip any 201.122.0.0 0.0.255.255
+access-list 2030 permit ip any 201.123.0.0 0.0.255.255
+access-list 2030 permit ip any 201.100.0.0 0.0.255.255
+access-list 2030 permit ip any 201.101.0.0 0.0.255.255
+access-list 2030 permit ip any 201.102.0.0 0.0.255.255
+access-list 2030 permit ip any 201.96.0.0 0.0.255.255
+access-list 2030 permit ip any 201.98.0.0 0.0.255.255
+access-list 2030 permit ip any 201.99.0.0 0.0.255.255
+access-list 2030 permit ip any 201.103.0.0 0.0.255.255
+access-list 2030 permit ip any 201.104.0.0 0.0.255.255
+access-list 2030 permit ip any 201.106.0.0 0.0.255.255
+access-list 2030 permit ip any 201.107.0.0 0.0.255.255
+access-list 2030 permit ip any 201.109.0.0 0.0.255.255
+access-list 2030 permit ip any 201.110.0.0 0.0.255.255
+access-list 2030 permit ip any 201.112.0.0 0.0.255.255
+access-list 2030 permit ip any 201.114.0.0 0.0.255.255
+access-list 2030 permit ip any 201.115.0.0 0.0.255.255
+access-list 2030 permit ip any 201.116.0.0 0.0.255.255
+access-list 2030 permit ip any 201.117.0.0 0.0.255.255
+access-list 2030 permit ip any 201.116.137.144 0.0.0.7
+access-list 2030 permit ip 172.27.0.0 0.0.255.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip 172.28.0.0 0.0.255.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip any 189.128.0.0 0.31.255.255
+access-list 2030 permit ip any 189.160.0.0 0.31.255.255
+access-list 2030 permit ip 172.29.0.0 0.0.255.255 172.16.0.0 0.15.255.255
+access-list 2030 permit ip any 201.125.0.0 0.0.255.255
+access-list 2030 permit ip any 189.246.0.0 0.0.255.255
+route-map ESTATICAS_CLIENTES_IDE deny 50
+ match ip address prefix-list RTBHR
+!
+route-map ESTATICAS_CLIENTES_IDE permit 60
+ match ip address prefix-list REDES_PRIVADAS
+ set community no-export
+!
+route-map ESTATICAS_CLIENTES_IDE permit 70
+ match ip address prefix-list ESTATICAS_IPS_UNINET
+ set community 8151:277 no-export
+!
+route-map ESTATICAS_CLIENTES_IDE permit 80
+ match ip address prefix-list ESTATICAS_IPS_CLIENTE
+ set community 8151:278
+!
+route-map ESTATICAS_CLIENTES_IDE permit 90
+ match ip address 1
+!
+route-map DUAL_HOMED permit 8
+ match community 102
+ continue 10
+!
+route-map DUAL_HOMED deny 9
+!
+route-map DUAL_HOMED permit 10
+ match community 1
+ set local-preference 100
+ set community no-export additive
+!
+route-map DUAL_HOMED permit 20
+ match community 2
+ set local-preference 98
+ set community no-export additive
+!
+route-map DUAL_HOMED permit 30
+ match community 3
+ set local-preference 96
+ set community no-export additive
+!
+route-map DUAL_HOMED permit 40
+ match community 4
+ set local-preference 94
+ set community no-export additive
+!
+route-map DUAL_HOMED permit 50
+ match community 5
+ set local-preference 100
+!
+route-map DUAL_HOMED permit 60
+ match community 6
+ set local-preference 98
+!
+route-map DUAL_HOMED permit 70
+ match community 7
+ set local-preference 96
+!
+route-map DUAL_HOMED permit 80
+ match community 8
+ set local-preference 94
+!
+route-map SINGLE_HOMED permit 8
+ match community 102
+ continue 10
+!
+route-map SINGLE_HOMED deny 9
+!
+route-map SINGLE_HOMED permit 10
+ match community 1
+ set local-preference 100
+ set community no-export additive
+!
+route-map SINGLE_HOMED permit 50
+ match community 5
+ set local-preference 100
+!
+route-map OTHERCLUSTER permit 10
+ match ip address prefix-list RUTA_CERO
+ match community SEGUNDORESPALDO
+ set local-preference 75
+!
+route-map OTHERCLUSTER deny 20
+ match ip address prefix-list RUTA_CERO
+!
+route-map OTHERCLUSTER permit 100
+!
+route-map MARCA_REGION permit 10
+ set community 8151:655 additive
+!
+route-map BGP_MARCA_IPS_00 permit 8
+ match community 102
+ continue 10
+!
+route-map BGP_MARCA_IPS_00 deny 9
+!
+route-map BGP_MARCA_IPS_00 permit 10
+ match ip address prefix-list BGP_IPS_00_UNINET
+ set local-preference 100
+ set community 8151:277 no-export additive
+!
+route-map BGP_MARCA_IPS_00 permit 20
+ match ip address prefix-list BGP_IPS_00_CLIENTE
+ set local-preference 100
+ set community 8151:278 additive
+!
+route-map SAMECLUSTER permit 10
+ match ip address prefix-list RUTA_CERO
+ match community SAMECLUSTER
+!
+route-map SAMECLUSTER permit 20
+ match ip address prefix-list RUTA_CERO
+ match community TERCERRESPALDO
+ set local-preference 50
+!
+route-map SAMECLUSTER deny 30
+ match ip address prefix-list RUTA_CERO
+!
+route-map SAMECLUSTER permit 100
+!
+route-map seriales-monterrey permit 10
+ match ip address 1
+ set community 8151:277 8151:280 no-export
+!
+snmp-server engineID local 00000009020000603EE23E20
+snmp-server community r34d RO 13
+snmp-server community wr1t3 RW 13
+snmp-server community azJ4Zqz6gFKltBde RO 13
+snmp-server community LFB38gq8nVcVr2sF RW 13
+snmp-server trap-source Loopback0
+snmp-server enable traps snmp authentication linkdown linkup coldstart warmstart
+snmp-server enable traps rf
+snmp-server enable traps channel
+snmp-server enable traps hsrp
+snmp-server enable traps config
+snmp-server enable traps entity
+snmp-server enable traps envmon
+snmp-server enable traps syslog
+snmp-server enable traps bgp
+snmp-server enable traps frame-relay
+snmp-server enable traps frame-relay subif
+snmp-server enable traps mpls ldp
+snmp-server enable traps mpls vpn
+snmp-server host 192.100.232.1 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.2 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.3 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.33 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.34 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.37 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.38 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.4 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.5 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.6 azJ4Zqz6gFKltBde
+snmp-server host 200.33.150.87 azJ4Zqz6gFKltBde
+snmp-server host 201.125.120.129 azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.1 r34d
+snmp-server host 192.100.232.2 r34d
+snmp-server host 192.100.232.3 r34d
+snmp-server host 192.100.232.33 r34d
+snmp-server host 192.100.232.34 r34d
+snmp-server host 192.100.232.37 r34d
+snmp-server host 192.100.232.38 r34d
+snmp-server host 192.100.232.4 r34d
+snmp-server host 192.100.232.5 r34d
+snmp-server host 192.100.232.6 r34d
+snmp-server host 200.33.150.87 r34d
+snmp ifmib ifalias long
+!
+tacacs-server host 192.100.232.42
+tacacs-server host 192.100.232.43
+no tacacs-server directed-request
+tacacs-server key 7 00534302035F2A271C151F1A
+tag-switching tdp router-id Loopback0 force
+control-plane
+!
+banner motd ^C
+!NOTIFICACION IMPORTANTE!
+El Acceso a este recurso de Red se encuentra restringido a solo
+Personal Autorizado,  cualquier acceso no permitido repercutira
+en Acciones Juridicas y Legales.
+S.S.I.
+^C
+!
+line con 0
+ exec-timeout 60 0
+ password 7 044B12560624191B4A0B44
+line aux 0
+ exec-timeout 60 0
+ password 7 00140A560D5E5E534C330D
+line vty 0 4
+ access-class 15 in
+ exec-timeout 60 0
+ password 7 111900551E175E5947386A
+ logging synchronous
+line vty 5
+ access-class 17 in
+ exec-timeout 20 0
+ password 7 111900551E175E5947386A
+ logging synchronous
+!
+ntp clock-period 17180177
+ntp source Loopback0
+ntp update-calendar
+ntp server 200.33.150.196
+no cns aaa enable
+end
+
+   
+</body>
+</html>
+

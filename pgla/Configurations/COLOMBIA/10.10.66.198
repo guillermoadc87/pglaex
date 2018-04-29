@@ -1,0 +1,645 @@
+terminal length 0
+PMSANDIEGO#show configuration
+Using 8135 out of 2093048 bytes, uncompressed size = 17278 bytes
+Uncompressed configuration from 8135 bytes to 17278 bytes
+!
+! Last configuration change at 09:02:09 Co Tue Nov 21 2017 by jnossa
+! NVRAM config last updated at 23:37:47 Co Mon Mar 19 2018
+!
+upgrade fpd auto
+version 12.0
+no service pad
+service timestamps debug datetime msec localtime
+service timestamps log datetime msec localtime
+service password-encryption
+service compress-config
+!
+hostname PMSANDIEGO
+!
+boot-start-marker
+boot system flash disk0:c12kprp-k4p-mz.120-33.S9.bin
+boot-end-marker
+!
+!
+redundancy
+ mode sso
+logging buffered 256000 debugging
+aaa new-model
+aaa authentication login default tacacs+ local
+aaa authorization exec default tacacs+ local if-authenticated
+aaa authorization commands 0 default tacacs+ local if-authenticated
+aaa authorization commands 1 default tacacs+ none
+aaa authorization commands 15 default tacacs+ none
+aaa accounting commands 0 default start-stop tacacs+
+aaa accounting commands 1 default start-stop tacacs+
+aaa accounting commands 15 default start-stop tacacs+
+enable secret 5 $1$uNr1$gAs65lM6Ik0eFrGrFarXG1
+!
+username usrtelmex secret 5 $1$6bdo$SZaA6AFBqB74hOcmcxCuc0
+username attuser secret 5 $1$SdRg$wXmKoQgqcZyqzX1FjUVrq.
+spd extended-headroom 100
+spd headroom 1000
+monitor event-trace rlc all enable
+clock timezone Co -5
+sensor fanspeed-control off
+!
+!
+!
+!
+!
+!
+!
+!
+ip subnet-zero
+ip routing protocol purge interface
+ip spd mode aggressive
+ip spd queue max-threshold 74
+ip spd queue min-threshold 73
+ip flow-cache timeout active 1
+ip cef table hardware resource-failure action punt 
+ip tcp path-mtu-discovery
+ip tftp source-interface Loopback222
+no ip domain-lookup
+ip domain-name nms.telmexla.net.co
+ip name-server 172.31.238.91
+ip name-server 172.16.5.134
+ip name-server 172.16.5.73
+ip ssh time-out 120
+ip ssh authentication-retries 3
+ip ssh version 2
+!
+class-map match-any Voz
+  match mpls experimental  4  5 
+  match ip precedence 4  5 
+class-map match-any Video
+  match mpls experimental  3 
+  match ip precedence 3 
+class-map match-any Datos_VPN
+  match mpls experimental  1  2  6  7 
+  match ip precedence 1  2  6  7 
+!
+!
+policy-map CAR-600M
+  class class-default
+   police 614400000 75000000 75000000 conform-action transmit  exceed-action drop 
+policy-map QOS_CORE
+  class Voz
+   police cir percent 35 bc 500 ms be 500 ms conform-action transmit  exceed-action drop 
+    priority
+  class Video
+    bandwidth percent 10
+  class Datos_VPN
+    bandwidth percent 30
+    random-detect
+    random-detect precedence 1 2800 packets 7000 packets 1
+    random-detect precedence 2 4200 packets 7000 packets 1
+    random-detect precedence 6 5600 packets 7000 packets 1
+    random-detect precedence 7 5600 packets 7000 packets 1
+  class class-default
+    random-detect
+    random-detect precedence 0 2952 packets 5000 packets 1
+policy-map QOS_CORE_10G
+  class Voz
+   police cir percent 35 bc 500 ms be 500 ms conform-action transmit  exceed-action drop 
+    priority
+  class Video
+    bandwidth percent 10
+  class Datos_VPN
+    bandwidth percent 30
+    random-detect
+    random-detect precedence 1 5400 packets 13500 packets 1
+    random-detect precedence 2 8100 packets 13500 packets 1
+    random-detect precedence 6 10800 packets 13500 packets 1
+    random-detect precedence 7 10800 packets 13500 packets 1
+  class class-default
+    random-detect
+    random-detect precedence 0 6750 packets 11250 packets 1
+policy-map CAR-450MEGAS
+  class class-default
+   police 450000000 56250000 56250000 conform-action transmit  exceed-action drop 
+policy-map CAR-750MEGAS
+  class class-default
+   police 750000000 93750000 93750000 conform-action transmit  exceed-action drop 
+policy-map CAR-300MEGAS
+  class class-default
+   police 300000000 37500000 37500000 conform-action transmit  exceed-action drop 
+policy-map QOS_CORE_Shape-3VC4
+  class class-default
+    shape average 450000000
+   service-policy QOS_CORE
+policy-map CAR-TENGIGA
+  class class-default
+   police cir 10000000000 bc 125000000 be 125000000
+policy-map QOS_CORE_Shape-300M
+  class class-default
+    shape average 300000000
+   service-policy QOS_CORE
+policy-map QOS_CORE_Shape-750M
+  class class-default
+    shape average 750000000
+   service-policy QOS_CORE
+policy-map QOS_CORE_Shape-600M
+  class class-default
+    shape average 600000000
+   service-policy QOS_CORE
+policy-map CAR-GIGA
+  class class-default
+   police 1000000000 125000000 125000000 conform-action transmit  exceed-action drop 
+!
+mpls label protocol ldp
+mpls ldp neighbor 10.10.66.33 targeted
+mpls ldp neighbor 10.10.66.199 targeted
+mpls ldp neighbor 10.10.66.193 targeted
+mpls ldp neighbor 10.10.66.191 targeted
+mpls ldp neighbor 10.10.66.200 targeted
+mpls ldp neighbor 10.10.66.227 targeted
+mpls ldp neighbor 10.10.66.235 targeted
+mpls ldp neighbor 10.10.66.167 targeted
+mpls ldp neighbor 10.10.66.42 targeted
+mpls ldp neighbor 10.10.66.197 targeted
+mpls ldp graceful-restart
+mpls ldp igp sync holddown 60000
+no tag-switching ip propagate-ttl forwarded
+!
+controller E1 8/0
+ shutdown
+!
+controller T1 8/0
+ shutdown
+!
+controller T1 8/1
+ shutdown
+!
+controller E1 8/1
+ shutdown
+!
+controller E1 9/0
+ shutdown
+!
+controller T1 9/0
+ shutdown
+!
+controller T1 9/1
+ shutdown
+!
+controller E1 9/1
+ shutdown
+!
+process-max-time 50
+!
+interface Loopback222
+ description ROUTER-ID 
+ ip address 10.10.66.198 255.255.255.255
+ no ip directed-broadcast
+!
+interface GigabitEthernet0/0/0
+ description TRUNK MPLS CCHICONORTE GE0/0/0/8 - TSO4870 (TX-DWDM 20-36_ALMAGRAN SHELF 0 D 9-FDGS RX/TX 2)
+ mtu 1580
+ bandwidth 1000000
+ ip address 10.14.12.166 255.255.255.252
+ no ip directed-broadcast
+ ip mtu 1566
+ ip ospf network point-to-point
+ ip ospf cost 26000
+ load-interval 30
+ no negotiation auto
+ no flowcontrol bidirectional
+ mpls label protocol ldp
+ tag-switching ip
+ bfd interval 250 min_rx 250 multiplier 3
+ service-policy input CAR-GIGA
+ service-policy output QOS_CORE
+ hold-queue 1000 in
+!
+interface GigabitEthernet0/0/0.4002
+ no ip directed-broadcast
+!
+interface GigabitEthernet0/0/1
+ no ip address
+ no ip directed-broadcast
+ shutdown
+ no negotiation auto
+ no flowcontrol bidirectional
+!
+interface GigabitEthernet0/0/2
+ mtu 1580
+ bandwidth 1000000
+ ip address 10.14.10.234 255.255.255.252
+ no ip directed-broadcast
+ ip mtu 1566
+ ip ospf network point-to-point
+ ip ospf cost 16000
+ load-interval 30
+ shutdown
+ no negotiation auto
+ no flowcontrol bidirectional
+ mpls label protocol ldp
+ tag-switching ip
+ bfd interval 250 min_rx 250 multiplier 3
+ service-policy input CAR-GIGA
+ service-policy output QOS_CORE
+ hold-queue 1000 in
+!
+interface GigabitEthernet0/0/3
+ description TRUNK MPLS GENVIGADO GE1/0 - TSO4880 (FIBRA OSCURA)
+ mtu 1580
+ bandwidth 1000000
+ ip address 10.14.11.29 255.255.255.252
+ no ip directed-broadcast
+ ip mtu 1566
+ ip ospf network point-to-point
+ ip ospf cost 14000
+ load-interval 30
+ shutdown
+ no negotiation auto
+ no flowcontrol bidirectional
+ mpls label protocol ldp
+ tag-switching ip
+ bfd interval 250 min_rx 250 multiplier 3
+ service-policy input CAR-GIGA
+ service-policy output QOS_CORE
+ hold-queue 1000 in
+!
+interface GigabitEthernet0/0/4
+ description TRUNK MPLS BOSQUE GE1/0/0 - TTI9786 (TX-OTN 23-20_MED_SAN_DIEGO-SL1 3-52TOM PORT3)
+ mtu 1580
+ bandwidth 1000000
+ ip address 10.14.11.210 255.255.255.252
+ no ip directed-broadcast
+ ip mtu 1566
+ ip ospf network point-to-point
+ ip ospf cost 36000
+ load-interval 30
+ no negotiation auto
+ mpls label protocol ldp
+ tag-switching ip
+ bfd interval 250 min_rx 250 multiplier 3
+ service-policy input CAR-GIGA
+ service-policy output QOS_CORE
+ hold-queue 1000 in
+!
+interface GigabitEthernet0/0/5
+ description TRUNK MPLS PMESPACIOSUR GE0/0/5 - TSO4883 (FIBRA OSCURA)
+ mtu 1580
+ bandwidth 1000000
+ ip address 10.14.10.245 255.255.255.252
+ no ip directed-broadcast
+ ip mtu 1566
+ ip ospf network point-to-point
+ ip ospf cost 16000
+ load-interval 30
+ no negotiation auto
+ no flowcontrol bidirectional
+ mpls label protocol ldp
+ tag-switching ip
+ bfd interval 250 min_rx 250 multiplier 3
+ service-policy input CAR-GIGA
+ service-policy output QOS_CORE
+ hold-queue 1000 in
+!
+interface GigabitEthernet0/0/6
+ description TRUNK TX-SDH 8-366_SANDIEGO 15-N1EGS4-3 - TTU2479
+ mtu 1580
+ no ip address
+ no ip directed-broadcast
+ ip mtu 1566
+ load-interval 30
+ no negotiation auto
+ no flowcontrol bidirectional
+ hold-queue 1000 in
+!
+interface GigabitEthernet0/0/6.4000
+ description TRUNK MPLS A1KMONTERIA GE0/0/0.4000 - TTU2479 (TX-SDH 8-366_SAN_DIEGO-MT 15-N1EGS4 PORT3) 
+ bandwidth 10000000
+ encapsulation dot1Q 4000
+ ip address 10.14.11.137 255.255.255.252
+ no ip directed-broadcast
+ ip mtu 1566
+ ip ospf network point-to-point
+ ip ospf cost 50000
+ mpls label protocol ldp
+ tag-switching ip
+ bfd interval 250 min_rx 250 multiplier 3
+ service-policy input CAR-GIGA
+ service-policy output QOS_CORE_Shape-3VC4
+!
+interface GigabitEthernet0/0/6.4002
+ bandwidth 750000
+ encapsulation dot1Q 4002
+ no ip directed-broadcast
+ ip mtu 1566
+ shutdown
+!
+interface GigabitEthernet0/0/7
+ mtu 1580
+ bandwidth 450000
+ no ip address
+ no ip directed-broadcast
+ ip mtu 1566
+ load-interval 30
+ shutdown
+ no negotiation auto
+ no flowcontrol bidirectional
+ service-policy input CAR-450MEGAS
+ service-policy output QOS_CORE
+ hold-queue 1000 in
+!
+interface GigabitEthernet0/0/8
+ description TRUNK MPLS A9KBQWTC GE0/0/0/0 - TTI9847 (OTN 23-20 MED-SANDIEGO Shelf 1 Slot 3 Pto 4)
+ mtu 1580
+ bandwidth 1000000
+ ip address 10.14.11.214 255.255.255.252
+ no ip directed-broadcast
+ ip mtu 1566
+ ip ospf network point-to-point
+ ip ospf cost 16000
+ load-interval 30
+ no negotiation auto
+ no flowcontrol bidirectional
+ mpls label protocol ldp
+ tag-switching ip
+ bfd interval 250 min_rx 250 multiplier 3
+ service-policy input CAR-GIGA
+ service-policy output QOS_CORE
+ hold-queue 1000 in
+!
+interface GigabitEthernet0/0/9
+ mtu 1580
+ bandwidth 450000
+ no ip address
+ no ip directed-broadcast
+ ip mtu 1566
+ load-interval 30
+ shutdown
+ no negotiation auto
+ no flowcontrol bidirectional
+ hold-queue 1000 in
+!
+interface GigabitEthernet0/1/0
+ description TRUNK MPLS CSANDIEGO Te0/0/0/4 - UPB3451 (FOL)
+ mtu 1580
+ bandwidth 10000000
+ ip address 10.14.9.222 255.255.255.252
+ no ip directed-broadcast
+ ip mtu 1566
+ ip ospf network point-to-point
+ ip ospf cost 16000
+ mpls label protocol ldp
+ tag-switching ip
+ service-policy input CAR-TENGIGA
+ service-policy output QOS_CORE_10G
+!
+interface GigabitEthernet1/0/0
+ description TRUNK MPLS A1KSINCELEJO GE1/0/0 - TSO6951 (TX-OTN 23-20_MED_SAN_DIEGO-SL1 3-52TOM PORT5)
+ mtu 1580
+ bandwidth 1000000
+ ip address 10.14.10.1 255.255.255.252
+ no ip directed-broadcast
+ ip mtu 1566
+ ip ospf network point-to-point
+ ip ospf cost 16000
+ load-interval 30
+ no negotiation auto
+ no flowcontrol bidirectional
+ mpls label protocol ldp
+ tag-switching ip
+ bfd interval 250 min_rx 250 multiplier 3
+ service-policy input CAR-GIGA
+ service-policy output QOS_CORE
+ hold-queue 1000 in
+!
+interface GigabitEthernet1/0/1
+ no ip address
+ no ip directed-broadcast
+ shutdown
+ no negotiation auto
+ no flowcontrol bidirectional
+!
+interface GigabitEthernet1/0/2
+ no ip address
+ no ip directed-broadcast
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet1/0/3
+ description TRUNK MPLS PMESPACIOSUR GI0/0/9 - TTU6091 (ALU AAG-SANDIEGO-C1 1/2/18)
+ mtu 1580
+ bandwidth 1000000
+ ip address 10.14.12.210 255.255.255.252
+ no ip directed-broadcast
+ ip mtu 1566
+ ip ospf network point-to-point
+ ip ospf cost 16000
+ load-interval 30
+ no negotiation auto
+ no flowcontrol bidirectional
+ mpls label protocol ldp
+ tag-switching ip
+ bfd interval 250 min_rx 250 multiplier 3
+ service-policy input CAR-GIGA
+ service-policy output QOS_CORE
+ hold-queue 1000 in
+!
+interface GigabitEthernet1/0/4
+ no ip address
+ no ip directed-broadcast
+ shutdown
+ no negotiation auto
+ no flowcontrol bidirectional
+!
+interface GigabitEthernet1/0/5
+ no ip address
+ no ip directed-broadcast
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet1/0/6
+ no ip address
+ no ip directed-broadcast
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet1/0/7
+ description TRUNK MPLS A9KBUCARAMANGA GE1/0/1/1 - ATR4863,+TTU0262 (MSTP 8-357_MED_ESTADIO 3/8)
+ mtu 1580
+ bandwidth 450000
+ ip address 10.14.11.206 255.255.255.252
+ no ip directed-broadcast
+ ip mtu 1566
+ ip ospf network point-to-point
+ ip ospf cost 16000
+ load-interval 30
+ no negotiation auto
+ no flowcontrol bidirectional
+ mpls label protocol ldp
+ tag-switching ip
+ bfd interval 250 min_rx 250 multiplier 3
+ service-policy input CAR-450MEGAS
+ service-policy output QOS_CORE
+ hold-queue 1000 in
+!
+interface GigabitEthernet1/0/8
+ no ip address
+ no ip directed-broadcast
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet1/0/9
+ no ip address
+ no ip directed-broadcast
+ shutdown
+ negotiation auto
+!
+interface Ethernet0
+ description GESTION OUTBAND
+ ip address 172.30.83.20 255.255.255.192
+ no ip directed-broadcast
+!
+interface Ethernet1
+ no ip address
+ no ip directed-broadcast
+ shutdown
+!
+interface Ethernet2
+ no ip address
+ no ip directed-broadcast
+ shutdown
+!
+router ospf 66
+ router-id 10.10.66.198
+ ispf
+ log-adjacency-changes
+ auto-cost reference-bandwidth 1000000
+ nsf ietf
+ mpls ldp sync
+ timers throttle spf 50 50 5000
+ timers throttle lsa all 0 20 5000
+ timers lsa arrival 15
+ timers pacing flood 15
+ network 10.10.66.198 0.0.0.0 area 0
+ network 10.14.9.222 0.0.0.0 area 0
+ network 10.14.9.226 0.0.0.0 area 0
+ network 10.14.10.1 0.0.0.0 area 0
+ network 10.14.10.234 0.0.0.0 area 0
+ network 10.14.10.241 0.0.0.0 area 0
+ network 10.14.10.245 0.0.0.0 area 0
+ network 10.14.11.29 0.0.0.0 area 0
+ network 10.14.11.133 0.0.0.0 area 0
+ network 10.14.11.137 0.0.0.0 area 0
+ network 10.14.11.206 0.0.0.0 area 0
+ network 10.14.11.210 0.0.0.0 area 0
+ network 10.14.11.214 0.0.0.0 area 0
+ network 10.14.11.222 0.0.0.0 area 0
+ network 10.14.12.166 0.0.0.0 area 0
+ network 10.14.12.210 0.0.0.0 area 0
+ network 10.14.13.22 0.0.0.0 area 0
+ bfd all-interfaces
+!
+ip classless
+ip flow-export source Loopback222
+ip flow-export version 5
+ip flow-export destination 172.31.215.140 9996
+ip flow-export destination 172.31.215.139 9996
+ip tacacs source-interface Loopback222
+!
+ip bgp-community new-format
+!
+logging facility local6
+logging source-interface Loopback222
+logging 172.31.215.137
+logging 172.31.238.68
+access-list 1300 permit 172.18.191.75
+access-list 1300 permit 172.18.191.76
+access-list 1300 permit 172.28.9.5
+access-list 1300 permit 172.31.238.0 0.0.1.255
+access-list 1300 permit 10.14.0.0 0.0.255.255
+access-list 1300 permit 10.10.66.0 0.0.0.255
+access-list 1300 permit 172.31.215.0 0.0.0.255
+access-list 1300 permit 172.22.19.0 0.0.0.15
+access-list 1300 permit 10.160.63.36 0.0.0.3
+access-list 1300 permit 10.160.57.60 0.0.0.3
+access-list 1302 permit 172.22.208.21
+access-list 1302 permit 172.22.115.108
+access-list 1302 permit 172.28.9.5
+access-list 1302 permit 172.31.238.0 0.0.1.255
+access-list 1302 permit 172.31.215.0 0.0.0.255
+!
+snmp-server engineID local 0000000902000030F22C5820
+snmp-server community BaCkAtT8422 RO 1302
+snmp-server community BonEAtT8422 RW 1302
+snmp-server community C8i1ShcHO1 RO 1302
+snmp-server ifindex persist
+snmp-server trap-source Loopback222
+snmp-server location MEDELLIN SANDIEGO
+snmp-server enable traps snmp linkdown linkup coldstart warmstart
+snmp-server enable traps config
+snmp-server enable traps entity
+snmp-server enable traps copy-config
+snmp-server enable traps cpu threshold
+snmp-server enable traps envmon
+snmp-server enable traps syslog
+snmp-server enable traps fru-ctrl
+snmp-server enable traps c12k-fabric
+snmp-server enable traps rf
+snmp-server enable traps sonet
+snmp-server enable traps bgp
+snmp-server enable traps ospf state-change
+snmp-server enable traps ospf errors
+snmp-server enable traps ospf retransmit
+snmp-server enable traps ospf lsa
+snmp-server enable traps ospf cisco-specific state-change nssa-trans-change
+snmp-server enable traps ospf cisco-specific state-change shamlink interface-old
+snmp-server enable traps ospf cisco-specific state-change shamlink neighbor
+snmp-server enable traps ospf cisco-specific errors
+snmp-server enable traps ospf cisco-specific retransmit
+snmp-server enable traps ospf cisco-specific lsa
+snmp-server enable traps rsvp
+snmp-server enable traps bulkstat collection transfer
+snmp-server enable traps mpls ldp
+snmp-server enable traps mpls vpn
+snmp-server enable traps rtr
+snmp-server host 172.22.115.108 BaCkAtT8422 
+snmp-server host 172.22.208.21 BaCkAtT8422 
+snmp-server host 172.31.239.204 c0r31pcl4r0 
+tacacs-server host 172.22.192.5
+tacacs-server host 172.22.192.4
+tacacs-server host 172.31.239.192
+tacacs-server key 7 13061E010803092B25
+!
+tag-switching tdp router-id Loopback222 force
+control-plane
+!
+banner login ^C
+*************************************************************
+* ATENCION: Este equipo es propiedad de TELMEX Colombia. *
+* El uso no autorizado esta estrictamente prohibido. *
+* Todos los usuarios son legalmente responsables de sus *
+* acciones sobre el sistema y toda actividad sera registrada*
+*************************************************************
+^C
+!
+line con 0
+ exec-timeout 0 0
+line aux 0
+line vty 0 4
+ access-class 1300 in
+ exec-timeout 5 0
+ password 7 104D000A0618
+ logging synchronous
+ transport input ssh
+line vty 5 15
+ access-class 1300 in
+ exec-timeout 5 0
+ logging synchronous
+ transport input ssh
+!
+exception warmstart 60 5 
+ntp clock-period 17171248
+ntp source Loopback222
+ntp update-calendar
+ntp server 172.21.45.5 source Loopback222
+ntp server 172.21.45.70 source Loopback222
+no cns aaa enable
+end
+
+PMSANDIEGO#

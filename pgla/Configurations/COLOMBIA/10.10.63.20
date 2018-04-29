@@ -1,0 +1,12 @@
+terminal length 0
+Tue Mar 20 11:41:44.607 COL
+RP/0/RSP0/CPU0:THBAPASTO#show configuration running-config
+Tue Mar 20 11:41:44.914 COL
+Building configuration...
+!! IOS XR Configuration 4.3.4
+!! Last configuration change at Mon Mar  5 17:16:32 2018 by arondo
+!
+configuration display interface slot-order
+end
+
+RP/0/RSP0/CPU0:THBAPASTO#

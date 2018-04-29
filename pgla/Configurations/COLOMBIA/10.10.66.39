@@ -1,0 +1,7267 @@
+terminal length 0
+Tue Mar 20 11:50:50.277 COLOMBIA
+RP/0/RSP0/CPU0:A9KARMENIA#show configuration running-config
+Tue Mar 20 11:50:50.634 COLOMBIA
+Building configuration...
+!! IOS XR Configuration 5.3.4
+!! Last configuration change at Fri Mar 16 08:02:00 2018 by lneira
+!
+hostname A9KARMENIA
+clock timezone COLOMBIA -5
+banner motd ^CC
+
+
+                                              ***
+                                              ***      ***
+       ****      ***                          ***     ***
+    **********   ***                                 ***
+   ****    ****  ***   *******    ******    ********
+  ****           ***  ***** ***  ******   ************
+  ***            ***        ***  ***     ****      ****  ****
+  ****           ***   ********  ***     ***        ***  ****
+   ****    ****  ***  ***   ***  ***     ****      ****
+    **********   ***  *********  ***      ************
+       ****      ***   ****  **  ***        ********
+
+
+   Esta conectado a : A9KARMENIA
+________________________________________________________
+* Usted esta a punto de utilizar un recurso informatico *
+* de uso privado, cualquier intento de acceso quedara   *
+*     registrado y puede tener implicaciones legales.   *
+*_______________________________________________________*
+* You are on the verge of using private resources, any  *
+*   attempt of access will be recorded and can have     *
+*                  legal implications.                  *
+*_______________________________________________________*
+
+********************************************************************
+*                            ATENCION:                             *
+*                  Este equipo es propiedad de:                    *
+*               CLARO COLOMBIA - SOLUCIONES FIJAS                  *
+*        El uso no autorizado esta estrictamente prohibido.        *
+*      Todos los usuarios son legalmente responsables de sus       *
+*    acciones sobre el sistema y toda actividad sera registrada    *
+*  este equipo esta instalado sds Armenia Fila 101 Rack 1 UR 21-23 *
+********************************************************************
+^C
+logging trap informational
+logging events level informational
+logging archive
+ device harddisk
+ severity informational
+ file-size 5
+ frequency daily
+ archive-size 300
+ archive-length 4
+!
+logging console informational
+logging monitor debugging
+logging buffered 1000000
+logging buffered informational
+logging facility local6
+logging 172.31.215.137 vrf default severity info port default
+logging source-interface Loopback222
+logging hostnameprefix A9KARMENIA
+logging suppress duplicates
+service timestamps log datetime localtime msec show-timezone
+service timestamps debug datetime localtime msec show-timezone
+configuration display interface slot-order
+ipv4 netmask-format bit-count
+logging events link-status software-interfaces
+telnet vrf default ipv4 server max-servers 16
+domain name nms.telmexla.net.co
+domain name-server 172.16.5.134
+domain name-server 172.16.5.73
+domain lookup disable
+tacacs source-interface Loopback222 vrf default
+tacacs-server host 172.22.192.5 port 49
+!
+tacacs-server host 172.22.192.4 port 49
+!
+tacacs-server key 7 01100F1758040B0E2F
+aaa accounting exec default start-stop group tacacs+ none
+aaa accounting commands default start-stop group tacacs+ none
+aaa authorization exec default group tacacs+ local
+aaa authorization commands default group tacacs+ none
+aaa authentication login default group tacacs+ local
+cdp
+vrf nap
+ address-family ipv4 unicast
+  import route-target
+   100:253
+   14080:2190000002
+  !
+  export route-policy MNGMT-INTERNET
+  export route-target
+   100:253
+  !
+ !
+!
+vrf attlanm
+ address-family ipv4 unicast
+  import route-target
+   100:42
+   14080:55400
+  !
+  export route-policy STI-UPS
+  export route-target
+   100:42
+  !
+ !
+!
+vrf internet
+ address-family ipv4 unicast
+  import route-target
+   14080:1
+   14080:2190000002
+  !
+  export route-policy MNGMT-INTERNET
+  export route-target
+   14080:1
+  !
+ !
+!
+vrf sip-trunk
+ address-family ipv4 unicast
+  import route-target
+   14080:303100
+  !
+  export route-target
+   100:3031
+  !
+ !
+!
+vrf AvalBogAVV
+ address-family ipv4 unicast
+  import route-target
+   100:273
+   100:16003
+   14080:2000
+   14080:2190000002
+  !
+  export route-policy ARCOM-AVAL
+  export route-target
+   100:16003
+   14080:2190000003
+  !
+ !
+!
+vrf AvalBogBPO
+ address-family ipv4 unicast
+  import route-target
+   100:273
+   100:16004
+   14080:2190000002
+  !
+  export route-policy ARCOM-AVAL
+  export route-target
+   100:16004
+   14080:2190000003
+  !
+ !
+!
+vrf AvalNalPOR
+ address-family ipv4 unicast
+  import route-target
+   100:273
+   100:15009
+   14080:2190000002
+  !
+  export route-policy ARCOM-AVAL
+  export route-target
+   100:15009
+   14080:2190000003
+  !
+ !
+!
+vrf datace-ext
+ address-family ipv4 unicast
+  import route-target
+   100:1396
+   100:2083
+   14080:2190000002
+  !
+  export route-policy GESTION-CPE
+  export route-target
+   100:1396
+   100:2083
+  !
+ !
+!
+vrf homecenter
+ address-family ipv4 unicast
+  import route-target
+   100:67
+   14080:337800
+   14080:2190000002
+  !
+  export route-policy ARCOM-SODIMAC
+  export route-target
+   100:67
+   14080:2190000003
+  !
+ !
+!
+vrf redeban-ip
+ address-family ipv4 unicast
+  import route-target
+   100:642
+   14080:64200
+   14080:2190000002
+  !
+  export route-target
+   100:642
+   14080:2190000003
+  !
+ !
+!
+vrf sena-intra
+ address-family ipv4 unicast
+  import route-target
+   100:15555
+   14080:2190000002
+  !
+  export route-policy GESTION-CPE
+  export route-target
+   100:15555
+  !
+ !
+!
+vrf cemex-intra
+ address-family ipv4 unicast
+  import route-target
+   100:2116
+  !
+  export route-target
+   100:2116
+  !
+ !
+!
+vrf grexito-int
+ address-family ipv4 unicast
+  import route-target
+   100:2177
+   14080:2190000002
+  !
+  export route-target
+   100:2177
+   14080:2190000003
+  !
+ !
+!
+vrf bancolpatria
+ address-family ipv4 unicast
+  import route-target
+   100:3199
+   14080:2190000002
+  !
+  export route-target
+   100:3199
+   14080:2190000003
+  !
+ !
+!
+vrf cinecolombia
+ address-family ipv4 unicast
+  import route-target
+   100:179
+   100:1161
+   14080:1542800
+   14080:2190000002
+  !
+  export route-policy GESTION-VALOREM
+  export route-target
+   100:179
+   100:1161
+   14080:2190000003
+  !
+ !
+!
+vrf internet-nap
+ address-family ipv4 unicast
+  import route-target
+   14080:2
+   14080:2190000002
+  !
+  export route-policy MNGMT-INTERNET
+  export route-target
+   14080:2
+  !
+ !
+!
+vrf ip-telephony
+ address-family ipv4 unicast
+  import route-target
+   14080:2000
+   14080:2190000002
+  !
+  export route-policy GESTION-CPE
+  export route-target
+   14080:2000
+  !
+ !
+!
+vrf utboc-telmex
+ address-family ipv4 unicast
+  import route-target
+   100:273
+   100:1002
+   14080:2190000002
+  !
+  export route-policy ARCOM-AVAL
+  export route-target
+   100:1002
+   14080:2190000003
+  !
+ !
+!
+vrf AvalBogBBOCis
+ address-family ipv4 unicast
+  import route-target
+   100:273
+   100:830
+   100:16001
+   14080:2190000002
+  !
+  export route-policy GESTION-CPE
+  export route-target
+   100:830
+   100:16001
+  !
+ !
+!
+vrf AvalNalPOR-MD
+ address-family ipv4 unicast
+  import route-target
+   100:17676
+  !
+  export route-target
+   100:17676
+  !
+ !
+!
+vrf redeban-intra
+ address-family ipv4 unicast
+  import route-target
+   100:3701
+   14080:2190000002
+  !
+  export route-policy GESTION-CPE
+  export route-target
+   100:3701
+  !
+ !
+!
+vrf test_intranet
+ address-family ipv4 unicast
+  import route-target
+   100:1290
+   14080:2190000002
+  !
+  export route-policy GESTION-CPE
+  export route-target
+   100:1290
+  !
+ !
+!
+vrf davivienda-nal
+ address-family ipv4 unicast
+  import route-target
+   100:2399
+   14080:2190000002
+  !
+  export route-target
+   100:2399
+   14080:2190000003
+  !
+ !
+!
+vrf pymes-internet
+ address-family ipv4 unicast
+  import route-target
+   14080:1413
+   14080:2190000002
+  !
+  export route-policy GESTIONPYMES
+  export route-target
+   14080:897
+   14080:1413
+  !
+ !
+!
+vrf telmex-intranet
+ address-family ipv4 unicast
+  import route-target
+   14080:107
+   14080:173200
+   14080:2190000002
+  !
+  export route-policy ARCOM-ITTELMEX
+  export route-target
+   14080:107
+   14080:2190000003
+  !
+ !
+!
+vrf davivienda-video
+ address-family ipv4 unicast
+  import route-target
+   100:2662
+   100:18079
+   14080:82000
+   14080:1728700
+  !
+  export route-target
+   100:820
+   100:2662
+   100:17287
+   100:18079
+  !
+ !
+!
+vrf ath-transaccional
+ address-family ipv4 unicast
+  import route-target
+   100:1491
+   14080:27300
+   14080:2190000002
+  !
+  export route-policy ARCOM-AVAL
+  export route-target
+   100:1491
+   14080:2190000003
+  !
+ !
+!
+vrf credibanco-redcom
+ address-family ipv4 unicast
+  import route-target
+   14080:28100
+   14080:333500
+   14080:2190000002
+  !
+  export route-policy ARCOM-CREDI
+  export route-target
+   100:281
+   14080:2190000003
+  !
+ !
+!
+vrf davivienda-mercadeo
+ address-family ipv4 unicast
+  import route-target
+   100:3530
+  !
+  export route-target
+   100:3530
+  !
+ !
+!
+vrf univercasinos-intra
+ address-family ipv4 unicast
+  import route-target
+   100:2902
+   14080:2190000002
+  !
+  export route-policy GESTION-CPE
+  export route-target
+   100:2902
+   14080:2190000003
+  !
+ !
+!
+vrf homecenter-telephony
+ address-family ipv4 unicast
+  import route-target
+   100:18087
+   14080:82000
+   14080:1544900
+   14080:1728700
+   14080:2190000002
+  !
+  export route-policy SODIMAC
+  export route-target
+   100:15449
+   100:17287
+   100:18087
+   14080:82000
+  !
+ !
+!
+vrf davivienda-vstreaming
+ address-family ipv4 unicast
+  import route-target
+   14080:288000
+  !
+  export route-target
+   100:2880
+  !
+ !
+!
+vrf seguridadfisica-telmex
+ address-family ipv4 unicast
+  import route-target
+   100:2438
+  !
+  export route-target
+   100:2438
+  !
+ !
+!
+vrf ath-transaccional-getvpn
+ address-family ipv4 unicast
+  import route-target
+   100:17300
+   14080:2190000002
+  !
+  export route-policy GESTION-CPE
+  export route-target
+   100:17300
+  !
+ !
+!
+vrf telmex-mercadeodinamicocav
+ address-family ipv4 unicast
+  import route-target
+   100:2835
+   100:15847
+  !
+  export route-target
+   100:2835
+   100:15847
+  !
+ !
+!
+line console
+ secret 5 $1$Tkde$Kjs.hybxm608B8emgBjKN0
+ exec-timeout 5 0
+ parity none
+ length 0
+!
+line default
+ secret 5 $1$IQRz$yyysfgAx3EmB2qRWb/5Bj/
+ password 7 110A1016141D
+ exec-timeout 5 0
+ access-class ingress 1300
+ session-timeout 5
+ transport input ssh
+!
+vty-pool default 0 15 line-template default
+snmp-server ifmib ifalias long
+snmp-server ifindex persist
+snmp-server ifmib stats cache
+snmp-server entityindex persist
+snmp-server engineID local 0000000902000030F22C5820
+snmp-server host 172.22.115.108 traps version 2c BaCkAtT8422
+snmp-server host 172.22.208.21 traps version 2c c0r31pcl4r0
+snmp-server ipv4 dscp cs6
+snmp-server community C8i1ShcHO1 RO IPv4 1302
+snmp-server community BaCkAtT8422 RO SystemOwner IPv4 1302
+snmp-server community BonEAtT8422 RW IPv4 1302
+snmp-server queue-length 200
+snmp-server traps rf
+snmp-server traps copy-complete
+snmp-server traps snmp
+snmp-server traps snmp linkup
+snmp-server traps snmp linkdown
+snmp-server traps snmp coldstart
+snmp-server traps snmp warmstart
+snmp-server traps snmp authentication
+snmp-server traps sonet
+snmp-server traps config
+snmp-server traps entity
+snmp-server traps syslog
+snmp-server traps ospf lsa lsa-maxage
+snmp-server traps ospf lsa lsa-originate
+snmp-server traps ospf errors bad-packet
+snmp-server traps ospf errors authentication-failure
+snmp-server traps ospf errors config-error
+snmp-server traps ospf errors virt-bad-packet
+snmp-server traps ospf errors virt-authentication-failure
+snmp-server traps ospf errors virt-config-error
+snmp-server traps ospf retransmit packets
+snmp-server traps ospf retransmit virt-packets
+snmp-server traps ospf state-change neighbor-state-change
+snmp-server traps ospf state-change virtif-state-change
+snmp-server traps ospf state-change virtneighbor-state-change
+snmp-server traps entity-state operstatus
+snmp-server traps entity-state switchover
+snmp-server location SDS ARMENIA
+snmp-server trap-source Loopback222
+icmp ipv4 source vrf
+ipv4 conflict-policy static
+ntp
+ server 172.21.45.5
+ server 172.21.45.70
+ source Loopback222
+ update-calendar
+!
+tftp client source-interface Loopback222
+control-plane
+ management-plane
+  inband
+   interface all
+    allow SSH peer
+     address ipv4 172.18.191.75
+     address ipv4 172.18.191.76
+     address ipv4 172.18.191.79
+     address ipv4 172.28.9.5
+     address ipv4 10.10.66.0/24
+     address ipv4 10.14.0.0/16
+     address ipv4 172.22.19.0/28
+     address ipv4 172.31.215.0/24
+     address ipv4 172.31.238.0/23
+    !
+    allow SNMP peer
+     address ipv4 172.22.115.108
+     address ipv4 172.22.208.21
+     address ipv4 172.28.9.5
+     address ipv4 172.31.239.32
+     address ipv4 172.31.239.33
+     address ipv4 172.31.239.196
+     address ipv4 172.31.215.0/24
+    !
+   !
+  !
+ !
+!
+ipv4 access-list 1
+ 10 permit ipv4 192.168.158.24 0.0.0.3 any
+!
+ipv4 access-list 150
+ 10 permit ipv4 172.30.0.0 0.0.255.255 any
+!
+ipv4 access-list 151
+ 10 permit ipv4 any 172.30.0.0 0.0.255.255
+!
+ipv4 access-list 152
+ 10 permit ipv4 172.31.0.0 0.0.255.255 any
+!
+ipv4 access-list 153
+ 10 permit ipv4 any 172.31.0.0 0.0.255.255
+!
+ipv4 access-list 154
+ 10 permit ipv4 172.20.0.0 0.0.255.255 any
+!
+ipv4 access-list 155
+ 10 permit ipv4 any 172.20.0.0 0.0.255.255
+!
+ipv4 access-list 157
+ 10 permit ipv4 10.200.47.0 0.0.0.255 10.200.0.0 0.0.255.255
+ 20 permit ipv4 10.200.0.0 0.0.255.255 10.200.47.0 0.0.0.255
+!
+ipv4 access-list 158
+ 10 permit ipv4 172.25.0.0 0.0.255.255 any
+!
+ipv4 access-list 159
+ 10 permit ipv4 any 172.25.0.0 0.0.255.255
+!
+ipv4 access-list 160
+ 10 permit ipv4 10.5.5.0 0.0.0.255 any
+ 20 permit ipv4 192.168.8.0 0.0.0.255 any
+!
+ipv4 access-list 161
+ 10 permit ipv4 any 10.5.5.0 0.0.0.255
+ 20 permit ipv4 any 192.168.8.0 0.0.0.255
+!
+ipv4 access-list 162
+ 10 permit ipv4 192.168.3.0 0.0.0.255 any
+!
+ipv4 access-list 163
+ 10 permit ipv4 any 192.168.3.0 0.0.0.255
+!
+ipv4 access-list 166
+ 10 permit ipv4 172.21.0.0 0.0.255.255 any
+ 20 permit ipv4 172.40.0.0 0.0.255.255 any
+!
+ipv4 access-list 167
+ 10 permit ipv4 any 172.21.0.0 0.0.255.255
+ 20 permit ipv4 any 172.40.0.0 0.0.255.255
+!
+ipv4 access-list 170
+ 10 permit ipv4 172.26.0.0 0.0.255.255 any
+!
+ipv4 access-list 171
+ 10 permit ipv4 any 172.26.0.0 0.0.255.255
+!
+ipv4 access-list 172
+ 10 permit ipv4 host 10.11.34.12 any
+!
+ipv4 access-list 176
+ 10 permit ipv4 192.168.157.0 0.0.0.255 any
+ 20 permit ipv4 192.168.158.0 0.0.0.255 any
+ 30 permit ipv4 10.2.0.0 0.0.0.255 any
+!
+ipv4 access-list 177
+ 10 permit ipv4 any 192.168.157.0 0.0.0.255
+ 20 permit ipv4 any 192.168.158.0 0.0.0.255
+ 30 permit ipv4 any 10.2.0.0 0.0.0.255
+!
+ipv4 access-list 178
+ 10 permit ipv4 172.17.0.0 0.0.0.255 any
+ 20 permit ipv4 172.17.1.0 0.0.0.255 any
+ 30 permit ipv4 172.17.2.0 0.0.0.255 any
+ 40 permit ipv4 172.17.3.0 0.0.0.255 any
+ 50 permit ipv4 172.17.4.0 0.0.0.255 any
+!
+ipv4 access-list 179
+ 10 permit ipv4 any 172.17.0.0 0.0.0.255
+ 20 permit ipv4 any 172.17.1.0 0.0.0.255
+ 30 permit ipv4 any 172.17.2.0 0.0.0.255
+ 40 permit ipv4 any 172.17.3.0 0.0.0.255
+ 50 permit ipv4 any 172.17.4.0 0.0.0.255
+!
+ipv4 access-list bfd
+ 10 permit udp any any eq 3784
+ 20 permit udp any any eq 3785
+ 30 permit udp any eq 3784 any
+ 40 permit udp any eq 3785 any
+!
+ipv4 access-list 1300
+ 10 permit ipv4 10.10.66.0 0.0.0.255 any
+ 20 permit ipv4 10.14.0.0 0.0.255.255 any
+ 30 permit ipv4 172.31.238.0 0.0.1.255 any
+ 40 permit ipv4 172.31.215.0 0.0.0.255 any
+ 46 permit ipv4 host 172.18.191.75 any
+ 56 permit ipv4 host 172.18.191.76 any
+ 66 permit ipv4 172.22.19.0 0.0.0.15 any
+ 70 permit ipv4 host 172.18.191.79 any
+ 100 permit ipv4 host 172.28.9.5 any
+!
+ipv4 access-list 1302
+ 10 permit ipv4 172.31.238.0 0.0.1.255 any
+ 20 permit ipv4 172.31.215.0 0.0.0.255 any
+ 30 permit ipv4 host 172.28.9.5 any
+ 40 permit ipv4 host 172.22.115.108 any
+ 50 permit ipv4 host 172.22.208.21 any
+!
+ipv4 access-list 1333
+ 10 permit ipv4 host 10.10.66.4 any
+!
+ipv4 access-list 2000
+ 10 permit ipv4 10.8.0.0 0.0.255.255 any
+ 20 permit ipv4 10.9.0.0 0.0.255.255 any
+ 30 permit ipv4 10.172.0.0 0.0.255.255 any
+ 40 permit ipv4 10.7.0.0 0.0.127.255 any
+ 50 permit ipv4 10.7.128.0 0.0.127.255 any
+ 60 permit ipv4 10.10.128.0 0.0.127.255 any
+!
+ipv4 access-list 2001
+ 10 permit ipv4 any 10.8.0.0 0.0.255.255
+ 20 permit ipv4 any 10.9.0.0 0.0.255.255
+ 30 permit ipv4 any 10.172.0.0 0.0.255.255
+ 40 permit ipv4 any 10.7.0.0 0.0.127.255
+ 50 permit ipv4 any 10.7.128.0 0.0.127.255
+ 60 permit ipv4 10.10.128.0 0.0.127.255 any
+!
+ipv4 access-list 2002
+ 10 permit ipv4 10.12.0.0 0.0.255.255 any
+!
+ipv4 access-list 2003
+ 10 permit ipv4 any 10.12.0.0 0.0.255.255
+!
+ipv4 access-list 2004
+ 10 permit ipv4 10.0.0.0 0.255.255.255 host 200.30.87.91
+ 20 permit ipv4 10.0.0.0 0.255.255.255 host 201.234.78.2
+ 30 permit ipv4 10.0.0.0 0.255.255.255 host 190.26.194.10
+ 40 permit ipv4 10.0.0.0 0.255.255.255 host 190.26.194.6
+ 50 permit ipv4 10.0.0.0 0.255.255.255 host 190.85.253.19
+ 60 permit ipv4 10.0.0.0 0.255.255.255 host 190.85.253.9
+ 70 permit ipv4 10.0.0.0 0.255.255.255 181.48.10.0 0.0.0.63
+ 80 permit ipv4 host 190.85.253.19 10.0.0.0 0.255.255.255
+ 90 permit ipv4 host 190.85.253.9 10.0.0.0 0.255.255.255
+ 100 permit ipv4 host 200.30.87.91 10.0.0.0 0.255.255.255
+ 110 permit ipv4 host 201.234.78.2 10.0.0.0 0.255.255.255
+ 120 permit ipv4 host 190.26.194.10 10.0.0.0 0.255.255.255
+ 130 permit ipv4 host 190.26.194.6 10.0.0.0 0.255.255.255
+ 140 permit ipv4 181.48.10.0 0.0.0.63 10.0.0.0 0.255.255.255
+ 150 permit ipv4 10.0.0.0 0.255.255.255 172.16.0.0 0.15.255.255
+ 160 permit ipv4 172.16.0.0 0.15.255.255 10.0.0.0 0.255.255.255
+ 170 permit ipv4 10.0.0.0 0.255.255.255 10.0.0.0 0.255.255.255
+!
+ipv4 access-list 2005
+ 10 permit ipv4 10.0.0.0 0.255.255.255 host 200.30.87.91
+ 20 permit ipv4 10.0.0.0 0.255.255.255 host 201.234.78.2
+ 30 permit ipv4 10.0.0.0 0.255.255.255 host 190.26.194.10
+ 40 permit ipv4 10.0.0.0 0.255.255.255 host 190.26.194.6
+ 50 permit ipv4 10.0.0.0 0.255.255.255 host 190.85.253.19
+ 60 permit ipv4 10.0.0.0 0.255.255.255 host 190.85.253.9
+ 70 permit ipv4 10.0.0.0 0.255.255.255 181.48.10.0 0.0.0.63
+ 80 permit ipv4 host 190.85.253.19 10.0.0.0 0.255.255.255
+ 90 permit ipv4 host 190.85.253.9 10.0.0.0 0.255.255.255
+ 100 permit ipv4 host 200.30.87.91 10.0.0.0 0.255.255.255
+ 110 permit ipv4 host 201.234.78.2 10.0.0.0 0.255.255.255
+ 120 permit ipv4 host 190.26.194.10 10.0.0.0 0.255.255.255
+ 130 permit ipv4 host 190.26.194.6 10.0.0.0 0.255.255.255
+ 140 permit ipv4 181.48.10.0 0.0.0.63 10.0.0.0 0.255.255.255
+ 150 permit ipv4 10.0.0.0 0.255.255.255 172.16.0.0 0.15.255.255
+ 160 permit ipv4 172.16.0.0 0.15.255.255 10.0.0.0 0.255.255.255
+ 170 permit ipv4 10.0.0.0 0.255.255.255 10.0.0.0 0.255.255.255
+!
+ipv4 access-list 2006
+ 10 permit ipv4 host 172.23.224.5 any
+!
+ipv4 access-list 2007
+ 10 permit ipv4 host 10.88.8.2 any
+!
+ipv4 access-list 2008
+ 10 permit ipv4 172.19.111.0 0.0.0.63 172.19.102.0 0.0.0.127
+ 20 permit ipv4 172.19.111.0 0.0.0.63 172.19.103.0 0.0.0.127
+ 30 permit ipv4 172.19.111.0 0.0.0.63 172.19.104.0 0.0.0.63
+ 40 permit ipv4 172.19.111.0 0.0.0.63 172.19.105.0 0.0.0.63
+ 50 permit ipv4 172.19.111.0 0.0.0.63 172.19.106.0 0.0.0.63
+ 60 permit ipv4 172.19.111.0 0.0.0.63 172.19.107.0 0.0.0.63
+ 70 permit ipv4 172.19.111.0 0.0.0.63 172.19.108.0 0.0.0.63
+ 80 permit ipv4 172.19.111.0 0.0.0.63 172.19.109.0 0.0.0.63
+ 90 permit ipv4 172.19.111.0 0.0.0.63 172.19.110.0 0.0.0.63
+ 100 permit ipv4 172.19.111.0 0.0.0.63 172.19.112.0 0.0.0.63
+ 110 permit ipv4 172.19.111.0 0.0.0.63 172.19.113.0 0.0.0.63
+ 120 permit ipv4 172.19.111.0 0.0.0.63 172.19.114.0 0.0.0.63
+ 130 permit ipv4 172.19.111.0 0.0.0.63 172.26.14.0 0.0.0.255
+ 140 permit ipv4 172.19.111.0 0.0.0.63 172.19.115.0 0.0.0.63
+ 150 permit ipv4 172.19.111.0 0.0.0.63 172.19.117.0 0.0.0.63
+ 160 permit ipv4 172.19.111.0 0.0.0.63 172.19.116.0 0.0.0.63
+!
+ipv4 access-list 2009
+ 10 permit ipv4 172.19.102.0 0.0.0.127 172.19.111.0 0.0.0.63
+ 20 permit ipv4 172.19.103.0 0.0.0.127 172.19.111.0 0.0.0.63
+ 30 permit ipv4 172.19.104.0 0.0.0.63 172.19.111.0 0.0.0.63
+ 40 permit ipv4 172.19.105.0 0.0.0.63 172.19.111.0 0.0.0.63
+ 50 permit ipv4 172.19.106.0 0.0.0.63 172.19.111.0 0.0.0.63
+ 60 permit ipv4 172.19.107.0 0.0.0.63 172.19.111.0 0.0.0.63
+ 70 permit ipv4 172.19.108.0 0.0.0.63 172.19.111.0 0.0.0.63
+ 80 permit ipv4 172.19.109.0 0.0.0.63 172.19.111.0 0.0.0.63
+ 90 permit ipv4 172.19.110.0 0.0.0.63 172.19.111.0 0.0.0.63
+ 100 permit ipv4 172.19.112.0 0.0.0.63 172.19.111.0 0.0.0.63
+ 110 permit ipv4 172.19.113.0 0.0.0.63 172.19.111.0 0.0.0.63
+ 120 permit ipv4 172.19.114.0 0.0.0.63 172.19.111.0 0.0.0.63
+ 130 permit ipv4 172.26.14.0 0.0.0.255 172.19.111.0 0.0.0.63
+ 140 permit ipv4 172.19.116.0 0.0.0.63 172.19.111.0 0.0.0.63
+ 150 permit ipv4 172.19.117.0 0.0.0.63 172.19.111.0 0.0.0.63
+ 160 permit ipv4 172.19.115.0 0.0.0.63 172.19.111.0 0.0.0.63
+!
+ipv4 access-list PARCHE
+ 10 permit ipv4 any host 10.23.16.133
+ 20 permit ipv4 host 10.23.16.133 any
+!
+ipv4 access-list REAL-TIME-IN
+ 10 remark ipv4 host RTP any
+ 20 permit udp any any range 16384 55999
+!
+ipv4 access-list REAL-TIME-OUT
+ 10 remark ipv4 host RTP any
+ 20 permit udp any range 16384 55999 any
+!
+ipv4 access-list SIGNALLING-SERV-IN
+ 10 remark ipv4 host SCCP-SCCPS-UPGRPORTS any
+ 20 permit tcp any any range 2000 2002
+ 30 permit tcp any any eq 2443
+ 40 remark ipv4 host SIP-SIPS any
+ 50 permit tcp any any range 5060 5061
+ 60 permit tcp any range 5060 5061 any
+ 70 permit udp any any range 5060 5061
+ 80 permit udp any range 5060 5061 any
+ 90 remark ipv4 host H323-GK any
+ 100 permit udp any any eq 1719
+ 110 remark ipv4 host H323-H225 any
+ 120 permit tcp any any eq 1720
+ 130 permit tcp any eq 1720 any
+ 140 remark ipv4 host MGCP-CONTROL any
+ 150 permit udp any any eq 2427
+ 160 remark ipv4 host MGCP-BACKHAUL any
+ 170 permit tcp any any eq 2428
+ 180 remark ipv4 host HTTP-TFTP any
+ 190 permit tcp any any eq 6970
+ 200 remark ipv4 host HTTPS-TFTP any
+ 210 permit tcp any any eq 6972
+ 220 remark ipv4 host CAPF-CUCM any
+ 230 permit tcp any any eq 3804
+ 240 remark ipv4 host HTTPS-CUCM any
+ 250 permit tcp any any eq 8443
+ 260 remark ipv4 host SOAP any
+ 270 permit tcp any any eq 8191
+ 280 remark ipv4 host XMPP-IMP any
+ 290 permit tcp any any eq 5222
+ 300 remark ipv4 host SOCKS5-P2P any
+ 310 permit tcp any any eq 37200
+ 320 remark ipv4 host HTTPS-IMP any
+ 330 permit tcp any any eq 7336
+ 340 remark ipv4 host CTI any
+ 350 permit tcp any any eq 2748
+ 360 remark ipv4 host BFCP any
+ 370 permit udp any any range 5070 6070
+ 380 remark ipv4 host RTP-JABBER-DESKPHONE any
+ 390 permit tcp any any eq 8000
+ 400 remark ipv4 host HTTP-CUCX any
+ 410 permit tcp any any eq 7080
+ 420 remark ipv4 host HTTPS-CUCX any
+ 430 permit tcp any any eq 7443
+ 440 remark ipv4 host TFTP-CUCM any
+ 450 permit udp any any eq tftp
+ 460 remark ipv4 host TFTP-CUCM any
+ 470 permit udp any any eq 6969
+ 480 remark ipv4 host IPMA any
+ 490 permit tcp any any eq 2912
+ 500 remark ipv4 host XML-CUCM any
+ 510 permit tcp any any eq 8080
+ 520 remark ipv4 host TRUST-CUCM any
+ 530 permit tcp any any eq 2445
+ 540 remark ipv4 host LOG-EP any
+ 550 permit udp any any eq syslog
+ 560 remark ipv4 host AC-JAVA any
+ 570 permit tcp any any range 1101 1129
+ 580 remark ipv4 host AC any
+ 590 permit udp any any range 3223 3224
+ 600 remark ipv4 host AC-SERVER any
+ 610 permit udp any any eq 4321
+!
+ipv4 access-list SIGNALLING-SERV-OUT
+ 10 remark ipv4 host SCCP-SCCPS-UPGRPORTS any
+ 20 permit tcp any range 2000 2002 any
+ 30 permit tcp any eq 2443 any
+ 40 remark ipv4 host SIP-SIPS any
+ 50 permit tcp any range 5060 5061 any
+ 60 permit tcp any any range 5060 5061
+ 70 permit udp any range 5060 5061 any
+ 80 permit udp any any range 5060 5061
+ 90 remark ipv4 host H323-GK any
+ 100 permit udp any eq 1719 any
+ 110 remark ipv4 host H323-H225 any
+ 120 permit tcp any eq 1720 any
+ 130 permit tcp any any eq 1720
+ 140 remark ipv4 host MGCP-CONTROL any
+ 150 permit udp any eq 2427 any
+ 160 remark ipv4 host MGCP-BACKHAUL any
+ 170 permit tcp any eq 2428 any
+ 180 remark ipv4 host HTTP-TFTP any
+ 190 permit tcp any eq 6970 any
+ 200 remark ipv4 host HTTPS-TFTP any
+ 210 permit tcp any eq 6972 any
+ 220 remark ipv4 host CAPF-CUCM any
+ 230 permit tcp any eq 3804 any
+ 240 remark ipv4 host HTTPS-CUCM any
+ 250 permit tcp any eq 8443 any
+ 260 remark ipv4 host SOAP any
+ 270 permit tcp any eq 8191 any
+ 280 remark ipv4 host XMPP-IMP any
+ 290 permit tcp any eq 5222 any
+ 300 remark ipv4 host SOCKS5-P2P any
+ 310 permit tcp any eq 37200 any
+ 320 remark ipv4 host HTTPS-IMP any
+ 330 permit tcp any eq 7336 any
+ 340 remark ipv4 host CTI any
+ 350 permit tcp any eq 2748 any
+ 360 remark ipv4 host BFCP any
+ 370 permit udp any range 5070 6070 any
+ 380 remark ipv4 host RTP-JABBER-DESKPHONE any
+ 390 permit tcp any eq 8000 any
+ 400 remark ipv4 host HTTP-CUCX any
+ 410 permit tcp any eq 7080 any
+ 420 remark ipv4 host HTTPS-CUCX any
+ 430 permit tcp any eq 7443 any
+ 440 remark ipv4 host TFTP-CUCM any
+ 450 permit udp any eq tftp any
+ 460 remark ipv4 host TFTP-CUCM any
+ 470 permit udp any eq 6969 any
+ 480 remark ipv4 host IPMA any
+ 490 permit tcp any eq 2912 any
+ 500 remark ipv4 host XML-CUCM any
+ 510 permit tcp any eq 8080 any
+ 520 remark ipv4 host TRUST-CUCM any
+ 530 permit tcp any eq 2445 any
+ 540 remark ipv4 host LOG-EP any
+ 550 permit udp any eq syslog any
+ 560 remark ipv4 host AC-JAVA any
+ 570 permit tcp any range 1101 1129 any
+ 580 remark ipv4 host AC any
+ 590 permit udp any range 3223 3224 any
+ 600 remark ipv4 host AC-SERVER any
+ 610 permit udp any eq 4321 any
+!
+class-map match-any LLQ
+ match mpls experimental topmost 5 
+ end-class-map
+! 
+class-map match-any NMS
+ match mpls experimental topmost 7 6 
+ match dscp cs6 cs7 
+ end-class-map
+! 
+class-map match-any Voz
+ match mpls experimental topmost 4 5 
+ match precedence ipv4 4 5 
+ end-class-map
+! 
+class-map match-any bfd
+ match access-group ipv4 bfd 
+ end-class-map
+! 
+class-map match-any COS1
+ match precedence ipv4 1 
+ end-class-map
+! 
+class-map match-any COS3
+ match precedence ipv4 5 
+ end-class-map
+! 
+class-map match-any VOICE
+ match access-group ipv4 2010 
+ end-class-map
+! 
+class-map match-any Video
+ match mpls experimental topmost 3 
+ match precedence ipv4 3 
+ end-class-map
+! 
+class-map match-any PARCHE
+ match access-group ipv4 PARCHE 
+ end-class-map
+! 
+class-map match-any DIAN-IN
+ match access-group ipv4 166 
+ end-class-map
+! 
+class-map match-any CIFIN-IN
+ match access-group ipv4 160 
+ end-class-map
+! 
+class-map match-any DIAN-OUT
+ match access-group ipv4 167 
+ end-class-map
+! 
+class-map match-all VOZ-MPLS
+ match mpls experimental topmost 5 
+ end-class-map
+! 
+class-map match-any CIFIN-OUT
+ match access-group ipv4 161 
+ end-class-map
+! 
+class-map match-any Datos_VPN
+ match mpls experimental topmost 1 2 6 7 
+ match precedence ipv4 1 2 6 7 
+ end-class-map
+! 
+class-map match-any SET-FX-IN
+ match access-group ipv4 178 
+ end-class-map
+! 
+class-map match-any STREAMING
+ match mpls experimental topmost 3 
+ match dscp 34 
+ end-class-map
+! 
+class-map match-any UTBOC-SII
+ match access-group ipv4 2006 
+ end-class-map
+! 
+class-map match-any DECEVAL-IN
+ match access-group ipv4 154 
+ end-class-map
+! 
+class-map match-any REUTERS-IN
+ match access-group ipv4 170 
+ end-class-map
+! 
+class-map match-any SET-FX-OUT
+ match access-group ipv4 179 
+ end-class-map
+! 
+class-map match-any UTBOC-VOIP
+ match access-group ipv4 2007 
+ end-class-map
+! 
+class-map match-all VIDEO-MPLS
+ match mpls experimental topmost 4 
+ end-class-map
+! 
+class-map match-all CMV0216_512
+ match access-group ipv4 172 
+ end-class-map
+! 
+class-map match-any DECEVAL-OUT
+ match access-group ipv4 155 
+ end-class-map
+! 
+class-map match-any INTERACTIVE
+ match mpls experimental topmost 1 
+ end-class-map
+! 
+class-map match-all PBX_PRV0437
+ match access-group ipv4 157 
+ end-class-map
+! 
+class-map match-any Precedence2
+ match precedence ipv4 2 
+ end-class-map
+! 
+class-map match-any Precedence3
+ match precedence ipv4 3 
+ end-class-map
+! 
+class-map match-any Precedence4
+ match precedence ipv4 4 
+ end-class-map
+! 
+class-map match-any Precedence5
+ match precedence ipv4 5 
+ end-class-map
+! 
+class-map match-any REUTERS-OUT
+ match access-group ipv4 171 
+ end-class-map
+! 
+class-map match-any REAL-TIME-IN
+ match access-group ipv4 REAL-TIME-IN 
+ end-class-map
+! 
+class-map match-any TELEFONIA-IN
+ match access-group ipv4 2000 
+ end-class-map
+! 
+class-map match-any CREDIBANCO-IN
+ match access-group ipv4 176 
+ end-class-map
+! 
+class-map match-any CRITICAL-DATA
+ match mpls experimental topmost 2 
+ end-class-map
+! 
+class-map match-any REAL-TIME-OUT
+ match access-group ipv4 REAL-TIME-OUT 
+ end-class-map
+! 
+class-map match-all SENA-DATOS-IN
+ match access-group ipv4 2004 
+ end-class-map
+! 
+class-map match-any TELEFONIA-OUT
+ match access-group ipv4 2001 
+ end-class-map
+! 
+class-map match-any CONVERSATIONAL
+ match mpls experimental topmost 4 
+ match dscp cs4 
+ end-class-map
+! 
+class-map match-any CREDIBANCO-OUT
+ match access-group ipv4 177 
+ end-class-map
+! 
+class-map match-any DATACREDITO-IN
+ match access-group ipv4 162 
+ end-class-map
+! 
+class-map match-all SENA-DATOS-OUT
+ match access-group ipv4 2005 
+ end-class-map
+! 
+class-map match-any BOLSAVALORES-IN
+ match access-group ipv4 158 
+ end-class-map
+! 
+class-map match-any DATACREDITO-OUT
+ match access-group ipv4 163 
+ end-class-map
+! 
+class-map match-any BOLSAVALORES-OUT
+ match access-group ipv4 159 
+ end-class-map
+! 
+class-map match-any SIGNALLING-SERV-IN
+ match access-group ipv4 SIGNALLING-SERV-IN 
+ end-class-map
+! 
+class-map match-any BANREPUBLICA-SEN-IN
+ match access-group ipv4 150 
+ end-class-map
+! 
+class-map match-any SIGNALLING-SERV-OUT
+ match access-group ipv4 SIGNALLING-SERV-OUT 
+ end-class-map
+! 
+class-map match-any VIDEOCONFERENCIA-IN
+ match access-group ipv4 2002 
+ end-class-map
+! 
+class-map match-any BANREPUBLICA-SEN-OUT
+ match access-group ipv4 151 
+ end-class-map
+! 
+class-map match-any VIDEOCONFERENCIA-OUT
+ match access-group ipv4 2003 
+ end-class-map
+! 
+class-map match-any BANREPUBLICA-CEDEC-IN
+ match access-group ipv4 152 
+ end-class-map
+! 
+class-map match-all CREDIBANCO_voip200_IN
+ match access-group ipv4 2008 
+ end-class-map
+! 
+class-map match-any BANREPUBLICA-CEDEC-OUT
+ match access-group ipv4 153 
+ end-class-map
+! 
+class-map match-all CREDIBANCO_voip200_OUT
+ match access-group ipv4 2009 
+ end-class-map
+! 
+policy-map CAR-1G
+ class class-default
+  police rate 1024000000 bps burst 125000000 bytes peak-burst 125000000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-1M
+ class class-default
+  police rate 1024000 bps burst 128000 bytes peak-burst 128000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-2M
+ class class-default
+  police rate 2000000 bps burst 250000 bytes peak-burst 250000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-3M
+ class class-default
+  police rate 3072000 bps burst 375000 bytes peak-burst 375000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-4M
+ class class-default
+  police rate 4096000 bps burst 500000 bytes peak-burst 500000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-50
+ class class-default
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-5M
+ class class-default
+  police rate 5120000 bps burst 625000 bytes peak-burst 625000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-64
+ class class-default
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-6M
+ class class-default
+  police rate 6144000 bps burst 750000 bytes peak-burst 750000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-7M
+ class class-default
+  police rate 7168000 bps burst 875000 bytes peak-burst 875000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-80
+ class class-default
+  police rate 81500 bps burst 10240 bytes peak-burst 10240 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-8M
+ class class-default
+  police rate 8000000 bps burst 1000000 bytes peak-burst 1000000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-9M
+ class class-default
+  police rate 9216000 bps burst 1152000 bytes peak-burst 1152000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-100
+ class class-default
+  police rate 104000 bps burst 13000 bytes peak-burst 13000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-10M
+ class class-default
+  police rate 10240000 bps burst 1280000 bytes peak-burst 1280000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-128
+ class class-default
+  police rate 128000 bps burst 16000 bytes peak-burst 16000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-12M
+ class class-default
+  police rate 12288000 bps burst 1500000 bytes peak-burst 1500000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-13M
+ class class-default
+  police rate 13000000 bps 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-150
+ class class-default
+  police rate 152000 bps burst 18750 bytes peak-burst 18750 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-15M
+ class class-default
+  police rate 15360000 bps burst 1875000 bytes peak-burst 1875000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-192
+ class class-default
+  police rate 192000 bps burst 24000 bytes peak-burst 24000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-200
+ class class-default
+  police rate 200000 bps burst 25000 bytes peak-burst 25000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-20M
+ class class-default
+  police rate 20000000 bps burst 2500000 bytes peak-burst 2500000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-256
+ class class-default
+  police rate 256000 bps burst 32000 bytes peak-burst 32000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-25M
+ class class-default
+  police rate 25600000 bps burst 3125000 bytes peak-burst 3125000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-300
+ class class-default
+  police rate 304000 bps burst 37000 bytes peak-burst 37000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-30M
+ class class-default
+  police rate 30720000 bps burst 3750000 bytes peak-burst 3750000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-384
+ class class-default
+  police rate 384000 bps burst 48000 bytes peak-burst 48000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-400
+ class class-default
+  police rate 400000 bps burst 50000 bytes peak-burst 50000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-40M
+ class class-default
+  police rate 40960000 bps burst 5000000 bytes peak-burst 5000000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-50M
+ class class-default
+  police rate 50000000 bps burst 6250000 bytes peak-burst 6250000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-512
+ class class-default
+  police rate 512000 bps burst 64000 bytes peak-burst 64000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-600
+ class class-default
+  police rate 600000 bps burst 75000 bytes peak-burst 75000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-60M
+ class class-default
+  police rate 61440000 bps burst 7500000 bytes peak-burst 7500000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-696
+ class class-default
+  police rate 696000 bps burst 875000 bytes peak-burst 875000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-70M
+ class class-default
+  police rate 71680000 bps burst 8750000 bytes peak-burst 8750000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-768
+ class class-default
+  police rate 768000 bps burst 96000 bytes peak-burst 96000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-800
+ class class-default
+  police rate 800000 bps burst 100000 bytes peak-burst 100000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-80K
+ class class-default
+  police rate 81500 bps burst 10240 bytes peak-burst 10240 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-80M
+ class class-default
+  police rate 81920000 bps burst 10000000 bytes peak-burst 10000000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-900
+ class class-default
+  police rate 904000 bps burst 113000 bytes peak-burst 113000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-90M
+ class class-default
+  police rate 92160000 bps burst 11250000 bytes peak-burst 11250000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-1000
+ class class-default
+  police rate 1000000 bps burst 1250000 bytes peak-burst 1250000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-100M
+ class class-default
+  police rate 102400000 bps burst 12500000 bytes peak-burst 12500000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-1024
+ class class-default
+  police rate 1024000 bps burst 128000 bytes peak-burst 128000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-1200
+ class class-default
+  police rate 1200000 bps burst 150000 bytes peak-burst 150000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-1400
+ class class-default
+  police rate 1408000 bps burst 176000 bytes peak-burst 176000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-150M
+ class class-default
+  police rate 153600000 bps burst 18750000 bytes peak-burst 18750000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-1536
+ class class-default
+  police rate 1536000 bps burst 192000 bytes peak-burst 192000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-1600
+ class class-default
+  police rate 1600000 bps burst 200000 bytes peak-burst 200000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-200M
+ class class-default
+  police rate 204800000 bps burst 25000000 bytes peak-burst 25000000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-2048
+ class class-default
+  police rate 2048000 bps burst 256000 bytes peak-burst 256000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-300M
+ class class-default
+  police rate 307200000 bps burst 37500000 bytes peak-burst 37500000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-3072
+ class class-default
+  police rate 3072000 bps burst 384000 bytes peak-burst 384000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-400M
+ class class-default
+  police rate 409600000 bps burst 50000000 bytes peak-burst 50000000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-4096
+ class class-default
+  police rate 4096000 bps burst 512000 bytes peak-burst 512000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-500M
+ class class-default
+  police rate 512000000 bps burst 62500000 bytes peak-burst 62500000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-600M
+ class class-default
+  police rate 614400000 bps burst 75000000 bytes peak-burst 75000000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-700M
+ class class-default
+  police rate 716800000 bps burst 87500000 bytes peak-burst 87500000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-800M
+ class class-default
+  police rate 819200000 bps burst 100000000 bytes peak-burst 100000000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-900M
+ class class-default
+  police rate 921600000 bps burst 112500000 bytes peak-burst 112500000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-GIGA
+ class class-default
+  police rate 1000000000 bps burst 125000000 bytes peak-burst 125000000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map QOS_CORE
+ class NMS
+  bandwidth percent 3 
+ ! 
+ class CONVERSATIONAL
+  bandwidth percent 12 
+ ! 
+ class LLQ
+  priority level 1 
+  police rate percent 20 
+  ! 
+ ! 
+ class STREAMING
+  bandwidth percent 15 
+ ! 
+ class CRITICAL-DATA
+  bandwidth percent 15 
+ ! 
+ class INTERACTIVE
+  bandwidth percent 10 
+  random-detect default 
+ ! 
+ class class-default
+  random-detect default 
+ ! 
+ end-policy-map
+! 
+policy-map VIDEO-HD
+ class class-default
+  police rate 2048000 bps burst 256000 bytes peak-burst 256000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map VIDEO-IN
+ class VIDEOCONFERENCIA-IN
+  police rate 512000 bps burst 64000 bytes peak-burst 64000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map CINECO-IN
+ class TELEFONIA-IN
+  police rate 128000 bps burst 16000 bytes peak-burst 16000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 4096000 bps burst 512000 bytes peak-burst 512000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D64V64-IN
+ class TELEFONIA-IN
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map UTBOC-300
+ class UTBOC-VOIP
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class UTBOC-SII
+  police rate 192000 bps burst 24000 bytes peak-burst 24000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map VIDEO-FHD
+ class class-default
+  police rate 4096000 bps burst 512000 bytes peak-burst 512000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map VIDEO-OUT
+ class VIDEOCONFERENCIA-OUT
+  police rate 512000 bps burst 64000 bytes peak-burst 64000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map VIDEO2-IN
+ class VIDEOCONFERENCIA-IN
+  police rate 2048000 bps burst 256000 bytes peak-burst 256000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map BPP0086_IN
+ class SIGNALLING-SERV-IN
+  police rate 300000 bps burst 37500 bytes peak-burst 37500 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class REAL-TIME-IN
+  police rate 2001500 bps burst 250200 bytes peak-burst 250200 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 4096000 bps burst 512000 bytes peak-burst 512000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-1.2M
+ class class-default
+  police rate 1200000 bps burst 150000 bytes peak-burst 150000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-2MEGAS
+ class class-default
+  police rate 2000000 bps burst 250000 bytes peak-burst 250000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-3MEGAS
+ class class-default
+  police rate 3000000 bps burst 375000 bytes peak-burst 375000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-4MEGAS
+ class class-default
+  police rate 4000000 bps burst 500000 bytes peak-burst 500000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-6MEGAS
+ class class-default
+  police rate 6000000 bps burst 750000 bytes peak-burst 750000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CINECO-OUT
+ class TELEFONIA-OUT
+  police rate 128000 bps burst 16000 bytes peak-burst 16000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 4096000 bps burst 512000 bytes peak-burst 512000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D100V64-IN
+ class TELEFONIA-IN
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 1024000 bps burst 128000 bytes peak-burst 128000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D128V64-IN
+ class TELEFONIA-IN
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 128000 bps burst 16000 bytes peak-burst 16000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D200V64-IN
+ class TELEFONIA-IN
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 200000 bps burst 25000 bytes peak-burst 25000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D300V64-IN
+ class TELEFONIA-IN
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 300000 bps burst 37500 bytes peak-burst 37500 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D384V64-IN
+ class TELEFONIA-IN
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 384000 bps burst 48000 bytes peak-burst 48000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D64V64-OUT
+ class TELEFONIA-OUT
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  queue-limit 96 packets 
+  set precedence 1
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB1-IN
+ class TELEFONIA-IN
+  police rate 92000 bps burst 46000 bytes peak-burst 46000 bytes 
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB2-IN
+ class TELEFONIA-IN
+  police rate 184000 bps burst 23000 bytes peak-burst 23000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB3-IN
+ class TELEFONIA-IN
+  police rate 276000 bps burst 34500 bytes peak-burst 34500 bytes 
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB4-IN
+ class TELEFONIA-IN
+  police rate 368000 bps burst 46000 bytes peak-burst 46000 bytes 
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB5-IN
+ class TELEFONIA-IN
+  police rate 460000 bps burst 57500 bytes peak-burst 57500 bytes 
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB6-IN
+ class TELEFONIA-IN
+  police rate 528000 bps burst 65500 bytes peak-burst 65500 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB7-IN
+ class TELEFONIA-IN
+  police rate 644000 bps burst 322000 bytes peak-burst 322000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB8-IN
+ class TELEFONIA-IN
+  police rate 736000 bps burst 92000 bytes peak-burst 92000 bytes 
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB9-IN
+ class TELEFONIA-IN
+  police rate 828000 bps burst 414000 bytes peak-burst 414000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map UTBOC-2000
+ class UTBOC-VOIP
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+  ! 
+ ! 
+ class UTBOC-SII
+  police rate 199500 bps burst 24992 bytes peak-burst 24992 bytes 
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map VIDEO2-OUT
+ class VIDEOCONFERENCIA-OUT
+  police rate 2048000 bps burst 256000 bytes peak-burst 256000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map BPP0086_OUT
+ class SIGNALLING-SERV-OUT
+  police rate 300000 bps burst 37500 bytes peak-burst 37500 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class REAL-TIME-OUT
+  police rate 2001500 bps burst 250200 bytes peak-burst 250200 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 4096000 bps burst 512000 bytes peak-burst 512000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-30MEGAS
+ class class-default
+  police rate 30000000 bps burst 375000 bytes peak-burst 375000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-60MEGAS
+ class class-default
+  police rate 60000000 bps burst 750000 bytes peak-burst 750000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-Int100k
+ class class-default
+  police rate 304000 bps burst 38000 bytes peak-burst 38000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-Int200k
+ class class-default
+  police rate 600000 bps burst 75000 bytes peak-burst 75000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-Int300k
+ class class-default
+  police rate 904000 bps burst 113000 bytes peak-burst 113000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-Int600k
+ class class-default
+  police rate 1800000 bps burst 225000 bytes peak-burst 225000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D100V128-IN
+ class TELEFONIA-IN
+  police rate 128000 bps burst 16000 bytes peak-burst 16000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 100000 bps burst 12500 bytes peak-burst 125000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D100V64-OUT
+ class TELEFONIA-OUT
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 1024000 bps burst 128000 bytes peak-burst 128000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D128V64-OUT
+ class TELEFONIA-OUT
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 128000 bps burst 16000 bytes peak-burst 16000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D200V64-OUT
+ class TELEFONIA-OUT
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 200000 bps burst 25000 bytes peak-burst 25000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D256V256-IN
+ class TELEFONIA-IN
+  police rate 256000 bps burst 32000 bytes peak-burst 32000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 256000 bps burst 32000 bytes peak-burst 32000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D300V128-IN
+ class TELEFONIA-IN
+  police rate 128000 bps burst 16000 bytes peak-burst 16000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 304000 bps burst 37000 bytes peak-burst 37000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D300V64-OUT
+ class TELEFONIA-OUT
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 300000 bps burst 37500 bytes peak-burst 37500 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D320V320-IN
+ class TELEFONIA-IN
+  police rate 320000 bps burst 40000 bytes peak-burst 40000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 320000 bps burst 40000 bytes peak-burst 40000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D320V432-IN
+ class TELEFONIA-IN
+  police rate 432000 bps burst 54000 bytes peak-burst 54000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 320000 bps burst 40000 bytes peak-burst 40000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D384V64-OUT
+ class TELEFONIA-OUT
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 384000 bps burst 48000 bytes peak-burst 48000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D512V320-IN
+ class TELEFONIA-IN
+  police rate 320000 bps burst 40000 bytes peak-burst 40000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 512000 bps burst 64000 bytes peak-burst 64000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map TELCORP2-IN
+ class TELEFONIA-IN
+  police rate 72000 bps burst 9000 bytes peak-burst 9000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELCORP3-IN
+ class TELEFONIA-IN
+  police rate 96000 bps burst 12000 bytes peak-burst 12000 bytes 
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELCORP4-IN
+ class TELEFONIA-IN
+  police rate 128000 bps burst 16000 bytes peak-burst 16000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELCORP6-IN
+ class TELEFONIA-IN
+  police rate 192000 bps burst 24000 bytes peak-burst 24000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB1-OUT
+ class TELEFONIA-OUT
+  police rate 92000 bps burst 46000 bytes peak-burst 46000 bytes 
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB10-IN
+ class TELEFONIA-IN
+  police rate 920000 bps burst 115000 bytes peak-burst 115000 bytes 
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB11-IN
+ class TELEFONIA-IN
+  police rate 1012000 bps burst 506000 bytes peak-burst 506000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB12-IN
+ class TELEFONIA-IN
+  police rate 384000 bps burst 48000 bytes peak-burst 48000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB13-IN
+ class TELEFONIA-IN
+  police rate 1196000 bps burst 598000 bytes peak-burst 598000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB14-IN
+ class TELEFONIA-IN
+  police rate 1288000 bps burst 644000 bytes peak-burst 644000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB15-IN
+ class TELEFONIA-IN
+  police rate 1380000 bps burst 172500 bytes peak-burst 172500 bytes 
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB16-IN
+ class TELEFONIA-IN
+  police rate 1472000 bps burst 736000 bytes peak-burst 736000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB17-IN
+ class TELEFONIA-IN
+  police rate 1564000 bps burst 782000 bytes peak-burst 782000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB18-IN
+ class TELEFONIA-IN
+  police rate 1656000 bps burst 828000 bytes peak-burst 828000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB19-IN
+ class TELEFONIA-IN
+  police rate 1748000 bps burst 874000 bytes peak-burst 874000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB2-OUT
+ class TELEFONIA-OUT
+  police rate 184000 bps burst 23000 bytes peak-burst 23000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB20-IN
+ class TELEFONIA-IN
+  police rate 1840000 bps burst 920000 bytes peak-burst 920000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB3-OUT
+ class TELEFONIA-OUT
+  police rate 276000 bps burst 34500 bytes peak-burst 34500 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB30-IN
+ class TELEFONIA-IN
+  police rate 2760000 bps burst 345000 bytes peak-burst 345000 bytes 
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB4-OUT
+ class TELEFONIA-OUT
+  police rate 368000 bps burst 46000 bytes peak-burst 46000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB40-IN
+ class TELEFONIA-IN
+  police rate 3680000 bps burst 1840000 bytes peak-burst 1840000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB5-OUT
+ class TELEFONIA-OUT
+  police rate 460000 bps burst 57500 bytes peak-burst 57500 bytes 
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB50-IN
+ class TELEFONIA-IN
+  police rate 4600000 bps burst 2300000 bytes peak-burst 2300000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB6-OUT
+ class TELEFONIA-OUT
+  police rate 528000 bps burst 65500 bytes peak-burst 65500 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB60-IN
+ class TELEFONIA-IN
+  police rate 5520000 bps burst 2760000 bytes peak-burst 2760000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB7-OUT
+ class TELEFONIA-OUT
+  police rate 644000 bps burst 322000 bytes peak-burst 322000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB70-IN
+ class TELEFONIA-IN
+  police rate 6440000 bps burst 3220000 bytes peak-burst 3220000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB8-OUT
+ class TELEFONIA-OUT
+  police rate 736000 bps burst 92000 bytes peak-burst 92000 bytes 
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB80-IN
+ class TELEFONIA-IN
+  police rate 7360000 bps burst 3680000 bytes peak-burst 3680000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB9-OUT
+ class TELEFONIA-OUT
+  police rate 828000 bps burst 414000 bytes peak-burst 414000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB90-IN
+ class TELEFONIA-IN
+  police rate 8280000 bps burst 4140000 bytes peak-burst 4140000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map CAR-100MEGAS
+ class class-default
+  police rate 100000000 bps burst 12500000 bytes peak-burst 12500000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-150MEGAS
+ class class-default
+  police rate 150000000 bps burst 18750000 bytes peak-burst 18750000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D100V128-OUT
+ class TELEFONIA-OUT
+  police rate 128000 bps burst 16000 bytes peak-burst 16000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 100000 bps burst 12500 bytes peak-burst 125000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D256V256-OUT
+ class TELEFONIA-OUT
+  police rate 256000 bps burst 32000 bytes peak-burst 32000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 256000 bps burst 32000 bytes peak-burst 32000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D300V128-OUT
+ class TELEFONIA-OUT
+  police rate 128000 bps burst 16000 bytes peak-burst 16000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 304000 bps burst 37000 bytes peak-burst 37000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D320V320-OUT
+ class TELEFONIA-OUT
+  police rate 320000 bps burst 40000 bytes peak-burst 40000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 320000 bps burst 40000 bytes peak-burst 40000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D320V432-OUT
+ class TELEFONIA-OUT
+  police rate 432000 bps burst 54000 bytes peak-burst 54000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 320000 bps burst 40000 bytes peak-burst 40000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D512V320-OUT
+ class TELEFONIA-OUT
+  police rate 320000 bps burst 40000 bytes peak-burst 40000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 512000 bps burst 64000 bytes peak-burst 64000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map PBX2-D600-IN
+ class TELEFONIA-IN
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 600000 bps burst 75000 bytes peak-burst 75000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map TELCORP10-IN
+ class TELEFONIA-IN
+  police rate 320000 bps burst 40000 bytes peak-burst 40000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELCORP2-OUT
+ class TELEFONIA-OUT
+  police rate 72000 bps burst 9000 bytes peak-burst 9000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELCORP20-IN
+ class TELEFONIA-IN
+  police rate 640000 bps burst 80000 bytes peak-burst 80000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELCORP22-IN
+ class TELEFONIA-IN
+  police rate 704000 bps burst 88000 bytes peak-burst 88000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELCORP3-OUT
+ class TELEFONIA-OUT
+  police rate 96000 bps burst 12000 bytes peak-burst 12000 bytes 
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELCORP4-OUT
+ class TELEFONIA-OUT
+  police rate 128000 bps burst 16000 bytes peak-burst 16000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELCORP6-OUT
+ class TELEFONIA-OUT
+  police rate 192000 bps burst 24000 bytes peak-burst 24000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELCORPO4-IN
+ class TELEFONIA-IN
+  police rate 136000 bps burst 17000 bytes peak-burst 17000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELCORPO8-IN
+ class TELEFONIA-IN
+  police rate 272000 bps burst 34000 bytes peak-burst 34000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB10-OUT
+ class TELEFONIA-OUT
+  police rate 920000 bps burst 115000 bytes peak-burst 115000 bytes 
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB100-IN
+ class TELEFONIA-IN
+  police rate 9200000 bps burst 4600000 bytes peak-burst 4600000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB11-OUT
+ class TELEFONIA-OUT
+  police rate 1012000 bps burst 506000 bytes peak-burst 506000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB110-IN
+ class TELEFONIA-IN
+  police rate 10120000 bps burst 5060000 bytes peak-burst 5060000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB12-OUT
+ class TELEFONIA-OUT
+  police rate 1104000 bps burst 552000 bytes peak-burst 552000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB120-IN
+ class TELEFONIA-IN
+  police rate 11040000 bps burst 5520000 bytes peak-burst 5520000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB13-OUT
+ class TELEFONIA-OUT
+  police rate 1196000 bps burst 598000 bytes peak-burst 598000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB130-IN
+ class TELEFONIA-IN
+  police rate 11960000 bps burst 5980000 bytes peak-burst 5980000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB14-OUT
+ class TELEFONIA-OUT
+  police rate 1288000 bps burst 644000 bytes peak-burst 644000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB140-IN
+ class TELEFONIA-IN
+  police rate 12880000 bps burst 6440000 bytes peak-burst 6440000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB15-OUT
+ class TELEFONIA-OUT
+  police rate 1380000 bps burst 172500 bytes peak-burst 172500 bytes 
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB150-IN
+ class TELEFONIA-IN
+  police rate 13800000 bps burst 6900000 bytes peak-burst 6900000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB16-OUT
+ class TELEFONIA-OUT
+  police rate 1472000 bps burst 736000 bytes peak-burst 736000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB160-IN
+ class TELEFONIA-IN
+  police rate 14720000 bps burst 7360000 bytes peak-burst 7360000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB17-OUT
+ class TELEFONIA-OUT
+  police rate 1564000 bps burst 782000 bytes peak-burst 782000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB170-IN
+ class TELEFONIA-IN
+  police rate 15640000 bps burst 7820000 bytes peak-burst 7820000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB18-OUT
+ class TELEFONIA-OUT
+  police rate 1656000 bps burst 828000 bytes peak-burst 828000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB180-IN
+ class TELEFONIA-IN
+  police rate 16560000 bps burst 8280000 bytes peak-burst 8280000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB19-OUT
+ class TELEFONIA-OUT
+  police rate 1748000 bps burst 874000 bytes peak-burst 874000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB190-IN
+ class TELEFONIA-IN
+  police rate 17480000 bps burst 8740000 bytes peak-burst 8740000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB20-OUT
+ class TELEFONIA-OUT
+  police rate 1840000 bps burst 920000 bytes peak-burst 920000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB200-IN
+ class TELEFONIA-IN
+  police rate 18400000 bps burst 9200000 bytes peak-burst 9200000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB30-OUT
+ class TELEFONIA-OUT
+  police rate 2760000 bps burst 345000 bytes peak-burst 345000 bytes 
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB300-IN
+ class TELEFONIA-IN
+  police rate 27600000 bps burst 13800000 bytes peak-burst 13800000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB40-OUT
+ class TELEFONIA-OUT
+  police rate 3680000 bps burst 1840000 bytes peak-burst 1840000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB400-IN
+ class TELEFONIA-IN
+  police rate 36800000 bps burst 18400000 bytes peak-burst 18400000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB50-OUT
+ class TELEFONIA-OUT
+  police rate 4600000 bps burst 2300000 bytes peak-burst 2300000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB500-IN
+ class TELEFONIA-IN
+  police rate 46000000 bps burst 23000000 bytes peak-burst 23000000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB60-OUT
+ class TELEFONIA-OUT
+  police rate 5520000 bps burst 2760000 bytes peak-burst 2760000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB600-IN
+ class TELEFONIA-IN
+  police rate 55200000 bps burst 27600000 bytes peak-burst 27600000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB70-OUT
+ class TELEFONIA-OUT
+  police rate 6440000 bps burst 3220000 bytes peak-burst 3220000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB80-OUT
+ class TELEFONIA-OUT
+  police rate 7360000 bps burst 3680000 bytes peak-burst 3680000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB90-OUT
+ class TELEFONIA-OUT
+  police rate 8280000 bps burst 4140000 bytes peak-burst 4140000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map BOC-D896-V128
+ class Precedence5
+  police rate 128000 bps burst 16000 bytes peak-burst 16000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 896000 bps burst 112000 bytes peak-burst 112000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map BT-128-64-OUT
+ class class-default
+  service-policy BT_128_COS3_64
+  shape average 128000 bps 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-Contenido
+ class class-default
+  police rate 10000000 bps burst 1250000 bytes peak-burst 1250000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map PBX2-D600-OUT
+ class TELEFONIA-OUT
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 600000 bps burst 75000 bytes peak-burst 75000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map TELCORP10-OUT
+ class TELEFONIA-OUT
+  police rate 320000 bps burst 40000 bytes peak-burst 40000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELCORP20-OUT
+ class TELEFONIA-OUT
+  police rate 640000 bps burst 80000 bytes peak-burst 80000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELCORP22-OUT
+ class TELEFONIA-OUT
+  police rate 704000 bps burst 88000 bytes peak-burst 88000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELCORPO4-OUT
+ class TELEFONIA-OUT
+  police rate 136000 bps burst 17000 bytes peak-burst 17000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELCORPO8-OUT
+ class TELEFONIA-OUT
+  police rate 272000 bps burst 34000 bytes peak-burst 34000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB100-OUT
+ class TELEFONIA-OUT
+  police rate 9200000 bps burst 4600000 bytes peak-burst 4600000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB110-OUT
+ class TELEFONIA-OUT
+  police rate 10120000 bps burst 5060000 bytes peak-burst 5060000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB120-OUT
+ class TELEFONIA-OUT
+  police rate 11040000 bps burst 5520000 bytes peak-burst 5520000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB130-OUT
+ class TELEFONIA-OUT
+  police rate 11960000 bps burst 5980000 bytes peak-burst 5980000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB140-OUT
+ class TELEFONIA-OUT
+  police rate 12880000 bps burst 6440000 bytes peak-burst 6440000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB150-OUT
+ class TELEFONIA-OUT
+  police rate 13800000 bps burst 6900000 bytes peak-burst 6900000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB160-OUT
+ class TELEFONIA-OUT
+  police rate 14720000 bps burst 7360000 bytes peak-burst 7360000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB170-OUT
+ class TELEFONIA-OUT
+  police rate 15640000 bps burst 7820000 bytes peak-burst 7820000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB180-OUT
+ class TELEFONIA-OUT
+  police rate 16560000 bps burst 8280000 bytes peak-burst 8280000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB190-OUT
+ class TELEFONIA-OUT
+  police rate 17480000 bps burst 8740000 bytes peak-burst 8740000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB200-OUT
+ class TELEFONIA-OUT
+  police rate 18400000 bps burst 9200000 bytes peak-burst 9200000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB300-OUT
+ class TELEFONIA-OUT
+  police rate 27600000 bps burst 13800000 bytes peak-burst 13800000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB400-OUT
+ class TELEFONIA-OUT
+  police rate 36800000 bps burst 18400000 bytes peak-burst 18400000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB500-OUT
+ class TELEFONIA-OUT
+  police rate 46000000 bps burst 23000000 bytes peak-burst 23000000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map TELPUB600-OUT
+ class TELEFONIA-OUT
+  police rate 55200000 bps burst 27600000 bytes peak-burst 27600000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map BT-128_COS3_64
+ class COS3
+  police rate 64000 bps 
+   conform-action set precedence 5
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  set precedence 1
+ ! 
+ end-policy-map
+! 
+policy-map D64_TELCORP4-IN
+ class TELEFONIA-IN
+  police rate 136000 bps burst 17000 bytes peak-burst 17000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map REMARK-BFD-CORE
+ class bfd
+  set dscp cs6
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map SENA-D9M-I4M-IN
+ class SENA-DATOS-OUT
+  police rate 9000000 bps 
+  ! 
+ ! 
+ class class-default
+  police rate 4000000 bps 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map SENA-D9M-I6M-IN
+ class SENA-DATOS-IN
+  police rate 9000000 bps burst 1125000 bytes peak-burst 1125000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 6000000 bps burst 750000 bytes peak-burst 750000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D100_TELCORP4-IN
+ class TELEFONIA-IN
+  police rate 136000 bps burst 17000 bytes peak-burst 17000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 100000 bps burst 12500 bytes peak-burst 12500 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D600-TELCORP2-IN
+ class TELEFONIA-IN
+  police rate 72000 bps burst 9000 bytes peak-burst 9000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 600000 bps burst 75000 bytes peak-burst 75000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D64_TELCORP4-OUT
+ class TELEFONIA-OUT
+  police rate 136000 bps burst 17000 bytes peak-burst 17000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map SENA-D10M-I3M-IN
+ class SENA-DATOS-IN
+  police rate 7000000 bps burst 875000 bytes peak-burst 875000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 3000000 bps burst 375000 bytes peak-burst 375000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map SENA-D15M-I6M-IN
+ class SENA-DATOS-IN
+  police rate 9000000 bps burst 1125000 bytes peak-burst 1125000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 10000000 bps burst 1250000 bytes peak-burst 1250000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map SENA-D9M-I10M-IN
+ class SENA-DATOS-IN
+  police rate 9000000 bps burst 1125000 bytes peak-burst 1125000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 10000000 bps burst 1250000 bytes peak-burst 1250000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map SENA-D9M-I4M-OUT
+ class SENA-DATOS-OUT
+  police rate 9000000 bps 
+  ! 
+ ! 
+ class class-default
+  police rate 4000000 bps 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map SENA-D9M-I6M-OUT
+ class SENA-DATOS-OUT
+  police rate 9000000 bps burst 1125000 bytes peak-burst 1125000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 6000000 bps burst 750000 bytes peak-burst 750000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-BOC-896D_128V
+ class Precedence5
+  police rate 128000 bps burst 16000 bytes peak-burst 16000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 896000 bps burst 112000 bytes peak-burst 112000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D100_TELCORP4-OUT
+ class TELEFONIA-OUT
+  police rate 136000 bps burst 17000 bytes peak-burst 17000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 100000 bps burst 12500 bytes peak-burst 12500 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D1024_TELCORP2-IN
+ class TELEFONIA-IN
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 1024000 bps burst 230000 bytes peak-burst 230000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D2048-TELCORP2-IN
+ class TELEFONIA-IN
+  police rate 72000 bps burst 9000 bytes peak-burst 9000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 2048000 bps burst 256000 bytes peak-burst 256000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D2048_TELCORP2-IN
+ class TELEFONIA-IN
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 2048000 bps burst 256000 bytes peak-burst 256000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D600-TELCORP2-OUT
+ class TELEFONIA-OUT
+  police rate 72000 bps burst 9000 bytes peak-burst 9000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 600000 bps burst 75000 bytes peak-burst 75000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D64V64-OUT_TS_128
+ class class-default
+  service-policy D64V64_OUT
+  shape average 128000 bps 
+ ! 
+ end-policy-map
+! 
+policy-map D_2240_Voz_192_IN
+ class TELEFONIA-IN
+  police rate 192000 bps burst 24000 bytes peak-burst 24000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 3072000 bps burst 384000 bytes peak-burst 384000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map SENA-D10M-I3M-OUT
+ class SENA-DATOS-OUT
+  police rate 7000000 bps burst 875000 bytes peak-burst 875000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 3000000 bps burst 375000 bytes peak-burst 375000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map SENA-D15M-I6M-OUT
+ class SENA-DATOS-OUT
+  police rate 9000000 bps burst 1125000 bytes peak-burst 1125000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 10000000 bps burst 1250000 bytes peak-burst 1250000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map SENA-D9M-I10M-OUT
+ class SENA-DATOS-OUT
+  police rate 9000000 bps burst 1125000 bytes peak-burst 1125000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 10000000 bps burst 1250000 bytes peak-burst 1250000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CAR-BOC-2240D_160V
+ class Precedence5
+  police rate 160000 bps burst 20000 bytes peak-burst 20000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 2240000 bps burst 280000 bytes peak-burst 280000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map COLPATRIA-VCW-2048
+ class Precedence5
+  police rate 408000 bps burst 51200 bytes peak-burst 51200 bytes 
+  ! 
+ ! 
+ class Precedence3
+  police rate 304000 bps burst 38400 bytes peak-burst 38400 bytes 
+  ! 
+ ! 
+ class Precedence2
+  police rate 816000 bps burst 102400 bytes peak-burst 102400 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 512000 bps burst 64000 bytes peak-burst 64000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map COOMEVA_CMV0216_IN
+ class CMV0216_512
+  police rate 512000 bps burst 64000 bytes peak-burst 64000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 1536000 bps burst 192000 bytes peak-burst 192000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D1024_TELCORP2-OUT
+ class TELEFONIA-OUT
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 1024000 bps burst 230000 bytes peak-burst 230000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D2048-TELCORP2-OUT
+ class TELEFONIA-OUT
+  police rate 72000 bps burst 9000 bytes peak-burst 9000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 2048000 bps burst 256000 bytes peak-burst 256000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D2048_TELCORP2-OUT
+ class TELEFONIA-OUT
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 2048000 bps burst 256000 bytes peak-burst 256000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D_2240_Voz_192_OUT
+ class TELEFONIA-OUT
+  police rate 192000 bps burst 24000 bytes peak-burst 2400 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 3072000 bps burst 384000 bytes peak-burst 384000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map LIBERTY-ARMENIA-IN
+ class TELEFONIA-IN
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 1024000 bps burst 128000 bytes peak-burst 128000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map TELCORP22-PUB15-IN
+ class TELEFONIA-IN
+  police rate 2048000 bps burst 256000 bytes peak-burst 256000 bytes 
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map LIBERTY-ARMENIA-OUT
+ class TELEFONIA-OUT
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 1024000 bps burst 128000 bytes peak-burst 128000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map SENA-D100M-I100M-IN
+ class SENA-DATOS-IN
+  police rate 100000000 bps burst 12500000 bytes peak-burst 12500000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 100000000 bps burst 12500000 bytes peak-burst 12500000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map TELCORP22-PUB15-OUT
+ class TELEFONIA-OUT
+  police rate 2048000 bps burst 256000 bytes peak-burst 256000 bytes 
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map BOC-DATOS1792-VOZ256
+ class Precedence5
+  police rate 256000 bps burst 32000 bytes peak-burst 32000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 2048000 bps burst 256000 bytes peak-burst 256000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map BOC-DATOS1888-VOZ160
+ class Precedence5
+  police rate 160000 bps burst 20000 bytes peak-burst 20000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 1888000 bps burst 236000 bytes peak-burst 236000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map BOC-DATOS1888-VOZ192
+ class Precedence5
+  police rate 192000 bps burst 24000 bytes peak-burst 24000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 1888000 bps burst 236000 bytes peak-burst 236000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map COLPATRIA-QoS-VOZ204
+ class Precedence5
+  police rate 408000 bps burst 51000 bytes peak-burst 51000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 1640000 bps burst 205000 bytes peak-burst 205000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map SENA-D100M-I100M-OUT
+ class SENA-DATOS-OUT
+  police rate 100000000 bps burst 12500000 bytes peak-burst 12500000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 100000000 bps burst 12500000 bytes peak-burst 12500000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_4VOz_300k-IN
+ class TELEFONIA-IN
+  police rate 448000 bps burst 56000 bytes peak-burst 56000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 304000 bps burst 38000 bytes peak-burst 38000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOz_300k-IN
+ class TELEFONIA-IN
+  police rate 560000 bps burst 70000 bytes peak-burst 70000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 304000 bps burst 38000 bytes peak-burst 38000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOz_320k-IN
+ class TELEFONIA-IN
+  police rate 560000 bps burst 70000 bytes peak-burst 70000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 320000 bps burst 40000 bytes peak-burst 40000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOz_800k-IN
+ class TELEFONIA-IN
+  police rate 560000 bps burst 70000 bytes peak-burst 70000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 800000 bps burst 100000 bytes peak-burst 100000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map FINAMERICA-D300V64-IN
+ class TELEFONIA-IN
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 304000 bps burst 37000 bytes peak-burst 37000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map VISA_D200_TELCORP4-IN
+ class TELEFONIA-IN
+  police rate 136000 bps burst 17000 bytes peak-burst 17000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 100000 bps burst 12500 bytes peak-burst 12500 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map VISA_D400_TELCORP4-IN
+ class TELEFONIA-IN
+  police rate 136000 bps burst 17000 bytes peak-burst 17000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 400000 bps burst 50000 bytes peak-burst 50000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map VISA_D400_TELCORP5-IN
+ class TELEFONIA-IN
+  police rate 160000 bps burst 20000 bytes peak-burst 20000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 400000 bps burst 50000 bytes peak-burst 50000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_4VOz_300k-OUT
+ class TELEFONIA-OUT
+  police rate 448000 bps burst 56000 bytes peak-burst 56000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 304000 bps burst 38000 bytes peak-burst 38000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOz_300k-OUT
+ class TELEFONIA-OUT
+  police rate 560000 bps burst 70000 bytes peak-burst 70000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 304000 bps burst 38000 bytes peak-burst 38000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOz_320k-OUT
+ class TELEFONIA-IN
+  police rate 560000 bps burst 70000 bytes peak-burst 70000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 320000 bps burst 40000 bytes peak-burst 40000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOz_800k-OUT
+ class TELEFONIA-OUT
+  police rate 560000 bps burst 70000 bytes peak-burst 70000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 800000 bps burst 100000 bytes peak-burst 100000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map FINAMERICA-D1024V64-IN
+ class TELEFONIA-IN
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 1024000 bps burst 128000 bytes peak-burst 128000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map FINAMERICA-D300V64-OUT
+ class TELEFONIA-OUT
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 304000 bps burst 37000 bytes peak-burst 37000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map RT9216K_SG1024K_D4M-IN
+ class TELEFONIA-IN
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+  ! 
+ ! 
+ class REAL-TIME-IN
+  police rate 921500 bps burst 115200 bytes peak-burst 115200 bytes 
+  ! 
+ ! 
+ class SIGNALLING-SERV-IN
+  police rate 1024000 bps burst 128000 bytes peak-burst 128000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 4096000 bps burst 500000 bytes peak-burst 500000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map VISA_D200_TELCORP4-OUT
+ class TELEFONIA-OUT
+  police rate 136000 bps burst 17000 bytes peak-burst 17000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 100000 bps burst 12500 bytes peak-burst 12500 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map VISA_D400_TELCORP4-OUT
+ class TELEFONIA-OUT
+  police rate 136000 bps burst 17000 bytes peak-burst 17000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 400000 bps burst 50000 bytes peak-burst 50000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map VISA_D400_TELCORP5-OUT
+ class TELEFONIA-OUT
+  police rate 160000 bps burst 20000 bytes peak-burst 20000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 400000 bps burst 50000 bytes peak-burst 50000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map COLLAB-PORT-POLICING-IN
+ class REAL-TIME-IN
+  police rate 64000 bps burst 64000 bytes 
+   exceed-action drop
+  ! 
+ ! 
+ class SIGNALLING-SERV-IN
+  police rate 64000 bps burst 8000 bytes 
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 128000 bps burst 8000 bytes 
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map FINAMERICA-D1024V64-OUT
+ class TELEFONIA-OUT
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 1024000 bps burst 128000 bytes peak-burst 128000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map BBO-1024k-TELEFONIA-4-IN
+ class Voz
+  police rate 256000 bps burst 32000 bytes peak-burst 32000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 1024000 bps burst 128000 bytes peak-burst 128000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map BBO-2048k-TELEFONIA-4-IN
+ class Voz
+  police rate 256000 bps burst 32000 bytes peak-burst 32000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 2048000 bps burst 256000 bytes peak-burst 256000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map BBO-4096k-TELEFONIA-4-IN
+ class Voz
+  police rate 256000 bps burst 32000 bytes peak-burst 32000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 4096000 bps burst 512000 bytes peak-burst 512000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map BBO-DATOS-TELEFONIA-4-IN
+ class Voz
+  police rate 256000 bps burst 32000 bytes peak-burst 32000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 512000 bps burst 64000 bytes peak-burst 64000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map COLLAB-PORT-POLICING-OUT
+ class REAL-TIME-OUT
+  police rate 512000 bps burst 64000 bytes 
+   exceed-action drop
+  ! 
+ ! 
+ class SIGNALLING-SERV-OUT
+  police rate 64000 bps burst 8000 bytes 
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 128000 bps burst 8000 bytes 
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D2048-TELPUB3-TELPBX4-IN
+ class TELEFONIA-IN
+  police rate 660000 bps burst 82500 bytes peak-burst 82500 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 2048000 bps burst 256000 bytes peak-burst 256000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D3072-TELPUB3-TELPBX4-IN
+ class TELEFONIA-IN
+  police rate 660000 bps burst 82500 bytes peak-burst 82500 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 4096000 bps burst 512000 bytes peak-burst 512000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map BBO-1024k-TELEFONIA-4-OUT
+ class Voz
+  police rate 256000 bps burst 32000 bytes peak-burst 32000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 1024000 bps burst 128000 bytes peak-burst 128000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map BBO-2048k-TELEFONIA-4-OUT
+ class Voz
+  police rate 256000 bps burst 32000 bytes peak-burst 32000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 2048000 bps burst 256000 bytes peak-burst 256000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map BBO-4096k-TELEFONIA-4-OUT
+ class Voz
+  police rate 256000 bps burst 32000 bytes peak-burst 32000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 4096000 bps burst 512000 bytes peak-burst 512000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map BBO-DATOS-TELEFONIA-4-OUT
+ class Voz
+  police rate 256000 bps burst 32000 bytes peak-burst 32000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 512000 bps burst 64000 bytes peak-burst 64000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map BPO-128DATOS-TELEFONIA-IN
+ class TELEFONIA-IN
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 128000 bps burst 16000 bytes peak-burst 16000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CREDIBANCO_D400voip200_IN
+ class CREDIBANCO_voip200_IN
+  police rate 200000 bps burst 25000 bytes peak-burst 25000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 800000 bps burst 100000 bytes peak-burst 100000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CREDIBANCO_D824voip200_IN
+ class CREDIBANCO_voip200_IN
+  police rate 200000 bps burst 25000 bytes peak-burst 25000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 824000 bps burst 103000 bytes peak-burst 103000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D2048-TELPUB3-TELPBX4-OUT
+ class TELEFONIA-OUT
+  police rate 660000 bps burst 82500 bytes peak-burst 82500 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 2048000 bps burst 256000 bytes peak-burst 256000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map D3072-TELPUB3-TELPBX4-OUT
+ class TELEFONIA-IN
+  police rate 660000 bps burst 82500 bytes peak-burst 82500 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 4096000 bps burst 512000 bytes peak-burst 512000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map PRV0437_PER-PORT-POLICING
+ class PBX_PRV0437
+  police rate 800000 bps burst 100000 bytes peak-burst 100000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 2048000 bps burst 256000 bytes peak-burst 256000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOz_800k-IN-400k
+ class TELEFONIA-IN
+  police rate 560000 bps burst 70000 bytes peak-burst 70000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 400000 bps burst 50000 bytes peak-burst 50000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map BPO-1024DATOS-TELEFONIA-IN
+ class TELEFONIA-IN
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 1024000 bps burst 128000 bytes peak-burst 128000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map BPO-128DATOS-TELEFONIA-OUT
+ class TELEFONIA-OUT
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 128000 bps burst 16000 bytes peak-burst 16000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map BPO-4096DATOS-TELEFONIA-IN
+ class TELEFONIA-IN
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 5632000 bps burst 704000 bytes peak-burst 704000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CREDIBANCO_D400voip200_OUT
+ class CREDIBANCO_voip200_OUT
+  police rate 224000 bps burst 28000 bytes peak-burst 28000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 800000 bps burst 100000 bytes peak-burst 100000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map CREDIBANCO_D824voip200_OUT
+ class CREDIBANCO_voip200_OUT
+  police rate 224000 bps burst 28000 bytes peak-burst 28000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 824000 bps burst 103000 bytes peak-burst 103000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map SDM0134_BK_7.5M_512K_OUT
+ class PARCHE
+  police rate 524000 bps burst 65536 bytes peak-burst 65536 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 7680000 bps burst 960000 bytes peak-burst 960000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOz_7VOZPUB_1M-IN
+ class TELEFONIA-IN
+  police rate 1344000 bps burst 168000 bytes peak-burst 168000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 1024000 bps burst 128000 bytes peak-burst 128000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOz_7VOZPUB_2M-IN
+ class TELEFONIA-IN
+  police rate 1344000 bps burst 168000 bytes peak-burst 168000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 2048000 bps burst 256000 bytes peak-burst 256000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOz_800k-IN-1024k
+ class TELEFONIA-IN
+  police rate 560000 bps burst 70000 bytes peak-burst 70000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 1024000 bps burst 128000 bytes peak-burst 128000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOz_800k-OUT-400k
+ class TELEFONIA-OUT
+  police rate 560000 bps burst 70000 bytes peak-burst 70000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 400000 bps burst 50000 bytes peak-burst 50000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map BPO-1024DATOS-TELEFONIA-OUT
+ class TELEFONIA-OUT
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 1024000 bps burst 128000 bytes peak-burst 128000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map BPO-4096DATOS-TELEFONIA-OUT
+ class TELEFONIA-OUT
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 5632000 bps burst 704000 bytes peak-burst 704000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOz_7VOZPUB_1M-OUT
+ class TELEFONIA-OUT
+  police rate 1344000 bps burst 168000 bytes peak-burst 168000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 1024000 bps burst 128000 bytes peak-burst 128000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOz_7VOZPUB_2M-OUT
+ class TELEFONIA-OUT
+  police rate 1344000 bps burst 168000 bytes peak-burst 168000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 2048000 bps burst 256000 bytes peak-burst 256000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOz_800k-OUT-1024k
+ class TELEFONIA-OUT
+  police rate 560000 bps burst 70000 bytes peak-burst 70000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 1024000 bps burst 128000 bytes peak-burst 128000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOz_7VOZPUB_400k-IN
+ class TELEFONIA-IN
+  police rate 1344000 bps burst 168000 bytes peak-burst 168000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 400000 bps burst 50000 bytes peak-burst 50000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOz_7VOZPUB_800k-IN
+ class TELEFONIA-IN
+  police rate 1344000 bps burst 168000 bytes peak-burst 168000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 800000 bps burst 100000 bytes peak-burst 100000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOz_7VOZPUB_400k-OUT
+ class TELEFONIA-OUT
+  police rate 1344000 bps burst 168000 bytes peak-burst 168000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 400000 bps burst 50000 bytes peak-burst 50000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOz_7VOZPUB_800k-OUT
+ class TELEFONIA-OUT
+  police rate 1344000 bps burst 168000 bytes peak-burst 168000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 800000 bps burst 100000 bytes peak-burst 100000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map BPP1487_RT9216K_SG1024K_D4M-IN
+ class TELEFONIA-IN
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+  ! 
+ ! 
+ class REAL-TIME-IN
+  police rate 100000 bps burst 12500 bytes peak-burst 12500 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class SIGNALLING-SERV-IN
+  police rate 300000 bps burst 37500 bytes peak-burst 37500 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 4096000 bps burst 500000 bytes peak-burst 500000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOzIP_3VOZPUB_400k-IN
+ class TELEFONIA-IN
+  police rate 896000 bps burst 112000 bytes peak-burst 112000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 400000 bps burst 50000 bytes peak-burst 50000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOzIP_3VOZPUB_800k-IN
+ class TELEFONIA-IN
+  police rate 896000 bps burst 112000 bytes peak-burst 112000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 800000 bps burst 100000 bytes peak-burst 100000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOzIP_5VOZPUB_320k-IN
+ class TELEFONIA-IN
+  police rate 1120000 bps burst 140000 bytes peak-burst 140000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 320000 bps burst 40000 bytes peak-burst 40000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map BPP1487_RT9216K_SG1024K_D4M-OUT
+ class TELEFONIA-OUT
+  police rate 64000 bps burst 8000 bytes peak-burst 8000 bytes 
+  ! 
+ ! 
+ class REAL-TIME-OUT
+  police rate 100000 bps burst 12500 bytes peak-burst 12500 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class SIGNALLING-SERV-OUT
+  police rate 300000 bps burst 37500 bytes peak-burst 37500 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 4096000 bps burst 500000 bytes peak-burst 500000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOzIP_3VOZPUB_1024k-IN
+ class TELEFONIA-IN
+  police rate 896000 bps burst 112000 bytes peak-burst 112000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 1024000 bps burst 128000 bytes peak-burst 128000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOzIP_3VOZPUB_400k-OUT
+ class TELEFONIA-OUT
+  police rate 896000 bps burst 112000 bytes peak-burst 112000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 400000 bps burst 50000 bytes peak-burst 50000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOzIP_3VOZPUB_800k-OUT
+ class TELEFONIA-OUT
+  police rate 896000 bps burst 112000 bytes peak-burst 112000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOzIP_5VOZPUB_1024k-IN
+ class TELEFONIA-IN
+  police rate 1120000 bps burst 140000 bytes peak-burst 140000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 1024000 bps burst 128000 bytes peak-burst 128000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOzIP_5VOZPUB_2048k-IN
+ class TELEFONIA-IN
+  police rate 1120000 bps burst 140000 bytes peak-burst 140000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 2048000 bps burst 256000 bytes peak-burst 256000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOzIP_5VOZPUB_320k-OUT
+ class TELEFONIA-OUT
+  police rate 1120000 bps burst 140000 bytes peak-burst 140000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ class class-default
+  police rate 320000 bps burst 40000 bytes peak-burst 40000 bytes 
+   conform-action transmit
+   exceed-action drop
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOzIP_3VOZPUB_1024k-OUT
+ class TELEFONIA-OUT
+  police rate 896000 bps burst 112000 bytes peak-burst 112000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 1024000 bps burst 128000 bytes peak-burst 128000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOzIP_5VOZPUB_1024k-OUT
+ class TELEFONIA-OUT
+  police rate 1120000 bps burst 140000 bytes peak-burst 140000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 1024000 bps burst 128000 bytes peak-burst 128000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+policy-map AVVILLAS_5VOzIP_5VOZPUB_2048k-OUT
+ class TELEFONIA-OUT
+  police rate 1120000 bps burst 140000 bytes peak-burst 140000 bytes 
+  ! 
+ ! 
+ class class-default
+  police rate 2048000 bps burst 256000 bytes peak-burst 256000 bytes 
+  ! 
+ ! 
+ end-policy-map
+! 
+flow exporter-map AWARE
+ version v9
+ !
+ transport udp 9995
+ source Loopback222
+ destination 172.31.239.241
+!
+flow exporter-map EMANAGEMENT
+ version v9
+ !
+ transport udp 9999
+ source Loopback222
+ destination 172.31.215.143
+!
+flow exporter-map FNF_EXPORT_MAP1
+ version v9
+ !
+ transport udp 9996
+ source Loopback222
+ destination 172.31.215.139
+!
+flow monitor-map NFMonMap-IPv4
+ record ipv4
+ exporter AWARE
+ exporter EMANAGEMENT
+!
+flow monitor-map NFMonMap-MPLS
+ record mpls ipv4-fields
+ exporter AWARE
+ exporter EMANAGEMENT
+!
+flow monitor-map FNF_MONITOR_MAP
+ record ipv4
+ exporter FNF_EXPORT_MAP1
+ cache timeout active 1
+!
+sampler-map NFSamMapGE
+ random 1 out-of 1000
+!
+sampler-map NFSamMap10GE
+ random 1 out-of 10000
+!
+sampler-map FNF_SAMPLER_MAP
+ random 1 out-of 1000
+!
+sampler-map NFSamMap40-100GE
+ random 1 out-of 65535
+!
+interface Loopback222
+ description ROUTER-ID
+ ipv4 address 10.10.66.39/32
+!
+interface MgmtEth0/RSP0/CPU0/0
+ description GESTION MARMENIA_FA2/0/15
+ ipv4 address 172.30.27.194/30
+!
+interface MgmtEth0/RSP0/CPU0/1
+ description GESTION MARMENIA_FA2/0/15
+ ipv4 address 172.30.27.194/30
+!
+interface GigabitEthernet0/0/0/0
+ description TRUNK MPLS ARMENIA2 Fa3/1 - UTP
+ cdp
+ mtu 1590
+ service-policy input REMARK-BFD-CORE
+ service-policy output QOS_CORE
+ ipv4 mtu 1500
+ ipv4 address 10.14.10.241/30
+ ipv4 unreachables disable
+ mpls
+  mtu 1580
+ !
+ speed 100
+ carrier-delay up 500 down 0
+ flow mpls monitor NFMonMap-MPLS sampler NFSamMapGE ingress
+ flow mpls monitor NFMonMap-MPLS sampler NFSamMapGE egress
+!
+interface GigabitEthernet0/0/0/1
+ description TRUNK MPLS ARMENIA2 Fa0/1 - UTP
+ cdp
+ mtu 1590
+ service-policy input REMARK-BFD-CORE
+ service-policy output QOS_CORE
+ ipv4 mtu 1500
+ ipv4 address 10.14.10.217/30
+ ipv4 unreachables disable
+ mpls
+  mtu 1580
+ !
+ speed 100
+ carrier-delay up 500 down 0
+ flow mpls monitor NFMonMap-MPLS sampler NFSamMapGE ingress
+ flow mpls monitor NFMonMap-MPLS sampler NFSamMapGE egress
+!
+interface GigabitEthernet0/0/0/2
+ description TRUNK 8021Q MARMENIA FE1/0/1 - TSO5252 (FIBRA OPTICA LOCAL)
+ cdp
+ vrf attlanm
+ ipv4 address 10.13.62.254/24
+ speed 1000
+ load-interval 30
+ transceiver permit pid all
+!
+interface GigabitEthernet0/0/0/2.102
+ description IPDP UNIVERSAL DE CASINOS CASINO HAVANA ARMENIA GESTION_PROACTIVA PPAL - UDQ0011(UDQ0078)
+ service-policy input CAR-20M
+ service-policy output CAR-20M
+ vrf univercasinos-intra
+ ipv4 address 10.160.66.69/30
+ encapsulation dot1q 102
+!
+interface GigabitEthernet0/0/0/2.104
+ description IPDP UNIVERSAL DE CASINOS CALLE20 ARMENIA - UDQ0013
+ service-policy input CAR-3M
+ service-policy output CAR-3M
+ vrf univercasinos-intra
+ ipv4 address 10.160.66.57/30
+ encapsulation dot1q 104
+!
+interface GigabitEthernet0/0/0/2.110
+ description IPDP REDEBAN AV BOLIVAR GESTION_PROACTIVA - RMC0275
+ service-policy input CAR-1.2M
+ service-policy output CAR-1.2M
+ vrf redeban-intra
+ ipv4 address 10.160.67.165/30
+ encapsulation dot1q 110
+!
+interface GigabitEthernet0/0/0/2.113
+ description IPDP UNIVERSAL DE CASINOS CR 18 REAL GAME GESTION_PROACTIVA - UDQ0065
+ service-policy input CAR-3M
+ service-policy output CAR-3M
+ vrf univercasinos-intra
+ ipv4 address 10.160.67.161/30
+ encapsulation dot1q 113
+!
+interface GigabitEthernet0/0/0/2.115
+ description IPDP LEY ARMENIA CENTRO BACKUP ALX0125 - ALX0238
+ service-policy input CAR-1M
+ service-policy output CAR-1M
+ vrf grexito-int
+ ipv4 address 10.160.66.245/30
+ encapsulation dot1q 115
+!
+interface GigabitEthernet0/0/0/2.116
+ description IPDP DAVIVIENDA CAJEROS UNIV. DEL QUINDMO - DVV0745
+ service-policy input CAR-300
+ service-policy output CAR-300
+ vrf davivienda-nal
+ ipv4 address 10.160.67.125/30
+ encapsulation dot1q 116
+!
+interface GigabitEthernet0/0/0/2.117
+ description IPDP DAVIVIENDA CAJEROS HOSPITAL SAN JUAN - DVV0746
+ service-policy input CAR-300
+ service-policy output CAR-300
+ vrf davivienda-nal
+ ipv4 address 10.160.64.25/30
+ encapsulation dot1q 117
+!
+interface GigabitEthernet0/0/0/2.118
+ description IPDP LEY ARMENIA CENTRO INTERNET BACKUP ALX0125 - ALX0238
+ service-policy input CAR-12M
+ service-policy output CAR-12M
+ vrf pymes-internet
+ ipv4 address 10.162.164.89/30
+ encapsulation dot1q 118
+!
+interface GigabitEthernet0/0/0/2.120
+ description IPDP SODIMAC COLOMBIA S.A. GESTION_PROACTIVA BACKUP SDM0191 - SDM0473
+ service-policy input CAR-512
+ service-policy output CAR-512
+ vrf homecenter-telephony
+ ipv4 address 10.168.157.225/30
+ encapsulation dot1q 120
+!
+interface GigabitEthernet0/0/0/2.121
+ description MPTR REDEBAN MULTICOLOR S.A. GESTION_PROACTIVA - RMC0403
+ service-policy input CAR-100
+ service-policy output CAR-100
+ vrf redeban-ip
+ ipv4 address 10.160.67.113/30
+ encapsulation dot1q 121
+!
+interface GigabitEthernet0/0/0/2.122
+ description IPDP BANCO DAVIVIENDA PORTAL QUINDIO GESTION_PROACTIVA - DVV0951
+ service-policy input CAR-4M
+ service-policy output CAR-4M
+ vrf davivienda-nal
+ ipv4 address 10.160.67.129/30
+ encapsulation dot1q 122
+!
+interface GigabitEthernet0/0/0/2.129
+ description E.S.E. HOSPITAL DPTAL. UNIVERSITARIO DEL QUINDIO SAN JUAN DE DIOS - ETK0001
+ service-policy input TELPUB30-IN
+ service-policy output TELPUB30-OUT
+ vrf ip-telephony
+ ipv4 address 10.160.67.237/30
+ encapsulation dot1q 129
+!
+interface GigabitEthernet0/0/0/2.130
+ description IPDP EXITO ARMENIA CRISTAL GESTION_PROACTIVA PPAL ALX2256 - ALX0757(ALX0772)
+ service-policy input CAR-4M
+ service-policy output CAR-4M
+ vrf grexito-int
+ ipv4 address 10.160.67.229/30
+ encapsulation dot1q 130
+!
+interface GigabitEthernet0/0/0/2.132
+ description IPDP BANCO COLPATRIA RED MULTIBANCA COLPATRIA S.A - BDV0070
+ service-policy input CAR-5M
+ service-policy output CAR-5M
+ vrf bancolpatria
+ ipv4 address 10.161.84.189/30
+ encapsulation dot1q 132
+!
+interface GigabitEthernet0/0/0/2.135
+ description IPDP PROMOCIONES Y COBRANZAS BETA S.A. INTERNET - PYD0001
+ service-policy input CAR-2048
+ service-policy output CAR-2048
+ vrf nap
+ ipv4 address 10.160.67.89/30
+ encapsulation dot1q 135
+!
+interface GigabitEthernet0/0/0/2.136
+ description IPDP PROMOCIONES Y COBRANZAS BETA S.A. INTERNET - PYD0001
+ service-policy input CAR-512
+ service-policy output CAR-512
+ vrf internet
+ ipv4 address 10.160.67.85/30
+ encapsulation dot1q 136
+!
+interface GigabitEthernet0/0/0/2.140
+ description IPDP SODIMAC COLOMBIA S.A. GESTION_PROACTIVA BACKUP SDM0133 - SDM0134 (HPSA)
+ service-policy input CAR-8M
+ service-policy output SDM0134_BK_7.5M_512K_OUT
+ vrf homecenter
+ ipv4 address 10.161.67.145/30
+ encapsulation dot1q 140
+!
+interface GigabitEthernet0/0/0/2.143
+ description IPDP CCE SENA SEDE 131 ORO 99.9 PPAL - SLE0015(SLE2164)
+ service-policy input SENA-D100M-I100M-IN
+ service-policy output SENA-D100M-I100M-OUT
+ vrf sena-intra
+ ipv4 address 10.160.66.249/30
+ shutdown
+ encapsulation dot1q 143
+!
+interface GigabitEthernet0/0/0/2.144
+ description IPDP ESPUMLATEX S.A. ARMENIA - ESQ0011
+ shutdown
+ encapsulation dot1q 144
+!
+interface GigabitEthernet0/0/0/2.145
+ description IPDP ORGANIZACION RADIAL OLIMPICA S.A. - ORO0057
+ service-policy input TELPUB3-IN
+ service-policy output TELPUB3-OUT
+ vrf ip-telephony
+ ipv4 address 10.160.67.201/30
+ encapsulation dot1q 145
+!
+interface GigabitEthernet0/0/0/2.155
+ description PRUEBAS UQUINDIO - UDY0005
+ vrf ip-telephony
+ ipv4 address 10.160.49.81/30
+ encapsulation dot1q 155
+!
+interface GigabitEthernet0/0/0/2.170
+ description GESTION_A9KARMENIA
+ service-policy input CAR-8M
+ service-policy output CAR-8M
+ vrf attlanm
+ ipv4 address 172.30.27.193/30
+ encapsulation dot1q 170
+!
+interface GigabitEthernet0/0/0/2.175
+ description IPDP BANCO DE BOGOTA ARMENIA OFICINA 535 - BBT0608
+ service-policy input CAR-8M
+ service-policy output CAR-8M
+ vrf AvalBogBBOCis
+ ipv4 address 10.164.75.73/30
+ encapsulation dot1q 175
+!
+interface GigabitEthernet0/0/0/2.176
+ description IPDP BANCO DE BOGOTA - BBT1193
+ service-policy input TELPUB4-IN
+ service-policy output TELPUB4-OUT
+ vrf ip-telephony
+ ipv4 address 10.164.75.77/30
+ encapsulation dot1q 176
+!
+interface GigabitEthernet0/0/0/2.180
+ description IPDP TELMEX IT CAV ARMENIA INTRANET - TFP0224
+ service-policy input CAR-10M
+ service-policy output CAR-10M
+ vrf telmex-intranet
+ ipv4 address 10.160.67.249/30
+ encapsulation dot1q 180
+!
+interface GigabitEthernet0/0/0/2.181
+ description IPDP CEMEX COLOMBIA S.A. - CMO0028
+ service-policy input CAR-1024
+ service-policy output CAR-1024
+ vrf cemex-intra
+ ipv4 address 10.160.67.225/30
+ encapsulation dot1q 181
+!
+interface GigabitEthernet0/0/0/2.184
+ description IPDP TELMEX IT ARMENIA EXTRANET CAV - TFP0482
+ service-policy input CAR-1024
+ service-policy output CAR-1024
+ vrf telmex-mercadeodinamicocav
+ ipv4 address 10.160.69.33/30
+ encapsulation dot1q 184
+!
+interface GigabitEthernet0/0/0/2.199
+ description IPDP BANCO DE BOGOTA - BBT1203 (HPSA)
+ service-policy input TELPUB4-IN
+ service-policy output TELPUB4-OUT
+ vrf ip-telephony
+ ipv4 address 10.160.126.21/30
+ encapsulation dot1q 199
+!
+interface GigabitEthernet0/0/0/2.309
+ description IPDP CINECOLOMBIA PORTAL QUINDIO - CIN0039
+ service-policy input TELCORP4-IN
+ service-policy output TELCORP4-OUT
+ vrf ip-telephony
+ ipv4 address 10.160.66.161/30
+ encapsulation dot1q 309
+!
+interface GigabitEthernet0/0/0/2.311
+ description IPDP BANCO POPULAR CENTRO ARMENIA - BPP0739
+ service-policy input CAR-64
+ service-policy output CAR-64
+ vrf ip-telephony
+ ipv4 address 10.160.66.89/30
+ encapsulation dot1q 311
+!
+interface GigabitEthernet0/0/0/2.416
+ description IPDP BANCO POPULAR ARMENIA - BPP0636,795
+ service-policy input CAR-64
+ service-policy output CAR-64
+ vrf ip-telephony
+ ipv4 address 10.160.67.13/30
+ encapsulation dot1q 416
+!
+interface GigabitEthernet0/0/0/2.506
+ description IPDP DAVIVIENDA ARMENIA CRA 20 - DVV0617
+ service-policy input CAR-256
+ service-policy output CAR-256
+ vrf davivienda-vstreaming
+ ipv4 address 10.160.66.29/30
+ encapsulation dot1q 506
+!
+interface GigabitEthernet0/0/0/2.515
+ description IPDP BANCO POPULAR TEL. CORP. - BPP0904
+ service-policy input CAR-64
+ service-policy output CAR-64
+ vrf ip-telephony
+ ipv4 address 10.160.67.137/30
+ encapsulation dot1q 515
+!
+interface GigabitEthernet0/0/0/2.523
+ vrf seguridadfisica-telmex
+ ipv4 address 172.25.103.49/28
+ encapsulation dot1q 523
+!
+interface GigabitEthernet0/0/0/2.611
+ description BANCO DAVIVIENDA VIDEO - DVV0664
+ service-policy input CAR-3MEGAS
+ service-policy output CAR-3MEGAS
+ vrf davivienda-video
+ ipv4 address 10.160.66.53/30
+ encapsulation dot1q 611
+!
+interface GigabitEthernet0/0/0/2.615
+ description IPDP DAVIVIENDA PRINCIPAL ARMENIA GESTION_PROACTIVA - DVV0342
+ service-policy input CAR-8M
+ service-policy output CAR-8M
+ vrf davivienda-nal
+ ipv4 address 10.161.36.29/30
+ encapsulation dot1q 615
+!
+interface GigabitEthernet0/0/0/3
+ description TRUNK 8021Q MARMENIA FE2/0/1 - TTI9783 (BACKUP)
+ cdp
+ vrf attlanm
+ ipv4 address 10.10.91.81/30
+ ipv4 redirects
+ load-interval 30
+ flow ipv4 monitor FNF_MONITOR_MAP sampler FNF_SAMPLER_MAP ingress
+ flow ipv4 monitor FNF_MONITOR_MAP sampler FNF_SAMPLER_MAP egress
+!
+interface GigabitEthernet0/0/0/3.109
+ description IPDP BANCO DE BOGOTA - BBT0277,469,470,471,472
+ service-policy input BBO-4096k-TELEFONIA-4-IN
+ service-policy output BBO-4096k-TELEFONIA-4-OUT
+ vrf AvalBogBBOCis
+ ipv4 address 10.160.128.57/30
+ encapsulation dot1q 109
+!
+interface GigabitEthernet0/0/0/3.111
+ description IPDP PORVENIR ARMENIA - PRV0949 (HPSA)
+ service-policy input CAR-2M
+ service-policy output CAR-2M
+ vrf AvalNalPOR-MD
+ ipv4 address 10.164.101.65/30
+ encapsulation dot1q 111
+!
+interface GigabitEthernet0/0/0/3.128
+ description MPTR REDEBAN MULTICOLOR S.A. GESTION_PROACTIVA - RMC0400
+ service-policy input CAR-100
+ service-policy output CAR-100
+ vrf redeban-ip
+ ipv4 address 10.160.67.73/30
+ encapsulation dot1q 128
+!
+interface GigabitEthernet0/0/0/3.138
+ description MPTR REDEBAN MULTICOLOR S.A. GESTION_PROACTIVA - RMC0399
+ service-policy input CAR-100
+ service-policy output CAR-100
+ vrf redeban-ip
+ ipv4 address 10.160.67.41/30
+ encapsulation dot1q 138
+!
+interface GigabitEthernet0/0/0/3.142
+ description IPDP COMCEL - CML8406
+ service-policy input TELPUB8-IN
+ service-policy output TELPUB8-OUT
+ vrf sip-trunk
+ ipv4 address 10.160.67.61/30
+ encapsulation dot1q 142
+!
+interface GigabitEthernet0/0/0/3.143
+ description IPDP CCE SENA SEDE 131 PLATA - SLE0015
+ service-policy input SENA-D100M-I100M-IN
+ service-policy output SENA-D100M-I100M-OUT
+ vrf sena-intra
+ ipv4 address 10.160.66.249/30
+ encapsulation dot1q 143
+!
+interface GigabitEthernet0/0/0/3.151
+ description MPTR REDEBAN MULTICOLOR S.A. GESTION_PROACTIVA - RMC0401
+ service-policy input CAR-100
+ service-policy output CAR-100
+ vrf redeban-ip
+ ipv4 address 10.160.67.77/30
+ encapsulation dot1q 151
+!
+interface GigabitEthernet0/0/0/3.152
+ description MPTR REDEBAN MULTICOLOR S.A. GESTION_PROACTIVA - RMC0402
+ service-policy input CAR-100
+ service-policy output CAR-100
+ vrf redeban-ip
+ ipv4 address 10.160.67.9/30
+ encapsulation dot1q 152
+!
+interface GigabitEthernet0/0/0/3.153
+ description MPTR REDEBAN MULTICOLOR S.A. GESTION_PROACTIVA - RMC0406
+ service-policy input CAR-100
+ service-policy output CAR-100
+ vrf redeban-ip
+ ipv4 address 10.160.67.69/30
+ encapsulation dot1q 153
+!
+interface GigabitEthernet0/0/0/3.175
+ shutdown
+ encapsulation dot1q 175
+!
+interface GigabitEthernet0/0/0/3.183
+ description IPDP CCE SENA SEDE 132 ORO 99.9 GESTION_PROACTIVA BACKUP SLE0406 - SLE0017
+ service-policy input SENA-D100M-I100M-IN
+ service-policy output SENA-D100M-I100M-OUT
+ vrf sena-intra
+ ipv4 address 10.160.67.145/30
+ encapsulation dot1q 183
+!
+interface GigabitEthernet0/0/0/3.302
+ description GESTION UPS STI INTERNET
+ service-policy input CAR-2MEGAS
+ service-policy output CAR-2MEGAS
+ vrf attlanm
+ ipv4 address 10.160.66.1/30
+ encapsulation dot1q 302
+!
+interface GigabitEthernet0/0/0/3.303
+ description PORVENIR ARMENIA PPAL - PRV0041 (PRV0208),PRV0437
+ service-policy input PRV0437_PER-PORT-POLICING
+ service-policy output PRV0437_PER-PORT-POLICING
+ vrf AvalNalPOR
+ ipv4 address 10.160.65.1/29
+ encapsulation dot1q 303
+!
+interface GigabitEthernet0/0/0/3.304
+ description IPDP AVVILLAS ARMENIA BOLIVAR - AVV1464
+ service-policy input AVVILLAS_5VOz_7VOZPUB_1M-IN
+ service-policy output AVVILLAS_5VOz_7VOZPUB_1M-OUT
+ vrf AvalBogAVV
+ ipv4 address 10.160.64.65/29
+ encapsulation dot1q 304
+!
+interface GigabitEthernet0/0/0/3.305
+ description IPDP AVAL CRITICO AVVILLAS CENTRO CR.14 - AVV0239,762,1464
+ service-policy input AVVILLAS_5VOz_7VOZPUB_2M-IN
+ service-policy output AVVILLAS_5VOz_7VOZPUB_2M-OUT
+ vrf AvalBogAVV
+ ipv4 address 10.160.64.81/29
+ encapsulation dot1q 305
+!
+interface GigabitEthernet0/0/0/3.306
+ description IPDP AVVILLAS ARMENIA CALLE 22 - AVV0098,761
+ service-policy input AVVILLAS_5VOz_800k-IN-1024k
+ service-policy output AVVILLAS_5VOz_800k-OUT-1024k
+ vrf AvalBogAVV
+ ipv4 address 10.160.64.73/29
+ encapsulation dot1q 306
+!
+interface GigabitEthernet0/0/0/3.309
+ description IPDP CINECOLOMBIA PORTAL QUINDIO - CIN0032
+ service-policy input CINECO-IN
+ service-policy output CINECO-OUT
+ vrf cinecolombia
+ ipv4 address 10.160.66.125/30
+ encapsulation dot1q 309
+!
+interface GigabitEthernet0/0/0/3.311
+ description IPDP BANCO POPULAR CENTRO ARMENIA - BPP0086,1520,1768 (HPSA)
+ service-policy input BPP0086_IN
+ service-policy output BPP0086_OUT
+ vrf AvalBogBPO
+ ipv4 address 10.164.85.169/30
+ encapsulation dot1q 311
+!
+interface GigabitEthernet0/0/0/3.315
+ description IPDP TEST ARMENIA - TSD0030
+ service-policy input CAR-600
+ service-policy output CAR-600
+ vrf test_intranet
+ ipv4 address 10.160.66.165/30
+ encapsulation dot1q 315
+!
+interface GigabitEthernet0/0/0/3.317
+ description MPTR VENTANILLA VERDE CREDIBANCO - ACR0238
+ service-policy input CAR-80
+ service-policy output CAR-80
+ vrf credibanco-redcom
+ ipv4 address 10.160.66.17/30
+ encapsulation dot1q 317
+!
+interface GigabitEthernet0/0/0/3.319
+ description GESTION HUAWEI TELECOM COMCEL - ATT0401
+ service-policy input CAR-300
+ service-policy output CAR-300
+ vrf attlanm
+ ipv4 address 10.160.66.149/30
+ encapsulation dot1q 319
+!
+interface GigabitEthernet0/0/0/3.320
+ description UT BANCO DE OCCIDENTE ZONA 8 OCTAVA BRIGADA - UBD0006
+ service-policy input CAR-4M
+ service-policy output CAR-4M
+ vrf utboc-telmex
+ ipv4 address 10.160.66.129/30
+ encapsulation dot1q 320
+!
+interface GigabitEthernet0/0/0/3.324
+ description TVCABLE PACIFICO - TAD0002
+ service-policy input CAR-2048
+ service-policy output CAR-2048
+ vrf internet-nap
+ ipv4 address 10.161.17.65/30
+ encapsulation dot1q 324
+!
+interface GigabitEthernet0/0/0/3.326
+ description IPDP DAVIVIENDA CAJERO PORTAL DEL QUINDIO - DVV0546
+ service-policy input CAR-300
+ service-policy output CAR-300
+ vrf davivienda-nal
+ ipv4 address 10.161.63.21/30
+ encapsulation dot1q 326
+!
+interface GigabitEthernet0/0/0/3.404
+ description MPTR SUPERMERCADO CRISTAL CREDIBANCO - RRM0001
+ service-policy input CAR-80
+ service-policy output CAR-80
+ vrf credibanco-redcom
+ ipv4 address 10.160.66.181/30
+ encapsulation dot1q 404
+!
+interface GigabitEthernet0/0/0/3.405
+ description MPLS TRANSACCIONAL PORTAL QUINDIO - ATH0155
+ service-policy input CAR-200
+ service-policy output CAR-200
+ vrf ath-transaccional
+ ipv4 address 10.160.66.185/30
+ encapsulation dot1q 405
+!
+interface GigabitEthernet0/0/0/3.413
+ description MPTR CREDIBANCO C.C PORTAL DEL QUINDIO - RRM0116
+ service-policy input CAR-80
+ service-policy output CAR-80
+ vrf credibanco-redcom
+ ipv4 address 10.160.66.193/30
+ encapsulation dot1q 413
+!
+interface GigabitEthernet0/0/0/3.414
+ description MPTR OLIMPICA AV BOLIVAR CREDIBANCO - RRM0121
+ service-policy input CAR-80
+ service-policy output CAR-80
+ vrf credibanco-redcom
+ ipv4 address 10.160.66.201/30
+ encapsulation dot1q 414
+!
+interface GigabitEthernet0/0/0/3.416
+ description IPDP BANCO POPULAR ARMENIA - BPP0129,1487
+ service-policy input BPP1487_RT9216K_SG1024K_D4M-IN
+ service-policy output BPP1487_RT9216K_SG1024K_D4M-OUT
+ vrf AvalBogBPO
+ ipv4 address 10.160.64.233/29
+ encapsulation dot1q 416
+!
+interface GigabitEthernet0/0/0/3.419
+ description ALMACENES EXITO S.A. GESTION_PROACTIVA PPAL - ALX2072,ALX0125(ALX0238)
+ service-policy input CAR-4M
+ service-policy output CAR-4M
+ vrf grexito-int
+ ipv4 address 10.160.66.93/30
+ encapsulation dot1q 419
+!
+interface GigabitEthernet0/0/0/3.420
+!
+interface GigabitEthernet0/0/0/3.422
+ description MPTR CREDIBANCO STO 359 EL BOSQUE GESTION_PROACTIVA - ACR0223
+ service-policy input CAR-80
+ service-policy output CAR-80
+ vrf credibanco-redcom
+ ipv4 address 10.160.66.21/30
+ encapsulation dot1q 422
+!
+interface GigabitEthernet0/0/0/3.504
+ description IPDP DAVIVIENDA PQUE FUNDADORES GESTION_PROACTIVA - DVV0311
+ vrf davivienda-nal
+ ipv4 address 10.160.60.77/30
+ encapsulation dot1q 504
+!
+interface GigabitEthernet0/0/0/3.509
+ shutdown
+!
+interface GigabitEthernet0/0/0/3.511
+ description IPDP DAVIVIENDA REGIONAL ARMENIA - DVV0342 (Funciona por la Fa3/0.615 REPETIDO)
+ service-policy input CAR-1024
+ service-policy output CAR-1024
+ vrf davivienda-nal
+ ipv4 address 10.160.60.69/30
+ encapsulation dot1q 511
+!
+interface GigabitEthernet0/0/0/3.512
+ service-policy input CAR-3072
+ service-policy output CAR-3072
+ vrf datace-ext
+ shutdown
+ encapsulation dot1q 512
+!
+interface GigabitEthernet0/0/0/3.515
+ description IPDP BANPOPULAR - BPP0903
+ service-policy input BPO-4096DATOS-TELEFONIA-IN
+ service-policy output BPO-4096DATOS-TELEFONIA-OUT
+ vrf AvalBogBPO
+ ipv4 address 10.160.64.161/29
+ encapsulation dot1q 515
+!
+interface GigabitEthernet0/0/0/3.521
+ description IPDP BANCO COLPATRIA ARMENIA - BCL0305
+ service-policy input CAR-5M
+ service-policy output CAR-5M
+ vrf bancolpatria
+ ipv4 address 10.161.81.9/30
+ encapsulation dot1q 521
+!
+interface GigabitEthernet0/0/0/3.522
+ description IPDP BANCO POPULAR EDIFICIO GOBERNACION DEL QUINDIO - BPP0928
+ service-policy input CAR-200
+ service-policy output CAR-200
+ vrf AvalBogBPO
+ ipv4 address 10.160.64.177/29
+ encapsulation dot1q 522
+!
+interface GigabitEthernet0/0/0/3.615
+ description IPDP BANCO DAVIVIENDA S.A MERCADEO - DVV0922
+ service-policy input CAR-600
+ service-policy output CAR-600
+ vrf davivienda-mercadeo
+ ipv4 address 10.161.120.93/30
+ encapsulation dot1q 615
+!
+interface GigabitEthernet0/0/0/3.659
+!
+interface GigabitEthernet0/0/0/3.660
+!
+interface GigabitEthernet0/0/0/3.666
+ description IPDP AVAL CRITICO PORVENIR S.A. - PRV0438
+ service-policy input TELPUB8-IN
+ service-policy output TELPUB8-OUT
+ vrf ip-telephony
+ ipv4 address 10.160.66.177/30
+ encapsulation dot1q 666
+!
+interface GigabitEthernet0/0/0/3.5243
+!
+interface GigabitEthernet0/0/0/4
+ shutdown
+!
+interface GigabitEthernet0/0/0/5
+ shutdown
+!
+interface GigabitEthernet0/0/0/6
+ shutdown
+!
+interface GigabitEthernet0/0/0/7
+ shutdown
+!
+interface GigabitEthernet0/0/0/8
+ shutdown
+!
+interface GigabitEthernet0/0/0/9
+ shutdown
+!
+interface GigabitEthernet0/0/0/10
+ shutdown
+!
+interface GigabitEthernet0/0/0/11
+ shutdown
+!
+interface GigabitEthernet0/0/0/12
+ shutdown
+!
+interface GigabitEthernet0/0/0/13
+ shutdown
+!
+interface GigabitEthernet0/0/0/14
+ shutdown
+!
+interface GigabitEthernet0/0/0/15
+ shutdown
+!
+interface GigabitEthernet0/0/0/16
+ shutdown
+!
+interface GigabitEthernet0/0/0/17
+ shutdown
+!
+interface GigabitEthernet0/0/0/18
+ shutdown
+!
+interface GigabitEthernet0/0/0/19
+ shutdown
+!
+interface TenGigE0/0/2/0
+ shutdown
+!
+interface TenGigE0/0/2/1
+ shutdown
+!
+interface TenGigE0/0/2/2
+ shutdown
+!
+interface TenGigE0/0/2/3
+ shutdown
+!
+prefix-set AVV-voz
+  10.159.8.0/24 ge 29,
+  10.9.0.0/16 ge 25,
+  10.5.30.0/24
+end-set
+!
+prefix-set BPO-voz
+  10.159.16.0/24 ge 29
+end-set
+!
+prefix-set SODIMAC
+  10.23.0.0/16 ge 22,
+  10.173.31.0/25,
+  10.173.225.128/25
+end-set
+!
+prefix-set STI-UPS
+  172.30.160.76/30
+end-set
+!
+prefix-set BPO-prin
+  0.0.0.0/0
+end-set
+!
+prefix-set ARCOM-BOC
+  10.96.100.0/22 ge 32,
+  10.96.104.0/21 ge 32,
+  10.96.100.0/22,
+  10.96.104.0/21,
+  10.96.4.0/24,
+  10.96.102.0/24
+end-set
+!
+prefix-set ARCOM-LAN
+  172.28.21.0/24 ge 32,
+  172.28.29.0/24 ge 32
+end-set
+!
+prefix-set ARCOM-AVAL
+  172.28.0.0/16 ge 32
+end-set
+!
+prefix-set 2_p1_permit
+  0.0.0.0/0 le 32
+end-set
+!
+prefix-set 3_p1_permit
+  192.168.198.46,
+  192.168.198.47,
+  192.168.198.45,
+  192.168.198.50,
+  192.168.198.48,
+  192.168.198.49,
+  10.200.30.192/26 ge 26,
+  10.200.41.128/27 ge 27,
+  192.168.3.0/24 ge 24,
+  10.200.41.32/28 ge 28,
+  10.200.3.64/26 ge 26,
+  10.200.62.0/25 ge 25,
+  10.200.10.0/26 ge 26
+end-set
+!
+prefix-set ARCOM-CREDI
+  192.168.198.0/24 ge 32,
+  192.168.199.0/24 ge 32
+end-set
+!
+prefix-set GESTION-CPE
+  10.10.0.0/16 ge 29,
+  10.160.0.0/13 ge 29,
+  10.168.0.0/16 ge 29,
+  172.23.1.0/24 ge 32,
+  172.23.2.0/24 ge 32,
+  10.169.0.0/16 ge 29
+end-set
+!
+prefix-set DEFAULT-ONLY
+  0.0.0.0/0
+end-set
+!
+prefix-set ARCOM-COOMEVA
+  10.178.10.0/24 ge 32,
+  10.178.11.0/24 ge 32
+end-set
+!
+prefix-set ARCOM-SODIMAC
+  172.29.17.0/24 ge 32
+end-set
+!
+prefix-set MNGMT-INTERNET
+  10.0.0.0/8 ge 29
+end-set
+!
+prefix-set ARCOM-COLPATRIA
+  10.20.0.0/24 ge 32,
+  10.20.1.0/24 ge 32
+end-set
+!
+prefix-set BOLSA_p1_permit
+  172.25.0.0/16 ge 25,
+  200.1.0.0/16 ge 24,
+  10.192.200.0/24 ge 29
+end-set
+!
+prefix-set DECEVAL_p1_permit
+  172.20.0.0/16 ge 24
+end-set
+!
+prefix-set STI-UPS_p1_permit
+  172.30.160.76/30
+end-set
+!
+prefix-set TELE-CPE_p1_permit
+  10.8.0.0/15,
+  172.31.239.96/27,
+  172.31.237.0/25 ge 27,
+  10.170.0.0/16 ge 21,
+  10.172.0.0/16 ge 21,
+  172.31.237.128/26 ge 27,
+  172.31.232.0/24,
+  172.31.231.0/24,
+  172.31.230.0/28,
+  10.152.0.0/16 ge 21,
+  5.0.0.0/8,
+  172.31.239.53/32,
+  172.26.24.5/32,
+  10.7.0.0/17,
+  172.31.230.192/26,
+  10.174.0.0/16 ge 21,
+  172.31.111.0/28,
+  10.173.0.0/16 ge 21,
+  10.10.128.0/17,
+  172.31.239.40/32
+end-set
+!
+prefix-set ARCOM-BOC_p1_permit
+  10.96.100.0/22 ge 32,
+  10.96.104.0/21 ge 32,
+  10.96.100.0/22,
+  10.96.104.0/21,
+  10.96.4.0/24,
+  10.96.102.0/24
+end-set
+!
+prefix-set TELEFONIA_p1_permit
+  10.8.0.0/16 ge 29,
+  10.9.0.0/16 ge 29,
+  10.170.0.0/16 ge 21,
+  10.172.0.0/16 ge 28,
+  10.9.0.0/16 ge 24,
+  10.7.0.0/17 ge 29
+end-set
+!
+prefix-set ARCOM-AVAL_p1_permit
+  172.28.0.0/16 ge 32
+end-set
+!
+prefix-set CREDIBANCO_p1_permit
+  192.168.158.0/24 ge 29,
+  192.168.157.0/24 ge 29,
+  10.2.0.0/16 ge 24
+end-set
+!
+prefix-set ARCOM-CREDI_p1_permit
+  192.168.198.0/24 ge 32,
+  192.168.199.0/24 ge 32
+end-set
+!
+prefix-set BOLSA-SETFX_p1_permit
+  172.17.0.0/24 ge 29,
+  172.17.1.0/24 ge 29,
+  172.17.2.0/24 ge 29,
+  172.17.3.0/24 ge 29,
+  172.17.4.0/24 ge 29
+end-set
+!
+prefix-set GESTION-CPE_p1_permit
+  10.10.0.0/16 ge 29,
+  10.160.0.0/13 ge 29,
+  10.168.0.0/16 ge 29,
+  172.23.1.0/24 ge 32,
+  172.23.2.0/24 ge 32,
+  10.169.0.0/16 ge 29
+end-set
+!
+prefix-set TELE-CPE_IN_p1_permit
+  10.8.0.0/16 ge 29,
+  10.9.0.0/16 ge 17,
+  10.172.0.0/16 ge 17,
+  10.170.0.0/16 ge 21,
+  10.171.0.0/16 ge 21,
+  10.152.0.0/16 ge 21,
+  10.7.0.0/17 ge 29,
+  10.173.0.0/16 ge 21,
+  10.10.128.0/17 ge 29
+end-set
+!
+prefix-set BANREPUBLICA_p1_permit
+  172.30.0.0/16 ge 24,
+  172.31.0.0/16 ge 24,
+  172.29.0.0/16 ge 24
+end-set
+!
+prefix-set ARCOM-COOMEVA_p1_permit
+  10.178.10.0/24 ge 32,
+  10.178.11.0/24 ge 32
+end-set
+!
+prefix-set ARCOM-SODIMAC_p1_permit
+  172.29.17.0/24 ge 32
+end-set
+!
+prefix-set ARCOM-VALOREM_p1_permit
+  10.1.7.0/24 ge 32
+end-set
+!
+prefix-set AvalNalPOR-MD_p1_permit
+  172.19.47.0/24 le 32
+end-set
+!
+prefix-set DIAN-SIGLOXXI_p1_permit
+  172.40.0.0/16 ge 24,
+  172.21.0.0/16 ge 24
+end-set
+!
+prefix-set SDM00134_LP50_p1_permit
+  10.173.31.0/25,
+  172.20.95.0/29,
+  10.23.47.0/24,
+  10.32.23.0/24,
+  10.23.46.0/24,
+  172.25.25.0/24,
+  172.20.92.64/26,
+  172.17.23.0/24
+end-set
+!
+prefix-set MNGMT-INTERNET_p1_permit
+  10.0.0.0/8 ge 29
+end-set
+!
+prefix-set ARCOM-COLPATRIA_p1_permit
+  10.20.0.0/24 ge 32,
+  10.20.1.0/24 ge 32
+end-set
+!
+prefix-set VIDEOCONFERENCIA_p1_permit
+  10.12.0.0/16 ge 30
+end-set
+!
+prefix-set ASOBANCARIA-CIFIN_p1_permit
+  192.168.8.0/24 ge 29,
+  10.5.5.0/24 ge 29
+end-set
+!
+prefix-set PYMES_WAN_PUBLICA_p1_permit
+  10.160.0.0/13 ge 30,
+  10.168.0.0/16 ge 30
+end-set
+!
+prefix-set INTERNET-FILTRO-IN_p1_permit
+  0.0.0.0/0,
+  10.0.0.0/8 le 32,
+  127.0.0.0/8 le 32,
+  169.254.0.0/16 le 32,
+  172.16.0.0/12 le 32,
+  191.255.0.0/16 le 32,
+  192.0.0.0/24 le 32,
+  192.0.2.0/24 le 32,
+  192.168.0.0/16 le 32,
+  224.0.0.0/3 le 32
+end-set
+!
+prefix-set LIST-GESTION-PYMES_p1_permit
+  10.160.0.0/13 ge 30,
+  10.168.0.0/16 ge 30
+end-set
+!
+prefix-set ARCOM-ITTELMEX-LIST_p1_permit
+  172.19.52.0/24 ge 32,
+  172.19.82.0/24 ge 32
+end-set
+!
+community-set comm_1_p1_permit
+  28513:285
+end-set
+!
+community-set comm_2_p1_permit
+  28513:286
+end-set
+!
+route-policy 3
+  if (destination in 3_p1_permit) then
+    pass
+  endif
+end-policy
+!
+route-policy ASP
+  if (destination in DECEVAL_p1_permit) then
+    set extcommunity rt (100:40)
+  elseif (destination in ASOBANCARIA-CIFIN_p1_permit) then
+    set extcommunity rt (100:18, 100:219)
+  elseif (destination in BANREPUBLICA_p1_permit) then
+    set extcommunity rt (100:129)
+  elseif (destination in BOLSA_p1_permit) then
+    set extcommunity rt (100:18, 100:219)
+  elseif (destination in CREDIBANCO_p1_permit) then
+    set extcommunity rt (100:595)
+  elseif (destination in BOLSA-SETFX_p1_permit) then
+    set extcommunity rt (100:666)
+  elseif (destination in DIAN-SIGLOXXI_p1_permit) then
+    set extcommunity rt (100:134)
+  endif
+end-policy
+!
+route-policy BACKUP
+  if (destination in 2_p1_permit) then
+    set local-preference 50
+    set weight 0
+  endif
+end-policy
+!
+route-policy SODIMAC
+  if (destination in SODIMAC) then
+    set extcommunity rt (100:820, 100:15449, 100:17287, 100:18087, 100:17934)
+  elseif (destination in GESTION-CPE) then
+    set extcommunity rt (14080:2190000003) additive
+  elseif (destination in ARCOM-LAN) then
+    set extcommunity rt (100:3379)
+  endif
+end-policy
+!
+route-policy STI-UPS
+  if (destination in STI-UPS_p1_permit) then
+    set extcommunity rt (100:554)
+  endif
+end-policy
+!
+route-policy VPN-INT
+  if (destination in 2_p1_permit) then
+    set community (28513:285, 28513:1281)
+  endif
+end-policy
+!
+route-policy SDM00134
+  if (destination in SDM00134_LP50_p1_permit) then
+    set local-preference 50
+  elseif (destination in 2_p1_permit) then
+    set local-preference 100
+  endif
+end-policy
+!
+route-policy TELE-CPE
+  if (destination in TELE-CPE_p1_permit) then
+    pass
+  endif
+end-policy
+!
+route-policy ARCOM-BOC
+  if (destination in ARCOM-BOC_p1_permit) then
+    set extcommunity rt (100:3004)
+  endif
+end-policy
+!
+route-policy TELEFONIA
+  if (destination in TELEFONIA_p1_permit) then
+    set extcommunity rt (14080:2000)
+  endif
+end-policy
+!
+route-policy ARCOM-AVAL
+  if (destination in TELEFONIA_p1_permit) then
+    set extcommunity rt (14080:2000)
+  elseif (destination in ARCOM-AVAL_p1_permit) then
+    set extcommunity rt (100:273)
+  endif
+end-policy
+!
+route-policy ARCOM-CREDI
+  if (destination in ARCOM-CREDI_p1_permit) then
+    set extcommunity rt (100:3335)
+  elseif (destination in TELEFONIA_p1_permit) then
+    set extcommunity rt (14080:2000)
+  endif
+end-policy
+!
+route-policy GESTION-CPE
+  if (destination in GESTION-CPE_p1_permit) then
+    set extcommunity rt (14080:2190000003) additive
+  endif
+end-policy
+!
+route-policy TELE-CPE-IN
+  if (destination in TELE-CPE_IN_p1_permit) then
+    pass
+  endif
+end-policy
+!
+route-policy GESTIONPYMES
+  if (destination in LIST-GESTION-PYMES_p1_permit) then
+    set extcommunity rt (14080:2190000003) additive
+  endif
+end-policy
+!
+route-policy ARCOM-COOMEVA
+  if (destination in ARCOM-COOMEVA_p1_permit) then
+    set extcommunity rt (100:2085)
+  endif
+end-policy
+!
+route-policy ARCOM-SODIMAC
+  if (destination in ARCOM-SODIMAC_p1_permit) then
+    set extcommunity rt (100:3378)
+  endif
+end-policy
+!
+route-policy AvalNalPOR-MD
+  if (destination in AvalNalPOR-MD_p1_permit) then
+    set extcommunity rt (100:2830)
+  endif
+end-policy
+!
+route-policy BACKUP-STATIC
+  if ((tag eq 1408014080)) then
+    set local-preference 50
+    set weight 0
+  else
+    pass
+  endif
+end-policy
+!
+route-policy PYMES_WAN_PUB
+  if (destination in PYMES_WAN_PUBLICA_p1_permit) then
+    pass
+  endif
+end-policy
+!
+route-policy ARCOM-ITTELMEX
+  if (destination in ARCOM-ITTELMEX-LIST_p1_permit) then
+    set extcommunity rt (100:1732)
+  endif
+end-policy
+!
+route-policy MNGMT-INTERNET
+  if (destination in MNGMT-INTERNET_p1_permit) then
+    set extcommunity rt (14080:2190000003) additive
+  endif
+end-policy
+!
+route-policy ARCOM-COLPATRIA
+  if (destination in ARCOM-COLPATRIA_p1_permit) then
+    set extcommunity rt (100:3426)
+  elseif (destination in GESTION-CPE_p1_permit) then
+    set extcommunity rt (14080:2190000003)
+  endif
+end-policy
+!
+route-policy GESTION-VALOREM
+  if (destination in ARCOM-VALOREM_p1_permit) then
+    set extcommunity rt (100:15428)
+  endif
+end-policy
+!
+route-policy INTERNET-CPE-IN
+  if (destination in INTERNET-FILTRO-IN_p1_permit) then
+    drop
+  else
+    pass
+  endif
+end-policy
+!
+route-policy VIDEOCONFERENCIA
+  if (destination in VIDEOCONFERENCIA_p1_permit) then
+    set extcommunity rt (100:820)
+  endif
+end-policy
+!
+route-policy VPN-INT-dualhome
+  if (community matches-any comm_1_p1_permit) then
+    set local-preference 100
+    set community (28513:285, 28513:1281)
+  elseif (community matches-any comm_2_p1_permit) then
+    set local-preference 98
+    set community (28513:286, 28513:1281)
+  endif
+end-policy
+!
+route-policy INTERNET-CPE-BKP-IN
+  if (destination in INTERNET-FILTRO-IN_p1_permit) then
+    drop
+  elseif (destination in 2_p1_permit) then
+    set local-preference 50
+    set weight 0
+  endif
+end-policy
+!
+route-policy default_policy_pass_all
+  pass
+end-policy
+!
+router static
+ maximum path ipv4 11000
+ address-family ipv4 unicast
+  0.0.0.0/0 MgmtEth0/RSP0/CPU0/0 172.30.27.193
+ !
+ vrf attlanm
+  address-family ipv4 unicast
+   172.30.110.0/27 GigabitEthernet0/0/0/3.302 10.160.66.2
+   172.30.110.47/32 GigabitEthernet0/0/0/3.302 10.160.66.2
+   172.30.110.49/32 GigabitEthernet0/0/0/3.319 10.160.66.150
+   172.30.110.50/32 GigabitEthernet0/0/0/3.319 10.160.66.150
+   172.30.160.76/30 GigabitEthernet0/0/0/3.302 10.160.66.2
+  !
+ !
+ vrf internet
+  address-family ipv4 unicast
+   190.144.41.96/29 GigabitEthernet0/0/0/2.136 10.160.67.86
+  !
+ !
+ vrf sip-trunk
+  address-family ipv4 unicast
+   10.7.236.204/30 10.160.67.62
+  !
+ !
+ vrf AvalBogBPO
+  address-family ipv4 unicast
+   10.159.16.133/32 GigabitEthernet0/0/0/3.311 10.164.85.170
+   10.191.9.184/29 GigabitEthernet0/0/0/3.311 10.164.85.170
+   10.191.9.192/29 GigabitEthernet0/0/0/3.416 10.160.64.238
+   10.200.198.236/30 GigabitEthernet0/0/0/3.311 10.164.85.170
+   10.200.198.240/30 GigabitEthernet0/0/0/3.416 10.160.64.238
+   10.200.199.52/30 GigabitEthernet0/0/0/3.515 10.160.64.166
+   10.202.4.0/23 GigabitEthernet0/0/0/3.311 10.164.85.170
+   10.202.6.0/23 GigabitEthernet0/0/0/3.416 10.160.64.238
+   10.202.200.104/29 GigabitEthernet0/0/0/3.311 10.164.85.170
+   10.202.200.144/28 GigabitEthernet0/0/0/3.515 10.160.64.166
+   10.206.0.0/24 GigabitEthernet0/0/0/3.416 10.160.64.238
+   10.206.3.0/24 GigabitEthernet0/0/0/3.311 10.164.85.170
+   172.28.2.140/32 GigabitEthernet0/0/0/3.515 10.160.64.166
+   172.28.2.145/32 GigabitEthernet0/0/0/3.311 10.164.85.170
+   172.28.2.146/32 GigabitEthernet0/0/0/3.416 10.160.64.238
+   193.10.23.0/24 GigabitEthernet0/0/0/3.311 10.164.85.170
+   193.10.25.0/24 GigabitEthernet0/0/0/3.416 10.160.64.238
+  !
+ !
+ vrf AvalNalPOR
+  address-family ipv4 unicast
+   172.23.12.121/32 10.160.65.6
+   172.28.5.36/32 GigabitEthernet0/0/0/3.303 10.160.65.6
+  !
+ !
+ vrf espumlatex
+  address-family ipv4 unicast
+   172.240.54.0/24 GigabitEthernet0/0/0/2.144 10.160.66.230
+  !
+ !
+ vrf bancolpatria
+  address-family ipv4 unicast
+   172.18.16.1/32 GigabitEthernet0/0/0/3.521 10.161.81.10
+   172.18.16.9/32 GigabitEthernet0/0/0/2.132 10.161.84.190
+  !
+ !
+ vrf internet-nap
+  address-family ipv4 unicast
+   190.144.169.0/24 GigabitEthernet0/0/0/3.324 10.161.17.66
+  !
+ !
+ vrf ip-telephony
+  address-family ipv4 unicast
+   10.8.150.24/29 GigabitEthernet0/0/0/2.309 10.160.66.162
+   10.8.150.112/29 GigabitEthernet0/0/0/2.145 10.160.67.202
+   10.8.150.176/29 GigabitEthernet0/0/0/2.199 10.160.126.22
+   10.8.150.208/29 GigabitEthernet0/0/0/2.129 10.160.67.238
+   10.8.151.32/29 GigabitEthernet0/0/0/2.176 10.164.75.78
+  !
+ !
+ vrf utboc-telmex
+  address-family ipv4 unicast
+   10.8.39.0/24 GigabitEthernet0/0/0/3.320 10.160.66.130
+   172.23.226.224/27 GigabitEthernet0/0/0/3.320 10.160.66.130
+   172.28.4.146/32 GigabitEthernet0/0/0/3.320 10.160.66.130
+  !
+ !
+ vrf test_intranet
+  address-family ipv4 unicast
+   192.168.104.0/28 GigabitEthernet0/0/0/3.315 10.160.66.166
+  !
+ !
+ vrf davivienda-nal
+  address-family ipv4 unicast
+   10.13.16.0/24 GigabitEthernet0/0/0/2.117 10.160.64.26
+   10.13.61.0/24 GigabitEthernet0/0/0/3.504 10.160.60.78
+   10.17.83.0/24 GigabitEthernet0/0/0/3.326 10.161.63.22
+   10.26.69.0/24 GigabitEthernet0/0/0/2.116 10.160.67.126
+   172.13.61.0/24 GigabitEthernet0/0/0/3.504 10.160.60.78
+  !
+ !
+ vrf pymes-internet
+  address-family ipv4 unicast
+   181.48.224.128/30 GigabitEthernet0/0/0/2.118 10.162.164.90
+  !
+ !
+ vrf telmex-intranet
+  address-family ipv4 unicast
+   10.161.204.149/32 GigabitEthernet0/0/0/2.180 10.160.67.250
+   10.161.204.150/32 GigabitEthernet0/0/0/2.180 10.160.67.250
+   10.244.130.240/28 GigabitEthernet0/0/0/2.180 10.160.67.250
+   10.244.192.224/27 GigabitEthernet0/0/0/2.180 10.160.67.250
+   10.244.194.192/27 GigabitEthernet0/0/0/2.180 10.160.67.250
+   172.19.52.131/32 GigabitEthernet0/0/0/2.180 10.160.67.250
+   172.19.82.67/32 GigabitEthernet0/0/0/2.180 10.160.67.250
+   172.19.82.93/32 GigabitEthernet0/0/0/2.180 10.160.67.250
+  !
+ !
+ vrf davivienda-video
+  address-family ipv4 unicast
+   10.12.3.192/30 GigabitEthernet0/0/0/2.611 10.160.66.54
+   10.173.241.152/30 GigabitEthernet0/0/0/2.611 10.160.66.54
+  !
+ !
+ vrf ath-transaccional
+  address-family ipv4 unicast
+   10.137.31.200/29 GigabitEthernet0/0/0/3.405 10.160.66.186
+   172.28.9.90/32 GigabitEthernet0/0/0/3.405 10.160.66.186
+   172.28.217.252/30 GigabitEthernet0/0/0/3.405 10.160.66.186
+  !
+ !
+ vrf davivienda-mercadeo
+  address-family ipv4 unicast
+   192.13.60.0/29 GigabitEthernet0/0/0/3.615 10.161.120.94
+  !
+ !
+ vrf univercasinos-intra
+  address-family ipv4 unicast
+   10.118.32.0/20 GigabitEthernet0/0/0/2.104 10.160.66.58
+   10.118.48.0/20 GigabitEthernet0/0/0/2.113 10.160.67.162
+   192.168.134.0/24 GigabitEthernet0/0/0/2.113 10.160.67.162
+   192.168.136.0/24 GigabitEthernet0/0/0/2.104 10.160.66.58
+  !
+ !
+ vrf davivienda-vstreaming
+  address-family ipv4 unicast
+   10.13.66.10/32 GigabitEthernet0/0/0/2.506 10.160.66.30
+  !
+ !
+ vrf telmex-mercadeodinamicocav
+  address-family ipv4 unicast
+   172.19.95.16/30 GigabitEthernet0/0/0/2.184 10.160.69.34
+  !
+ !
+!
+router ospf 66
+ nsr
+ log adjacency changes detail
+ router-id 10.10.66.39
+ bfd minimum-interval 50
+ bfd multiplier 3
+ mpls ldp sync
+ nsf ietf
+ timers throttle lsa all 0 20 5000
+ timers throttle spf 50 50 5000
+ timers lsa min-arrival 15
+ timers pacing flood 15
+ auto-cost reference-bandwidth 1000000
+ area 0
+  interface Loopback222
+  !
+  interface GigabitEthernet0/0/0/0
+   bfd fast-detect
+   cost 7000
+   network point-to-point
+  !
+  interface GigabitEthernet0/0/0/1
+   bfd fast-detect
+   cost 7000
+   network point-to-point
+  !
+ !
+!
+router ospf 77
+ vrf AvalBogAVV
+  log adjacency changes
+  domain-id type 0005 value 00003e830200
+  default-information originate
+  summary-prefix 10.8.0.0/15
+  summary-prefix 10.15.0.0/16
+  summary-prefix 10.16.0.0/12
+  summary-prefix 10.160.0.0/12
+  redistribute bgp 14080
+  area 0
+   interface GigabitEthernet0/0/0/3.304
+   !
+   interface GigabitEthernet0/0/0/3.305
+   !
+   interface GigabitEthernet0/0/0/3.306
+   !
+  !
+ !
+ vrf AvalNalPOR
+  log adjacency changes
+  domain-id type 0005 value 00003aa10200
+  default-information originate
+  redistribute bgp 14080
+  area 0
+   interface GigabitEthernet0/0/0/3.303
+   !
+  !
+ !
+!
+snmp-server traps bgp
+router bgp 14080
+ nsr
+ bgp router-id 10.10.66.39
+ bgp graceful-restart
+ bgp log neighbor changes detail
+ address-family ipv4 unicast
+ !
+ address-family vpnv4 unicast
+  nexthop trigger-delay critical 500
+  nexthop trigger-delay non-critical 10000
+ !
+ neighbor-group NAP
+  address-family ipv4 unicast
+   route-policy INTERNET-CPE-IN in
+   maximum-prefix 20 70 restart 2
+   route-policy default_policy_pass_all out
+  !
+ !
+ neighbor-group IBGP
+  remote-as 14080
+  description SESION BGP RR
+  update-source Loopback222
+  address-family vpnv4 unicast
+  !
+ !
+ neighbor-group SENA
+  remote-as 64884
+  address-family ipv4 unicast
+   route-policy default_policy_pass_all in
+   maximum-prefix 20 70 restart 2
+   route-policy default_policy_pass_all out
+   as-override
+  !
+ !
+ neighbor-group EXITO
+  remote-as 65055
+  timers 10 30
+  address-family ipv4 unicast
+   route-policy default_policy_pass_all in
+   route-policy default_policy_pass_all out
+   as-override
+  !
+ !
+ neighbor-group NAP-BKP
+  address-family ipv4 unicast
+   route-policy INTERNET-CPE-BKP-IN in
+   maximum-prefix 20 70 restart 2
+   route-policy default_policy_pass_all out
+  !
+ !
+ neighbor-group REDEBAN
+  remote-as 65293
+  address-family ipv4 unicast
+   route-policy default_policy_pass_all in
+   maximum-prefix 20 70 restart 2
+   route-policy default_policy_pass_all out
+   as-override
+  !
+ !
+ neighbor-group INTERNET
+  address-family ipv4 unicast
+   route-policy INTERNET-CPE-IN in
+   maximum-prefix 20 70 restart 2
+   route-policy default_policy_pass_all out
+  !
+ !
+ neighbor-group DAVIVIENDA
+  remote-as 65060
+  timers 10 30
+  address-family ipv4 unicast
+   route-policy default_policy_pass_all in
+   route-policy default_policy_pass_all out
+  !
+ !
+ neighbor-group BANCOLPATRIA
+  remote-as 65421
+  address-family ipv4 unicast
+   route-policy default_policy_pass_all in
+   maximum-prefix 20 70 restart 2
+   route-policy default_policy_pass_all out
+   as-override
+  !
+ !
+ neighbor-group INTERNET-BKP
+  address-family ipv4 unicast
+   route-policy INTERNET-CPE-BKP-IN in
+   maximum-prefix 20 70 restart 2
+   route-policy default_policy_pass_all out
+  !
+ !
+ neighbor-group INTERNET-NAP
+  address-family ipv4 unicast
+   route-policy INTERNET-CPE-IN in
+   maximum-prefix 20 70 restart 2
+   route-policy default_policy_pass_all out
+  !
+ !
+ neighbor-group INTERNET-VIP
+  address-family ipv4 unicast
+   route-policy INTERNET-CPE-IN in
+   maximum-prefix 20 70 restart 2
+   route-policy default_policy_pass_all out
+  !
+ !
+ neighbor-group TELEFONIACPEs
+  remote-as 65535
+  address-family ipv4 unicast
+   route-policy TELE-CPE-IN in
+   route-policy TELE-CPE out
+   remove-private-AS
+  !
+ !
+ neighbor-group BANCO_DE_BOGOTA
+  remote-as 64920
+  address-family ipv4 unicast
+   route-policy default_policy_pass_all in
+   maximum-prefix 20 80 restart 2
+   route-policy default_policy_pass_all out
+   as-override
+  !
+ !
+ neighbor-group INTERNET-NAP-BKP
+  address-family ipv4 unicast
+   route-policy INTERNET-CPE-BKP-IN in
+   maximum-prefix 20 70 restart 2
+   route-policy default_policy_pass_all out
+  !
+ !
+ neighbor-group INTERNET-VIP-BKP
+  address-family ipv4 unicast
+   route-policy INTERNET-CPE-BKP-IN in
+   maximum-prefix 20 70 restart 2
+   route-policy default_policy_pass_all out
+  !
+ !
+ neighbor-group BANCOLOMBIA-INTRA
+  remote-as 65345
+  address-family ipv4 unicast
+   route-policy default_policy_pass_all in
+   maximum-prefix 20 70 restart 2
+   route-policy default_policy_pass_all out
+  !
+ !
+ neighbor 10.15.1.1
+  use neighbor-group IBGP
+  description RRORTEZAL
+ !
+ neighbor 10.15.1.2
+  use neighbor-group IBGP
+  description RRCHICONORTE
+ !
+ neighbor 10.160.66.6
+  remote-as 65385
+  address-family ipv4 unicast
+   route-policy default_policy_pass_all in
+   route-policy default_policy_pass_all out
+  !
+ !
+ neighbor 10.160.66.30
+  remote-as 65505
+  timers 10 30
+  description IPDP INTERVALORES ARMENIA ICD0025
+  address-family ipv4 unicast
+   route-policy default_policy_pass_all in
+   route-policy default_policy_pass_all out
+  !
+ !
+ neighbor 10.160.67.26
+  remote-as 65535
+  shutdown
+  address-family ipv4 unicast
+   route-policy default_policy_pass_all in
+   route-policy default_policy_pass_all out
+  !
+ !
+ neighbor 10.163.245.94
+  remote-as 64889
+  description IPDP INVERSIONES INT COLOMBIA SAS PPAL - IJN0012,'PC017-IJN9999'(IJN0083) (HPSA)
+  address-family ipv4 unicast
+   route-policy default_policy_pass_all in
+   route-policy default_policy_pass_all out
+  !
+ !
+ vrf nap
+  rd 100:253
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+   redistribute static
+  !
+  neighbor 10.160.67.90
+   remote-as 64510
+   use neighbor-group NAP
+   description PROMOCIONES Y COBRANZAS BETA S.A. INTERNET - PYD0001
+   address-family ipv4 unicast
+    maximum-prefix 2070 75 restart 2
+   !
+  !
+ !
+ vrf attlanm
+  rd 100:42
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf internet
+  rd 14080:1
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf sip-trunk
+  rd 100:16336
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf AvalBogAVV
+  rd 100:16003
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+   redistribute static
+   redistribute ospf 77 match internal external metric 110
+  !
+ !
+ vrf AvalBogBPO
+  rd 100:16004
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf AvalNalPOR
+  rd 100:15009
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+   redistribute static
+   redistribute ospf 77 match internal external metric 110
+  !
+  neighbor 10.160.65.6
+   remote-as 65116
+   description PORVENIR ARMENIA PPAL - PRV0041(PRV0208)
+   address-family ipv4 unicast
+    route-policy default_policy_pass_all in
+    maximum-prefix 20 70 restart 2
+    route-policy default_policy_pass_all out
+   !
+  !
+ !
+ vrf datace-ext
+  rd 100:2083
+  address-family ipv4 unicast
+   redistribute static
+  !
+ !
+ vrf homecenter
+  rd 100:67
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+   redistribute static route-policy BACKUP
+  !
+  neighbor 10.161.67.146
+   remote-as 65061
+   timers 10 30
+   description SODIMAC COLOMBIA S.A. ACTIVO-ACTIVO BACKUP SDM0133 - SDM0134
+   address-family ipv4 unicast
+    route-policy SDM00134 in
+    route-policy default_policy_pass_all out
+   !
+  !
+ !
+ vrf redeban-ip
+  rd 100:642
+  address-family ipv4 unicast
+   redistribute connected
+   redistribute static
+  !
+  neighbor 10.160.67.10
+   use neighbor-group REDEBAN
+   description REDEBAN MULTICOLOR S.A. - RMC0402
+  !
+  neighbor 10.160.67.42
+   use neighbor-group REDEBAN
+   description IPDP REDEBAN MULTICOLOR S.A. - RMC0399
+  !
+  neighbor 10.160.67.70
+   use neighbor-group REDEBAN
+   description REDEBAN MULTICOLOR S.A. - RMC0406
+  !
+  neighbor 10.160.67.74
+   use neighbor-group REDEBAN
+   description REDEBAN MULTICOLOR S.A. - RMC0400
+  !
+  neighbor 10.160.67.78
+   use neighbor-group REDEBAN
+   description REDEBAN MULTICOLOR S.A. - RMC0401
+  !
+  neighbor 10.160.67.114
+   use neighbor-group REDEBAN
+   description IPDP REDEBAN MULTICOLOR S.A. - RMC0403
+  !
+ !
+ vrf sena-intra
+  rd 100:15555
+  address-family ipv4 unicast
+   redistribute connected
+   redistribute static
+  !
+  neighbor 10.160.66.250
+   use neighbor-group SENA
+   description SENA ARMENIA CARRERA 18 - SLE0015,16
+  !
+  neighbor 10.160.67.146
+   use neighbor-group SENA
+   description SENA REGIONAL QUINDIO PPAL - SLE0017,490(SLE0406)
+   address-family ipv4 unicast
+    route-policy BACKUP in
+   !
+  !
+ !
+ vrf cemex-intra
+  rd 100:2116
+  address-family ipv4 unicast
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf grexito-int
+  rd 100:2177
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+   redistribute static
+  !
+  neighbor 10.160.66.94
+   use neighbor-group EXITO
+  !
+  neighbor 10.160.66.246
+   use neighbor-group EXITO
+   address-family ipv4 unicast
+    route-policy BACKUP in
+   !
+  !
+  neighbor 10.160.67.230
+   use neighbor-group EXITO
+   description EXITO_ARMENIA
+  !
+ !
+ vrf bancolpatria
+  rd 100:3199
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+   redistribute static
+  !
+  neighbor 10.161.81.10
+   use neighbor-group BANCOLPATRIA
+   description BANCO COLPATRIA ARMENIA - BCL0305
+  !
+  neighbor 10.161.84.190
+   use neighbor-group BANCOLPATRIA
+   description BANCO COLPATRIA RED MULTIBANCA COLPATRIA S.A - BDV0070
+  !
+ !
+ vrf cinecolombia
+  rd 100:1161
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+   redistribute static
+  !
+  neighbor 10.160.66.126
+   remote-as 64812
+   timers 10 30
+   description CINECOLOMBIA PORTAL QUINDIO - CIN0032
+   address-family ipv4 unicast
+    route-policy default_policy_pass_all in
+    route-policy default_policy_pass_all out
+    as-override
+   !
+  !
+ !
+ vrf internet-nap
+  rd 14080:2
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf ip-telephony
+  rd 14080:2000
+  address-family ipv4 unicast
+   aggregate-address 10.8.0.0/16
+   redistribute connected
+   redistribute static
+  !
+  neighbor 10.160.66.46
+   use neighbor-group TELEFONIACPEs
+   description SALUDVIDA VOZ - SVE0035
+  !
+  neighbor 10.160.66.66
+   use neighbor-group TELEFONIACPEs
+   description COLPATRIA ARMENIA
+  !
+  neighbor 10.160.66.74
+   use neighbor-group TELEFONIACPEs
+   description COOMEVA COSALUD NTE - CEP0125
+  !
+  neighbor 10.160.66.90
+   use neighbor-group TELEFONIACPEs
+   description BANCO POPULAR CENTRO ARMENIA - BPP0739
+  !
+  neighbor 10.160.67.14
+   use neighbor-group TELEFONIACPEs
+   description BANCO POPULAR CENTRO ARMENIA - BPP0739
+  !
+  neighbor 10.160.66.178
+   remote-as 65116
+   description PORVENIR S.A. - PRV0437
+   address-family ipv4 unicast
+    route-policy default_policy_pass_all in
+    route-policy default_policy_pass_all out
+   !
+  !
+  neighbor 10.160.67.110
+   use neighbor-group TELEFONIACPEs
+   description COOMEVA COLSALUD UPP - CEP0245
+  !
+  neighbor 10.160.67.138
+   use neighbor-group TELEFONIACPEs
+   description BANCO POPULAR TEL. CORP. - BPP0904
+  !
+  neighbor 10.160.67.202
+   use neighbor-group TELEFONIACPEs
+   description ORGANIZACION RADIAL OLIMPICA S.A. - ORO0057
+  !
+ !
+ vrf utboc-telmex
+  rd 100:1002
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf AvalBogBBOCis
+  rd 100:16001
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+   redistribute static
+  !
+  neighbor 10.160.64.6
+   use neighbor-group BANCO_DE_BOGOTA
+   description BANCO DE BOGOTA - BBT0277,469,470,471,472
+  !
+  neighbor 10.164.75.74
+   use neighbor-group BANCO_DE_BOGOTA
+   description BANCO DE BOGOTA - BBT0608
+  !
+  neighbor 10.160.128.58
+   remote-as 64920
+   description BANCO DE BOGOTA - BBT0277
+   address-family ipv4 unicast
+    route-policy default_policy_pass_all in
+    route-policy default_policy_pass_all out
+   !
+  !
+ !
+ vrf AvalNalPOR-MD
+  rd 100:17676
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+   redistribute static
+  !
+  neighbor 10.164.101.66
+   remote-as 65116
+   description IPDP PORVENIR ARMENIA - PRV0949 (HPSA)
+   address-family ipv4 unicast
+    route-policy default_policy_pass_all in
+    maximum-prefix 20 70 restart 2
+    route-policy default_policy_pass_all out
+   !
+  !
+ !
+ vrf redeban-intra
+  rd 100:3701
+  address-family ipv4 unicast
+   redistribute connected
+   redistribute static
+  !
+  neighbor 10.160.67.166
+   remote-as 64913
+   timers 10 30
+   description REDEBAN AV BOLIVAR - RMC0275
+   address-family ipv4 unicast
+    route-policy default_policy_pass_all in
+    route-policy default_policy_pass_all out
+   !
+  !
+ !
+ vrf test_intranet
+  rd 100:1290
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf agenciadeautos
+  rd 100:1028
+  address-family ipv4 unicast
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf davivienda-nal
+  rd 100:2399
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+   redistribute static
+  !
+  neighbor 10.160.60.78
+   use neighbor-group DAVIVIENDA
+   description IPDP BANCO DAVIVIENDA S. A - DVV0311
+  !
+  neighbor 10.161.36.30
+   use neighbor-group DAVIVIENDA
+  !
+  neighbor 10.160.67.130
+   use neighbor-group DAVIVIENDA
+  !
+ !
+ vrf pymes-internet
+  rd 14080:1413
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected route-policy PYMES_WAN_PUB
+   redistribute static
+  !
+ !
+ vrf telmex-intranet
+  rd 14080:107
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf davivienda-video
+  rd 100:2662
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute static
+  !
+ !
+ vrf ath-transaccional
+  rd 100:1491
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf credibanco-redcom
+  rd 100:281
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+   redistribute static
+  !
+  neighbor 10.160.66.18
+   remote-as 65277
+   timers 10 30
+   address-family ipv4 unicast
+    route-policy 3 in
+    route-policy default_policy_pass_all out
+   !
+  !
+  neighbor 10.160.66.22
+   remote-as 65277
+   timers 10 30
+   address-family ipv4 unicast
+    route-policy 3 in
+    route-policy default_policy_pass_all out
+   !
+  !
+  neighbor 10.160.66.182
+   remote-as 65277
+   timers 10 30
+   address-family ipv4 unicast
+    route-policy 3 in
+    route-policy default_policy_pass_all out
+   !
+  !
+  neighbor 10.160.66.194
+   remote-as 65277
+   timers 10 30
+   address-family ipv4 unicast
+    route-policy 3 in
+    route-policy default_policy_pass_all out
+   !
+  !
+  neighbor 10.160.66.202
+   remote-as 65277
+   timers 10 30
+   address-family ipv4 unicast
+    route-policy 3 in
+    route-policy default_policy_pass_all out
+   !
+  !
+ !
+ vrf davivienda-mercadeo
+  rd 100:3530
+  address-family ipv4 unicast
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf univercasinos-intra
+  rd 100:2902
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+   redistribute static
+  !
+  neighbor 10.160.66.70
+   remote-as 64240
+   timers 10 30
+   description UNIVERCASINO PPAL ARMENIA - UDQ0011
+   address-family ipv4 unicast
+    route-policy default_policy_pass_all in
+    route-policy default_policy_pass_all out
+   !
+  !
+ !
+ vrf homecenter-telephony
+  rd 100:18087
+  address-family ipv4 unicast
+   redistribute connected
+   redistribute static
+  !
+  neighbor 10.168.157.226
+   remote-as 65061
+   timers 10 30
+   description SODIMAC COLOMBIA S.A. BACKUP SDM0191 - SDM0473
+   address-family ipv4 unicast
+    route-policy BACKUP in
+    route-policy default_policy_pass_all out
+    as-override
+   !
+  !
+ !
+ vrf davivienda-vstreaming
+  rd 100:2552
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf seguridadfisica-telmex
+  rd 100:2438
+  address-family ipv4 unicast
+   maximum-paths ebgp 2
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf ath-transaccional-getvpn
+  rd 100:17300
+  address-family ipv4 unicast
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf telmex-mercadeodinamicocav
+  rd 100:15847
+  address-family ipv4 unicast
+   redistribute connected
+   redistribute static
+  !
+ !
+!
+snmp-server traps mpls ldp up
+snmp-server traps mpls ldp down
+snmp-server traps rsvp all
+mpls ldp
+ nsr
+ graceful-restart
+ graceful-restart reconnect-timeout 120
+ graceful-restart forwarding-state-holdtime 120
+ igp sync delay on-session-up 60
+ router-id 10.10.66.39
+ address-family ipv4
+  neighbor 10.10.66.245 targeted
+ !
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/1
+ !
+!
+mpls ip-ttl-propagate disable forwarded
+ssh server dscp 48
+ssh server v2
+ssh timeout 120
+ssh server rate-limit 60
+ssh server session-limit 15
+snmp-server traps sensor
+snmp-server traps fru-ctrl
+end
+
+RP/0/RSP0/CPU0:A9KARMENIA#

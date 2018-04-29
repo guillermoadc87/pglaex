@@ -1,0 +1,2633 @@
+Building configuration...
+
+Current configuration : 80558 bytes
+!
+! Last configuration change at 15:07:18 BRAVER Thu Feb 1 2018 by alesena
+! NVRAM config last updated at 09:08:07 BRAVER Fri Oct 20 2017 by rfrazao
+!
+version 12.3
+no service pad
+service timestamps debug datetime msec localtime
+service timestamps log datetime msec localtime
+service password-encryption
+service single-slot-reload-enable
+!
+hostname acc09.rjo
+!
+boot-start-marker
+boot system flash disk0:rsp-pv-mz-eng-sp-123-26
+boot system flash disk0:rsp-pv-mz.123-26.bin
+boot system bootflash:rsp-boot-mz.123-3.bin
+boot-end-marker
+!
+card type e1 0 0
+logging buffered 16384 debugging
+no logging console
+enable secret level 6 5 $1$lvNo$yMEGGbXkFaaqMp/O8kPZL0
+enable secret 5 $1$AARz$wJ2iX.x0A9T6lhAmxyj0a.
+!
+clock timezone BRA -3
+clock summer-time BRAVER recurring 3 Sun Oct 0:00 3 Sun Feb 0:00
+aaa new-model
+!
+!
+aaa authentication password-prompt Password:
+aaa authentication username-prompt Login:
+aaa authentication login NOC group tacacs+ local
+aaa authentication login admin local
+aaa authorization config-commands
+aaa authorization exec default group tacacs+ local 
+aaa authorization commands 1 default group tacacs+ local 
+aaa authorization commands 6 default group tacacs+ local 
+aaa authorization commands 15 default group tacacs+ local 
+aaa accounting exec default start-stop group tacacs+
+aaa accounting commands 1 default start-stop group tacacs+
+aaa accounting commands 6 default start-stop group tacacs+
+aaa accounting commands 15 default start-stop group tacacs+
+aaa session-id common
+ip subnet-zero
+no ip source-route
+!
+!
+ip cef distributed
+ip cef linecard ipc memory 5000 
+ip domain list .
+ip domain list embratel.net.br.
+ip domain name embratel.net.br
+ip host srv29.embratel.net.br 200.255.125.60
+ip host srv06.embratel.net.br 200.255.125.56
+ip host wks21.rjo.embratel.net.br 200.255.253.250
+ip host wks09.rjo.embratel.net.br 200.255.253.249
+ip host wks19.rjo.embratel.net.br 200.255.125.219
+ip host srv04.embratel.net.br 200.255.125.45
+ip host srv41.embratel.net.br 200.255.125.33
+ip name-server 200.255.255.73
+ip name-server 200.255.255.65
+!
+no ip bootp server
+ip vrf BCOPACTUAL:2677
+ rd 4230:2677
+ route-target export 4230:2677
+ route-target import 4230:2677
+!
+ip vrf BERTIN_EXTRANET_FUSAO:154269
+ rd 4230:154269
+ import map BERTIN_ROTA_DEFAULT
+ route-target export 4230:1459
+ route-target export 4230:1058
+ route-target export 4230:154269
+ route-target import 4230:1459
+ route-target import 4230:1058
+ route-target import 4230:154269
+ route-target import 4230:154270
+!
+ip vrf BSH:1359
+ rd 4230:1359
+ route-target export 4230:1359
+ route-target import 4230:1359
+!
+ip vrf COTEMINAS:2648
+ rd 4230:2648
+ route-target export 4230:2648
+ route-target export 4230:3289
+ route-target import 4230:2648
+ route-target import 4230:3289
+!
+ip vrf CPIC_BRASIL:5690
+ rd 4230:5690
+ route-target export 4230:5690
+ route-target import 4230:5690
+!
+ip vrf CUTRALE:1796
+ rd 4230:1796
+ route-target export 4230:1796
+ route-target export 4230:5110
+ route-target import 4230:1796
+ route-target import 4230:5109
+!
+ip vrf FOXCONN2:4164
+ rd 4230:4164
+ route-target export 4230:4164
+ route-target import 4230:4164
+!
+ip vrf FOXCONN2:5588
+ rd 4230:5588
+ route-target export 4230:4164
+ route-target import 4230:4164
+!
+ip vrf GEFCO:4692
+ rd 4230:4692
+ route-target export 4230:4692
+ route-target export 28513:50303
+ route-target export 4230:3108
+ route-target import 4230:4692
+ route-target import 28513:50303
+ route-target import 4230:3107
+!
+ip vrf GERDAU_INT:3096
+ rd 4230:3096
+ route-target export 4230:3096
+ route-target export 28513:50072
+ route-target import 4230:3096
+ route-target import 28513:50072
+!
+ip vrf INTERASGX:1349
+ rd 4230:1349
+ route-target export 4230:1349
+ route-target import 4230:1349
+!
+ip vrf ITAUGLOBCROS:3210
+ rd 4230:3210
+ route-target export 4230:3210
+ route-target export 4230:5110
+ route-target import 4230:3210
+ route-target import 4230:5109
+!
+ip vrf ROMI:3994
+ rd 4230:3994
+ route-target export 4230:3994
+ route-target import 4230:3994
+!
+ip vrf SABO:1499
+ rd 4230:1499
+ route-target export 4230:1499
+ route-target import 4230:1499
+!
+ip vrf WHIRLPOOL:4073
+ rd 4230:4073
+ route-target export 4230:1693
+ route-target export 4230:1673
+ route-target import 4230:1693
+ route-target import 4230:1673
+!
+ip multicast-routing distributed
+frame-relay switching
+mpls label range 16 150000
+tag-switching tdp router-id Loopback0 force
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+memory scan
+file prompt quiet
+username cong privilege 15 secret 5 $1$3YA8$ytSDJT9VUfAw8S66XI0PV/
+!
+!
+controller E1 0/0/0
+ shutdown
+ framing NO-CRC4 
+!
+controller E1 0/0/1
+ shutdown
+ framing NO-CRC4 
+!
+controller E1 0/0/2
+ shutdown
+ framing NO-CRC4 
+!
+controller E1 0/0/3
+ shutdown
+ framing NO-CRC4 
+!
+controller E1 0/0/4
+ shutdown
+ framing NO-CRC4 
+!
+controller E1 0/0/5
+ shutdown
+ framing NO-CRC4 
+!
+controller E1 0/0/6
+ shutdown
+ framing NO-CRC4 
+!
+controller E1 0/0/7
+ shutdown
+ framing NO-CRC4 
+!
+controller E1 12/0/0
+ shutdown
+ framing NO-CRC4 
+!
+controller E1 12/0/1
+ shutdown
+ framing NO-CRC4 
+!
+controller E1 12/0/2
+ shutdown
+ framing NO-CRC4 
+!
+controller E1 12/0/3
+ shutdown
+ framing NO-CRC4 
+!
+controller E1 12/0/4
+ shutdown
+ framing NO-CRC4 
+!
+controller E1 12/0/5
+ shutdown
+ framing NO-CRC4 
+!
+controller E1 12/0/6
+ shutdown
+ framing NO-CRC4 
+!
+controller E1 12/0/7
+ shutdown
+ framing NO-CRC4 
+!
+ip rcmd rcp-enable
+ip rcmd rsh-enable
+ip rcmd remote-host root 200.255.253.250 root enable
+ip rcmd remote-host web 200.255.125.219 web enable
+ip rcmd remote-host root 200.255.125.219 root enable
+ip rcmd remote-host cricket 200.255.125.45 cricket enable
+ip rcmd remote-host ativweb 200.255.125.56 ativweb enable
+ip rcmd remote-host root 200.255.253.245 root enable
+ip rcmd remote-host root 200.255.253.249 root enable
+ip rcmd remote-host seg 200.255.125.33 seg enable
+ip rcmd remote-host ativweb 200.255.125.60 ativweb enable
+ip tcp window-size 65535
+ip tcp path-mtu-discovery
+ip telnet source-interface Loopback0
+ip tftp source-interface Loopback0
+!
+class-map match-any MISSION_CRITICAL_MCI
+  match ip dscp cs3  af31  cs6  cs7 
+class-map match-all MPF_AF21
+  match ip dscp af21 
+class-map match-all MPF_AF31
+  match ip dscp af31 
+class-map match-any SILVER_BEST_EFFORT_MCI
+  match ip precedence 0  1  2  3 
+  match ip precedence 4  5  6  7 
+class-map match-all BUSINESS
+  match ip dscp cs3  af31  af32  af33 
+class-map match-all AF32
+  match ip dscp af32 
+class-map match-all Bulk_Q6
+  match ip dscp af11  af12  af13  cs4 
+class-map match-all BestEffort
+  match ip dscp default 
+class-map match-all REALTIME
+  match ip dscp cs5  ef 
+class-map match-any MISSAO_CRITICA
+  match ip dscp cs4  af42  af43 
+class-map match-any SUPORTE_AO_NEGOCIO
+  match ip dscp cs2  af21  af23 
+class-map match-any REALTIME_MCI
+  match ip dscp cs5  ef 
+class-map match-all Interativa_Q6
+  match ip dscp af21  af22  af23 
+class-map match-all TEMPO_REAL_VOZ
+  match ip dscp cs5  ef 
+  match ip dscp ef 
+class-map match-all DADOS_ALTA
+  match ip dscp af31 
+class-map match-any SILVER_AF4x_MCI
+  match ip dscp cs4  af41  af42  af43 
+class-map match-any rpvm_voz_tmx
+  match ip dscp cs3 
+  match ip dscp cs5 
+  match ip dscp ef 
+class-map match-any SILVER_AF3x_MCI
+  match ip dscp cs3  af31  af32  af33 
+  match ip dscp cs6  cs7 
+class-map match-any COMBINED_MCI
+  match ip dscp cs3  af31  cs6  cs7 
+  match ip dscp af22  af32  af33 
+class-map match-any SILVER_AF2x_MCI
+  match ip dscp cs2  af21  af22  af23 
+class-map match-all NetworkControl_Q6
+  match ip dscp cs2  cs6  cs7 
+class-map match-all CS3
+  match ip dscp cs3 
+class-map match-all CS4
+  match ip dscp cs4 
+class-map match-all CS5
+  match ip dscp cs5 
+class-map match-all VozVideo_Q6
+  match ip dscp af41  cs5  ef 
+class-map match-all BestEffort_Q6
+  match ip dscp default 
+class-map match-all Gerencia_ECT
+  match ip dscp af33 
+class-map match-all METAFRAME
+  match ip dscp af41 
+class-map match-all Voz
+  match ip dscp ef 
+class-map match-any GOLD_EF_MCI
+  match ip dscp cs5  ef 
+class-map match-all DADOS_MEDIA
+  match ip dscp af21 
+class-map match-any BUSINESS_CRITICAL_MCI
+  match ip dscp af32  af33 
+class-map match-any BEST_EFFORT_MCI
+  match ip precedence 0  1  2  3 
+  match ip precedence 4  5  6  7 
+class-map match-all TEMPO_REAL_VC
+  match ip dscp af41 
+class-map match-any GERENCIAMENTO
+  match ip dscp cs3  af31  af32 
+class-map match-any rpvm_datos_criticos_tmx
+  match ip dscp cs2 
+  match ip dscp af31 
+  match ip dscp af32 
+  match ip dscp af33 
+class-map match-all DADOS_BAIXA
+  match ip dscp default 
+class-map match-all Video
+  match ip dscp af41 
+class-map match-all MissaoCritica_Q6
+  match ip dscp cs3  af31  af32  af33 
+class-map match-any NAO_CRITICO
+  match ip dscp cs1  af11  af13 
+class-map match-all Business_Gerdau
+  match ip dscp cs2  cs3  af31  af32  af33 
+class-map match-all STREAMING
+  match ip dscp af31 
+class-map match-all MissaoCritica_ECT
+  match ip dscp af31 
+class-map match-all Video_Q6
+  match ip dscp af41 
+class-map match-all MissaoCritica
+  match ip dscp cs3  af31 
+class-map match-all REALTIME_Gerdau
+  match ip dscp cs5  ef 
+class-map match-all BE_Gerdau
+  match ip dscp default  cs1 
+class-map match-all Voz_Q6
+  match ip dscp ef 
+class-map match-any rpvm_business_tmx
+  match ip dscp cs1 
+  match ip dscp af21 
+  match ip dscp af22 
+  match ip dscp af23 
+!
+!
+policy-map QOS_POLICY_OUT_512K_512K
+  class REALTIME
+    priority 512
+  class BUSINESS
+    bandwidth 512
+    random-detect dscp-based
+  class class-default
+    fair-queue
+policy-map QOS_POLICY_OUT_15000K_10000K
+  class REALTIME
+    priority 34550
+  class BUSINESS
+    bandwidth 10000
+    random-detect dscp-based
+  class class-default
+    fair-queue
+policy-map QOS_POLICY_IN_25P_25P
+  class REALTIME
+   police cir percent 25
+     conform-action transmit 
+     exceed-action drop 
+  class BUSINESS
+   police cir percent 25
+     conform-action transmit 
+     exceed-action set-dscp-transmit 0
+  class class-default
+   set mpls experimental imposition 0
+policy-map QOS_DTS_IN_2048K_512K_512K
+  class class-default
+   police cir 2048000
+     conform-action transmit 
+     exceed-action drop 
+   service-policy QOS_POLICY_IN_25P_25P
+policy-map ZERA-EXP-Saida
+  class class-default
+   set mpls experimental imposition 0
+policy-map ZERA-DSCP
+  class class-default
+   set dscp default
+policy-map QPO_1024_0_410_155_70_70_63_0B_V1
+  class TEMPO_REAL_VC
+    priority 410
+  class MISSAO_CRITICA
+    bandwidth percent 15
+    random-detect dscp-based
+  class GERENCIAMENTO
+    bandwidth percent 7
+    random-detect dscp-based
+  class SUPORTE_AO_NEGOCIO
+    bandwidth percent 7
+    random-detect dscp-based
+  class NAO_CRITICO
+    bandwidth percent 6
+    random-detect dscp-based
+  class class-default
+    fair-queue
+policy-map QDO_1024_0_410_155_70_70_63_0B_V1
+  class class-default
+    shape peak 1024000 12288 0
+   service-policy QPO_1024_0_410_155_70_70_63_0B_V1
+policy-map QPI_2048K_8_N_10_30_0_0_1_1
+  class Voz_Q6
+   police cir percent 8
+     conform-action transmit 
+     exceed-action drop 
+  class Video_Q6
+   police cir percent 10
+     conform-action set-mpls-exp-imposition-transmit 5
+     exceed-action drop 
+  class MissaoCritica_Q6
+   police cir percent 30
+     conform-action transmit 
+     exceed-action set-mpls-exp-imposition-transmit 1
+  class class-default
+   set mpls experimental imposition 0
+policy-map QPI_2048K_25_N_25_20_5_5_1_18
+  class Voz_Q6
+   police cir percent 25
+     conform-action transmit 
+     exceed-action drop 
+  class Video_Q6
+   police cir percent 40
+     conform-action set-mpls-exp-imposition-transmit 5
+     exceed-action drop 
+  class MissaoCritica_Q6
+   police cir percent 5
+     conform-action transmit 
+     exceed-action set-mpls-exp-imposition-transmit 1
+  class Interativa_Q6
+   police cir percent 5
+     conform-action transmit 
+     exceed-action set-mpls-exp-imposition-transmit 1
+  class Bulk_Q6
+   police cir percent 5
+     conform-action set-mpls-exp-imposition-transmit 4
+     exceed-action set-mpls-exp-imposition-transmit 1
+  class class-default
+   set mpls experimental imposition 0
+policy-map QPI_BBONE_N_64_V1
+  class class-default
+   police 64000 conform-action set-mpls-exp-imposition-transmit 0 exceed-action drop 
+policy-map QPI_BBONE_N_2048_V1
+  class class-default
+   police 2048000 conform-action set-mpls-exp-imposition-transmit 0 exceed-action drop 
+policy-map QPI_2048K_8_N_28_25_13_0_1_24
+  class Voz_Q6
+   police cir percent 8
+     conform-action transmit 
+     exceed-action drop 
+  class Video_Q6
+   police cir percent 28
+     conform-action set-mpls-exp-imposition-transmit 5
+     exceed-action drop 
+  class MissaoCritica_Q6
+   police cir percent 25
+     conform-action transmit 
+     exceed-action set-mpls-exp-imposition-transmit 1
+  class Interativa_Q6
+   police cir percent 13
+     conform-action transmit 
+     exceed-action set-mpls-exp-imposition-transmit 1
+  class class-default
+   set mpls experimental imposition 0
+policy-map QPI_BBONE_N_8000_V1
+  class class-default
+   police 8000000 conform-action set-mpls-exp-imposition-transmit 0 exceed-action drop 
+policy-map QPO_BBONE_64_V1
+  class class-default
+    shape peak 64000 768 0
+policy-map QPI_BBONE_DSCP_V1
+  class class-default
+   set dscp default
+policy-map QPO_2048K_8_10_30_0_0_1_1
+  class Voz_Q6
+    priority percent 8
+  class Video_Q6
+    priority percent 10
+  class MissaoCritica_Q6
+    bandwidth percent 30
+    random-detect dscp-based
+  class NetworkControl_Q6
+    bandwidth percent 1
+  class BestEffort_Q6
+    bandwidth percent 1
+    fair-queue
+    random-detect dscp-based
+policy-map QPO_2048K_25_25_20_5_5_1_18
+  class Voz_Q6
+    priority percent 25
+  class Video_Q6
+    priority percent 25
+  class MissaoCritica_Q6
+    bandwidth percent 20
+    random-detect dscp-based
+  class Interativa_Q6
+    bandwidth percent 5
+    random-detect dscp-based
+  class Bulk_Q6
+    bandwidth percent 5
+    random-detect dscp-based
+  class NetworkControl_Q6
+    bandwidth percent 1
+  class BestEffort_Q6
+    bandwidth percent 18
+    fair-queue
+    random-detect dscp-based
+policy-map QPI_BBONE_S_4096_V1
+  class class-default
+   police 4096000 conform-action set-dscp-transmit 0 exceed-action drop 
+policy-map QPI_1024_0_410_155_70_70_63_0B_V1
+  class TEMPO_REAL_VC
+   police 410000 conform-action transmit  exceed-action drop 
+  class MISSAO_CRITICA
+   police 155000 conform-action transmit  exceed-action set-dscp-transmit 38
+  class GERENCIAMENTO
+   police 70000 conform-action transmit  exceed-action set-dscp-transmit 28
+  class SUPORTE_AO_NEGOCIO
+   police 70000 conform-action transmit  exceed-action set-dscp-transmit 22
+  class NAO_CRITICO
+   police 63000 conform-action transmit  exceed-action set-dscp-transmit 14
+  class class-default
+policy-map QPI_BBONE_S_2048_V1
+  class class-default
+   police 2048000 conform-action set-dscp-transmit 0 exceed-action drop 
+policy-map QPO_BBONE_4096_V1
+  class class-default
+    shape peak 4096000 49152 0
+policy-map QPO_BBONE_8000_V1
+  class class-default
+policy-map SULAMER_QOS_POLICY_OUT_960K_3648K
+  class REALTIME
+    priority percent 16
+  class BUSINESS
+    bandwidth percent 59
+    random-detect dscp-based
+  class class-default
+    fair-queue
+policy-map QPO_2048K_8_28_25_13_0_1_24
+  class Voz_Q6
+    priority percent 8
+  class Video_Q6
+    priority percent 28
+  class MissaoCritica_Q6
+    bandwidth percent 25
+    random-detect dscp-based
+  class Interativa_Q6
+    bandwidth percent 13
+    random-detect dscp-based
+  class NetworkControl_Q6
+    bandwidth percent 1
+  class BestEffort_Q6
+    bandwidth percent 24
+    fair-queue
+    random-detect dscp-based
+policy-map QPO_BBONE_2048_V1
+  class class-default
+    shape peak 2048000 24576 0
+policy-map QOS_POLICY_IN_15000K_10000K
+  class REALTIME
+   police 15000000 conform-action transmit  exceed-action drop 
+  class BUSINESS
+   police 10000000 conform-action transmit  exceed-action set-dscp-transmit 0
+  class class-default
+policy-map QOS_DTS_OUT_2048K_512K_512K
+  class class-default
+    shape peak 2048000 24576 0
+   service-policy QOS_POLICY_OUT_512K_512K
+policy-map QOS_DTS_OUT_45000K_15000K_10000K
+  class class-default
+    shape peak 45000000 540000 0
+   service-policy QOS_POLICY_OUT_15000K_10000K
+policy-map QPO_TMX_512K_0K_384K_128K_A_V1
+  class rpvm_datos_criticos_tmx
+    bandwidth 384
+  class rpvm_business_tmx
+    bandwidth 128
+  class class-default
+    fair-queue
+policy-map QDO_TMX_512K_0K_384K_128K_A_V1
+  class class-default
+    shape average 512000 6144 0
+   service-policy QPO_TMX_512K_0K_384K_128K_A_V1
+policy-map QPO_WARNER_MCI_512_64_320_V1
+  class REALTIME_MCI
+    priority percent 70
+  class COMBINED_MCI
+    bandwidth percent 27
+    random-detect dscp-based
+     random-detect dscp 20 13 43 1
+     random-detect dscp 24 43 129 1
+     random-detect dscp 26 43 129 1
+     random-detect dscp 28 13 43 1
+     random-detect dscp 30 13 43 1
+     random-detect dscp 48 140 150 10
+     random-detect dscp 56 140 150 10
+    queue-limit 512
+  class BEST_EFFORT_MCI
+    bandwidth percent 2
+    random-detect
+policy-map QDO_WARNER_MCI_512_64_320_V1
+  class class-default
+    shape peak 512000 4096 0
+   service-policy QPO_WARNER_MCI_512_64_320_V1
+policy-map QPO_MCI_ETM_256k_0k_256k_V1
+  class GOLD_EF_MCI
+    priority percent 90
+  class SILVER_AF4x_MCI
+    bandwidth percent 3
+    random-detect dscp-based
+     random-detect dscp 32 22 66 1
+     random-detect dscp 34 22 66 1
+     random-detect dscp 36 7 22 1
+     random-detect dscp 38 7 22 1
+    queue-limit 512
+  class SILVER_AF3x_MCI
+    bandwidth percent 3
+    random-detect dscp-based
+     random-detect dscp 24 22 66 1
+     random-detect dscp 26 22 66 1
+     random-detect dscp 28 7 22 1
+     random-detect dscp 30 7 22 1
+     random-detect dscp 48 86 92 10
+     random-detect dscp 56 86 92 10
+    queue-limit 512
+  class SILVER_AF2x_MCI
+    bandwidth percent 2
+    random-detect dscp-based
+     random-detect dscp 16 22 66 1
+     random-detect dscp 18 22 66 1
+     random-detect dscp 20 7 22 1
+     random-detect dscp 22 7 22 1
+    queue-limit 512
+  class SILVER_BEST_EFFORT_MCI
+    bandwidth percent 2
+    random-detect
+    queue-limit 512
+policy-map QPO_COOPER_MCI_2048_256_384_V1
+  class REALTIME_MCI
+    priority percent 70
+  class COMBINED_MCI
+    bandwidth percent 27
+    random-detect dscp-based
+     random-detect dscp 20 52 171 1
+     random-detect dscp 24 171 500 1
+     random-detect dscp 26 171 500 1
+     random-detect dscp 28 52 171 1
+     random-detect dscp 30 52 171 1
+     random-detect dscp 48 511 512 10
+     random-detect dscp 56 511 512 10
+    queue-limit 512
+  class BEST_EFFORT_MCI
+    bandwidth percent 2
+    random-detect
+policy-map QPI_COOPER_MCI_2048_256_384_V1
+  class REALTIME_MCI
+   police cir 256000 bc 48000 be 96000
+     conform-action set-mpls-exp-imposition-transmit 5
+     exceed-action set-mpls-exp-imposition-transmit 5
+     violate-action drop 
+  class MISSION_CRITICAL_MCI
+   police cir 384000 bc 72000 be 144000
+     conform-action set-mpls-exp-transmit 3
+     exceed-action set-mpls-exp-imposition-transmit 3
+     violate-action set-mpls-exp-imposition-transmit 2
+  class BUSINESS_CRITICAL_MCI
+   set mpls experimental 2
+  class BEST_EFFORT_MCI
+   set mpls experimental 0
+policy-map QPI_MCI_ETM_256k_0k_256k_V1
+  class SILVER_AF4x_MCI
+   set mpls experimental 5
+  class SILVER_AF3x_MCI
+   set mpls experimental 1
+  class SILVER_AF2x_MCI
+   set mpls experimental 1
+policy-map QPI_WARNER_MCI_512_64_320_V1
+  class REALTIME_MCI
+   police cir 64000 bc 12000 be 24000
+     conform-action set-mpls-exp-transmit 5
+     exceed-action set-mpls-exp-transmit 5
+     violate-action drop 
+  class MISSION_CRITICAL_MCI
+   police cir 320000 bc 60000 be 120000
+     conform-action set-mpls-exp-transmit 3
+     exceed-action set-mpls-exp-transmit 3
+     violate-action set-mpls-exp-transmit 2
+  class BUSINESS_CRITICAL_MCI
+   set mpls experimental 2
+  class BEST_EFFORT_MCI
+   set mpls experimental 0
+policy-map QPI_TMX_512K_0K_384K_128K_A_V1
+  class rpvm_datos_criticos_tmx
+   police 384000 conform-action set-mpls-exp-imposition-transmit 3 exceed-action set-dscp-transmit cs1
+  class rpvm_business_tmx
+   police 128000 conform-action set-mpls-exp-imposition-transmit 2 exceed-action set-dscp-transmit default
+  class class-default
+   set mpls experimental imposition 0
+policy-map QPI_BBONE_EXP_V1
+  class class-default
+   set mpls experimental imposition 0
+policy-map QDO_MCI_ETM_256k_0k_256k_V1
+  class class-default
+    shape peak 256000 2048 0
+   service-policy QPO_MCI_ETM_256k_0k_256k_V1
+policy-map QDO_COOPER_MCI_2048_256_384_V1
+  class class-default
+    shape peak 2048000 16384 0
+   service-policy QPO_COOPER_MCI_2048_256_384_V1
+!
+!
+!
+interface Loopback0
+ description Endereco de Acesso ao Roteador
+ ip address 200.244.41.71 255.255.255.255
+ ip pim sparse-mode
+ no clns route-cache
+!
+interface Loopback2
+ no ip address
+!
+interface Null0
+ no ip unreachables
+!
+interface Serial2/0/0
+ no ip address
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+ service-policy input ZERA-DSCP
+!
+interface Serial2/0/1
+ no ip address
+ no ip proxy-arp
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+ service-policy input ZERA-DSCP
+!
+interface Serial2/0/2
+ no ip address
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+ service-policy input ZERA-DSCP
+!
+interface Serial2/0/3
+ no ip address
+ ip verify unicast source reachable-via rx allow-default allow-self-ping
+ no ip proxy-arp
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+ service-policy input ZERA-DSCP
+!
+interface Serial2/1/0
+ no ip address
+ no ip proxy-arp
+ no ip mroute-cache
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+!
+interface Serial2/1/1
+ no ip address
+ no ip proxy-arp
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+!
+interface Serial2/1/2
+ no ip address
+ no ip proxy-arp
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+!
+interface Serial2/1/3
+ no ip address
+ ip verify unicast source reachable-via rx allow-default allow-self-ping
+ no ip mroute-cache
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+ max-reserved-bandwidth 97
+!
+interface Serial3/0/0
+ no ip address
+ no ip mroute-cache
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+!
+interface Serial3/0/1
+ no ip address
+ no ip proxy-arp
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+!
+interface Serial3/0/2
+ no ip address
+ ip verify unicast source reachable-via rx allow-default allow-self-ping
+ no ip proxy-arp
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+ service-policy input QPI_BBONE_DSCP_V1
+!
+interface Serial3/0/3
+ no ip address
+ no ip proxy-arp
+ load-interval 30
+ shutdown
+ tx-queue-limit 26
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+ service-policy input QPI_BBONE_DSCP_V1
+!
+interface Serial3/1/0
+ no ip address
+ no ip proxy-arp
+ no ip mroute-cache
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+!
+interface Serial3/1/1
+ bandwidth 1024
+ no ip address
+ no ip mroute-cache
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+!
+interface Serial3/1/2
+ no ip address
+ no ip mroute-cache
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+!
+interface Serial3/1/3
+ no ip address
+ no ip mroute-cache
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+!
+interface Hssi4/0/0
+ description LIGACAO INTER-AS GLOBAL CROSSING | 45M | RJOAM/RJO1SG/45M/001
+ mtu 4474
+ bandwidth 45000
+ no ip address
+ no ip redirects
+ no ip proxy-arp
+ encapsulation frame-relay IETF
+ load-interval 30
+ serial restart-delay 0
+ frame-relay lmi-type ansi
+ no clns route-cache
+!
+interface Hssi4/0/0.16 point-to-point
+ description BRASTEMP | 2048K | RJO/IT/01567 | (RJO/IT/01567) | BGP_AS6745
+ bandwidth 2048
+ ip vrf forwarding WHIRLPOOL:4073
+ ip address 200.255.248.37 255.255.255.252
+ ip access-group 2200 out
+ shutdown
+ no cdp enable
+ frame-relay interface-dlci 16 IETF   
+  class QOS_CLASS_45000K_15000K_15000K_10000K_0B
+  load-interval 30
+!
+interface Hssi4/0/0.17 point-to-point
+ description BRASTEMP| 2048K | RJO/IT/01568 | (RJO/IT/01568) | BGP_AS6745
+ bandwidth 2048
+ ip vrf forwarding WHIRLPOOL:4073
+ ip address 200.255.248.29 255.255.255.252
+ ip access-group 2201 out
+ shutdown
+ no cdp enable
+ frame-relay interface-dlci 17 IETF   
+  class QOS_CLASS_45000K_15000K_15000K_10000K_0B
+  load-interval 30
+!
+interface Hssi4/0/0.21 point-to-point
+ description CUTRALE | 45M | RJO/IT/01418 | (RJO/IT/01418)
+ bandwidth 45000
+ ip vrf forwarding CUTRALE:1796
+ ip address 200.255.248.113 255.255.255.252
+ no cdp enable
+ frame-relay interface-dlci 21 IETF   
+  class QOS_CLASS_45000K_15000K_15000K_10000K_0B
+!
+interface Hssi4/0/0.29 point-to-point
+ description BERTIN  | 2048K | RJO/IT/01946 | (RJO/IT/01946) | BGP_AS6745
+ bandwidth 2048
+ ip vrf forwarding BERTIN_EXTRANET_FUSAO:154269
+ ip address 189.53.197.1 255.255.255.252
+ no cdp enable
+ frame-relay interface-dlci 29 IETF   
+  class QOS_CLASS_45000K_15000K_15000K_10000K_0B
+!
+interface Hssi4/0/0.30 point-to-point
+ description FOXCONN2  | 2048 | RJO/IT/01788 | (RJO/IT/01788)
+ bandwidth 2048
+ ip vrf forwarding FOXCONN2:4164
+ ip address 200.179.69.89 255.255.255.252
+ no cdp enable
+ frame-relay interface-dlci 30 IETF   
+  class QOS_CLASS_45000K_15000K_15000K_10000K_0B
+!
+interface Hssi4/0/0.31 point-to-point
+ description ROMI  | 2048K | RJO/IT/01851 | (RJO/IT/01851) | BGP_AS6745
+ bandwidth 2048
+ ip vrf forwarding ROMI:3994
+ ip address 200.179.69.93 255.255.255.252
+ no cdp enable
+ frame-relay interface-dlci 31 IETF   
+  class QOS_CLASS_45000K_15000K_15000K_10000K_0B
+!
+interface Hssi4/0/0.33 point-to-point
+ description BCOPACTUAL | 2048K | RJO/IT/01966 | (RJO/IT/01966) | BGP_AS6745
+ bandwidth 2048
+ ip vrf forwarding BCOPACTUAL:2677
+ ip address 200.179.69.21 255.255.255.252
+ no cdp enable
+ frame-relay interface-dlci 33 IETF   
+  class QOS_CLASS_45000K_15000K_15000K_10000K_0B
+!
+interface Hssi4/0/0.40 point-to-point
+ description FOXCONN2  | 2048K | RJO/IT/02000 | (RJO/IT/02000) | BGP_AS3549
+ bandwidth 2048
+ ip vrf forwarding FOXCONN2:5588
+ ip address 201.45.201.81 255.255.255.252
+ no cdp enable
+ frame-relay interface-dlci 40 IETF   
+  class QOS_CLASS_2048K_512K_512K_512K_0B
+!
+interface Hssi4/0/0.96 point-to-point
+ description CPIC_BRASIL  | 2048K | RJO/IT/02008 | (RJO/IT/02008) | BGP_AS6745
+ bandwidth 2048
+ ip vrf forwarding CPIC_BRASIL:5690
+ ip address 200.179.69.9 255.255.255.252
+ no cdp enable
+ frame-relay interface-dlci 96 IETF   
+  class QC_BBONE_N_2048_V1
+!
+interface Hssi4/0/0.101 point-to-point
+ description SABO | 45000K | RJO/IT/00872 | RJO/IT/00872 | BGP_AS6745
+ bandwidth 45000
+ ip vrf forwarding SABO:1499
+ ip address 200.255.238.53 255.255.255.252
+ no cdp enable
+ frame-relay interface-dlci 101 IETF   
+  class QOS_CLASS_45000K_15000K_15000K_10000K_0B
+  load-interval 30
+!
+interface Hssi4/0/0.102 point-to-point
+ description BSH  | 2048K | RJO/IT/00774 | (RJO/IT/00774) | BGP_AS6745
+ bandwidth 2048
+ ip vrf forwarding BSH:1359
+ ip address 200.255.238.253 255.255.255.252
+ no cdp enable
+ frame-relay interface-dlci 102 IETF   
+  class QOS_CLASS_45000K_15000K_15000K_10000K_0B
+!
+interface Hssi4/0/0.105 point-to-point
+ description GEFCO  | 2048K | RJO/IT/01881 | (RJO/IT/01881) | BGP_AS6745
+ bandwidth 2048
+ ip vrf forwarding GEFCO:4692
+ ip address 200.255.251.149 255.255.255.252
+ no cdp enable
+ frame-relay interface-dlci 105 IETF   
+  class QOS_CLASS_45000K_15000K_15000K_10000K_0B
+!
+interface Hssi4/0/0.123 point-to-point
+ description VRF Teste GLOBALCROSSING
+ ip vrf forwarding INTERASGX:1349
+ ip address 10.10.10.1 255.255.255.252
+ shutdown
+ no cdp enable
+ frame-relay interface-dlci 123   
+  class QOS_CLASS_45000K_15000K_15000K_10000K_0B
+!
+interface Hssi4/0/0.127 point-to-point
+ description COTEMINAS  | 45000K | RJO/IT/01555 | (RJO/IT/01555) | BGP_AS65168
+ bandwidth 45000
+ ip vrf forwarding COTEMINAS:2648
+ ip address 200.209.202.209 255.255.255.252
+ no cdp enable
+ frame-relay interface-dlci 127 IETF   
+  class QOS_CLASS_45000K_15000K_15000K_10000K_0B
+!
+interface Hssi4/0/0.130 point-to-point
+ description COTEMINAS  | 45000K | RJO/IT/01651 | (RJO/IT/01651) | BGP_AS6745
+ bandwidth 45000
+ ip vrf forwarding COTEMINAS:2648
+ ip address 200.209.202.237 255.255.255.252
+ no cdp enable
+ frame-relay interface-dlci 130 IETF   
+  class QOS_CLASS_45000K_15000K_15000K_10000K_0B
+!
+interface Hssi4/0/0.135 point-to-point
+ description GERDAU_INT  | 2048K | RJO/IT/01656 | (RJO/IT/01656) | BGP_AS6745
+ bandwidth 45000
+ ip vrf forwarding GERDAU_INT:3096
+ ip address 200.209.202.249 255.255.255.252
+ no cdp enable
+ frame-relay interface-dlci 135 IETF   
+  class QOS_CLASS_45000K_15000K_15000K_10000K_0B
+!
+interface Hssi4/0/0.249 point-to-point
+ description ITAU  | 2048K | RJO/IT/01640 | (RJO/IT/01640) | BGP_AS6745
+ ip vrf forwarding ITAUGLOBCROS:3210
+ ip address 200.209.202.229 255.255.255.252
+ no cdp enable
+ frame-relay interface-dlci 32   
+  class QOS_CLASS_45000K_15000K_15000K_10000K_0B
+!
+interface FastEthernet5/0/0
+ dampening
+ description Ligacao SW12.RJO | 100M | RJO/FAST/069 | (porta 1/13 do sw12.rjo)
+ bandwidth 100000
+ ip address 200.244.162.20 255.255.255.0
+ ip pim sparse-mode
+ ip ospf hello-interval 1
+ ip ospf priority 0
+ ip mroute-cache distributed
+ load-interval 30
+ carrier-delay msec 0
+ speed 100
+ full-duplex
+ mpls label protocol ldp
+ tag-switching mtu 1530
+ tag-switching ip
+ no cdp enable
+ no clns route-cache
+ hold-queue 4000 in
+!
+interface FastEthernet5/0/1
+ dampening
+ description Ligacao SW13.RJO | 100M | RJO/FAST/070 | (porta 1/13 do sw13.rjo)
+ bandwidth 100000
+ ip address 200.244.163.20 255.255.255.0
+ ip pim sparse-mode
+ ip ospf hello-interval 1
+ ip ospf priority 0
+ ip mroute-cache distributed
+ load-interval 30
+ carrier-delay msec 0
+ speed 100
+ full-duplex
+ mpls label protocol ldp
+ tag-switching mtu 1530
+ tag-switching ip
+ no cdp enable
+ no clns route-cache
+ hold-queue 4000 in
+!
+interface Serial8/0/0
+ no ip address
+ ip verify unicast source reachable-via rx allow-default allow-self-ping
+ no ip proxy-arp
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+ service-policy input QPI_BBONE_DSCP_V1
+!
+interface Serial8/0/1
+ no ip address
+ ip verify unicast source reachable-via rx allow-default allow-self-ping
+ no ip proxy-arp
+ no ip mroute-cache
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+!
+interface Serial8/0/2
+ no ip address
+ ip verify unicast source reachable-via rx allow-default allow-self-ping
+ no ip proxy-arp
+ no ip mroute-cache
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+ service-policy input QPI_BBONE_S_2048_V1
+ service-policy output QPO_BBONE_2048_V1
+!
+interface Serial8/0/3
+ no ip address
+ ip verify unicast source reachable-via rx allow-default allow-self-ping
+ no ip mroute-cache
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+ max-reserved-bandwidth 99
+!
+interface Serial8/1/0
+ no ip address
+ no ip mroute-cache
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+!
+interface Serial8/1/1
+ no ip address
+ no ip proxy-arp
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+ service-policy input ZERA-DSCP
+!
+interface Serial8/1/2
+ no ip address
+ no ip proxy-arp
+ no ip mroute-cache
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+ service-policy input QPI_BBONE_DSCP_V1
+!
+interface Serial8/1/3
+ no ip address
+ no ip mroute-cache
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+!
+interface Serial9/0/0
+ no ip address
+ no ip proxy-arp
+ no ip mroute-cache
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+!
+interface Serial9/0/1
+ bandwidth 2048
+ no ip address
+ ip verify unicast source reachable-via rx allow-default allow-self-ping
+ no ip proxy-arp
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+ service-policy input QPI_BBONE_S_2048_V1
+ service-policy output QPO_BBONE_2048_V1
+!
+interface Serial9/0/2
+ no ip address
+ no ip proxy-arp
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+!
+interface Serial9/0/3
+ no ip address
+ ip verify unicast source reachable-via rx allow-default allow-self-ping
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no cdp enable
+ no clns route-cache
+ max-reserved-bandwidth 99
+ service-policy input QPI_2048K_8_N_28_25_13_0_1_24
+ service-policy output QPO_2048K_8_28_25_13_0_1_24
+!
+interface Serial9/1/0
+ no ip address
+ ip verify unicast source reachable-via rx allow-default allow-self-ping
+ no ip proxy-arp
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no cdp enable
+ no clns route-cache
+ max-reserved-bandwidth 99
+ service-policy input QPI_2048K_25_N_25_20_5_5_1_18
+ service-policy output QPO_2048K_25_25_20_5_5_1_18
+!
+interface Serial9/1/1
+ no ip address
+ no ip proxy-arp
+ no ip mroute-cache
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ fair-queue
+ no cdp enable
+ no clns route-cache
+!
+interface Serial9/1/2
+ no ip address
+ no ip proxy-arp
+ no ip mroute-cache
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+!
+interface Serial9/1/3
+ no ip address
+ ip verify unicast source reachable-via rx allow-default allow-self-ping
+ no ip proxy-arp
+ no ip mroute-cache
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+ service-policy input QPI_BBONE_DSCP_V1
+!
+interface ATM10/0/0
+ description COBRA | 16000K | ENLACE CLIENTE | BGP_AS65191
+ bandwidth 16000
+ no ip address
+ load-interval 30
+ no atm ilmi-keepalive
+ no clns route-cache
+!
+interface Serial11/0/0
+ no ip address
+ no ip mroute-cache
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+!
+interface Serial11/0/1
+ bandwidth 2048
+ no ip address
+ ip verify unicast source reachable-via rx allow-default allow-self-ping
+ no ip proxy-arp
+ no ip mroute-cache
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+ service-policy input ZERA-DSCP
+!
+interface Serial11/0/2
+ no ip address
+ ip verify unicast source reachable-via rx allow-default allow-self-ping
+ no ip proxy-arp
+ no ip mroute-cache
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+ service-policy input ZERA-DSCP
+!
+interface Serial11/0/3
+ no ip address
+ ip verify unicast source reachable-via rx allow-default allow-self-ping
+ no ip mroute-cache
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+ service-policy input ZERA-DSCP
+!
+interface Serial11/1/0
+ no ip address
+ ip verify unicast source reachable-via rx allow-default allow-self-ping
+ no ip proxy-arp
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+ service-policy input ZERA-DSCP
+!
+interface Serial11/1/1
+ no ip address
+ no ip proxy-arp
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no cdp enable
+ no clns route-cache
+ max-reserved-bandwidth 99
+ service-policy input QPI_2048K_8_N_10_30_0_0_1_1
+ service-policy output QPO_2048K_8_10_30_0_0_1_1
+!
+interface Serial11/1/2
+ no ip address
+ ip verify unicast source reachable-via rx allow-default allow-self-ping
+ no ip proxy-arp
+ no ip mroute-cache
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+!
+interface Serial11/1/3
+ no ip address
+ ip verify unicast source reachable-via rx allow-default allow-self-ping
+ load-interval 30
+ shutdown
+ serial restart-delay 0
+ no fair-queue
+ no cdp enable
+ no clns route-cache
+ service-policy input ZERA-DSCP
+!
+router ospf 21
+ router-id 200.244.41.71
+ log-adjacency-changes detail
+ timers throttle spf 50 50 2000
+ timers pacing flood 25
+ timers pacing retransmission 30
+ network 200.244.41.0 0.0.0.255 area 2
+ network 200.244.162.0 0.0.0.255 area 2
+ network 200.244.163.0 0.0.0.255 area 2
+ maximum-paths 6
+!
+router bgp 4230
+ bgp router-id 200.244.41.71
+ bgp always-compare-med
+ no bgp default ipv4-unicast
+ bgp log-neighbor-changes
+ neighbor PARTIAL-ROUTING peer-group
+ neighbor IBGP_FULL peer-group
+ neighbor IBGP_FULL remote-as 4230
+ neighbor IBGP_FULL update-source Loopback0
+ neighbor FULL-ROUTING peer-group
+ neighbor NO-ROUTES_BGP-LIGHT peer-group
+ neighbor DEFAULT-ROUTE_BGP-LIGHT peer-group
+ neighbor 189.52.203.110 remote-as 65256
+ neighbor 189.52.203.110 peer-group NO-ROUTES_BGP-LIGHT
+ neighbor 200.209.202.30 remote-as 65200
+ neighbor 200.209.202.30 peer-group NO-ROUTES_BGP-LIGHT
+ neighbor 200.209.202.30 description BGP_LIGHT KPMG
+ neighbor 200.209.202.30 shutdown
+ neighbor 200.244.28.31 remote-as 4230
+ neighbor 200.244.28.31 description VRR01.RJOEN
+ neighbor 200.244.28.31 update-source Loopback0
+ neighbor 200.244.28.34 remote-as 4230
+ neighbor 200.244.28.34 description VRR01.RJO
+ neighbor 200.244.28.34 update-source Loopback0
+ neighbor 200.244.29.131 peer-group IBGP_FULL
+ neighbor 200.244.29.131 description RR01.RJO
+ neighbor 200.244.29.133 peer-group IBGP_FULL
+ neighbor 200.244.29.133 description RR02.RJO
+ !
+ address-family ipv4
+ redistribute connected route-map CONNECTED
+ redistribute static route-map STATIC
+ neighbor PARTIAL-ROUTING remove-private-AS
+ neighbor PARTIAL-ROUTING distribute-list 1 in
+ neighbor PARTIAL-ROUTING route-map PARTIAL-ROUTING_OUT out
+ neighbor IBGP_FULL next-hop-self
+ neighbor IBGP_FULL send-community
+ neighbor IBGP_FULL route-map RR_IPV4_IN in
+ neighbor FULL-ROUTING remove-private-AS
+ neighbor FULL-ROUTING distribute-list 1 in
+ neighbor FULL-ROUTING route-map FULL-ROUTING_OUT out
+ neighbor NO-ROUTES_BGP-LIGHT remove-private-AS
+ neighbor NO-ROUTES_BGP-LIGHT route-map NO-ROUTES_OUT out
+ neighbor DEFAULT-ROUTE_BGP-LIGHT default-originate
+ neighbor DEFAULT-ROUTE_BGP-LIGHT remove-private-AS
+ neighbor DEFAULT-ROUTE_BGP-LIGHT route-map NO-ROUTES_OUT out
+ neighbor 189.52.203.110 activate
+ neighbor 189.52.203.110 route-map IRBR_IN in
+ neighbor 200.209.202.30 activate
+ neighbor 200.209.202.30 route-map KPMG_IN in
+ neighbor 200.244.29.131 activate
+ neighbor 200.244.29.133 activate
+ no auto-summary
+ no synchronization
+ bgp dampening
+ exit-address-family
+ !
+ address-family vpnv4
+ neighbor 200.244.28.31 activate
+ neighbor 200.244.28.31 next-hop-self
+ neighbor 200.244.28.31 send-community both
+ neighbor 200.244.28.34 activate
+ neighbor 200.244.28.34 next-hop-self
+ neighbor 200.244.28.34 send-community both
+ bgp dampening
+ exit-address-family
+ !
+ address-family ipv4 vrf WHIRLPOOL:4073
+ redistribute connected
+ redistribute static
+ neighbor 200.255.248.30 remote-as 6745
+ neighbor 200.255.248.30 activate
+ neighbor 200.255.248.30 next-hop-self
+ neighbor 200.255.248.38 remote-as 6745
+ neighbor 200.255.248.38 activate
+ neighbor 200.255.248.38 next-hop-self
+ maximum-paths eibgp 3
+ no auto-summary
+ no synchronization
+ bgp dampening
+ exit-address-family
+ !
+ address-family ipv4 vrf SABO:1499
+ redistribute connected
+ redistribute static
+ neighbor 200.255.238.54 remote-as 6745
+ neighbor 200.255.238.54 activate
+ neighbor 200.255.238.54 next-hop-self
+ maximum-paths eibgp 2
+ no auto-summary
+ no synchronization
+ bgp dampening
+ exit-address-family
+ !
+ address-family ipv4 vrf ROMI:3994
+ redistribute connected
+ redistribute static
+ neighbor 200.179.69.94 remote-as 6745
+ neighbor 200.179.69.94 description RJO/IT/01851
+ neighbor 200.179.69.94 activate
+ neighbor 200.179.69.94 send-community both
+ neighbor 200.179.69.94 as-override
+ maximum-paths eibgp 2
+ no auto-summary
+ no synchronization
+ bgp dampening
+ exit-address-family
+ !
+ address-family ipv4 vrf ITAUGLOBCROS:3210
+ redistribute connected route-map SET_COMMUNITY_GERENCIA_CQMR
+ redistribute static
+ neighbor 200.209.202.230 remote-as 6745
+ neighbor 200.209.202.230 description RJO/IT/01640
+ neighbor 200.209.202.230 activate
+ neighbor 200.209.202.230 send-community both
+ maximum-paths eibgp 2
+ no auto-summary
+ no synchronization
+ bgp dampening
+ exit-address-family
+ !
+ address-family ipv4 vrf INTERASGX:1349
+ redistribute connected
+ redistribute static
+ neighbor 10.10.10.2 remote-as 6745
+ neighbor 10.10.10.2 activate
+ neighbor 10.10.10.2 next-hop-self
+ neighbor 10.10.10.2 send-community both
+ no auto-summary
+ no synchronization
+ bgp dampening
+ exit-address-family
+ !
+ address-family ipv4 vrf GERDAU_INT:3096
+ redistribute connected route-map LATAM_TELMEX_286
+ redistribute static route-map LATAM_TELMEX_286
+ neighbor 200.209.202.250 remote-as 6745
+ neighbor 200.209.202.250 description RJO/IT/01656
+ neighbor 200.209.202.250 activate
+ neighbor 200.209.202.250 send-community both
+ neighbor 200.209.202.250 route-map LATAM_TELMEX_286 in
+ maximum-paths eibgp 2
+ no auto-summary
+ no synchronization
+ bgp dampening
+ exit-address-family
+ !
+ address-family ipv4 vrf GEFCO:4692
+ redistribute connected route-map LATAM_TELMEX_285_SBC_CLIENTE
+ redistribute static route-map LATAM_TELMEX_285_SBC_CLIENTE
+ neighbor 200.255.251.150 remote-as 6745
+ neighbor 200.255.251.150 description RJO/IT/01881
+ neighbor 200.255.251.150 activate
+ neighbor 200.255.251.150 send-community both
+ maximum-paths eibgp 2
+ no auto-summary
+ no synchronization
+ bgp dampening
+ exit-address-family
+ !
+ address-family ipv4 vrf FOXCONN2:5588
+ redistribute connected
+ redistribute static
+ neighbor 201.45.201.82 remote-as 3549
+ neighbor 201.45.201.82 description RJO/IT/02000
+ neighbor 201.45.201.82 activate
+ neighbor 201.45.201.82 send-community both
+ no auto-summary
+ no synchronization
+ bgp dampening
+ exit-address-family
+ !
+ address-family ipv4 vrf FOXCONN2:4164
+ redistribute connected
+ redistribute static
+ neighbor 200.179.69.90 remote-as 6745
+ neighbor 200.179.69.90 activate
+ neighbor 200.179.69.90 next-hop-self
+ neighbor 200.179.69.90 send-community both
+ no auto-summary
+ no synchronization
+ bgp dampening
+ exit-address-family
+ !
+ address-family ipv4 vrf CUTRALE:1796
+ redistribute connected route-map SET_COMMUNITY_GERENCIA_CQMR
+ redistribute static
+ neighbor 200.255.248.114 remote-as 6745
+ neighbor 200.255.248.114 activate
+ neighbor 200.255.248.114 next-hop-self
+ maximum-paths eibgp 2
+ no auto-summary
+ no synchronization
+ bgp dampening
+ exit-address-family
+ !
+ address-family ipv4 vrf CPIC_BRASIL:5690
+ redistribute connected
+ redistribute static
+ neighbor 200.179.69.10 remote-as 6745
+ neighbor 200.179.69.10 description RJO/IT/02008
+ neighbor 200.179.69.10 activate
+ neighbor 200.179.69.10 send-community both
+ no auto-summary
+ no synchronization
+ bgp dampening
+ exit-address-family
+ !
+ address-family ipv4 vrf COTEMINAS:2648
+ redistribute connected
+ redistribute static
+ neighbor 200.209.202.210 remote-as 6745
+ neighbor 200.209.202.210 description RJO/IT/01555
+ neighbor 200.209.202.210 activate
+ neighbor 200.209.202.210 send-community both
+ neighbor 200.209.202.238 remote-as 6745
+ neighbor 200.209.202.238 description RJO/IT/01651
+ neighbor 200.209.202.238 activate
+ neighbor 200.209.202.238 send-community both
+ maximum-paths eibgp 2
+ no auto-summary
+ no synchronization
+ bgp dampening
+ exit-address-family
+ !
+ address-family ipv4 vrf BSH:1359
+ redistribute connected
+ redistribute static
+ neighbor 200.255.238.254 remote-as 6745
+ neighbor 200.255.238.254 activate
+ neighbor 200.255.238.254 next-hop-self
+ maximum-paths eibgp 2
+ no auto-summary
+ no synchronization
+ bgp dampening
+ exit-address-family
+ !
+ address-family ipv4 vrf BERTIN_EXTRANET_FUSAO:154269
+ redistribute connected
+ redistribute static
+ neighbor 189.53.197.2 remote-as 6745
+ neighbor 189.53.197.2 description RJO/IT/01946
+ neighbor 189.53.197.2 activate
+ neighbor 189.53.197.2 send-community both
+ maximum-paths eibgp 2
+ no auto-summary
+ no synchronization
+ bgp dampening
+ exit-address-family
+ !
+ address-family ipv4 vrf BCOPACTUAL:2677
+ redistribute connected
+ redistribute static
+ neighbor 200.179.69.22 remote-as 6745
+ neighbor 200.179.69.22 description RJO/IT/01883
+ neighbor 200.179.69.22 activate
+ neighbor 200.179.69.22 send-community both
+ maximum-paths eibgp 2
+ no auto-summary
+ no synchronization
+ bgp dampening
+ exit-address-family
+!
+ip classless
+ip route 10.0.0.0 255.0.0.0 Null0 tag 200
+ip route 100.64.0.0 255.192.0.0 Null0 tag 200
+ip route 169.254.0.0 255.255.0.0 Null0 tag 200
+ip route 172.16.0.0 255.240.0.0 Null0 tag 200
+ip route 187.28.0.0 255.255.0.0 Null0 tag 200
+ip route 187.29.0.0 255.255.0.0 Null0 tag 200
+ip route 187.30.0.0 255.255.0.0 Null0 tag 200
+ip route 189.2.0.0 255.255.0.0 Null0 tag 200
+ip route 189.3.0.0 255.255.0.0 Null0 tag 200
+ip route 189.16.0.0 255.255.0.0 Null0 tag 200
+ip route 189.17.0.0 255.255.0.0 Null0 tag 200
+ip route 189.22.0.0 255.255.0.0 Null0 tag 200
+ip route 189.23.0.0 255.255.0.0 Null0 tag 200
+ip route 189.42.0.0 255.255.0.0 Null0 tag 200
+ip route 189.43.0.0 255.255.0.0 Null0 tag 200
+ip route 189.52.0.0 255.255.0.0 Null0 tag 200
+ip route 189.53.0.0 255.255.0.0 Null0 tag 200
+ip route 189.86.0.0 255.255.0.0 Null0 tag 200
+ip route 189.87.0.0 255.255.0.0 Null0 tag 200
+ip route 189.88.0.0 255.255.0.0 Null0 tag 200
+ip route 192.0.0.0 255.255.255.0 Null0 tag 200
+ip route 192.0.2.0 255.255.255.0 Null0 tag 200
+ip route 192.88.99.0 255.255.255.0 Null0 tag 200
+ip route 192.168.0.0 255.255.0.0 Null0 tag 200
+ip route 198.18.0.0 255.254.0.0 Null0 tag 200
+ip route 198.51.100.0 255.255.255.0 Null0 tag 200
+ip route 200.10.159.0 255.255.255.0 Null0 tag 200
+ip route 200.10.159.254 255.255.255.255 Null0 tag 200
+ip route 200.166.0.0 255.255.0.0 Null0 tag 200
+ip route 200.167.0.0 255.255.0.0 Null0 tag 200
+ip route 200.172.0.0 255.255.0.0 Null0 tag 200
+ip route 200.174.0.0 255.255.0.0 Null0 tag 200
+ip route 200.178.0.0 255.255.0.0 Null0 tag 200
+ip route 200.179.0.0 255.255.0.0 Null0 tag 200
+ip route 200.182.0.0 255.255.0.0 Null0 tag 200
+ip route 200.183.0.0 255.255.0.0 Null0 tag 200
+ip route 200.191.0.0 255.255.0.0 Null0 tag 200
+ip route 200.200.0.0 255.255.0.0 Null0 tag 200
+ip route 200.208.0.0 255.255.0.0 Null0 tag 200
+ip route 200.209.0.0 255.255.0.0 Null0 tag 200
+ip route 200.210.0.0 255.255.0.0 Null0 tag 200
+ip route 200.211.0.0 255.255.0.0 Null0 tag 200
+ip route 200.212.0.0 255.255.0.0 Null0 tag 200
+ip route 200.213.0.0 255.255.0.0 Null0 tag 200
+ip route 200.214.0.0 255.255.0.0 Null0 tag 200
+ip route 200.227.0.0 255.255.0.0 Null0 tag 200
+ip route 200.228.0.0 255.255.0.0 Null0 tag 200
+ip route 200.230.0.0 255.255.0.0 Null0 tag 200
+ip route 200.231.0.0 255.255.0.0 Null0 tag 200
+ip route 200.241.0.0 255.255.0.0 Null0 tag 200
+ip route 200.242.0.0 255.255.0.0 Null0 tag 200
+ip route 200.243.0.0 255.255.0.0 Null0 tag 200
+ip route 200.244.0.0 255.255.0.0 Null0 tag 200
+ip route 200.245.0.0 255.255.0.0 Null0 tag 200
+ip route 200.246.0.0 255.255.0.0 Null0 tag 200
+ip route 200.247.0.0 255.255.0.0 Null0 tag 200
+ip route 200.248.0.0 255.255.0.0 Null0 tag 200
+ip route 200.249.0.0 255.255.0.0 Null0 tag 200
+ip route 200.250.0.0 255.255.0.0 Null0 tag 200
+ip route 200.251.0.0 255.255.0.0 Null0 tag 200
+ip route 200.252.0.0 255.255.0.0 Null0 tag 200
+ip route 200.253.0.0 255.255.0.0 Null0 tag 200
+ip route 200.254.0.0 255.255.0.0 Null0 tag 200
+ip route 200.255.0.0 255.255.0.0 Null0 tag 200
+ip route 201.30.0.0 255.255.0.0 Null0 tag 200
+ip route 201.31.0.0 255.255.0.0 Null0 tag 200
+ip route 201.38.0.0 255.255.0.0 Null0 tag 200
+ip route 201.39.0.0 255.255.0.0 Null0 tag 200
+ip route 201.44.0.0 255.255.0.0 Null0 tag 200
+ip route 201.45.0.0 255.255.0.0 Null0 tag 200
+ip route 201.56.0.0 255.255.0.0 Null0 tag 200
+ip route 201.57.0.0 255.255.0.0 Null0 tag 200
+ip route 201.64.0.0 255.255.0.0 Null0 tag 200
+ip route 201.65.0.0 255.255.0.0 Null0 tag 200
+ip route 201.72.0.0 255.255.0.0 Null0 tag 200
+ip route 201.73.0.0 255.255.0.0 Null0 tag 200
+ip route 201.90.0.0 255.255.0.0 Null0 tag 200
+ip route 203.0.113.0 255.255.255.0 Null0 tag 200
+ip route vrf COTEMINAS:2648 166.126.232.0 255.255.248.0 Hssi4/0/0.127 200.209.202.210
+no ip http server
+ip tacacs source-interface Loopback0
+!
+ip extcommunity-list 9 permit rt 4230:1673
+ip extcommunity-list 10 permit rt 4230:1693
+ip extcommunity-list 61 permit rt 4230:1340
+ip extcommunity-list 62 permit rt 4230:1956
+ip extcommunity-list 71 permit rt 4230:1904
+ip extcommunity-list 72 permit rt 4230:1905
+ip extcommunity-list 73 permit rt 4230:3108
+ip extcommunity-list 74 permit rt 4230:3107
+ip extcommunity-list 75 permit rt 4230:1970
+ip extcommunity-list 76 permit rt 4230:1763
+ip extcommunity-list 80 permit rt 4230:1912
+ip extcommunity-list 81 permit rt 4230:1913
+ip extcommunity-list 82 permit rt 4230:1914
+ip extcommunity-list 83 permit rt 4230:1915
+ip extcommunity-list 84 permit rt 4230:1984
+ip extcommunity-list 85 permit rt 4230:2455
+ip extcommunity-list 102 permit RT:4230:1337
+ip bgp-community new-format
+ip community-list 1 permit 4230:1
+ip community-list 2 permit 4230:2
+ip community-list 3 permit 4230:30
+ip community-list 3 permit 4230:31
+ip community-list 3 permit 4230:32
+ip community-list 3 permit 4230:33
+ip community-list 4 permit 4230:4
+ip community-list 5 permit 4230:5
+ip community-list 11 permit 4230:11
+ip community-list 21 permit 4230:21
+ip community-list 30 permit 4230:30
+ip community-list 31 permit 4230:31
+ip community-list 32 permit 4230:32
+ip community-list 33 permit 4230:33
+ip community-list 50 permit 4230:50
+ip community-list 61 permit 4230:61
+ip community-list 62 permit 4230:62
+ip community-list 63 permit 4230:63
+ip community-list 80 permit 4230:80
+ip community-list 101 permit 4230:101
+ip community-list 102 permit 4230:102
+ip community-list 107 permit 4230:107
+ip community-list 108 permit 4230:108
+ip community-list 109 permit 4230:109
+ip community-list 111 permit 4230:111
+ip community-list 112 permit 4230:112
+ip community-list 113 permit 4230:113
+ip community-list 114 permit 4230:114
+ip community-list 115 permit 4230:115
+ip community-list 116 permit 4230:116
+ip community-list 117 permit 4230:117
+ip community-list 118 permit 4230:118
+ip community-list 119 permit 4230:119
+ip community-list 120 permit 4230:120
+ip community-list 121 permit 4230:121
+ip community-list 122 permit 4230:122
+ip community-list 123 permit 4230:123
+ip community-list 124 permit 4230:124
+ip community-list 125 permit 4230:125
+ip community-list 126 permit 4230:126
+ip community-list 127 permit 4230:127
+ip community-list 128 permit 4230:128
+ip community-list 129 permit 4230:129
+ip community-list 131 permit 4230:131
+ip community-list 132 permit 4230:132
+ip community-list 133 permit 4230:133
+ip community-list 134 permit 4230:134
+ip community-list 135 permit 4230:135
+ip community-list 141 permit 4230:141
+ip community-list 142 permit 4230:142
+ip community-list 143 permit 4230:143
+ip community-list 144 permit 4230:144
+ip community-list 145 permit 4230:145
+ip community-list 148 permit 4230:148
+ip community-list 151 permit 4230:151
+ip community-list 152 permit 4230:152
+ip community-list 154 permit 4230:154
+ip community-list 161 permit 4230:161
+ip community-list 162 permit 4230:162
+ip community-list 163 permit 4230:163
+ip community-list 165 permit 4230:165
+ip community-list 167 permit 4230:167
+ip community-list 168 permit 4230:168
+ip community-list 169 permit 4230:169
+ip community-list 171 permit 4230:171
+ip community-list 172 permit 4230:172
+ip community-list 173 permit 4230:173
+ip community-list 174 permit 4230:174
+ip community-list 175 permit 4230:175
+ip community-list 176 permit 4230:176
+ip community-list 179 permit 4230:179
+ip community-list 181 permit 4230:181
+ip community-list 182 permit 4230:182
+ip community-list 183 permit 4230:183
+ip community-list 184 permit 4230:184
+ip community-list 185 permit 4230:185
+ip community-list 186 permit 4230:186
+ip community-list 187 permit 4230:187
+ip community-list 188 permit 4230:188
+ip community-list 191 permit 4230:191
+ip community-list 192 permit 4230:192
+ip community-list 193 permit 4230:193
+ip community-list 194 permit 4230:194
+ip community-list 195 permit 4230:195
+ip community-list 196 permit 4230:196
+ip community-list 198 permit 4230:198
+ip community-list 421 permit 65521:121
+ip community-list 421 permit 65521:103
+ip community-list 421 permit 65521:105
+ip community-list 421 permit 65521:107
+ip community-list 421 permit 65531:131
+ip community-list 421 permit 65531:103
+ip community-list 421 permit 65531:107
+ip community-list 421 permit 65531:140
+ip community-list 421 permit 65521:140
+ip community-list 421 permit 65521:130
+ip community-list standard BLACKHOLE-NAC-CLIENTE permit 4230:10000
+ip community-list standard BLACKHOLE-NAC-EBT permit 4230:10001
+ip community-list standard BLACKHOLE-INTL-CLIENTE permit 4230:10002
+ip community-list standard BLACKHOLE-INTL-EBT permit 4230:10003
+ip community-list standard GBLX-BLACKHOLE permit 3549:666
+ip community-list standard MCI-BLACKHOLE permit 701:9999
+ip community-list standard SPRINT-BLACKHOLE permit 1239:66
+ip community-list standard BLACKHOLE-MIA-CLIENTE permit 4230:10004
+ip community-list standard BLACKHOLE-MIA-EBT permit 4230:10005
+ip community-list standard BERTIN_LIS permit 700:700
+ip community-list standard FRIBOI_SPO permit 500:500
+ip community-list standard TINET-BLACKHOLE permit 3257:2666
+ip community-list standard INTELIQUENT-BLACKHOLE permit 3257:2666
+ip community-list standard TELIASONERA-BLACKHOLE permit 1299:999
+ip community-list standard TATA-BLACKHOLE permit 64999:0
+ip community-list standard BLACKHOLE-PE-CLIENTE permit 4230:10006
+ip community-list standard BLACKHOLE-PE-EBT permit 4230:10007
+ip community-list standard BLACKHOLE-PE-NAC-CLIENTE permit 4230:10008
+ip community-list standard BLACKHOLE-PE-NAC-EBT permit 4230:10009
+ip community-list expanded TST10 permit 1024:23
+ip community-list expanded TST11 permit 1024:324
+ip community-list expanded TST12 permit 1024:323
+ip community-list expanded TST13 permit 1024:200
+ip community-list expanded DPRF-VOIP permit 1024:1323		
+ip community-list expanded DPRF-GERENCIA permit 1024:1001
+ip as-path access-list 1 permit ^$
+ip as-path access-list 101 permit ^(28582_)+$
+ip ospf name-lookup
+ip pim ssm range 99
+!
+!
+ip prefix-list ABNAMRO_DEFAULT seq 5 permit 10.0.0.0/8
+!
+ip prefix-list ANULA_DEFAULT seq 5 permit 0.0.0.0/0 ge 1
+!
+ip prefix-list IBM_TELMEX seq 5 permit 10.96.255.112/32
+ip prefix-list IBM_TELMEX seq 10 permit 10.108.64.0/22
+!
+ip prefix-list IRBR seq 5 permit 200.255.215.128/25 le 32
+ip prefix-list IRBR seq 10 permit 201.57.238.0/25 le 32
+ip prefix-list IRBR seq 15 deny 0.0.0.0/0 le 32
+!
+ip prefix-list KPMG seq 5 permit 200.212.28.0/25 le 32
+ip prefix-list KPMG seq 10 deny 0.0.0.0/0 le 32
+!
+ip access-list standard LATAM_TELMEX
+ permit any
+!
+ip access-list extended VPN_MGMT_ACL
+ permit ip 187.128.1.220 0.0.0.3 any
+!
+map-class frame-relay QC_1024_0_410_155_70_70_63_0B_V1
+ service-policy input QPI_1024_0_410_155_70_70_63_0B_V1
+ service-policy output QDO_1024_0_410_155_70_70_63_0B_V1
+!
+map-class frame-relay QOS_CLASS_45000K_15000K_15000K_10000K_0B
+ service-policy input QOS_POLICY_IN_15000K_10000K
+ service-policy output QOS_DTS_OUT_45000K_15000K_10000K
+!
+map-class frame-relay QOS_CLASS_2048K_512K_512K_512K_0B
+ service-policy input QOS_DTS_IN_2048K_512K_512K
+ service-policy output QOS_DTS_OUT_2048K_512K_512K
+!
+map-class frame-relay QC_MCI_ETM_256k_0k_256k_V1
+ service-policy input QPI_MCI_ETM_256k_0k_256k_V1
+ service-policy output QDO_MCI_ETM_256k_0k_256k_V1
+!
+map-class frame-relay QC_WARNER_MCI_512_64_320_V1
+ service-policy input QPI_WARNER_MCI_512_64_320_V1
+ service-policy output QDO_WARNER_MCI_512_64_320_V1
+!
+map-class frame-relay QC_COOPER_MCI_2048_256_384_V1
+ service-policy input QPI_COOPER_MCI_2048_256_384_V1
+ service-policy output QDO_COOPER_MCI_2048_256_384_V1
+!
+map-class frame-relay 512_0_165_100_50_40_29_0B_V1
+!
+map-class frame-relay QC_BBONE_N_64_V1
+ service-policy input QPI_BBONE_N_64_V1
+ service-policy output QPO_BBONE_64_V1
+!
+map-class frame-relay QC_BBONE_S_2048_V1
+ service-policy input QPI_BBONE_S_2048_V1
+ service-policy output QPO_BBONE_2048_V1
+!
+map-class frame-relay QC_BBONE_S_4096_V1
+ service-policy input QPI_BBONE_S_4096_V1
+ service-policy output QPO_BBONE_4096_V1
+!
+map-class frame-relay FR-MC-ZERA-EXP-SAIDA
+ service-policy input ZERA-EXP-Saida
+!
+map-class frame-relay QC_BBONE_N_2048_V1
+ service-policy input QPI_BBONE_N_2048_V1
+ service-policy output QPO_BBONE_2048_V1
+!
+map-class frame-relay QC_BBONE_N_8000_V1
+ service-policy input QPI_BBONE_N_8000_V1
+ service-policy output QPO_BBONE_8000_V1
+logging trap debugging
+logging source-interface Loopback0
+logging 200.255.125.217
+logging 200.255.125.218
+access-list 1 deny   0.0.0.0
+access-list 1 deny   10.0.0.0 0.255.255.255
+access-list 1 deny   172.16.0.0 0.15.255.255
+access-list 1 deny   187.28.0.0 0.0.255.255
+access-list 1 deny   187.29.0.0 0.0.255.255
+access-list 1 deny   187.30.0.0 0.0.255.255
+access-list 1 deny   189.2.0.0 0.0.255.255
+access-list 1 deny   189.3.0.0 0.0.255.255
+access-list 1 deny   189.16.0.0 0.0.255.255
+access-list 1 deny   189.17.0.0 0.0.255.255
+access-list 1 deny   189.22.0.0 0.0.255.255
+access-list 1 deny   189.23.0.0 0.0.255.255
+access-list 1 deny   189.42.0.0 0.0.255.255
+access-list 1 deny   189.43.0.0 0.0.255.255
+access-list 1 deny   189.52.0.0 0.0.255.255
+access-list 1 deny   189.53.0.0 0.0.255.255
+access-list 1 deny   189.86.0.0 0.0.255.255
+access-list 1 deny   189.87.0.0 0.0.255.255
+access-list 1 deny   189.88.0.0 0.0.255.255
+access-list 1 deny   192.168.0.0 0.0.255.255
+access-list 1 deny   200.10.159.0 0.0.0.255
+access-list 1 deny   200.166.0.0 0.0.255.255
+access-list 1 deny   200.167.0.0 0.0.255.255
+access-list 1 deny   200.172.0.0 0.0.255.255
+access-list 1 deny   200.174.0.0 0.0.255.255
+access-list 1 deny   200.178.0.0 0.0.255.255
+access-list 1 deny   200.179.0.0 0.0.255.255
+access-list 1 deny   200.182.0.0 0.0.255.255
+access-list 1 deny   200.183.0.0 0.0.255.255
+access-list 1 deny   200.200.0.0 0.0.255.255
+access-list 1 deny   200.208.0.0 0.0.255.255
+access-list 1 deny   200.209.0.0 0.0.255.255
+access-list 1 deny   200.210.0.0 0.0.255.255
+access-list 1 deny   200.211.0.0 0.0.255.255
+access-list 1 deny   200.212.0.0 0.0.255.255
+access-list 1 deny   200.213.0.0 0.0.255.255
+access-list 1 deny   200.214.0.0 0.0.255.255
+access-list 1 deny   200.228.0.0 0.0.255.255
+access-list 1 deny   200.230.0.0 0.0.255.255
+access-list 1 deny   200.231.0.0 0.0.255.255
+access-list 1 deny   200.241.0.0 0.0.255.255
+access-list 1 deny   200.242.0.0 0.0.255.255
+access-list 1 deny   200.243.0.0 0.0.255.255
+access-list 1 deny   200.244.0.0 0.0.255.255
+access-list 1 deny   200.245.0.0 0.0.255.255
+access-list 1 deny   200.246.0.0 0.0.255.255
+access-list 1 deny   200.247.0.0 0.0.255.255
+access-list 1 deny   200.248.0.0 0.0.255.255
+access-list 1 deny   200.249.0.0 0.0.255.255
+access-list 1 deny   200.250.0.0 0.0.255.255
+access-list 1 deny   200.251.0.0 0.0.255.255
+access-list 1 deny   200.252.0.0 0.0.255.255
+access-list 1 deny   200.253.0.0 0.0.255.255
+access-list 1 deny   200.254.0.0 0.0.255.255
+access-list 1 deny   200.255.0.0 0.0.255.255
+access-list 1 deny   201.30.0.0 0.0.255.255
+access-list 1 deny   201.31.0.0 0.0.255.255
+access-list 1 deny   201.38.0.0 0.0.255.255
+access-list 1 deny   201.39.0.0 0.0.255.255
+access-list 1 deny   201.44.0.0 0.0.255.255
+access-list 1 deny   201.45.0.0 0.0.255.255
+access-list 1 deny   201.56.0.0 0.0.255.255
+access-list 1 deny   201.57.0.0 0.0.255.255
+access-list 1 deny   201.64.0.0 0.0.255.255
+access-list 1 deny   201.65.0.0 0.0.255.255
+access-list 1 deny   201.72.0.0 0.0.255.255
+access-list 1 deny   201.73.0.0 0.0.255.255
+access-list 1 deny   201.90.0.0 0.0.255.255
+access-list 1 permit any
+access-list 11 permit 200.255.253.250
+access-list 11 permit 200.255.125.56
+access-list 11 permit 200.255.125.60
+access-list 11 permit 200.255.125.219
+access-list 12 remark Host FW-GRC
+access-list 12 permit 200.214.41.124
+access-list 12 remark Hosts CISCO
+access-list 12 permit 171.68.46.188
+access-list 12 remark Host Cisco NatKit/CNC
+access-list 12 permit 200.255.255.67
+access-list 12 permit 173.38.244.214
+access-list 12 permit 173.38.244.213
+access-list 12 permit 173.38.244.212
+access-list 12 permit 173.38.244.211
+access-list 12 permit 64.100.32.216
+access-list 12 remark Hosts Brasil-center
+access-list 12 permit 200.255.220.22
+access-list 12 permit 200.255.220.21
+access-list 12 remark SubNet NOC
+access-list 12 permit 200.255.125.0 0.0.0.255
+access-list 12 permit 200.255.253.0 0.0.0.255
+access-list 12 remark Subnet Seguranca
+access-list 12 permit 200.255.160.0 0.0.0.255
+access-list 12 permit 200.179.210.0 0.0.0.255
+access-list 12 permit 200.255.218.192 0.0.0.63
+access-list 12 remark SubNet Config SPO
+access-list 12 permit 200.245.255.0 0.0.0.255
+access-list 12 remark SubNet Config RJO
+access-list 12 permit 200.255.122.0 0.0.0.31
+access-list 12 remark SubNet Loopback Backbone
+access-list 12 permit 200.230.16.0 0.0.0.255
+access-list 12 permit 200.230.224.0 0.0.0.255
+access-list 12 permit 200.230.248.0 0.0.1.255
+access-list 12 permit 200.244.27.0 0.0.0.255
+access-list 12 permit 200.244.28.0 0.1.0.255
+access-list 12 permit 200.244.41.0 0.0.0.255
+access-list 12 remark SubNet MAN Backbone Uplink
+access-list 12 permit 200.230.0.0 0.0.1.255
+access-list 12 permit 200.230.2.0 0.0.0.255
+access-list 12 permit 200.230.21.0 0.0.0.255
+access-list 12 permit 200.230.130.0 0.0.1.255
+access-list 12 permit 200.230.156.0 0.0.0.255
+access-list 12 permit 200.230.158.0 0.0.1.255
+access-list 12 permit 200.230.162.0 0.0.0.255
+access-list 12 permit 200.230.211.0 0.0.0.255
+access-list 12 permit 200.230.212.0 0.0.3.255
+access-list 12 permit 200.230.216.0 0.0.0.255
+access-list 12 permit 200.230.219.0 0.0.0.255
+access-list 12 permit 200.230.220.0 0.0.1.255
+access-list 12 permit 200.230.231.0 0.0.0.255
+access-list 12 permit 200.230.241.0 0.0.0.255
+access-list 12 permit 200.230.242.0 0.0.1.255
+access-list 12 permit 200.230.244.0 0.0.1.255
+access-list 12 permit 200.230.246.0 0.0.1.255
+access-list 12 permit 200.230.251.0 0.0.0.255
+access-list 12 permit 200.230.252.0 0.0.0.255
+access-list 12 permit 200.244.1.0 0.0.0.255
+access-list 12 permit 200.244.21.0 0.0.0.255
+access-list 12 permit 200.244.40.0 0.0.0.255
+access-list 12 permit 200.244.44.0 0.0.0.255
+access-list 12 permit 200.244.49.0 0.0.0.255
+access-list 12 permit 200.244.63.0 0.0.0.255
+access-list 12 permit 200.244.90.0 0.0.0.255
+access-list 12 permit 200.244.111.0 0.0.0.255
+access-list 12 permit 200.244.140.0 0.0.0.255
+access-list 12 permit 200.244.150.0 0.0.0.255
+access-list 12 permit 200.244.160.0 0.0.0.255
+access-list 12 permit 200.244.162.0 0.0.1.255
+access-list 12 permit 200.244.164.0 0.0.3.255
+access-list 12 permit 200.244.168.0 0.0.3.255
+access-list 12 permit 200.244.172.0 0.0.0.255
+access-list 12 permit 200.244.211.0 0.0.0.255
+access-list 12 permit 200.244.212.0 0.0.3.255
+access-list 12 permit 200.244.216.0 0.0.0.255
+access-list 13 permit 200.255.251.214
+access-list 13 remark Hosts/Subnets com permissao de acesso SNMP
+access-list 13 remark Hosts GRC
+access-list 13 permit 200.214.41.124
+access-list 13 remark Hosts/Subnets Servidores/Infra
+access-list 13 permit 200.179.55.2
+access-list 13 permit 200.244.162.250
+access-list 13 permit 200.244.163.251
+access-list 13 permit 200.244.162.251
+access-list 13 permit 200.244.163.250
+access-list 13 permit 200.244.162.246
+access-list 13 permit 200.244.163.246
+access-list 13 permit 200.255.255.67
+access-list 13 permit 200.246.244.82
+access-list 13 permit 200.179.210.0 0.0.0.255
+access-list 13 permit 200.255.125.0 0.0.0.255
+access-list 13 permit 200.255.160.0 0.0.0.255
+access-list 13 permit 200.255.218.192 0.0.0.63
+access-list 13 permit 200.255.253.0 0.0.0.255
+access-list 13 permit 200.255.254.0 0.0.0.255
+access-list 13 remark Hosts/Subnets Cisco EPN / Nokia
+access-list 13 permit 200.230.5.0 0.0.0.255
+access-list 13 permit 200.244.11.0 0.0.0.255
+access-list 13 remark Hosts/Subnets PeakFlow
+access-list 13 permit 200.230.9.0 0.0.0.255
+access-list 13 permit 200.244.9.0 0.0.0.255
+access-list 13 permit 200.244.110.0 0.0.1.255
+access-list 13 permit 201.65.190.32 0.0.0.31
+access-list 15 permit 0.0.0.0
+access-list 51 deny   200.218.65.32 0.0.0.31
+access-list 51 deny   200.218.64.160 0.0.0.15
+access-list 51 permit any
+access-list 99 permit 239.232.0.0 0.0.255.255
+access-list 120 deny   ip host 0.0.0.0 any
+access-list 120 permit ip any any
+access-list 2000 deny   udp any eq 6346 any
+access-list 2000 permit ip any host 201.38.105.130
+access-list 2001 deny   udp any eq 6346 any
+access-list 2001 permit ip host 201.38.105.130 any
+access-list 2121 permit udp host 189.2.31.197 eq 5060 any eq 5060
+access-list 2121 permit udp any host 189.2.31.197 eq 5060
+access-list 2121 permit udp host 201.65.159.69 eq 5060 any eq 5060
+access-list 2121 permit udp any host 201.65.159.69 eq 5060
+access-list 2121 permit udp host 201.57.200.213 eq 5060 any eq 5060
+access-list 2121 permit udp any host 201.57.200.213 eq 5060
+access-list 2121 permit udp host 201.31.161.245 eq 5060 any eq 5060
+access-list 2121 permit udp any host 201.31.161.245 eq 5060
+access-list 2121 permit udp host 200.248.230.197 eq 5060 any eq 5060
+access-list 2121 permit udp any host 200.248.230.197 eq 5060
+access-list 2121 permit udp host 200.182.77.37 eq 5060 any eq 5060
+access-list 2121 permit udp any host 200.182.77.37 eq 5060
+access-list 2121 permit udp host 200.248.249.69 eq 5060 any eq 5060
+access-list 2121 permit udp any host 200.248.249.69 eq 5060
+access-list 2122 permit udp any any eq snmp
+access-list 2122 permit udp any any eq snmptrap
+access-list 2122 permit tcp any any eq telnet
+access-list 2123 permit udp any range 16384 32767 host 189.2.31.197 range 16384 32767
+access-list 2123 permit udp host 189.2.31.197 range 16384 32767 any range 16384 32767
+access-list 2123 permit udp any range 16384 32767 host 201.65.159.69 range 16384 32767
+access-list 2123 permit udp host 201.65.159.69 range 16384 32767 any range 16384 32767
+access-list 2123 permit udp any range 16384 32767 host 201.57.200.213 range 16384 32767
+access-list 2123 permit udp host 201.57.200.213 range 16384 32767 any range 16384 32767
+access-list 2123 permit udp any range 16384 32767 host 201.31.161.245 range 16384 32767
+access-list 2123 permit udp host 201.31.161.245 range 16384 32767 any range 16384 32767
+access-list 2123 permit udp any range 16384 32767 host 200.248.230.197 range 16384 32767
+access-list 2123 permit udp host 200.248.230.197 range 16384 32767 any range 16384 32767
+access-list 2123 permit udp any range 16384 32767 host 200.182.77.37 range 16384 32767
+access-list 2123 permit udp host 200.182.77.37 range 16384 32767 any range 16384 32767
+access-list 2123 permit udp any range 16384 32767 host 200.248.249.69 range 16384 32767
+access-list 2123 permit udp host 200.248.249.69 range 16384 32767 any range 16384 32767
+access-list 2200 permit ip any 159.155.195.0 0.0.0.255
+access-list 2200 permit ip any 159.155.157.0 0.0.0.255
+access-list 2200 permit ip any 159.155.196.0 0.0.0.255
+access-list 2200 permit ip any any
+access-list 2201 permit ip any 159.155.195.0 0.0.0.255
+access-list 2201 permit ip any 159.155.157.0 0.0.0.255
+access-list 2201 permit ip any 159.155.196.0 0.0.0.255
+access-list 2201 permit ip any any
+access-list 2300 permit ip host 201.57.168.143 any
+access-list 2300 permit ip any any
+access-list 2300 permit ip host 189.21.194.114 host 200.255.95.50
+access-list 2550 deny   ip host 0.0.0.0 host 255.255.255.255
+access-list 2550 deny   ip 10.0.0.0 0.255.255.255 any
+access-list 2550 deny   ip 172.16.0.0 0.15.255.255 any
+access-list 2550 deny   ip 187.28.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 187.29.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 187.30.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 189.2.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 189.3.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 189.16.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 189.17.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 189.22.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 189.23.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 189.42.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 189.43.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 189.52.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 189.53.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 189.86.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 189.87.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 189.88.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 192.168.0.0 0.0.255.255 any
+access-list 2550 deny   ip 200.244.161.0 0.0.0.255 any
+access-list 2550 deny   ip 200.230.2.0 0.0.0.255 any
+access-list 2550 deny   ip 200.10.159.0 0.0.0.255 host 255.255.255.0
+access-list 2550 deny   ip 200.166.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.167.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.172.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.174.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.178.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.179.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.182.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.183.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.191.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.200.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.208.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.209.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.210.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.211.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.212.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.213.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.214.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.227.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.228.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.230.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.231.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.241.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.242.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.243.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.244.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.245.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.246.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.247.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.248.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.249.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.250.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.251.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.252.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.253.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.254.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 200.255.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 201.30.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 201.31.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 201.38.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 201.39.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 201.44.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 201.45.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 201.56.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 201.57.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 201.64.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 201.65.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 201.72.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 201.73.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 deny   ip 201.90.0.0 0.0.255.255 host 255.255.0.0
+access-list 2550 permit ip any any
+no cdp run
+!
+route-map RTM_CLIENT_RJO permit 10
+ match extcommunity 71
+ set local-preference 100
+!
+route-map RTM_CLIENT_RJO permit 20
+ match extcommunity 72
+ set local-preference 25
+!
+route-map RTM_CLIENT_RJO permit 30
+!
+route-map LATAM_TELMEX permit 10
+ match ip address LATAM_TELMEX
+ set community 28513:1281
+!
+route-map RTM_FORN_RJO permit 10
+ match extcommunity 71
+ set local-preference 100
+!
+route-map RTM_FORN_RJO permit 20
+ match extcommunity 72
+ set local-preference 25
+!
+route-map RTM_FORN_RJO permit 30
+!
+route-map BBRASIL_CE_OUT permit 10
+ match community 421
+!
+route-map IBM_TELMEX deny 10
+ match ip address prefix-list IBM_TELMEX
+!
+route-map IBM_TELMEX permit 20
+ set community 28513:286 28513:1281
+!
+route-map STATIC deny 5
+ match tag 200
+!
+route-map STATIC permit 10
+ match ip address 2550
+ set origin igp
+ set community 4230:50 4230:121
+!
+route-map mgmt_vpn_telmex_royal-latam permit 10
+ match ip address VPN_MGMT_ACL
+ set extcommunity rt  28513:50038 28513:70068
+!
+route-map COMPULAND_IN permit 10
+ match as-path 101
+ set community 4230:21 4230:30 4230:121
+!
+route-map ASBRASIL_VOCAL permit 10
+ match community 101
+ set weight 150
+!
+route-map ASBRASIL_VOCAL permit 20
+!
+route-map IPIRANGA_MTZ_RJO permit 10
+ match ip address 120
+!
+route-map TRT-XX_EXPORT_MAP permit 10
+ description MGNT Loopback IP
+ match community TST10
+ set extcommunity rt  1024:1231323
+!
+route-map TRT-XX_EXPORT_MAP permit 20
+ description VoIP Loopback IP
+ match community TST11
+ set extcommunity rt  1024:1230323
+!
+route-map TRT-XX_EXPORT_MAP permit 30
+ description VoIP Loopback IP
+ match community TST12
+ set extcommunity rt  1024:1230323
+!
+route-map TRT-XX_EXPORT_MAP permit 40
+ description Normal BGP prefix
+!
+route-map PARTIAL-ROUTING_OUT deny 10
+ match community 50
+!
+route-map PARTIAL-ROUTING_OUT permit 20
+ match community 5
+!
+route-map PARTIAL-ROUTING_OUT permit 30
+ match community 2 3
+!
+route-map IBGP_BLACKHOLE-NAC_IN permit 10
+ match community BLACKHOLE-NAC-CLIENTE BLACKHOLE-NAC-EBT
+ set ip next-hop 200.10.159.254
+!
+route-map IBGP_BLACKHOLE-NAC_IN permit 20
+!
+route-map NO-ROUTES_OUT deny 10
+!
+route-map BERTIN_ROTA_DEFAULT permit 10
+ match community BERTIN_LIS
+ set local-preference 200
+!
+route-map BERTIN_ROTA_DEFAULT permit 20
+ match community FRIBOI_SPO
+ set local-preference 150
+!
+route-map BERTIN_ROTA_DEFAULT permit 30
+!
+route-map ABNAMRO_DEFAULT permit 10
+ match ip address prefix-list ABNAMRO_DEFAULT
+!
+route-map KPMG_IN permit 10
+ match ip address prefix-list KPMG
+ set community 4230:4 4230:21 4230:121
+!
+route-map BBRASIL_MARCA_SOO permit 10
+ set extcommunity soo 65521:1
+!
+route-map DEFAULT_ROUTE permit 10
+ set community 4230:50
+!
+route-map IPIRANGA_NORMAL_RJO permit 10
+ match ip address prefix-list ANULA_DEFAULT
+ match extcommunity 82
+!
+route-map IPIRANGA_NORMAL_RJO permit 20
+ match ip address prefix-list ANULA_DEFAULT
+ match extcommunity 85
+!
+route-map IPIRANGA_NORMAL_RJO permit 30
+ match ip address prefix-list ANULA_DEFAULT
+ match extcommunity 83
+!
+route-map IPIRANGA_NORMAL_RJO permit 40
+ match ip address prefix-list ANULA_DEFAULT
+ match extcommunity 84
+!
+route-map IPIRANGA_NORMAL_RJO permit 50
+ match extcommunity 80
+!
+route-map IPIRANGA_NORMAL_RJO permit 60
+ match extcommunity 81
+!
+route-map SBC_CLIENTE permit 10
+ set community 4230:3108
+!
+route-map IRBR_IN permit 10
+ match ip address prefix-list IRBR
+ set community 4230:4 4230:21 4230:121
+!
+route-map SET_COMMUNITY_GERENCIA_CQMR permit 10
+ set community 4230:5110 additive
+!
+route-map SERASA_QUINIMURAS permit 10
+ match extcommunity 61
+ set local-preference 100
+!
+route-map SERASA_QUINIMURAS permit 20
+ match extcommunity 62
+ set local-preference 25
+!
+route-map LOJASMIG_HUBMIG permit 10
+ match ip address prefix-list ANULA_DEFAULT
+ match extcommunity 76
+!
+route-map LOJASMIG_HUBMIG permit 20
+ match extcommunity 75
+!
+route-map LOJASMIG_HUBMIG permit 30
+ match extcommunity 74
+!
+route-map LOJASMIG_HUBMIG permit 40
+ match extcommunity 102
+!
+route-map IPIRANGA_SPO_IASA permit 10
+ match ip address prefix-list ANULA_DEFAULT
+ match extcommunity 80
+!
+route-map IPIRANGA_SPO_IASA permit 20
+ match ip address prefix-list ANULA_DEFAULT
+ match extcommunity 83
+!
+route-map IPIRANGA_SPO_IASA permit 30
+ match ip address prefix-list ANULA_DEFAULT
+ match extcommunity 84
+!
+route-map IPIRANGA_SPO_IASA permit 40
+ match ip address prefix-list ANULA_DEFAULT
+ match extcommunity 82
+!
+route-map IPIRANGA_SPO_IASA permit 50
+ match extcommunity 81
+!
+route-map IPIRANGA_SPO_IASA permit 60
+ match extcommunity 85
+!
+route-map CONNECTED permit 10
+ match ip address 2550
+ set origin igp
+ set community 4230:50 4230:121
+!
+route-map BRASTEMP_1 permit 10
+ match extcommunity 9
+ set local-preference 100
+!
+route-map BRASTEMP_1 permit 20
+ match extcommunity 10
+ set local-preference 25
+!
+route-map BRASTEMP_2 permit 10
+ match extcommunity 10
+ set local-preference 100
+!
+route-map BRASTEMP_2 permit 20
+ match extcommunity 9
+ set local-preference 25
+!
+route-map LATAM_TELMEX_286 permit 10
+ match ip address LATAM_TELMEX
+ set community 4230:5110 28513:286 28513:1281
+!
+route-map LATAM_TELMEX_285 permit 10
+ match ip address LATAM_TELMEX
+ set community 28513:285 28513:1281
+!
+route-map LATAM_TELMEX_285_SBC_CLIENTE permit 10
+ set community 4230:3108 28513:285 28513:1281
+!
+route-map DPRF-MAP permit 10
+ description Rede VoIP 
+ match community DPRF-VOIP
+ set extcommunity rt  1024:1001323
+!
+route-map DPRF-MAP permit 20
+ description Rede Gerencia
+ match community DPRF-GERENCIA
+ set extcommunity rt  1024:1001001
+!
+route-map FULL-ROUTING_OUT deny 10
+ match community 50
+!
+route-map FULL-ROUTING_OUT permit 20
+ match community 5
+!
+route-map FULL-ROUTING_OUT permit 30
+ match community 1 2 3
+!
+route-map TRT-XX_BGP_MAP permit 5
+ description Gerencia
+ match community TST10
+ set local-preference 200
+!
+route-map TRT-XX_BGP_MAP permit 10
+ description VoIP
+ match community TST12
+ set local-preference 200
+!
+route-map TRT-XX_BGP_MAP permit 20
+ description MCS Primary
+ match community TST13
+ set local-preference 200
+!
+route-map TRT-XX_BGP_MAP permit 40
+ description ALL ROUTES
+ set local-preference 170
+!
+route-map RR_IPV4_IN permit 10
+ match community BLACKHOLE-NAC-CLIENTE BLACKHOLE-NAC-EBT BLACKHOLE-PE-NAC-CLIENTE BLACKHOLE-PE-NAC-EBT BLACKHOLE-PE-CLIENTE BLACKHOLE-PE-EBT
+ set ip next-hop 200.10.159.254
+!
+route-map RR_IPV4_IN deny 20
+ match community BLACKHOLE-INTL-CLIENTE BLACKHOLE-INTL-EBT BLACKHOLE-MIA-CLIENTE BLACKHOLE-MIA-EBT
+!
+route-map RR_IPV4_IN permit 100
+!
+snmp-server community fmvs7b1a RO 13
+snmp-server community sdklwepo RO 13
+snmp-server trap link ietf
+snmp-server trap-source Loopback0
+snmp-server enable traps snmp authentication linkdown linkup coldstart warmstart
+snmp-server enable traps tty
+snmp-server enable traps atm subif
+snmp-server enable traps config
+snmp-server enable traps envmon
+snmp-server enable traps bgp
+snmp-server host 200.255.125.56 ldsp46!) 
+snmp-server host 200.255.125.60 ldsp46!) 
+snmp-server host 200.255.253.245 ldsp46!) 
+snmp-server host 200.255.253.249 ldsp46!) 
+snmp-server host 200.255.253.250 ldsp46!) 
+snmp ifmib ifalias long
+!
+tacacs-server host 200.255.125.216
+tacacs-server directed-request
+tacacs-server key 7 1414070505082325233D32
+!
+!
+!
+!
+rtr responder
+banner motd ^CC
+                ============================================================
+                =                  INTERNET via Embratel                   =
+                ============================================================
+                Voce deve possuir autorizacao para acessar este equipamento.
+                      Todas as conexoes sao monitoradas e registradas.
+                ============================================================
+^C
+alias exec sr sh ip route
+alias exec cr clear ip route
+privilege exec level 1 traceroute
+privilege exec level 1 ping
+privilege exec level 1 enable
+privilege exec level 1 disable
+privilege exec level 1 show
+privilege exec level 15 no
+!
+line con 0
+ exec-timeout 60 0
+ login authentication NOC
+line aux 0
+ login authentication NOC
+line vty 0 4
+ session-timeout 20 
+ access-class 12 in
+ exec-timeout 20 0
+ login authentication NOC
+line vty 5 6
+ session-timeout 10 
+ access-class 11 in
+ login authentication NOC
+!
+ntp clock-period 17180228
+ntp source Loopback0
+ntp update-calendar
+ntp server 200.255.253.242
+!
+end
+
+acc09.rjo#

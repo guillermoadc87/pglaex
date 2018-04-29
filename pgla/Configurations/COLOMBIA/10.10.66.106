@@ -1,0 +1,140 @@
+terminal length 0
+Tue Mar 20 11:54:56.887 Col
+RP/0/RP0/CPU0:CCHICONORTE#show configuration running-config
+Tue Mar 20 11:54:57.300 Col
+Building configuration...
+!! IOS XR Configuration 3.9.2
+!! Last configuration change at Thu Dec 28 04:33:58 2017 by avalera
+!
+!
+policy-map CAR-600M
+ class class-default
+  police rate 600000000 bps burst 75000000 bytes peak-burst 75000000 bytes 
+  !
+ !
+ end-policy-map
+!
+policy-map CAR-GIGA
+ class class-default
+  police rate 1000000000 bps burst 125000000 bytes peak-burst 125000000 bytes 
+   conform-action transmit
+   exceed-action drop
+  !
+ !
+ end-policy-map
+!
+policy-map QoS_CORE
+ class NMS
+  bandwidth percent 3 
+ !
+ class CONVERSATIONAL
+  bandwidth percent 12 
+ !
+ class LLQ
+  priority 
+  police rate percent 20 
+  !
+ !
+ class STREAMING
+  bandwidth percent 15 
+ !
+ class CRITICAL-DATA
+  bandwidth percent 15 
+ !
+ class INTERACTIVE
+  bandwidth percent 10 
+  random-detect default 
+ !
+ class class-default
+  random-detect default 
+ !
+ end-policy-map
+!
+policy-map QoS-prueba
+ class EF
+  set mpls experimental imposition 5
+ !
+ class AF
+  set mpls experimental imposition 2
+ !
+ class class-default
+ !
+ end-policy-map
+!
+policy-map QOS_CORE_1G
+ class Voz
+  police rate percent 35 burst 500 ms peak-burst 500 ms 
+   conform-action transmit
+   exceed-action drop
+  !
+  priority 
+ !
+ class Video
+  bandwidth percent 10 
+ !
+ class Datos_VPN
+  random-detect exp 1 2904 packets 7000 packets 
+  random-detect exp 2 4952 packets 7000 packets 
+  random-detect exp 6,7 5976 packets 7000 packets 
+  random-detect precedence priority 2904 packets 7000 packets 
+  random-detect precedence immediate 4952 packets 7000 packets 
+  random-detect precedence internet,network 5976 packets 7000 packets 
+  bandwidth percent 30 
+ !
+ class class-default
+  random-detect exp 0 2952 packets 5000 packets 
+  random-detect precedence routine 2952 packets 5000 packets 
+ !
+ end-policy-map
+!
+policy-map QOS_CORE_10G
+ class Voz
+  police rate percent 35 burst 500 ms peak-burst 500 ms 
+   conform-action transmit
+   exceed-action drop
+  !
+  priority 
+ !
+ class Video
+  bandwidth percent 10 
+ !
+ class Datos_VPN
+  random-detect exp 1 5400 packets 13500 packets 
+  random-detect exp 2 8100 packets 13500 packets 
+  random-detect exp 6,7 10800 packets 13500 packets 
+  random-detect precedence priority 5400 packets 13500 packets 
+  random-detect precedence immediate 8100 packets 13500 packets 
+  random-detect precedence internet,network 10800 packets 13500 packets 
+  bandwidth percent 30 
+ !
+ class class-default
+  random-detect exp 0 6750 packets 11250 packets 
+  random-detect precedence routine 6750 packets 11250 packets 
+ !
+ end-policy-map
+!
+policy-map MPLS_EXP_Class
+ class MPLS_EXP_2
+  police rate 30 mbps 
+  !
+ !
+ class MPLS_EXP_5
+  priority 
+  police rate percent 30 
+  !
+ !
+ class class-default
+ !
+ end-policy-map
+!
+policy-map REMARK-BFD-CORE
+ class bfd
+  set dscp cs6
+ !
+ class class-default
+ !
+ end-policy-map
+!
+end
+
+RP/0/RP0/CPU0:CCHICONORTE#

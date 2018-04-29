@@ -1,0 +1,7628 @@
+<!-- Manual de PHP -->
+<html>
+<head>
+   <title>LG VPN UniNet</title>
+</head>
+<body>
+
+<!--<table cellpadding="0" cellspacing="0" border="0" width="250" align="center">-->
+<table border="0" width="850">
+  <tr>
+	<td colspan="2">
+		<img src="uninet_top_full.jpg" border="0" alt="VPN UniNet">
+	 
+  </tr>
+  <tr>
+    <td><font size="5" face="Courier" color='#3366FF'>VPN UniNet Looking Glass   
+    <td align="right"><font size="3" face="Courier" color='#3366FF'>Friday 28th of July 2017 12:31:37 PM
+12.145.193.9
+gestionred@reduno.com.mx   
+  </tr>
+</table>
+
+<table border="0" width='850'>
+<tr><td valign='top'><font size="3" face="Courier" color='#3366FF'>
+Available commands:
+
+traceroute a.b.c.d
+traceroute vrf &lt;arguments&gt;
+ping a.b.c.d
+ping vrf &lt;arguments&gt;	 
+ 
+<td><font size="3" face="Courier" color='#3366FF'>
+IOS commands:
+
+show atm pvc
+show policy-map
+show policy-map interface &lt;arguments&gt;
+show route-map
+show ip vrf
+show ip route vrf &lt;arguments&gt;
+show ip bgp vpnv4 &lt;arguments&gt;
+show ip interface brief
+show ip prefix-list
+show ip access-list
+show interface &#91;arguments&#93;
+show interface description
+show controllers &lt;arguments&gt;
+show configuration
+show running-config
+show running-config interface &lt;arguments&gt;
+show running-config | include route-map
+show running-config | include address-family ipv4 vrf
+show running-config | include interface
+show running-config | include class-map
+show running-config | include policy-map
+show running-config | include ip route vrf
+show running-config | include access-list	 
+ 
+<td valign='top'><font size="3" face="Courier" color='#3366FF'>
+IOSXR commands:
+
+show rpl policy-global
+show vrf
+show route vrf &lt;arguments&gt;
+show bgp vpnv4 unicast vrf &lt;arguments&gt;
+show bgp vrf &lt;arguments&gt;
+show prefix-list
+show access-list	 
+ 
+</tr>
+</table>
+
+
+
+<font size="3" face="Courier" color='#3366FF'>
+<form action="lgvpnuninet.php" method="post">
+Source [IP|hostname]:
+<input type="text" name="ip" size="71" maxlength="70"/>
+-l0.uninet.net.mx
+
+
+
+Command             :
+<input type="text" name="cmd" size="71" maxlength="70"/>
+<input type="submit" name='submit' value="Submit" />
+
+</form>
+ 
+
+<font size="-1" face="Courier">
+
+   Granted
+Source IP: 201.154.30.134
+Command  : show running-config
+Equipment model: ciscoASR9K
+
+
+
+ R E S U L T :
+
+Fri Jul 28 12:31:44.982 DST
+Building configuration...
+!! IOS XR Configuration 4.2.3
+!! Last configuration change at Thu Jul 20 01:18:32 2017 by gvaldezg
+!
+hostname vpn-tlx-staana-10
+clock timezone CDT -6
+clock summer-time DST recurring first sunday april 02:00 last sunday october 02:00
+banner motd ^
+!NOTIFICACION IMPORTANTE!
+El Acceso a este recurso de Red se encuentra restringido a solo
+Personal Autorizado,  cualquier acceso no permitido repercutira
+en Acciones Juridicas y Legales.
+S.S.I.
+^
+logging trap debugging
+logging console disable
+logging buffered 4000000
+logging buffered debugging
+logging 200.33.150.74 vrf default
+logging 200.33.150.87 vrf default
+logging 200.33.150.106 vrf default
+logging 201.125.120.160 vrf default
+logging source-interface Loopback0
+service timestamps log datetime localtime
+service timestamps debug datetime localtime
+telnet vrf default ipv4 server max-servers 6 access-list 15
+taskgroup rootsys
+ inherit taskgroup sysadmin
+ inherit taskgroup root-system
+ inherit taskgroup cisco-support
+!
+tacacs source-interface Loopback0 vrf default
+tacacs-server host 192.100.232.43 port 49
+!
+tacacs-server host 192.100.232.42 port 49
+!
+tacacs-server key 7 06400838581D5D3D011107225F
+username ssrdivpue
+ group root-system
+ group cisco-support
+ password 7 075675420A074C1553
+!
+aaa accounting exec default start-stop group tacacs+
+aaa accounting network default start-stop group tacacs+
+aaa accounting commands default start-stop group tacacs+
+aaa authorization exec default group tacacs+ local
+aaa authorization commands default group tacacs+ none
+aaa authentication login default group tacacs+ local
+aaa default-taskgroup rootsys
+cdp
+vrf prueba
+ address-family ipv4 unicast
+  import route-target
+   8151:1
+   28513:1
+  !
+  export route-target
+   8151:1
+   28513:1
+  !
+ !
+!
+vrf V60399:VPN_CC_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:1197
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V60399:VPN_CC_0
+  export route-target
+   8151:1197
+  !
+ !
+!
+vrf VPN_TELMEX_L2_0
+ address-family ipv4 unicast
+  import route-target
+   8151:42133
+  !
+  export route-target
+   8151:42133
+  !
+ !
+!
+vrf V53093:VPN_OEM_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:47856
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V53093:VPN_OEM_0
+  export route-target
+   8151:47856
+  !
+ !
+!
+vrf V53744:VPN_BBV_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:1040
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V53744:VPN_BBV_0
+  export route-target
+   8151:1040
+  !
+ !
+!
+vrf V56349:VPN_RAN_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:45503
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V56349:VPN_RAN_0
+  export route-target
+   8151:45503
+  !
+ !
+!
+vrf V56780:VPN_GEP_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:3607
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V56780:VPN_GEP_0
+  export route-target
+   8151:3607
+  !
+ !
+!
+vrf V57013:VPN_PGJ_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:8718
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V57013:VPN_PGJ_0
+  export route-target
+   8151:8718
+  !
+ !
+!
+vrf V58444:VPN_IFE_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:41014
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V58444:VPN_IFE_0
+  export route-target
+   8151:41014
+  !
+ !
+!
+vrf V59092:VPN_CON_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:1234
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V59092:VPN_CON_0
+  export route-target
+   8151:1234
+  !
+ !
+!
+vrf V59357:VPN_LALA_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:6603
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V59357:VPN_LALA_0
+  export route-target
+   8151:6603
+  !
+ !
+!
+vrf V60408:VPN_CMHNK_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:42334
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V60408:VPN_CMHNK_0
+  export route-target
+   8151:42334
+  !
+ !
+!
+vrf V53806:VPN_CIFRADO_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:41643
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V53806:VPN_CIFRADO_0
+  export route-target
+   8151:41643
+  !
+ !
+!
+vrf V56699:VPN_SORIANA_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:1160
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V56699:VPN_SORIANA_0
+  export route-target
+   8151:1160
+  !
+ !
+!
+vrf V58193:VPN_PROFEPA_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:41702
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V58193:VPN_PROFEPA_0
+  export route-target
+   8151:41702
+  !
+ !
+!
+vrf V58258:VPN_LEAR-VZ_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:54132
+   28513:51442
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V58258:VPN_LEAR-VZ_0
+  export route-target
+   8151:54132
+   28513:51442
+  !
+ !
+!
+vrf V52779:VPN_IMSS-RPV_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:51550
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V52779:VPN_IMSS-RPV_0
+  export route-target
+   8151:51550
+  !
+ !
+!
+vrf V55783:VPN_INAMILIC_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:40832
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V55783:VPN_INAMILIC_0
+  export route-target
+   8151:40832
+  !
+ !
+!
+vrf V56252:VPN_SEPDGTEC_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:40264
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V56252:VPN_SEPDGTEC_0
+  export route-target
+   8151:40264
+  !
+ !
+!
+vrf V56270:VPN_SEP-SEMS_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:54094
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V56270:VPN_SEP-SEMS_0
+  export route-target
+   8151:54094
+  !
+ !
+!
+vrf V56418:VPN_ATX_TKIP_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:41168
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V56418:VPN_ATX_TKIP_0
+  export route-target
+   8151:41168
+  !
+ !
+!
+vrf V59446:VPN_PFEDERAL_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:43631
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V59446:VPN_PFEDERAL_0
+  export route-target
+   8151:43631
+  !
+ !
+!
+vrf V53104:VPN_P1IMSSSAC_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:45828
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V53104:VPN_P1IMSSSAC_0
+  export route-target
+   8151:45828
+  !
+ !
+!
+vrf V58524:VPN_LIVERPOOL_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:1274
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V58524:VPN_LIVERPOOL_0
+  export route-target
+   8151:1274
+  !
+ !
+!
+vrf V58608:VPN_FOVISSSTE_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:54357
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V58608:VPN_FOVISSSTE_0
+  export route-target
+   8151:54357
+  !
+ !
+!
+vrf V59095:VPN_INFONAVIT_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:1250
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V59095:VPN_INFONAVIT_0
+  export route-target
+   8151:1250
+  !
+ !
+!
+vrf V59129:VPN_BANCOPPEL_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:6544
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V59129:VPN_BANCOPPEL_0
+  export route-target
+   8151:6544
+  !
+ !
+!
+vrf V52797:VPN_IMSS-VV-DAT_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:40029
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V52797:VPN_IMSS-VV-DAT_0
+  export route-target
+   8151:40029
+  !
+ !
+!
+vrf V55054:VPN_PORCELANITE_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:1295
+   28513:51232
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V55054:VPN_PORCELANITE_0
+  export route-target
+   8151:1295
+   28513:51232
+  !
+ !
+!
+vrf V59029:VPN_NUESTRACAJA_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:40480
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V59029:VPN_NUESTRACAJA_0
+  export route-target
+   8151:40480
+  !
+ !
+!
+vrf V55541:VPN_BT-MOTHER-CM_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:54069
+   28513:51416
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V55541:VPN_BT-MOTHER-CM_0
+  export route-target
+   8151:54069
+   28513:51416
+  !
+ !
+!
+vrf V58863:VPN_CORPDINAMICA_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:41592
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V58863:VPN_CORPDINAMICA_0
+  export route-target
+   8151:41592
+  !
+ !
+!
+vrf V58997:VPN_BANCOCOMPARTA_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:41464
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V58997:VPN_BANCOCOMPARTA_0
+  export route-target
+   8151:41464
+  !
+ !
+!
+vrf V55322:VPN_SUCURSALES-HSBC_0
+ address-family ipv4 unicast
+  import route-target
+   8151:1029
+   8151:40822
+  !
+  export route-policy grey_mgmt_vpn_Uninet_V55322:VPN_SUCURSALES-HSBC_0
+  export route-target
+   8151:40822
+  !
+ !
+!
+line console
+ password 7 00540B0C085301144E230D
+ exec-timeout 60 0
+!
+line default
+ password 7 035443010A072B5E0F0B58
+ exec-timeout 60 0
+ access-class ingress 15
+!
+line template COU_GPE_INN
+ exec-timeout 20 0
+ access-class ingress 17
+!
+vty-pool default 0 4
+vty-pool COU_GPE_INN 5 5 line-template COU_GPE_INN
+telnet ipv4 client source-interface Loopback0
+snmp-server ifmib ifalias long
+snmp-server host 192.100.232.1 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.2 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.3 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.4 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.5 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.6 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.33 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.34 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.37 traps azJ4Zqz6gFKltBde
+snmp-server host 192.100.232.38 traps azJ4Zqz6gFKltBde
+snmp-server host 201.125.120.129 traps azJ4Zqz6gFKltBde
+snmp-server host 201.125.120.172 traps azJ4Zqz6gFKltBde
+snmp-server community r34d RO 13
+snmp-server community wr1t3 RW 13
+snmp-server community LFB38gq8nVcVr2sF RW 13
+snmp-server community azJ4Zqz6gFKltBde RO 13
+snmp-server traps snmp
+snmp-server traps config
+snmp-server traps entity
+snmp-server traps syslog
+snmp-server trap-source Loopback0
+ftp client source-interface Loopback0
+ntp
+ server 200.33.150.30 prefer
+ server 200.33.150.196
+ source Loopback0
+ update-calendar
+!
+tftp client source-interface Loopback0
+ethernet cfm
+ domain UNINET level 7
+  service UNINET_TLXSTAANA-10_5001 down-meps
+   continuity-check interval 10s
+   mep crosscheck
+    mep-id 5001
+   !
+   efd
+   log efd
+  !
+ !
+!
+control-plane
+ management-plane
+  inband
+   interface all
+    allow SSH
+    allow SNMP peer
+     address ipv4 187.210.234.67
+     address ipv4 187.210.234.68
+     address ipv4 187.210.234.69
+     address ipv4 187.210.234.70
+     address ipv4 187.210.234.71
+     address ipv4 189.254.31.44
+     address ipv4 189.254.31.45
+     address ipv4 189.254.31.52
+     address ipv4 189.254.31.59
+     address ipv4 192.100.232.1
+     address ipv4 192.100.232.2
+     address ipv4 192.100.232.3
+     address ipv4 192.100.232.4
+     address ipv4 192.100.232.5
+     address ipv4 192.100.232.6
+     address ipv4 192.100.232.7
+     address ipv4 192.100.232.8
+     address ipv4 192.100.232.9
+     address ipv4 192.100.232.10
+     address ipv4 192.100.232.31
+     address ipv4 192.100.232.33
+     address ipv4 192.100.232.34
+     address ipv4 192.100.232.35
+     address ipv4 192.100.232.37
+     address ipv4 192.100.232.38
+     address ipv4 192.100.232.51
+     address ipv4 192.100.232.52
+     address ipv4 192.100.232.53
+     address ipv4 192.100.232.54
+     address ipv4 192.100.232.64
+     address ipv4 200.4.151.13
+     address ipv4 200.33.150.5
+     address ipv4 200.33.150.7
+     address ipv4 200.33.150.8
+     address ipv4 200.33.150.11
+     address ipv4 200.33.150.14
+     address ipv4 200.33.150.15
+     address ipv4 200.33.150.19
+     address ipv4 200.33.150.30
+     address ipv4 200.33.150.31
+     address ipv4 200.33.150.32
+     address ipv4 200.33.150.39
+     address ipv4 200.33.150.46
+     address ipv4 200.33.150.58
+     address ipv4 200.33.150.61
+     address ipv4 200.33.150.66
+     address ipv4 200.33.150.70
+     address ipv4 200.33.150.71
+     address ipv4 200.33.150.74
+     address ipv4 200.33.150.78
+     address ipv4 200.33.150.83
+     address ipv4 200.33.150.84
+     address ipv4 200.33.150.87
+     address ipv4 200.33.150.89
+     address ipv4 200.33.150.94
+     address ipv4 200.33.150.99
+     address ipv4 200.33.150.101
+     address ipv4 200.33.150.102
+     address ipv4 200.33.150.106
+     address ipv4 200.33.150.111
+     address ipv4 200.33.150.112
+     address ipv4 200.33.150.133
+     address ipv4 200.33.150.196
+     address ipv4 200.33.150.202
+     address ipv4 200.33.150.203
+     address ipv4 200.33.150.204
+     address ipv4 201.125.120.129
+     address ipv4 201.125.120.130
+     address ipv4 201.125.120.131
+     address ipv4 201.125.120.132
+     address ipv4 201.125.120.134
+     address ipv4 201.125.120.136
+     address ipv4 201.125.120.137
+     address ipv4 201.125.120.139
+     address ipv4 201.125.120.141
+     address ipv4 201.125.120.143
+     address ipv4 201.125.120.144
+     address ipv4 201.125.120.145
+     address ipv4 201.125.120.146
+     address ipv4 201.125.120.170
+     address ipv4 201.125.120.171
+     address ipv4 201.125.120.172
+     address ipv4 201.125.120.178
+     address ipv4 201.125.120.179
+     address ipv4 201.125.120.180
+     address ipv4 201.125.120.181
+     address ipv4 201.125.120.182
+     address ipv4 201.125.120.183
+     address ipv4 204.124.107.62
+    !
+    allow TFTP
+    allow Telnet
+   !
+  !
+ !
+!
+ipv4 access-list 1
+ 1 permit ipv4 any any
+!
+ipv4 access-list 2
+ 1 deny ipv4 any any
+!
+ipv4 access-list 13
+ 10 permit ipv4 host 192.100.232.1 any
+ 20 permit ipv4 host 192.100.232.10 any
+ 30 permit ipv4 host 192.100.232.2 any
+ 40 permit ipv4 host 192.100.232.3 any
+ 50 permit ipv4 host 192.100.232.31 any
+ 60 permit ipv4 host 192.100.232.33 any
+ 70 permit ipv4 host 192.100.232.34 any
+ 80 permit ipv4 host 192.100.232.35 any
+ 90 permit ipv4 host 192.100.232.37 any
+ 100 permit ipv4 host 192.100.232.38 any
+ 110 permit ipv4 host 192.100.232.4 any
+ 120 permit ipv4 host 192.100.232.5 any
+ 130 permit ipv4 host 192.100.232.51 any
+ 140 permit ipv4 host 192.100.232.52 any
+ 150 permit ipv4 host 192.100.232.53 any
+ 160 permit ipv4 host 192.100.232.54 any
+ 170 permit ipv4 host 192.100.232.6 any
+ 180 permit ipv4 host 192.100.232.64 any
+ 190 permit ipv4 host 192.100.232.7 any
+ 200 permit ipv4 host 192.100.232.8 any
+ 210 permit ipv4 host 192.100.232.9 any
+ 220 permit ipv4 host 200.33.150.101 any
+ 230 permit ipv4 host 200.33.150.102 any
+ 240 permit ipv4 host 200.33.150.106 any
+ 250 permit ipv4 host 200.33.150.11 any
+ 260 permit ipv4 host 200.33.150.111 any
+ 270 permit ipv4 host 200.33.150.112 any
+ 280 permit ipv4 host 200.33.150.14 any
+ 290 permit ipv4 host 200.33.150.15 any
+ 300 permit ipv4 host 200.33.150.19 any
+ 310 permit ipv4 host 200.33.150.196 any
+ 320 permit ipv4 host 200.33.150.202 any
+ 330 permit ipv4 host 200.33.150.203 any
+ 340 permit ipv4 host 200.33.150.204 any
+ 350 permit ipv4 host 200.33.150.30 any
+ 360 permit ipv4 host 200.33.150.31 any
+ 370 permit ipv4 host 200.33.150.32 any
+ 380 permit ipv4 host 200.33.150.39 any
+ 390 permit ipv4 host 200.33.150.46 any
+ 400 permit ipv4 host 200.33.150.5 any
+ 410 permit ipv4 host 200.33.150.58 any
+ 420 permit ipv4 host 200.33.150.61 any
+ 430 permit ipv4 host 200.33.150.66 any
+ 440 permit ipv4 host 200.33.150.7 any
+ 450 permit ipv4 host 200.33.150.70 any
+ 460 permit ipv4 host 200.33.150.71 any
+ 470 permit ipv4 host 200.33.150.74 any
+ 480 permit ipv4 host 200.33.150.78 any
+ 490 permit ipv4 host 200.33.150.8 any
+ 500 permit ipv4 host 200.33.150.84 any
+ 510 permit ipv4 host 200.33.150.87 any
+ 520 permit ipv4 host 200.33.150.89 any
+ 530 permit ipv4 host 200.33.150.94 any
+ 540 permit ipv4 host 200.33.150.99 any
+ 550 permit ipv4 host 200.33.150.133 any
+ 560 permit ipv4 host 200.4.151.13 any
+ 570 permit ipv4 host 201.125.120.129 any
+ 580 permit ipv4 host 201.125.120.130 any
+ 590 permit ipv4 host 201.125.120.131 any
+ 600 permit ipv4 host 201.125.120.132 any
+ 610 permit ipv4 host 201.125.120.134 any
+ 620 permit ipv4 host 201.125.120.136 any
+ 630 permit ipv4 host 201.125.120.137 any
+ 640 permit ipv4 host 201.125.120.139 any
+ 650 permit ipv4 host 201.125.120.141 any
+ 660 permit ipv4 host 201.125.120.143 any
+ 670 permit ipv4 host 201.125.120.144 any
+ 680 permit ipv4 host 201.125.120.145 any
+ 690 permit ipv4 host 201.125.120.146 any
+ 700 permit ipv4 host 201.125.120.170 any
+ 710 permit ipv4 host 201.125.120.171 any
+ 720 permit ipv4 host 201.125.120.172 any
+ 730 permit ipv4 host 201.125.120.178 any
+ 740 permit ipv4 host 201.125.120.179 any
+ 750 permit ipv4 host 201.125.120.180 any
+ 760 permit ipv4 host 201.125.120.181 any
+ 770 permit ipv4 host 201.125.120.182 any
+ 780 permit ipv4 host 201.125.120.183 any
+ 790 permit ipv4 200.33.150.0 0.0.0.255 any
+ 800 deny ipv4 any any log
+!
+ipv4 access-list 15
+ 10 permit ipv4 host 148.223.32.153 any
+ 20 permit ipv4 host 148.223.58.141 any
+ 30 permit ipv4 host 148.223.104.169 any
+ 40 permit ipv4 host 148.223.107.77 any
+ 50 permit ipv4 host 148.223.149.249 any
+ 60 permit ipv4 host 148.223.167.13 any
+ 70 permit ipv4 host 148.223.181.105 any
+ 80 permit ipv4 host 148.223.201.153 any
+ 90 permit ipv4 host 148.223.206.237 any
+ 100 permit ipv4 host 148.223.223.77 any
+ 110 permit ipv4 host 148.223.240.33 any
+ 120 permit ipv4 host 148.223.255.231 any
+ 130 permit ipv4 host 148.233.15.93 any
+ 140 permit ipv4 host 148.233.75.241 any
+ 150 permit ipv4 host 148.233.139.157 any
+ 160 permit ipv4 host 148.233.152.165 any
+ 170 permit ipv4 host 148.233.164.4 any
+ 180 permit ipv4 host 148.233.238.225 any
+ 190 permit ipv4 host 148.235.231.121 any
+ 200 permit ipv4 host 200.23.243.45 any
+ 210 permit ipv4 host 200.36.40.205 any
+ 220 permit ipv4 host 200.38.192.112 any
+ 230 permit ipv4 host 200.38.192.113 any
+ 240 permit ipv4 host 200.38.192.114 any
+ 250 permit ipv4 host 200.38.192.116 any
+ 260 permit ipv4 host 200.38.192.117 any
+ 270 permit ipv4 host 200.38.192.119 any
+ 280 permit ipv4 host 200.38.192.120 any
+ 290 permit ipv4 host 200.38.192.8 any
+ 300 permit ipv4 host 200.38.193.140 any
+ 310 permit ipv4 host 200.38.193.141 any
+ 320 permit ipv4 host 200.38.193.168 any
+ 330 permit ipv4 host 200.38.193.170 any
+ 340 permit ipv4 host 200.38.193.171 any
+ 350 permit ipv4 host 200.38.193.173 any
+ 360 permit ipv4 host 200.38.193.176 any
+ 370 permit ipv4 host 200.38.193.179 any
+ 380 permit ipv4 host 200.38.193.184 any
+ 390 permit ipv4 host 200.38.193.205 any
+ 400 permit ipv4 host 200.38.193.206 any
+ 410 permit ipv4 host 200.38.193.210 any
+ 420 permit ipv4 host 200.38.193.212 any
+ 430 permit ipv4 host 200.38.193.218 any
+ 440 permit ipv4 host 200.38.193.219 any
+ 450 permit ipv4 host 200.38.193.228 any
+ 460 permit ipv4 host 200.38.193.235 any
+ 470 permit ipv4 host 200.38.193.236 any
+ 480 permit ipv4 host 200.38.193.240 any
+ 490 permit ipv4 host 200.38.193.241 any
+ 500 permit ipv4 host 200.38.193.246 any
+ 510 permit ipv4 host 200.38.193.250 any
+ 520 permit ipv4 host 200.38.193.251 any
+ 530 permit ipv4 host 200.38.193.252 any
+ 540 permit ipv4 host 200.38.193.253 any
+ 550 permit ipv4 host 200.38.193.254 any
+ 560 permit ipv4 host 200.38.193.52 any
+ 570 permit ipv4 host 200.38.193.54 any
+ 580 permit ipv4 host 200.38.193.60 any
+ 590 permit ipv4 host 200.38.195.3 any
+ 600 permit ipv4 host 200.38.195.5 any
+ 610 permit ipv4 host 200.38.195.6 any
+ 620 permit ipv4 host 200.38.195.8 any
+ 630 permit ipv4 host 200.38.195.9 any
+ 640 permit ipv4 host 200.38.196.4 any
+ 650 permit ipv4 host 200.38.196.5 any
+ 660 permit ipv4 host 200.38.196.7 any
+ 670 permit ipv4 host 200.38.198.15 any
+ 680 permit ipv4 host 200.38.198.3 any
+ 690 permit ipv4 host 200.38.198.7 any
+ 700 permit ipv4 host 200.38.199.2 any
+ 710 permit ipv4 host 200.38.202.2 any
+ 720 permit ipv4 host 200.38.202.7 any
+ 730 permit ipv4 host 200.79.11.71 any
+ 740 permit ipv4 148.235.159.80 0.0.0.3 any
+ 750 permit ipv4 189.146.77.216 0.0.0.3 any
+ 760 permit ipv4 189.247.172.24 0.0.0.3 any
+ 770 permit ipv4 189.247.172.28 0.0.0.3 any
+ 780 permit ipv4 189.247.172.40 0.0.0.3 any
+ 790 permit ipv4 189.247.172.44 0.0.0.3 any
+ 800 permit ipv4 189.249.88.48 0.0.0.3 any
+ 810 permit ipv4 189.249.88.52 0.0.0.3 any
+ 820 permit ipv4 189.249.88.56 0.0.0.3 any
+ 830 permit ipv4 189.249.88.60 0.0.0.3 any
+ 840 permit ipv4 201.134.146.184 0.0.0.3 any
+ 850 permit ipv4 201.134.146.188 0.0.0.3 any
+ 860 permit ipv4 201.134.146.192 0.0.0.3 any
+ 870 permit ipv4 201.134.146.196 0.0.0.3 any
+ 880 permit ipv4 148.235.127.48 0.0.0.7 any
+ 890 permit ipv4 189.233.1.0 0.0.0.7 any
+ 900 permit ipv4 200.33.146.184 0.0.0.7 any
+ 910 permit ipv4 200.33.146.192 0.0.0.7 any
+ 920 permit ipv4 201.144.94.8 0.0.0.7 any
+ 930 permit ipv4 148.235.159.224 0.0.0.15 any
+ 940 permit ipv4 200.66.128.0 0.0.0.15 any
+ 950 permit ipv4 148.233.229.224 0.0.0.31 any
+ 960 permit ipv4 200.38.131.192 0.0.0.63 any
+ 970 permit ipv4 148.233.188.128 0.0.0.127 any
+ 980 permit ipv4 148.223.15.0 0.0.0.255 any
+ 990 permit ipv4 148.223.31.0 0.0.0.255 any
+ 1000 permit ipv4 148.223.43.0 0.0.0.255 any
+ 1010 permit ipv4 148.223.79.0 0.0.0.255 any
+ 1020 permit ipv4 148.223.84.0 0.0.0.255 any
+ 1030 permit ipv4 148.223.95.0 0.0.0.255 any
+ 1040 permit ipv4 148.223.97.0 0.0.0.255 any
+ 1050 permit ipv4 148.223.121.0 0.0.0.255 any
+ 1060 permit ipv4 148.223.144.0 0.0.0.255 any
+ 1070 permit ipv4 148.223.182.0 0.0.0.255 any
+ 1080 permit ipv4 148.223.184.0 0.0.0.255 any
+ 1090 permit ipv4 148.223.190.0 0.0.0.255 any
+ 1100 permit ipv4 148.223.191.0 0.0.0.255 any
+ 1110 permit ipv4 148.223.202.0 0.0.0.255 any
+ 1120 permit ipv4 148.223.219.0 0.0.0.255 any
+ 1130 permit ipv4 148.223.243.0 0.0.0.255 any
+ 1140 permit ipv4 148.233.23.0 0.0.0.255 any
+ 1150 permit ipv4 148.233.31.0 0.0.0.255 any
+ 1160 permit ipv4 148.233.118.0 0.0.0.255 any
+ 1170 permit ipv4 148.233.131.0 0.0.0.255 any
+ 1180 permit ipv4 148.233.135.0 0.0.0.255 any
+ 1190 permit ipv4 148.233.153.0 0.0.0.255 any
+ 1200 permit ipv4 148.233.158.0 0.0.0.255 any
+ 1210 permit ipv4 148.233.159.0 0.0.0.255 any
+ 1220 permit ipv4 148.233.175.0 0.0.0.255 any
+ 1230 permit ipv4 148.233.187.0 0.0.0.255 any
+ 1240 permit ipv4 148.233.191.0 0.0.0.255 any
+ 1250 permit ipv4 148.233.239.0 0.0.0.255 any
+ 1260 permit ipv4 148.235.14.0 0.0.0.255 any
+ 1270 permit ipv4 148.235.24.0 0.0.0.255 any
+ 1280 permit ipv4 148.235.39.0 0.0.0.255 any
+ 1290 permit ipv4 148.235.58.0 0.0.0.255 any
+ 1300 permit ipv4 148.235.59.0 0.0.0.255 any
+ 1310 permit ipv4 148.235.71.0 0.0.0.255 any
+ 1320 permit ipv4 148.235.75.0 0.0.0.255 any
+ 1330 permit ipv4 148.235.78.0 0.0.0.255 any
+ 1340 permit ipv4 148.235.81.0 0.0.0.255 any
+ 1350 permit ipv4 148.235.85.0 0.0.0.255 any
+ 1360 permit ipv4 148.235.87.0 0.0.0.255 any
+ 1370 permit ipv4 148.235.109.0 0.0.0.255 any
+ 1380 permit ipv4 148.235.110.0 0.0.0.255 any
+ 1390 permit ipv4 148.235.139.0 0.0.0.255 any
+ 1400 permit ipv4 148.235.145.0 0.0.0.255 any
+ 1410 permit ipv4 148.235.149.0 0.0.0.255 any
+ 1420 permit ipv4 148.235.155.0 0.0.0.255 any
+ 1430 permit ipv4 148.235.157.0 0.0.0.255 any
+ 1440 permit ipv4 148.235.165.0 0.0.0.255 any
+ 1450 permit ipv4 148.235.167.0 0.0.0.255 any
+ 1460 permit ipv4 148.235.175.0 0.0.0.255 any
+ 1470 permit ipv4 148.235.186.0 0.0.0.255 any
+ 1480 permit ipv4 192.100.232.0 0.0.0.255 any
+ 1490 permit ipv4 200.33.137.0 0.0.0.255 any
+ 1500 permit ipv4 200.33.150.0 0.0.0.255 any
+ 1510 permit ipv4 200.38.141.0 0.0.0.255 any
+ 1520 permit ipv4 200.79.4.0 0.0.0.255 any
+ 1530 permit ipv4 200.79.21.0 0.0.0.255 any
+ 1540 permit ipv4 200.79.26.0 0.0.0.255 any
+ 1550 permit ipv4 200.79.39.0 0.0.0.255 any
+ 1560 permit ipv4 200.79.44.0 0.0.0.255 any
+ 1570 permit ipv4 200.79.88.0 0.0.0.255 any
+ 1580 permit ipv4 200.79.111.0 0.0.0.255 any
+ 1590 permit ipv4 201.134.5.0 0.0.0.255 any
+ 1600 permit ipv4 201.134.33.0 0.0.0.255 any
+ 1610 permit ipv4 201.134.64.0 0.0.0.255 any
+ 1620 permit ipv4 201.134.105.0 0.0.0.255 any
+ 1630 permit ipv4 201.134.125.0 0.0.0.255 any
+ 1640 permit ipv4 201.134.130.0 0.0.0.255 any
+ 1650 permit ipv4 201.134.163.0 0.0.0.255 any
+ 1660 permit ipv4 201.134.176.0 0.0.0.255 any
+ 1670 permit ipv4 201.134.201.0 0.0.0.255 any
+ 1680 permit ipv4 201.134.208.0 0.0.0.255 any
+ 1690 permit ipv4 201.134.211.0 0.0.0.255 any
+ 1700 permit ipv4 204.124.107.0 0.0.0.255 any
+ 1710 permit ipv4 189.246.0.0 0.0.255.255 any
+ 1720 permit ipv4 201.125.0.0 0.0.255.255 any
+ 1730 permit ipv4 201.154.0.0 0.0.255.255 any
+ 1740 deny ipv4 any any
+!
+ipv4 access-list 17
+ 10 permit ipv4 host 192.100.232.3 any
+!
+ipv4 access-list 146
+ 10 permit tcp any any
+ 20 permit udp any any
+ 30 deny 53 any any
+ 40 deny 55 any any
+ 50 deny 77 any any
+ 60 deny pim any any
+ 70 permit ipv4 any any
+!
+ipv4 access-list Uninet_MDT-SSM
+ 10 permit ipv4 239.0.0.0 0.255.255.255 any
+!
+class-map match-any Voz
+ match mpls experimental topmost 5
+ match dscp cs5 cs3 ef
+ end-class-map
+!
+class-map match-any Video
+ match mpls experimental topmost 3
+ match dscp af41 af42 af43
+ end-class-map
+!
+class-map match-any DatosVPN
+ match mpls experimental topmost 2
+ match dscp af31 af32 af33 af21 af22 af23 cs1 cs2
+ end-class-map
+!
+class-map match-any rpvm_voz
+ match dscp cs3 cs5 ef
+ end-class-map
+!
+class-map match-any rpvm_video
+ match dscp af41 af42 af43
+ end-class-map
+!
+class-map match-any Default_VPN
+ match mpls experimental topmost 1
+ match dscp af11 af12 af13
+ end-class-map
+!
+class-map match-any rpvm_business
+ match dscp cs1 af21 af22 af23
+ end-class-map
+!
+class-map match-any Administracion
+ match mpls experimental topmost 4 6 7
+ match dscp cs6 cs7
+ end-class-map
+!
+class-map match-any rpvm_mgmnt_routing
+ match dscp cs6 cs7
+ end-class-map
+!
+class-map match-any rpvm_datos_criticos
+ match dscp cs2 af31 af32 af33
+ end-class-map
+!
+policy-map GE_bwrem
+ class Administracion
+  bandwidth remaining percent 16
+  random-detect precedence 4,6,7 500 packets 1500 packets
+ !
+ class Voz
+  priority level 1
+  police rate percent 35
+  !
+ !
+ class Video
+  bandwidth remaining percent 16
+  random-detect precedence 3 500 packets 1500 packets
+ !
+ class DatosVPN
+  bandwidth remaining percent 40
+  random-detect precedence 2 1000 packets 4000 packets
+ !
+ class Default_VPN
+  bandwidth remaining percent 24
+  random-detect precedence 1 750 packets 2000 packets
+ !
+ class class-default
+  bandwidth remaining percent 4
+  random-detect precedence 0 500 packets 1500 packets
+ !
+ end-policy-map
+!
+policy-map 10GE_bwrem
+ class Administracion
+  bandwidth remaining percent 16
+  random-detect precedence 4,6,7 5000 packets 20000 packets
+ !
+ class DatosVPN
+  bandwidth remaining percent 40
+  random-detect precedence 2 10000 packets 30000 packets
+ !
+ class Default_VPN
+  bandwidth remaining percent 24
+  random-detect precedence 1 7000 packets 25000 packets
+ !
+ class Video
+  bandwidth remaining percent 16
+  random-detect precedence 3 5000 packets 20000 packets
+ !
+ class Voz
+  priority level 1
+  police rate percent 35
+  !
+ !
+ class class-default
+  bandwidth remaining percent 4
+  random-detect precedence 0 3000 packets 15000 packets
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa01_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class class-default
+  police rate percent 100
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa02_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 75
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa03_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_business
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 50
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa04_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_business
+  police rate percent 75
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 25
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa05_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 63
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa06_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 75
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa07_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 50
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa08_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 25
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa09_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 25
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa10_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 75
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa11_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa12_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa13_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 50
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb14_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 25
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb15_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb16_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb17_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 50
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb18_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 50
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb19_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 35
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class class-default
+  police rate percent 65
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb20_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_video
+  police rate percent 25
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb21_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_video
+  police rate percent 25
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 50
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb22_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 13
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_video
+  police rate percent 25
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb23_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_video
+  police rate percent 25
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb24_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_video
+  police rate percent 25
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb25_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 50
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_video
+  police rate percent 25
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb26_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 50
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 35
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb27_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_video
+  police rate percent 50
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 25
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb28_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 25
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_video
+  police rate percent 50
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_datos_criticos
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 2
+  !
+ !
+ class rpvm_business
+  police rate percent 13
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb29_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_video
+  police rate percent 90
+   conform-action set mpls experimental imposition 3
+   exceed-action drop
+  !
+ !
+ class rpvm_business
+  police rate percent 15
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb30_in
+ class rpvm_mgmnt_routing
+  police rate percent 15
+   conform-action set mpls experimental imposition 4
+   exceed-action set mpls experimental imposition 4
+  !
+ !
+ class rpvm_voz
+  police rate percent 90
+   conform-action set mpls experimental imposition 5
+   exceed-action drop
+  !
+ !
+ class rpvm_business
+  police rate percent 15
+   conform-action set mpls experimental imposition 2
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ class class-default
+  police rate percent 15
+   conform-action set mpls experimental imposition 1
+   exceed-action set mpls experimental imposition 1
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa01_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 94
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa02_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 92
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa03_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 92
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa04_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 92
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa05_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 70
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 22
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa06_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 70
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 22
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa07_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 70
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 22
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa08_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 70
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 22
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa09_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 70
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 22
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa10_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 80
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 12
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa11_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  priority level 1
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 5
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 49
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 20
+  set cos 2
+ !
+ class class-default
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa12_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  priority level 1
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 5
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 52
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 16
+  set cos 2
+ !
+ class class-default
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pa13_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  priority level 1
+  police rate percent 50
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 5
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 30
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 14
+  set cos 2
+ !
+ class class-default
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb14_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  priority level 1
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 5
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 51
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 16
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb15_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  priority level 1
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 5
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 48
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 19
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb16_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  priority level 1
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 5
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 55
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 12
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb17_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  priority level 1
+  police rate percent 50
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 5
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 32
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 10
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb18_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  priority level 1
+  police rate percent 50
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 5
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 32
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 10
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb19_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 91
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb20_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_video
+  bandwidth percent 38
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 41
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 13
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb21_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_video
+  bandwidth percent 38
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 41
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 13
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb22_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  priority level 1
+  police rate percent 13
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 5
+ !
+ class rpvm_video
+  bandwidth percent 38
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 31
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 10
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb23_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  priority level 1
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 5
+ !
+ class rpvm_video
+  bandwidth percent 38
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 22
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 7
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb24_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  priority level 1
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 5
+ !
+ class rpvm_video
+  bandwidth percent 38
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 22
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 7
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb25_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  priority level 1
+  police rate percent 50
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 5
+ !
+ class rpvm_video
+  bandwidth percent 38
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 4
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 4
+  set cos 2
+ !
+ class class-default
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb26_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  priority level 1
+  police rate percent 50
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 5
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 41
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb27_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_video
+  bandwidth percent 75
+  police rate percent 50
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 11
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 6
+  set cos 2
+ !
+ class class-default
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 1
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb28_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  priority level 1
+  police rate percent 25
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 5
+ !
+ class rpvm_video
+  bandwidth percent 60
+  police rate percent 50
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 2
+ !
+ class rpvm_datos_criticos
+  bandwidth percent 6
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 4
+  set cos 2
+ !
+ class class-default
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb29_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_video
+  bandwidth percent 90
+  police rate percent 90
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 2
+ !
+ class rpvm_business
+  bandwidth percent 5
+  set cos 2
+ !
+ class class-default
+ !
+ end-policy-map
+!
+policy-map rpvmeth_pb30_out
+ class rpvm_mgmnt_routing
+  bandwidth percent 4
+  queue-limit 32 packets
+  set cos 2
+ !
+ class rpvm_voz
+  priority level 1
+  police rate percent 90
+   conform-action transmit
+   exceed-action drop
+  !
+  set cos 5
+ !
+ class rpvm_business
+  bandwidth percent 5
+  set cos 2
+ !
+ class class-default
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa09_2M_in
+ class class-default
+  service-policy rpvmeth_pa09_in
+  police rate 2000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa10_2M_in
+ class class-default
+  service-policy rpvmeth_pa10_in
+  police rate 2000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa11_4M_in
+ class class-default
+  service-policy rpvmeth_pa11_in
+  police rate 4000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa11_6M_in
+ class class-default
+  service-policy rpvmeth_pa11_in
+  police rate 6000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa11_8M_in
+ class class-default
+  service-policy rpvmeth_pa11_in
+  police rate 8000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa12_2M_in
+ class class-default
+  service-policy rpvmeth_pa12_in
+  police rate 2000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa12_6M_in
+ class class-default
+  service-policy rpvmeth_pa12_in
+  police rate 6000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa13_2M_in
+ class class-default
+  service-policy rpvmeth_pa13_in
+  police rate 2000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb14_2M_in
+ class class-default
+  service-policy rpvmeth_pb14_in
+  police rate 2000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb14_6M_in
+ class class-default
+  service-policy rpvmeth_pb14_in
+  police rate 6000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb15_2M_in
+ class class-default
+  service-policy rpvmeth_pb15_in
+  police rate 2000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb15_4M_in
+ class class-default
+  service-policy rpvmeth_pb15_in
+  police rate 4000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb15_6M_in
+ class class-default
+  service-policy rpvmeth_pb15_in
+  police rate 6000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb16_2M_in
+ class class-default
+  service-policy rpvmeth_pb16_in
+  police rate 2000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb22_4M_in
+ class class-default
+  service-policy rpvmeth_pb22_in
+  police rate 4000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb23_6M_in
+ class class-default
+  service-policy rpvmeth_pb23_in
+  police rate 6000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb24_4M_in
+ class class-default
+  service-policy rpvmeth_pb24_in
+  police rate 4000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb24_6M_in
+ class class-default
+  service-policy rpvmeth_pb24_in
+  police rate 6000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb25_2M_in
+ class class-default
+  service-policy rpvmeth_pb25_in
+  police rate 2000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb28_4M_in
+ class class-default
+  service-policy rpvmeth_pb28_in
+  police rate 4000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb30_2M_in
+ class class-default
+  service-policy rpvmeth_pb30_in
+  police rate 2000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa09_2M_out
+ class class-default
+  service-policy rpvmeth_pa09_out
+  shape average 2000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa10_2M_out
+ class class-default
+  service-policy rpvmeth_pa10_out
+  shape average 2000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa11_4M_out
+ class class-default
+  service-policy rpvmeth_pa11_out
+  shape average 4000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa11_6M_out
+ class class-default
+  service-policy rpvmeth_pa11_out
+  shape average 6000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa11_8M_out
+ class class-default
+  service-policy rpvmeth_pa11_out
+  shape average 8000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa12_10M_in
+ class class-default
+  service-policy rpvmeth_pa12_in
+  police rate 10000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa12_2M_out
+ class class-default
+  service-policy rpvmeth_pa12_out
+  shape average 2000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa12_6M_out
+ class class-default
+  service-policy rpvmeth_pa12_out
+  shape average 6000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa13_2M_out
+ class class-default
+  service-policy rpvmeth_pa13_out
+  shape average 2000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb14_20M_in
+ class class-default
+  service-policy rpvmeth_pb14_in
+  police rate 20000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb14_2M_out
+ class class-default
+  service-policy rpvmeth_pb14_out
+  shape average 2000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb14_6M_out
+ class class-default
+  service-policy rpvmeth_pb14_out
+  shape average 6000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb15_10M_in
+ class class-default
+  service-policy rpvmeth_pb15_in
+  police rate 10000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb15_2M_out
+ class class-default
+  service-policy rpvmeth_pb15_out
+  shape average 2000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb15_4M_out
+ class class-default
+  service-policy rpvmeth_pb15_out
+  shape average 4000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb15_6M_out
+ class class-default
+  service-policy rpvmeth_pb15_out
+  shape average 6000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb16_2M_out
+ class class-default
+  service-policy rpvmeth_pb16_out
+  shape average 2000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb17_40M_in
+ class class-default
+  service-policy rpvmeth_pb17_in
+  police rate 40000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb19_2M_out
+ class class-default
+  service-policy rpvmeth_pb19_out
+  shape average 2000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb22_40M_in
+ class class-default
+  service-policy rpvmeth_pb22_in
+  police rate 40000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb22_4M_out
+ class class-default
+  service-policy rpvmeth_pb22_out
+  shape average 4000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb23_6M_out
+ class class-default
+  service-policy rpvmeth_pb23_out
+  shape average 6000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb24_10M_in
+ class class-default
+  service-policy rpvmeth_pb24_in
+  police rate 10000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb24_4M_out
+ class class-default
+  service-policy rpvmeth_pb24_out
+  shape average 4000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb24_6M_out
+ class class-default
+  service-policy rpvmeth_pb24_out
+  shape average 6000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb25_10M_in
+ class class-default
+  service-policy rpvmeth_pb25_in
+  police rate 10000000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb25_2M_out
+ class class-default
+  service-policy rpvmeth_pb25_out
+  shape average 2000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb28_4M_out
+ class class-default
+  service-policy rpvmeth_pb28_out
+  shape average 4000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb30_2M_out
+ class class-default
+  service-policy rpvmeth_pb30_out
+  shape average 2000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pa12_10M_out
+ class class-default
+  service-policy rpvmeth_pa12_out
+  shape average 10000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb14_20M_out
+ class class-default
+  service-policy rpvmeth_pb14_out
+  shape average 20000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb15_10M_out
+ class class-default
+  service-policy rpvmeth_pb15_out
+  shape average 10000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb17_40M_out
+ class class-default
+  service-policy rpvmeth_pb17_out
+  shape average 40000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb19_512K_in
+ class class-default
+  service-policy rpvmeth_pb19_in
+  police rate 512000 bps
+  !
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb22_40M_out
+ class class-default
+  service-policy rpvmeth_pb22_out
+  shape average 40000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb24_10M_out
+ class class-default
+  service-policy rpvmeth_pb24_out
+  shape average 10000000 bps
+ !
+ end-policy-map
+!
+policy-map rpvmeth_shape_pb25_10M_out
+ class class-default
+  service-policy rpvmeth_pb25_out
+  shape average 10000000 bps
+ !
+ end-policy-map
+!
+interface Loopback0
+ ipv4 address 201.154.30.134 255.255.255.255
+!
+interface Loopback1
+ description VPN Prueba
+ vrf prueba
+ ipv4 address 1.1.2.154 255.255.255.255
+!
+interface Loopback42
+ ipv4 address 201.154.254.13 255.255.255.255
+!
+interface MgmtEth0/RSP0/CPU0/0
+ shutdown
+!
+interface MgmtEth0/RSP0/CPU0/1
+ shutdown
+!
+interface MgmtEth0/RSP1/CPU0/0
+ shutdown
+!
+interface MgmtEth0/RSP1/CPU0/1
+ shutdown
+!
+interface GigabitEthernet0/0/1/0
+ description VPN SIU_15_0845_CTL__STA__ANA_CHIAUTEMPAN UD1-1507-0027 I17091577B 1000M GVMARCO
+ bandwidth 1000000
+ load-interval 30
+!
+interface GigabitEthernet0/0/1/0.1
+ description VPN 1948_UMF_NO_7_ZACATELCO_288 CB6-1511-0885 I30121544B servautom 06/01/16 pb23 29159640
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pb23_6M_in
+ service-policy output rpvmeth_shape_pb23_6M_out
+ vrf V52779:VPN_IMSS-RPV_0
+ ipv4 address 187.219.176.101 255.255.255.252
+ encapsulation dot1q 3770
+!
+interface GigabitEthernet0/0/1/0.2
+ description VPN 1950_UMF_NO_9_SANTA_ANA_CHIAUTEMPAN_288 CB6-1511-0894 I30121507C JCSP 05/01/16 pb23 28886243
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pb23_6M_in
+ service-policy output rpvmeth_shape_pb23_6M_out
+ vrf V52779:VPN_IMSS-RPV_0
+ ipv4 address 187.219.52.217 255.255.255.252
+ encapsulation dot1q 3769
+!
+interface GigabitEthernet0/0/1/0.3
+ description VPN DELEGACION_TLAXCALA C04-1512-0087 I18011669A servautom 08/02/16 pb22 29305498
+ bandwidth 40000
+ service-policy input rpvmeth_shape_pb22_40M_in
+ service-policy output rpvmeth_shape_pb22_40M_out
+ vrf V53104:VPN_P1IMSSSAC_0
+ ipv4 address 201.134.123.5 255.255.255.252
+ encapsulation dot1q 3899
+!
+interface GigabitEthernet0/0/1/0.4
+ description VPN 1953_UMF_NO_17_SANTA_ELENA_817 CB6-1512-0292 I21011623B servautom 25/01/16 pb23 28887564
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pb23_6M_in
+ service-policy output rpvmeth_shape_pb23_6M_out
+ vrf V52779:VPN_IMSS-RPV_0
+ ipv4 address 187.219.184.209 255.255.255.252
+ encapsulation dot1q 3898
+!
+interface GigabitEthernet0/0/1/0.5
+ description VPN 5882_TLAXCALA_OFNA_PRINCIPAL CB6-1610-0013 I03111630B AJZ 03/11/16 pb15 29387453
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pb15_6M_in
+ service-policy output rpvmeth_shape_pb15_6M_out
+ vrf V53806:VPN_CIFRADO_0
+ ipv4 address 187.219.184.193 255.255.255.252
+ encapsulation dot1q 3896
+!
+interface GigabitEthernet0/0/1/0.6
+ description VPN OEM_TLAXCALA CB2-1511-0499 I27011642B servautom 05/02/16 pa10 29219339
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa10_2M_in
+ service-policy output rpvmeth_shape_pa10_2M_out
+ vrf V53093:VPN_OEM_0
+ ipv4 address 187.219.180.149 255.255.255.252
+ encapsulation dot1q 3901
+!
+interface GigabitEthernet0/0/1/0.7
+ description VPN 70655_CENTRO_DE_CAPACITACION_TLAXCALA CB6-1603-0109 I18041626A servautom 21/04/16 pb23 29742823
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pb23_6M_in
+ service-policy output rpvmeth_shape_pb23_6M_out
+ vrf V52779:VPN_IMSS-RPV_0
+ ipv4 address 187.219.183.93 255.255.255.252
+ encapsulation dot1q 3768
+!
+interface GigabitEthernet0/0/1/0.8
+ description VPN BT_MOTHERSON_ZITLALTEPEC C04-1604-0021 I21051618A servautom 08/07/16 pb17 30154103
+ bandwidth 40000
+ service-policy input rpvmeth_shape_pb17_40M_in
+ service-policy output rpvmeth_shape_pb17_40M_out
+ vrf V55541:VPN_BT-MOTHER-CM_0
+ ipv4 address 187.238.179.41 255.255.255.252
+ encapsulation dot1q 3764
+!
+interface GigabitEthernet0/0/1/0.9
+ description VPN SUBDELEG_M_TLAXCALA CB6-1605-0061 I21051622A servautom 08/06/16 pb23 30200033
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pb23_6M_in
+ service-policy output rpvmeth_shape_pb23_6M_out
+ vrf V52779:VPN_IMSS-RPV_0
+ ipv4 address 187.238.158.57 255.255.255.252
+ encapsulation dot1q 3761
+!
+interface GigabitEthernet0/0/1/0.10
+ description VPN TLX_2_DELEGACION_LOCAL_EN_APIZACO_TLAXCALA CB2-1605-0634 I25051678A servautom 11/08/16 pa13 30210999
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa13_2M_in
+ service-policy output rpvmeth_shape_pa13_2M_out
+ vrf V55783:VPN_INAMILIC_0
+ ipv4 address 201.129.28.241 255.255.255.252
+ encapsulation dot1q 3762
+!
+interface GigabitEthernet0/0/1/0.11
+ description VPN PAVILLION CB4-1604-0136 I25051640B servautom 01/06/16 pb24 30174353
+ bandwidth 4000
+ service-policy input rpvmeth_shape_pb24_4M_in
+ service-policy output rpvmeth_shape_pb24_4M_out
+ vrf V55054:VPN_PORCELANITE_0
+ ipv4 address 187.238.133.113 255.255.255.252
+ encapsulation dot1q 3763
+!
+interface GigabitEthernet0/0/1/0.12
+ description VPN 332_TLAXCALA CB2-1605-1172 I08061671A servautom 22/06/16 pb25 21816540
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pb25_2M_in
+ service-policy output rpvmeth_shape_pb25_2M_out
+ vrf V55322:VPN_SUCURSALES-HSBC_0
+ ipv4 address 164.47.74.78 255.255.255.252
+ encapsulation dot1q 4001
+!
+interface GigabitEthernet0/0/1/0.13
+ description VPN TLX_1_DELEGACION_FEDERAL_Y_ESTACION_MIGRATORIA_EN_TLAXCALA C01-1605-0127 I10061683A servautom 01/12/16 pb24 30210988
+ bandwidth 10000
+ service-policy input rpvmeth_shape_pb24_10M_in
+ service-policy output rpvmeth_shape_pb24_10M_out
+ vrf V55783:VPN_INAMILIC_0
+ ipv4 address 187.196.187.253 255.255.255.252
+ encapsulation dot1q 3759
+!
+interface GigabitEthernet0/0/1/0.14
+ description VPN GRES CB4-1604-0135 I17061617C servautom 11/07/16 pb24 30174342
+ bandwidth 4000
+ service-policy input rpvmeth_shape_pb24_4M_in
+ service-policy output rpvmeth_shape_pb24_4M_out
+ vrf V55054:VPN_PORCELANITE_0
+ ipv4 address 187.238.156.209 255.255.255.252
+ encapsulation dot1q 3805
+!
+interface GigabitEthernet0/0/1/0.15
+ description VPN SEP_CEB_6_16 CB2-1606-0452 I01071600B servautom 05/09/16 pa12 30294360
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa12_2M_in
+ service-policy output rpvmeth_shape_pa12_2M_out
+ vrf V56270:VPN_SEP-SEMS_0
+ ipv4 address 187.196.145.193 255.255.255.252
+ encapsulation dot1q 3998
+!
+interface GigabitEthernet0/0/1/0.16
+ description VPN CECATI_046 CB2-1606-0589 I04071667A servautom 02/09/16 pa12 30275377
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa12_2M_in
+ service-policy output rpvmeth_shape_pa12_2M_out
+ vrf V56270:VPN_SEP-SEMS_0
+ ipv4 address 187.196.186.169 255.255.255.252
+ encapsulation dot1q 3996
+!
+interface GigabitEthernet0/0/1/0.17
+ description VPN CBTIS_257 CB2-1606-0278 I05071603B JSROSAS POR INSTALAR
+ bandwidth 2000
+!
+interface GigabitEthernet0/0/1/0.18
+ description VPN PORCEL_REVESTIMIENTOS_TLAXCALA CB6-1606-0040 I08071668A servautom 21/07/16 pb24 30295786
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pb24_6M_in
+ service-policy output rpvmeth_shape_pb24_6M_out
+ vrf V55054:VPN_PORCELANITE_0
+ ipv4 address 189.255.183.57 255.255.255.252
+ encapsulation dot1q 3997
+!
+interface GigabitEthernet0/0/1/0.19
+ description VPN PGJ_TLAXCALA CB4-1705-0034 I02061783A YIA 02/06/17 pb24 30358260
+ bandwidth 4000
+ service-policy input rpvmeth_shape_pb24_4M_in
+ service-policy output rpvmeth_shape_pb24_4M_out
+ vrf V57013:VPN_PGJ_0
+ ipv4 address 187.196.45.101 255.255.255.252
+ encapsulation dot1q 3992
+!
+interface GigabitEthernet0/0/1/0.20
+ description VPN RAN_TLA_STA_ANA_TLAXCALA_180 CB6-1606-0059 I21071608B servautom 06/09/16 pa12 30258469
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pa12_6M_in
+ service-policy output rpvmeth_shape_pa12_6M_out
+ vrf V56349:VPN_RAN_0
+ ipv4 address 201.134.123.185 255.255.255.252
+ encapsulation dot1q 3995
+!
+interface GigabitEthernet0/0/1/0.21
+ description VPN 4765_GRAN_PATIO_TLAXCALA CB2-1603-0317 I29071675B servautom 01/08/16 pb15 29963806
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pb15_2M_in
+ service-policy output rpvmeth_shape_pb15_2M_out
+ vrf V53744:VPN_BBV_0
+ ipv4 address 187.219.37.153 255.255.255.252
+ encapsulation dot1q 3766
+!
+interface GigabitEthernet0/0/1/0.22
+ description VPN CORPORATIVO_APIZACO C01-1607-0001 I15081682A CNG POR INSTALAR
+ bandwidth 10000
+!
+interface GigabitEthernet0/0/1/0.23
+ description VPN 287_SORIANA_APIZACO CB2-1608-0859 I29081650A servautom 29/09/16 pa13 30488306
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa13_2M_in
+ service-policy output rpvmeth_shape_pa13_2M_out
+ vrf V56699:VPN_SORIANA_0
+ ipv4 address 187.196.211.225 255.255.255.252
+ encapsulation dot1q 3990
+!
+interface GigabitEthernet0/0/1/0.24
+ description VPN TKIP ODW_CIUDAD_INDUSTRIAL CB2-1608-0991 I05091615A FFR 09/09/16 pb30 30491142
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pb30_2M_in
+ service-policy output rpvmeth_shape_pb30_2M_out
+ vrf V56418:VPN_ATX_TKIP_0
+ ipv4 address 201.134.120.153 255.255.255.252
+ encapsulation dot1q 3991
+!
+interface GigabitEthernet0/0/1/0.25
+ description VPN 298_SORIANA_PLAZA_INN__70022071 CB2-1609-0030 I10091620A servautom 04/10/16 pa13 30523241
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa13_2M_in
+ service-policy output rpvmeth_shape_pa13_2M_out
+ vrf V56699:VPN_SORIANA_0
+ ipv4 address 187.173.103.121 255.255.255.252
+ encapsulation dot1q 3987
+!
+interface GigabitEthernet0/0/1/0.26
+ description VPN 74_SORIANA_TLAXCALA CB2-1609-0366 I15091698A servautom 10/10/16 pa13 30518311
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa13_2M_in
+ service-policy output rpvmeth_shape_pa13_2M_out
+ vrf V56699:VPN_SORIANA_0
+ ipv4 address 187.219.42.197 255.255.255.252
+ encapsulation dot1q 3984
+!
+interface GigabitEthernet0/0/1/0.27
+ description VPN CIS_SAN_JOSE_CHIAPA CB4-1609-0211 I29091634B servautom 29/09/16 pb22 30587208
+ bandwidth 4000
+ service-policy input rpvmeth_shape_pb22_4M_in
+ service-policy output rpvmeth_shape_pb22_4M_out
+ vrf V56780:VPN_GEP_0
+ ipv4 address 187.196.229.101 255.255.255.252
+ encapsulation dot1q 3982
+!
+interface GigabitEthernet0/0/1/0.28
+ description VPN CTL_Y_O_C__TLAXCALA CB8-1608-0101 I05101689A RPCARRER POR INSTALAR
+ bandwidth 8000
+!
+interface GigabitEthernet0/0/1/0.29
+ description VPN CTL_Y_OC_APIZACO CB8-1608-0181 I12101601B MGBONILL POR INSTALAR
+ bandwidth 8000
+!
+interface GigabitEthernet0/0/1/0.30
+ description VPN COORDINACION_ESTATAL_DE_TLAXCALA CB6-1609-0007 I26101668A servautom 12/06/17 pb14 30548781
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pb14_6M_in
+ service-policy output rpvmeth_shape_pb14_6M_out
+ vrf V59446:VPN_PFEDERAL_0
+ ipv4 address 187.196.224.121 255.255.255.252
+ encapsulation dot1q 3757
+!
+interface GigabitEthernet0/0/1/0.31
+ description VPN ESTACION_ZACATEPEC CB2-1610-0317 I28111645A servautom 29/05/17 pb14 30612109
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pb14_2M_in
+ service-policy output rpvmeth_shape_pb14_2M_out
+ vrf V59446:VPN_PFEDERAL_0
+ ipv4 address 201.115.242.73 255.255.255.252
+ encapsulation dot1q 3976
+!
+interface GigabitEthernet0/0/1/0.32
+ description VPN DELEGACION_FEDERAL_EN_TLAXCALA CB4-1612-0039 I26121630A servautom 27/01/17 pb22 30783683
+ bandwidth 4000
+ service-policy input rpvmeth_shape_pb22_4M_in
+ service-policy output rpvmeth_shape_pb22_4M_out
+ vrf V58193:VPN_PROFEPA_0
+ ipv4 address 189.255.52.29 255.255.255.252
+ encapsulation dot1q 3967
+!
+interface GigabitEthernet0/0/1/0.33
+ description VPN TKIP DISTRIBUIDORA_AUTOMOTRIZ_TLAXC CB2-1612-0237 I28121646A AJZ 24/01/17 pb30 30817495
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pb30_2M_in
+ service-policy output rpvmeth_shape_pb30_2M_out
+ vrf V56418:VPN_ATX_TKIP_0
+ ipv4 address 187.219.40.226 255.255.255.252
+ encapsulation dot1q 3964
+!
+interface GigabitEthernet0/0/1/0.34
+ description VPN BURY_TLAXCALA_S_DE_RL_DE_CV CB2-1612-0227 I28121676A LNGM 05/03/17 pb30 30796179
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pb30_2M_in
+ service-policy output rpvmeth_shape_pb30_2M_out
+ vrf V56418:VPN_ATX_TKIP_0
+ ipv4 address 187.219.48.17 255.255.255.252
+ encapsulation dot1q 3966
+!
+interface GigabitEthernet0/0/1/0.35
+ description VPN TKIP GERTEX CB2-1612-0250 I06011799A RGVL 23/01/17 pb30 30806342
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pb30_2M_in
+ service-policy output rpvmeth_shape_pb30_2M_out
+ vrf V56418:VPN_ATX_TKIP_0
+ ipv4 address 187.219.49.21 255.255.255.252
+ encapsulation dot1q 3963
+!
+interface GigabitEthernet0/0/1/0.36
+ description VPN EX_HDA_SOLTEPEC CB2-1701-0150 I14011707A FFR 10/03/17 pb30 30891317
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pb30_2M_in
+ service-policy output rpvmeth_shape_pb30_2M_out
+ vrf V56418:VPN_ATX_TKIP_0
+ ipv4 address 201.134.51.117 255.255.255.252
+ encapsulation dot1q 3962
+!
+interface GigabitEthernet0/0/1/0.37
+ description VPN PGLA_44546_NSR_MXXXM930769_LEAR_TLAXCALA_SITIO_71602466 C01-1611-0165 I18011784A servautom 08/02/17 pb24 30707809
+ bandwidth 10000
+ service-policy input rpvmeth_shape_pb24_10M_in
+ service-policy output rpvmeth_shape_pb24_10M_out
+ vrf V58258:VPN_LEAR-VZ_0
+ ipv4 address 187.238.76.85 255.255.255.252
+ encapsulation dot1q 3968
+!
+interface GigabitEthernet0/0/1/0.38
+ description VPN JL_TLAX C02-1701-0165 I23021783A servautom 27/02/17 pb14 30968686
+ bandwidth 20000
+ service-policy input rpvmeth_shape_pb14_20M_in
+ service-policy output rpvmeth_shape_pb14_20M_out
+ vrf V58444:VPN_IFE_0
+ ipv4 address 201.112.48.57 255.255.255.252
+ encapsulation dot1q 3959
+!
+interface GigabitEthernet0/0/1/0.39
+ description VPN FABRICAS_DE_FRANCIA_APIZACO C01-1701-0069 I24021762A servautom 06/03/17 pb15 30924843
+ bandwidth 10000
+ service-policy input rpvmeth_shape_pb15_10M_in
+ service-policy output rpvmeth_shape_pb15_10M_out
+ vrf V58524:VPN_LIVERPOOL_0
+ ipv4 address 201.112.45.217 255.255.255.252
+ encapsulation dot1q 3961
+!
+interface GigabitEthernet0/0/1/0.40
+ description VPN TKIP FABRICAS_DE_FRANCIA_APIZACO CB2-1702-0119 I27021726A MJVV 06/03/17 pb30 30587683
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pb30_2M_in
+ service-policy output rpvmeth_shape_pb30_2M_out
+ vrf V56418:VPN_ATX_TKIP_0
+ ipv4 address 187.196.40.117 255.255.255.252
+ encapsulation dot1q 3957
+!
+interface GigabitEthernet0/0/1/0.41
+ description VPN TLAXCALA_FOVISSSTE C01-1702-0248 I02031744A servautom 08/03/17 pb25 31076493
+ bandwidth 10000
+ service-policy input rpvmeth_shape_pb25_10M_in
+ service-policy output rpvmeth_shape_pb25_10M_out
+ vrf V58608:VPN_FOVISSSTE_0
+ ipv4 address 201.112.83.229 255.255.255.252
+ encapsulation dot1q 3940
+!
+interface GigabitEthernet0/0/1/0.42
+ description VPN CCM_MALTERA_RAFAEL_LARA_GRAJALES CB4-1701-0065 I03031719B servautom 08/07/17 pb28 30925551
+ bandwidth 4000
+ service-policy input rpvmeth_shape_pb28_4M_in
+ service-policy output rpvmeth_shape_pb28_4M_out
+ vrf V60408:VPN_CMHNK_0
+ ipv4 address 201.112.64.201 255.255.255.252
+ encapsulation dot1q 3958
+!
+interface GigabitEthernet0/0/1/0.43
+ description VPN RC_APIZACO CB2-1702-0275 I10031731A servautom 28/03/17 pa09 31067947
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa09_2M_in
+ service-policy output rpvmeth_shape_pa09_2M_out
+ vrf V58863:VPN_CORPDINAMICA_0
+ ipv4 address 201.112.72.241 255.255.255.252
+ encapsulation dot1q 3937
+!
+interface GigabitEthernet0/0/1/0.44
+ description VPN RC_SANTA_ANA CB2-1702-0309 I13031753A servautom 29/03/17 pa09 31079663
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa09_2M_in
+ service-policy output rpvmeth_shape_pa09_2M_out
+ vrf V58863:VPN_CORPDINAMICA_0
+ ipv4 address 201.112.85.249 255.255.255.252
+ encapsulation dot1q 3936
+!
+interface GigabitEthernet0/0/1/0.45
+ description VPN LIVERPOOL_TLAXCALA_71578882 C01-1606-0210 I17031714B servautom 17/03/17 pb15 30328900
+ bandwidth 10000
+ service-policy input rpvmeth_shape_pb15_10M_in
+ service-policy output rpvmeth_shape_pb15_10M_out
+ vrf V58524:VPN_LIVERPOOL_0
+ ipv4 address 187.196.150.53 255.255.255.252
+ encapsulation dot1q 3994
+!
+interface GigabitEthernet0/0/1/0.46
+ description VPN TKIP LIVERPOOL_TLAXCALA CB2-1609-1105 I17031722B JCSP 21/03/17 pb30 30593020
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pb30_2M_in
+ service-policy output rpvmeth_shape_pb30_2M_out
+ vrf V56418:VPN_ATX_TKIP_0
+ ipv4 address 187.219.53.201 255.255.255.252
+ encapsulation dot1q 3979
+!
+interface GigabitEthernet0/0/1/0.47
+ description VPN JD02_TLAX_MPLS CB2-1703-0489 I21031718A servautom 09/06/17 pb14 31146227
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pb14_2M_in
+ service-policy output rpvmeth_shape_pb14_2M_out
+ vrf V58444:VPN_IFE_0
+ ipv4 address 201.115.46.193 255.255.255.252
+ encapsulation dot1q 3934
+!
+interface GigabitEthernet0/0/1/0.48
+ description VPN TKIP RAFAEL_LARA_GRAJALES CB2-1702-0330 I22031714A MJVV 04/04/17 pb30 30993400
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pb30_2M_in
+ service-policy output rpvmeth_shape_pb30_2M_out
+ vrf V56418:VPN_ATX_TKIP_0
+ ipv4 address 189.255.56.21 255.255.255.252
+ encapsulation dot1q 3956
+!
+interface GigabitEthernet0/0/1/0.49
+ description VPN FINRURAL_TLAXCALA_514 CB2-1703-0136 I23031705C COU POR INSTALAR
+ bandwidth 2000
+!
+interface GigabitEthernet0/0/1/0.50
+ description VPN COMPARTAMOS_HUAMANTLA CB2-1702-0318 I07041749A servautom 10/04/17 pb16 31074706
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pb16_2M_in
+ service-policy output rpvmeth_shape_pb16_2M_out
+ vrf V58997:VPN_BANCOCOMPARTA_0
+ ipv4 address 187.219.44.53 255.255.255.252
+ encapsulation dot1q 3955
+!
+interface GigabitEthernet0/0/1/0.51
+ description VPN JD01_TLAX_MPLS CB2-1703-0308 I17041731A servautom 08/06/17 pb14 31137680
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pb14_2M_in
+ service-policy output rpvmeth_shape_pb14_2M_out
+ vrf V58444:VPN_IFE_0
+ ipv4 address 201.115.37.149 255.255.255.252
+ encapsulation dot1q 3931
+!
+interface GigabitEthernet0/0/1/0.52
+ description VPN LALA_ADMINISTRACION_TLAXCALA CB6-1704-0023 I20041798A servautom 15/05/17 pa11 31254391
+ bandwidth 6000
+ service-policy input rpvmeth_shape_pa11_6M_in
+ service-policy output rpvmeth_shape_pa11_6M_out
+ vrf V59357:VPN_LALA_0
+ ipv4 address 201.115.75.21 255.255.255.252
+ encapsulation dot1q 3925
+!
+interface GigabitEthernet0/0/1/0.53
+ description VPN APIZACO_TLAX_TIENDA_698 CB2-1703-1041 I20041745B servautom 02/05/17 pa12 31211627
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa12_2M_in
+ service-policy output rpvmeth_shape_pa12_2M_out
+ vrf V59129:VPN_BANCOPPEL_0
+ ipv4 address 201.115.53.101 255.255.255.252
+ encapsulation dot1q 3930
+!
+interface GigabitEthernet0/0/1/0.54
+ description VPN JD03_TLAX_MPLS CB2-1703-0495 I21041744A servautom 12/06/17 pb14 31146275
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pb14_2M_in
+ service-policy output rpvmeth_shape_pb14_2M_out
+ vrf V58444:VPN_IFE_0
+ ipv4 address 201.115.51.185 255.255.255.252
+ encapsulation dot1q 3700
+!
+interface GigabitEthernet0/0/1/0.55
+ description VPN APIZACO_TLAXCALA_TDA_1142 CB2-1704-0064 I21041757A servautom 02/05/17 pa12 31217807
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa12_2M_in
+ service-policy output rpvmeth_shape_pa12_2M_out
+ vrf V59129:VPN_BANCOPPEL_0
+ ipv4 address 201.115.83.137 255.255.255.252
+ encapsulation dot1q 3928
+!
+interface GigabitEthernet0/0/1/0.56
+ description VPN INFONAVIT_BLVR_REVOLUCION_TLAXCALA CB8-1703-0026 I21041767A servautom 24/04/17 pa11 31161725
+ bandwidth 8000
+ service-policy input rpvmeth_shape_pa11_8M_in
+ service-policy output rpvmeth_shape_pa11_8M_out
+ vrf V59095:VPN_INFONAVIT_0
+ ipv4 address 201.115.65.169 255.255.255.252
+ encapsulation dot1q 3933
+!
+interface GigabitEthernet0/0/1/0.57
+ description VPN CTL_Y_OC_APIZACO CB8-1704-0028 I21041772A COU POR INSTALAR
+ bandwidth 8000
+!
+interface GigabitEthernet0/0/1/0.58
+ description VPN ARCOMEX_TLAXCALA CB4-1702-0167 I22041735A servautom 22/04/17 pa11 31095380
+ bandwidth 4000
+ service-policy input rpvmeth_shape_pa11_4M_in
+ service-policy output rpvmeth_shape_pa11_4M_out
+ vrf V59092:VPN_CON_0
+ ipv4 address 201.115.109.17 255.255.255.252
+ encapsulation dot1q 3939
+!
+interface GigabitEthernet0/0/1/0.59
+ description VPN APIZACO_TLAX_TDA_1011 CB2-1704-0020 I26041768B servautom 22/05/17 pa12 31214512
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa12_2M_in
+ service-policy output rpvmeth_shape_pa12_2M_out
+ vrf V59129:VPN_BANCOPPEL_0
+ ipv4 address 201.115.81.105 255.255.255.252
+ encapsulation dot1q 3929
+!
+interface GigabitEthernet0/0/1/0.60
+ description VPN CTL_Y_O_C_TLAXCALA CB8-1704-0032 I26041773B COU POR INSTALAR
+ bandwidth 8000
+!
+interface GigabitEthernet0/0/1/0.61
+ description VPN HUAMANTLA_TLAX_TIENDA_493 CB2-1704-0106 I27041710B servautom 22/05/17 pa12 31220843
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa12_2M_in
+ service-policy output rpvmeth_shape_pa12_2M_out
+ vrf V59129:VPN_BANCOPPEL_0
+ ipv4 address 187.173.83.21 255.255.255.252
+ encapsulation dot1q 3927
+!
+interface GigabitEthernet0/0/1/0.62
+ description VPN APIZACO_TLAXCALA_TIENDA_1228_AU CB2-1705-0332 I23051767B servautom 29/05/17 pa12 31422421
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa12_2M_in
+ service-policy output rpvmeth_shape_pa12_2M_out
+ vrf V59129:VPN_BANCOPPEL_0
+ ipv4 address 201.147.63.5 255.255.255.252
+ encapsulation dot1q 3920
+!
+interface GigabitEthernet0/0/1/0.63
+ description VPN STA_ANA_CHIAUTEMPAN_TLAX_TIENDA_677 CB2-1705-0305 I24051729B servautom 29/05/17 pa12 31420022
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa12_2M_in
+ service-policy output rpvmeth_shape_pa12_2M_out
+ vrf V59129:VPN_BANCOPPEL_0
+ ipv4 address 201.112.18.121 255.255.255.252
+ encapsulation dot1q 3921
+!
+interface GigabitEthernet0/0/1/0.64
+ description VPN TLAXCALA_TLAX_TIENDA_580 CB2-1705-0279 I26051701A servautom 29/05/17 pa12 31405282
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa12_2M_in
+ service-policy output rpvmeth_shape_pa12_2M_out
+ vrf V59129:VPN_BANCOPPEL_0
+ ipv4 address 187.238.213.1 255.255.255.252
+ encapsulation dot1q 3917
+!
+interface GigabitEthernet0/0/1/1
+ description ITX GE A CE_SAITLX_001CSUR_01 SAI VPNEG CE_TELMEX YRG-1604-0943 I15081617A VFLORESJ
+ bandwidth 1000000
+ load-interval 30
+!
+interface GigabitEthernet0/0/1/1.1
+ description VPN SUCURSAL_TLAXCALA 2464668447 I20041709A servautom 20/04/17 pb19 31036955
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pb19_512K_in
+ service-policy output rpvmeth_shape_pb19_2M_out
+ vrf V59029:VPN_NUESTRACAJA_0
+ ipv4 address 201.134.57.193 255.255.255.252
+ ethernet cfm
+  mep domain UNINET service UNINET_TLXSTAANA-10_5001 mep-id 1
+   cos 2
+  !
+ !
+ encapsulation dot1q 1418 second-dot1q 100
+!
+interface GigabitEthernet0/0/1/2
+ description INTERCONEXION GE A CE_SAITLX_001CSUR_03 SAI L2 CE_TELMEX YRG-1601-1146 I19021601C IBG 19/02/16
+ bandwidth 1000000
+ mtu 2014
+ service-policy output GE_bwrem
+ vrf VPN_TELMEX_L2_0
+ ipv4 mtu 1500
+ ipv4 address 201.118.216.33 255.255.255.252
+ mpls
+  mtu 2000
+ !
+ load-interval 30
+!
+interface GigabitEthernet0/0/1/3
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 1 POS4 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/0/1/4
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 1 POS5 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/0/1/5
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 1 POS6 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/0/1/6
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 1 POS7 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/0/1/7
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 1 POS8 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/0/1/8
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 1 POS9 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/0/1/9
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 1 POS10 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/0/1/10
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 1 POS11 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/0/1/11
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 1 POS12 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/0/1/12
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 2 POS1 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/0/1/13
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 2 POS2 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/0/1/14
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 2 POS3 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/0/1/15
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 2 POS4 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/0/1/16
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 2 POS5 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/0/1/17
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 2 POS6 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/0/1/18
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 2 POS7 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/0/1/19
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 2 POS8 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/1/1/0
+ description VPN SIU_16_0616_CTL__STA__ANA_CHIAUTEMPAN UD1-1607-0001 I08081640A 1000M VFLORESJ
+ bandwidth 1000000
+ load-interval 30
+!
+interface GigabitEthernet0/1/1/0.1
+ description VPN TKIP SAN_JOSE_CHIAPA_FAURECIA CB2-1609-0529 I10101688A FFR 20/10/16 pb30 30553595
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pb30_2M_in
+ service-policy output rpvmeth_shape_pb30_2M_out
+ vrf V56418:VPN_ATX_TKIP_0
+ ipv4 address 187.196.46.33 255.255.255.252
+ encapsulation dot1q 3978
+!
+interface GigabitEthernet0/1/1/0.2
+ description VPN SUBESTACION_LIBRES CB2-1610-0299 I08111654B servautom 19/05/17 pb14 30612632
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pb14_2M_in
+ service-policy output rpvmeth_shape_pb14_2M_out
+ vrf V59446:VPN_PFEDERAL_0
+ ipv4 address 187.219.39.205 255.255.255.252
+ encapsulation dot1q 3977
+!
+interface GigabitEthernet0/1/1/0.3
+ description VPN TAXCO_TLAXCALA_T1131 CB2-1705-0344 I23051741A servautom 23/05/17 pa12 31420154
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa12_2M_in
+ service-policy output rpvmeth_shape_pa12_2M_out
+ vrf V59129:VPN_BANCOPPEL_0
+ ipv4 address 201.115.44.153 255.255.255.252
+ encapsulation dot1q 3919
+!
+interface GigabitEthernet0/1/1/0.4
+ description VPN ESTACION_HUAMANTLA_PF CB2-1705-0639 I09061754A COU POR INSTALAR
+ bandwidth 2000
+!
+interface GigabitEthernet0/1/1/0.5
+ description VPN RAFAEL_LARA_GRAJALES_PUEBLA_TDA_1229 CB2-1705-0351 I16061700A servautom 16/06/17 pa12 31422409
+ bandwidth 2000
+ service-policy input rpvmeth_shape_pa12_2M_in
+ service-policy output rpvmeth_shape_pa12_2M_out
+ vrf V59129:VPN_BANCOPPEL_0
+ ipv4 address 201.115.76.125 255.255.255.252
+ encapsulation dot1q 3915
+!
+interface GigabitEthernet0/1/1/1
+ description ITX GE A CE_SAITLX_001CSUR_04 SAI L2 CE_TELMEX YRG-1611-0692 I01031736A COU 01/03/17
+ bandwidth 1000000
+ mtu 2014
+ service-policy output GE_bwrem
+ vrf VPN_TELMEX_L2_0
+ ipv4 mtu 1500
+ ipv4 address 187.238.153.229 255.255.255.252
+ mpls
+  mtu 2000
+ !
+ load-interval 30
+!
+interface GigabitEthernet0/1/1/2
+ description ITX GE A CE_SAITLX_001CSUR_05 SAI L2 CE_TELMEX YRG-1611-0693 I01031740A COU 01/03/17
+ bandwidth 1000000
+ mtu 2014
+ service-policy output GE_bwrem
+ vrf VPN_TELMEX_L2_0
+ ipv4 mtu 1500
+ ipv4 address 187.238.154.57 255.255.255.252
+ mpls
+  mtu 2000
+ !
+ load-interval 30
+!
+interface GigabitEthernet0/1/1/3
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 2 POS12 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/1/1/4
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 3 POS1 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/1/1/5
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 3 POS2 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/1/1/6
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 3 POS3 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/1/1/7
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 3 POS4 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/1/1/8
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 3 POS5 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/1/1/9
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 3 POS6 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/1/1/10
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 3 POS7 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/1/1/11
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 3 POS8 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/1/1/12
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 3 POS9 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/1/1/13
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 3 POS10 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/1/1/14
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 3 POS11 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/1/1/15
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 3 POS12 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/1/1/16
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 4 POS1 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/1/1/17
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 4 POS2 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/1/1/18
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 4 POS3 AAU 10/06/15
+ shutdown
+!
+interface GigabitEthernet0/1/1/19
+ description PRUEBA DE LOOP OK F2 Rack 2 PP 4 POS4 AAU 10/06/15
+ shutdown
+!
+interface TenGigE0/0/0/0
+ description CONEXION TGE A sec-tlx-staana-7-tge0-0-0-6 BTB AAU 10/06/15
+ bandwidth 10000000
+ cdp
+ mtu 2014
+ service-policy output 10GE_bwrem
+ ipv4 mtu 1500
+ ipv4 address 189.246.189.169 255.255.255.252
+ mpls
+  mtu 2000
+ !
+ load-interval 30
+!
+interface TenGigE0/0/0/1
+ description PRUEBA DE LOOP OK F2 Rack1 PP16 POS5 AAU 10/06/15
+ shutdown
+!
+interface TenGigE0/1/0/0
+ description CONEXION TGE A sec-tlx-staana-7-tge0-4-0-6 BTB AAU 10/06/15
+ bandwidth 10000000
+ cdp
+ mtu 2014
+ service-policy output 10GE_bwrem
+ ipv4 mtu 1500
+ ipv4 address 189.246.189.173 255.255.255.252
+ mpls
+  mtu 2000
+ !
+ load-interval 30
+!
+interface TenGigE0/1/0/1
+ description PRUEBA DE LOOP OK F2 Rack1 PP16 POS7 AAU 10/06/15
+ shutdown
+!
+extcommunity-set rt COMUNIDADES_VOZ
+  8151:6847,
+  8151:3494,
+  8151:3539,
+  8151:40040,
+  8151:41162,
+  8151:41163,
+  8151:41164,
+  8151:41165,
+  8151:41166,
+  8151:41167,
+  8151:41168,
+  8151:41169,
+  8151:41170,
+  8151:41171,
+  28513:41164,
+  28513:50002,
+  28513:303,
+  28513:50332,
+  28513:50333,
+  28513:50334,
+  28513:50335,
+  28513:50336,
+  28513:50337
+end-set
+!
+extcommunity-set rt MGMT_GESTION_CPE_L2VPN
+  8151:1030,
+  8151:1022
+end-set
+!
+prefix-set 1
+  0.0.0.0/0 le 32
+end-set
+!
+prefix-set 1_V6
+  ::/0
+end-set
+!
+prefix-set 4_LINKS_1
+  187.174.0.0/29 le 32,
+  187.174.0.32/29 le 32,
+  187.174.0.64/29 le 32,
+  187.174.0.96/29 le 32,
+  187.174.0.128/29 le 32,
+  187.174.0.160/29 le 32,
+  187.174.0.192/29 le 32,
+  187.174.0.224/29 le 32,
+  187.174.1.0/29 le 32,
+  187.174.1.32/29 le 32,
+  187.174.1.64/29 le 32,
+  187.174.1.96/29 le 32,
+  187.174.1.128/29 le 32,
+  187.174.1.160/29 le 32,
+  187.174.1.192/29 le 32,
+  187.174.1.224/29 le 32,
+  187.174.16.0/29 le 32,
+  187.174.16.32/29 le 32,
+  187.174.16.64/29 le 32,
+  187.174.16.96/29 le 32,
+  187.174.16.128/29 le 32,
+  187.174.16.160/29 le 32,
+  187.174.16.192/29 le 32,
+  187.174.16.224/29 le 32,
+  187.174.18.0/29 le 32,
+  187.174.18.32/29 le 32,
+  187.174.18.64/29 le 32,
+  187.174.18.96/29 le 32,
+  187.174.18.128/29 le 32,
+  187.174.18.160/29 le 32,
+  187.174.18.192/29 le 32,
+  187.174.18.224/29 le 32,
+  187.174.19.0/29 le 32,
+  187.174.19.32/29 le 32,
+  187.174.19.64/29 le 32,
+  187.174.19.96/29 le 32,
+  187.174.19.128/29 le 32,
+  187.174.19.160/29 le 32,
+  187.174.19.192/29 le 32,
+  187.174.19.224/29 le 32,
+  187.174.2.0/29 le 32,
+  187.174.2.32/29 le 32,
+  187.174.2.64/29 le 32,
+  187.174.2.96/29 le 32,
+  187.174.2.128/29 le 32,
+  187.174.2.160/29 le 32,
+  187.174.2.192/29 le 32,
+  187.174.2.224/29 le 32,
+  187.174.20.0/29 le 32,
+  187.174.20.32/29 le 32,
+  187.174.20.64/29 le 32,
+  187.174.20.96/29 le 32,
+  187.174.20.128/29 le 32,
+  187.174.20.160/29 le 32,
+  187.174.20.192/29 le 32,
+  187.174.20.224/29 le 32,
+  187.174.21.0/29 le 32,
+  187.174.21.32/29 le 32,
+  187.174.21.64/29 le 32,
+  187.174.21.96/29 le 32,
+  187.174.21.128/29 le 32,
+  187.174.21.160/29 le 32,
+  187.174.21.192/29 le 32,
+  187.174.21.224/29 le 32,
+  187.174.3.0/29 le 32,
+  187.174.3.32/29 le 32,
+  187.174.3.64/29 le 32,
+  187.174.3.96/29 le 32,
+  187.174.3.128/29 le 32,
+  187.174.3.160/29 le 32,
+  187.174.3.192/29 le 32,
+  187.174.3.224/29 le 32,
+  187.174.6.0/29 le 32,
+  187.174.6.32/29 le 32,
+  187.174.6.64/29 le 32,
+  187.174.6.96/29 le 32,
+  187.174.6.128/29 le 32,
+  187.174.6.160/29 le 32,
+  187.174.6.192/29 le 32,
+  187.174.6.224/29 le 32,
+  187.174.7.0/29 le 32,
+  187.174.7.32/29 le 32,
+  187.174.7.64/29 le 32,
+  187.174.7.96/29 le 32,
+  187.174.7.128/29 le 32,
+  187.174.7.160/29 le 32,
+  187.174.7.192/29 le 32,
+  187.174.7.224/29 le 32,
+  187.196.100.0/29 le 32,
+  187.196.100.32/29 le 32,
+  187.196.100.64/29 le 32,
+  187.196.100.96/29 le 32,
+  187.196.100.128/29 le 32,
+  187.196.100.160/29 le 32,
+  187.196.100.192/29 le 32,
+  187.196.100.224/29 le 32,
+  187.196.109.0/29 le 32,
+  187.196.109.32/29 le 32,
+  187.196.109.64/29 le 32,
+  187.196.109.96/29 le 32,
+  187.196.109.128/29 le 32,
+  187.196.109.160/29 le 32,
+  187.196.109.192/29 le 32,
+  187.196.109.224/29 le 32,
+  187.196.110.0/29 le 32,
+  187.196.110.32/29 le 32,
+  187.196.110.64/29 le 32,
+  187.196.110.96/29 le 32,
+  187.196.110.128/29 le 32,
+  187.196.110.160/29 le 32,
+  187.196.110.192/29 le 32,
+  187.196.110.224/29 le 32,
+  187.196.127.0/29 le 32,
+  187.196.127.32/29 le 32,
+  187.196.127.64/29 le 32,
+  187.196.127.96/29 le 32,
+  187.196.127.128/29 le 32,
+  187.196.127.160/29 le 32,
+  187.196.127.192/29 le 32,
+  187.196.127.224/29 le 32,
+  187.196.30.0/29 le 32,
+  187.196.30.32/29 le 32,
+  187.196.30.64/29 le 32,
+  187.196.30.96/29 le 32,
+  187.196.30.128/29 le 32,
+  187.196.30.160/29 le 32,
+  187.196.30.192/29 le 32,
+  187.196.30.224/29 le 32,
+  187.196.47.0/29 le 32,
+  187.196.47.32/29 le 32,
+  187.196.47.64/29 le 32,
+  187.196.47.96/29 le 32,
+  187.196.47.128/29 le 32,
+  187.196.47.160/29 le 32,
+  187.196.47.192/29 le 32,
+  187.196.47.224/29 le 32,
+  187.196.91.0/29 le 32,
+  187.196.91.32/29 le 32,
+  187.196.91.64/29 le 32,
+  187.196.91.96/29 le 32,
+  187.196.91.128/29 le 32,
+  187.196.91.160/29 le 32,
+  187.196.91.192/29 le 32,
+  187.196.91.224/29 le 32,
+  187.196.99.0/29 le 32,
+  187.196.99.32/29 le 32,
+  187.196.99.64/29 le 32,
+  187.196.99.96/29 le 32,
+  187.196.99.128/29 le 32,
+  187.196.99.160/29 le 32,
+  187.196.99.192/29 le 32,
+  187.196.99.224/29 le 32,
+  187.219.116.0/29 le 32,
+  187.219.116.32/29 le 32,
+  187.219.116.64/29 le 32,
+  187.219.116.96/29 le 32,
+  187.219.116.128/29 le 32,
+  187.219.116.160/29 le 32,
+  187.219.116.192/29 le 32,
+  187.219.116.224/29 le 32,
+  187.219.121.0/29 le 32,
+  187.219.121.32/29 le 32,
+  187.219.121.64/29 le 32,
+  187.219.121.96/29 le 32,
+  187.219.121.128/29 le 32,
+  187.219.121.160/29 le 32,
+  187.219.121.192/29 le 32,
+  187.219.121.224/29 le 32,
+  187.219.124.0/29 le 32,
+  187.219.124.32/29 le 32,
+  187.219.124.64/29 le 32,
+  187.219.124.96/29 le 32,
+  187.219.124.128/29 le 32,
+  187.219.124.160/29 le 32,
+  187.219.124.192/29 le 32,
+  187.219.124.224/29 le 32,
+  187.219.127.0/29 le 32,
+  187.219.127.32/29 le 32,
+  187.219.127.64/29 le 32,
+  187.219.127.96/29 le 32,
+  187.219.127.128/29 le 32,
+  187.219.127.160/29 le 32,
+  187.219.127.192/29 le 32,
+  187.219.127.224/29 le 32,
+  187.219.157.0/29 le 32,
+  187.219.157.32/29 le 32,
+  187.219.157.64/29 le 32,
+  187.219.157.96/29 le 32,
+  187.219.157.128/29 le 32,
+  187.219.157.160/29 le 32,
+  187.219.157.192/29 le 32,
+  187.219.157.224/29 le 32,
+  187.219.159.0/29 le 32,
+  187.219.159.32/29 le 32,
+  187.219.159.64/29 le 32,
+  187.219.159.96/29 le 32,
+  187.219.159.128/29 le 32,
+  187.219.159.160/29 le 32,
+  187.219.159.192/29 le 32,
+  187.219.159.224/29 le 32,
+  187.219.18.0/29 le 32,
+  187.219.18.32/29 le 32,
+  187.219.18.64/29 le 32,
+  187.219.18.96/29 le 32,
+  187.219.18.128/29 le 32,
+  187.219.18.160/29 le 32,
+  187.219.18.192/29 le 32,
+  187.219.18.224/29 le 32,
+  187.219.189.0/29 le 32,
+  187.219.189.32/29 le 32,
+  187.219.189.64/29 le 32,
+  187.219.189.96/29 le 32,
+  187.219.189.128/29 le 32,
+  187.219.189.160/29 le 32,
+  187.219.189.192/29 le 32,
+  187.219.189.224/29 le 32,
+  187.219.191.0/29 le 32,
+  187.219.191.32/29 le 32,
+  187.219.191.64/29 le 32,
+  187.219.191.96/29 le 32,
+  187.219.191.128/29 le 32,
+  187.219.191.160/29 le 32,
+  187.219.191.192/29 le 32,
+  187.219.191.224/29 le 32,
+  187.219.197.0/29 le 32,
+  187.219.197.32/29 le 32,
+  187.219.197.64/29 le 32,
+  187.219.197.96/29 le 32,
+  187.219.197.128/29 le 32,
+  187.219.197.160/29 le 32,
+  187.219.197.192/29 le 32,
+  187.219.197.224/29 le 32,
+  187.219.2.0/29 le 32,
+  187.219.2.32/29 le 32,
+  187.219.2.64/29 le 32,
+  187.219.2.96/29 le 32,
+  187.219.2.128/29 le 32,
+  187.219.2.160/29 le 32,
+  187.219.2.192/29 le 32,
+  187.219.2.224/29 le 32,
+  187.219.213.0/29 le 32,
+  187.219.213.32/29 le 32,
+  187.219.213.64/29 le 32,
+  187.219.213.96/29 le 32,
+  187.219.213.128/29 le 32,
+  187.219.213.160/29 le 32,
+  187.219.213.192/29 le 32,
+  187.219.213.224/29 le 32,
+  187.219.222.0/29 le 32,
+  187.219.222.32/29 le 32,
+  187.219.222.64/29 le 32,
+  187.219.222.96/29 le 32,
+  187.219.222.128/29 le 32,
+  187.219.222.160/29 le 32,
+  187.219.222.192/29 le 32,
+  187.219.222.224/29 le 32,
+  187.219.223.0/29 le 32,
+  187.219.223.32/29 le 32,
+  187.219.223.64/29 le 32,
+  187.219.223.96/29 le 32,
+  187.219.223.128/29 le 32,
+  187.219.223.160/29 le 32,
+  187.219.223.192/29 le 32,
+  187.219.223.224/29 le 32,
+  187.219.237.0/29 le 32,
+  187.219.237.32/29 le 32,
+  187.219.237.64/29 le 32,
+  187.219.237.96/29 le 32,
+  187.219.237.128/29 le 32,
+  187.219.237.160/29 le 32,
+  187.219.237.192/29 le 32,
+  187.219.237.224/29 le 32,
+  187.219.239.0/29 le 32,
+  187.219.239.32/29 le 32,
+  187.219.239.64/29 le 32,
+  187.219.239.96/29 le 32,
+  187.219.239.128/29 le 32,
+  187.219.239.160/29 le 32,
+  187.219.239.192/29 le 32,
+  187.219.239.224/29 le 32,
+  187.219.30.0/29 le 32,
+  187.219.30.32/29 le 32,
+  187.219.30.64/29 le 32,
+  187.219.30.96/29 le 32,
+  187.219.30.128/29 le 32,
+  187.219.30.160/29 le 32,
+  187.219.30.192/29 le 32,
+  187.219.30.224/29 le 32,
+  187.219.32.0/29 le 32,
+  187.219.32.32/29 le 32,
+  187.219.32.64/29 le 32,
+  187.219.32.96/29 le 32,
+  187.219.32.128/29 le 32,
+  187.219.32.160/29 le 32,
+  187.219.32.192/29 le 32,
+  187.219.32.224/29 le 32,
+  187.219.59.0/29 le 32,
+  187.219.59.32/29 le 32,
+  187.219.59.64/29 le 32,
+  187.219.59.96/29 le 32,
+  187.219.59.128/29 le 32,
+  187.219.59.160/29 le 32,
+  187.219.59.192/29 le 32,
+  187.219.59.224/29 le 32,
+  187.219.71.0/29 le 32,
+  187.219.71.32/29 le 32,
+  187.219.71.64/29 le 32,
+  187.219.71.96/29 le 32,
+  187.219.71.128/29 le 32,
+  187.219.71.160/29 le 32,
+  187.219.71.192/29 le 32,
+  187.219.71.224/29 le 32,
+  187.219.87.0/29 le 32,
+  187.219.87.32/29 le 32,
+  187.219.87.64/29 le 32,
+  187.219.87.96/29 le 32,
+  187.219.87.128/29 le 32,
+  187.219.87.160/29 le 32,
+  187.219.87.192/29 le 32,
+  187.219.87.224/29 le 32,
+  187.219.95.0/29 le 32,
+  187.219.95.32/29 le 32,
+  187.219.95.64/29 le 32,
+  187.219.95.96/29 le 32,
+  187.219.95.128/29 le 32,
+  187.219.95.160/29 le 32,
+  187.219.95.192/29 le 32,
+  187.219.95.224/29 le 32,
+  187.238.157.0/29 le 32,
+  187.238.157.32/29 le 32,
+  187.238.157.64/29 le 32,
+  187.238.157.96/29 le 32,
+  187.238.157.128/29 le 32,
+  187.238.157.160/29 le 32,
+  187.238.157.192/29 le 32,
+  187.238.157.224/29 le 32,
+  187.238.159.0/29 le 32,
+  187.238.159.32/29 le 32,
+  187.238.159.64/29 le 32,
+  187.238.159.96/29 le 32,
+  187.238.159.128/29 le 32,
+  187.238.159.160/29 le 32,
+  187.238.159.192/29 le 32,
+  187.238.159.224/29 le 32,
+  187.238.205.0/29 le 32,
+  187.238.205.32/29 le 32,
+  187.238.205.64/29 le 32,
+  187.238.205.96/29 le 32,
+  187.238.205.128/29 le 32,
+  187.238.205.160/29 le 32,
+  187.238.205.192/29 le 32,
+  187.238.205.224/29 le 32,
+  187.238.220.0/29 le 32,
+  187.238.220.32/29 le 32,
+  187.238.220.64/29 le 32,
+  187.238.220.96/29 le 32,
+  187.238.220.128/29 le 32,
+  187.238.220.160/29 le 32,
+  187.238.220.192/29 le 32,
+  187.238.220.224/29 le 32,
+  187.238.222.0/29 le 32,
+  187.238.222.32/29 le 32,
+  187.238.222.64/29 le 32,
+  187.238.222.96/29 le 32,
+  187.238.222.128/29 le 32,
+  187.238.222.160/29 le 32,
+  187.238.222.192/29 le 32,
+  187.238.222.224/29 le 32,
+  187.238.252.0/29 le 32,
+  187.238.252.32/29 le 32,
+  187.238.252.64/29 le 32,
+  187.238.252.96/29 le 32,
+  187.238.252.128/29 le 32,
+  187.238.252.160/29 le 32,
+  187.238.252.192/29 le 32,
+  187.238.252.224/29 le 32,
+  187.238.254.0/29 le 32,
+  187.238.254.32/29 le 32,
+  187.238.254.64/29 le 32,
+  187.238.254.96/29 le 32,
+  187.238.254.128/29 le 32,
+  187.238.254.160/29 le 32,
+  187.238.254.192/29 le 32,
+  187.238.254.224/29 le 32,
+  187.238.30.0/29 le 32,
+  187.238.30.32/29 le 32,
+  187.238.30.64/29 le 32,
+  187.238.30.96/29 le 32,
+  187.238.30.128/29 le 32,
+  187.238.30.160/29 le 32,
+  187.238.30.192/29 le 32,
+  187.238.30.224/29 le 32,
+  187.238.57.0/29 le 32,
+  187.238.57.32/29 le 32,
+  187.238.57.64/29 le 32,
+  187.238.57.96/29 le 32,
+  187.238.57.128/29 le 32,
+  187.238.57.160/29 le 32,
+  187.238.57.192/29 le 32,
+  187.238.57.224/29 le 32,
+  187.238.61.0/29 le 32,
+  187.238.61.32/29 le 32,
+  187.238.61.64/29 le 32,
+  187.238.61.96/29 le 32,
+  187.238.61.128/29 le 32,
+  187.238.61.160/29 le 32,
+  187.238.61.192/29 le 32,
+  187.238.61.224/29 le 32,
+  187.238.90.0/29 le 32,
+  187.238.90.32/29 le 32,
+  187.238.90.64/29 le 32,
+  187.238.90.96/29 le 32,
+  187.238.90.128/29 le 32,
+  187.238.90.160/29 le 32,
+  187.238.90.192/29 le 32,
+  187.238.90.224/29 le 32,
+  187.238.95.0/29 le 32,
+  187.238.95.32/29 le 32,
+  187.238.95.64/29 le 32,
+  187.238.95.96/29 le 32,
+  187.238.95.128/29 le 32,
+  187.238.95.160/29 le 32,
+  187.238.95.192/29 le 32,
+  187.238.95.224/29 le 32,
+  201.129.47.0/29 le 32,
+  201.129.47.32/29 le 32,
+  201.129.47.64/29 le 32,
+  201.129.47.96/29 le 32,
+  201.129.47.128/29 le 32,
+  201.129.47.160/29 le 32,
+  201.129.47.192/29 le 32,
+  201.129.47.224/29 le 32
+end-set
+!
+prefix-set 4_LINKS_2
+  187.174.0.8/29 le 32,
+  187.174.0.40/29 le 32,
+  187.174.0.72/29 le 32,
+  187.174.0.104/29 le 32,
+  187.174.0.136/29 le 32,
+  187.174.0.168/29 le 32,
+  187.174.0.200/29 le 32,
+  187.174.0.232/29 le 32,
+  187.174.1.8/29 le 32,
+  187.174.1.40/29 le 32,
+  187.174.1.72/29 le 32,
+  187.174.1.104/29 le 32,
+  187.174.1.136/29 le 32,
+  187.174.1.168/29 le 32,
+  187.174.1.200/29 le 32,
+  187.174.1.232/29 le 32,
+  187.174.16.8/29 le 32,
+  187.174.16.40/29 le 32,
+  187.174.16.72/29 le 32,
+  187.174.16.104/29 le 32,
+  187.174.16.136/29 le 32,
+  187.174.16.168/29 le 32,
+  187.174.16.200/29 le 32,
+  187.174.16.232/29 le 32,
+  187.174.18.8/29 le 32,
+  187.174.18.40/29 le 32,
+  187.174.18.72/29 le 32,
+  187.174.18.104/29 le 32,
+  187.174.18.136/29 le 32,
+  187.174.18.168/29 le 32,
+  187.174.18.200/29 le 32,
+  187.174.18.232/29 le 32,
+  187.174.19.8/29 le 32,
+  187.174.19.40/29 le 32,
+  187.174.19.72/29 le 32,
+  187.174.19.104/29 le 32,
+  187.174.19.136/29 le 32,
+  187.174.19.168/29 le 32,
+  187.174.19.200/29 le 32,
+  187.174.19.232/29 le 32,
+  187.174.2.8/29 le 32,
+  187.174.2.40/29 le 32,
+  187.174.2.72/29 le 32,
+  187.174.2.104/29 le 32,
+  187.174.2.136/29 le 32,
+  187.174.2.168/29 le 32,
+  187.174.2.200/29 le 32,
+  187.174.2.232/29 le 32,
+  187.174.20.8/29 le 32,
+  187.174.20.40/29 le 32,
+  187.174.20.72/29 le 32,
+  187.174.20.104/29 le 32,
+  187.174.20.136/29 le 32,
+  187.174.20.168/29 le 32,
+  187.174.20.200/29 le 32,
+  187.174.20.232/29 le 32,
+  187.174.21.8/29 le 32,
+  187.174.21.40/29 le 32,
+  187.174.21.72/29 le 32,
+  187.174.21.104/29 le 32,
+  187.174.21.136/29 le 32,
+  187.174.21.168/29 le 32,
+  187.174.21.200/29 le 32,
+  187.174.21.232/29 le 32,
+  187.174.3.8/29 le 32,
+  187.174.3.40/29 le 32,
+  187.174.3.72/29 le 32,
+  187.174.3.104/29 le 32,
+  187.174.3.136/29 le 32,
+  187.174.3.168/29 le 32,
+  187.174.3.200/29 le 32,
+  187.174.3.232/29 le 32,
+  187.174.6.8/29 le 32,
+  187.174.6.40/29 le 32,
+  187.174.6.72/29 le 32,
+  187.174.6.104/29 le 32,
+  187.174.6.136/29 le 32,
+  187.174.6.168/29 le 32,
+  187.174.6.200/29 le 32,
+  187.174.6.232/29 le 32,
+  187.174.7.8/29 le 32,
+  187.174.7.40/29 le 32,
+  187.174.7.72/29 le 32,
+  187.174.7.104/29 le 32,
+  187.174.7.136/29 le 32,
+  187.174.7.168/29 le 32,
+  187.174.7.200/29 le 32,
+  187.174.7.232/29 le 32,
+  187.196.100.8/29 le 32,
+  187.196.100.40/29 le 32,
+  187.196.100.72/29 le 32,
+  187.196.100.104/29 le 32,
+  187.196.100.136/29 le 32,
+  187.196.100.168/29 le 32,
+  187.196.100.200/29 le 32,
+  187.196.100.232/29 le 32,
+  187.196.109.8/29 le 32,
+  187.196.109.40/29 le 32,
+  187.196.109.72/29 le 32,
+  187.196.109.104/29 le 32,
+  187.196.109.136/29 le 32,
+  187.196.109.168/29 le 32,
+  187.196.109.200/29 le 32,
+  187.196.109.232/29 le 32,
+  187.196.110.8/29 le 32,
+  187.196.110.40/29 le 32,
+  187.196.110.72/29 le 32,
+  187.196.110.104/29 le 32,
+  187.196.110.136/29 le 32,
+  187.196.110.168/29 le 32,
+  187.196.110.200/29 le 32,
+  187.196.110.232/29 le 32,
+  187.196.127.8/29 le 32,
+  187.196.127.40/29 le 32,
+  187.196.127.72/29 le 32,
+  187.196.127.104/29 le 32,
+  187.196.127.136/29 le 32,
+  187.196.127.168/29 le 32,
+  187.196.127.200/29 le 32,
+  187.196.127.232/29 le 32,
+  187.196.30.8/29 le 32,
+  187.196.30.40/29 le 32,
+  187.196.30.72/29 le 32,
+  187.196.30.104/29 le 32,
+  187.196.30.136/29 le 32,
+  187.196.30.168/29 le 32,
+  187.196.30.200/29 le 32,
+  187.196.30.232/29 le 32,
+  187.196.47.8/29 le 32,
+  187.196.47.40/29 le 32,
+  187.196.47.72/29 le 32,
+  187.196.47.104/29 le 32,
+  187.196.47.136/29 le 32,
+  187.196.47.168/29 le 32,
+  187.196.47.200/29 le 32,
+  187.196.47.232/29 le 32,
+  187.196.91.8/29 le 32,
+  187.196.91.40/29 le 32,
+  187.196.91.72/29 le 32,
+  187.196.91.104/29 le 32,
+  187.196.91.136/29 le 32,
+  187.196.91.168/29 le 32,
+  187.196.91.200/29 le 32,
+  187.196.91.232/29 le 32,
+  187.196.99.8/29 le 32,
+  187.196.99.40/29 le 32,
+  187.196.99.72/29 le 32,
+  187.196.99.104/29 le 32,
+  187.196.99.136/29 le 32,
+  187.196.99.168/29 le 32,
+  187.196.99.200/29 le 32,
+  187.196.99.232/29 le 32,
+  187.219.116.8/29 le 32,
+  187.219.116.40/29 le 32,
+  187.219.116.72/29 le 32,
+  187.219.116.104/29 le 32,
+  187.219.116.136/29 le 32,
+  187.219.116.168/29 le 32,
+  187.219.116.200/29 le 32,
+  187.219.116.232/29 le 32,
+  187.219.121.8/29 le 32,
+  187.219.121.40/29 le 32,
+  187.219.121.72/29 le 32,
+  187.219.121.104/29 le 32,
+  187.219.121.136/29 le 32,
+  187.219.121.168/29 le 32,
+  187.219.121.200/29 le 32,
+  187.219.121.232/29 le 32,
+  187.219.124.8/29 le 32,
+  187.219.124.40/29 le 32,
+  187.219.124.72/29 le 32,
+  187.219.124.104/29 le 32,
+  187.219.124.136/29 le 32,
+  187.219.124.168/29 le 32,
+  187.219.124.200/29 le 32,
+  187.219.124.232/29 le 32,
+  187.219.127.8/29 le 32,
+  187.219.127.40/29 le 32,
+  187.219.127.72/29 le 32,
+  187.219.127.104/29 le 32,
+  187.219.127.136/29 le 32,
+  187.219.127.168/29 le 32,
+  187.219.127.200/29 le 32,
+  187.219.127.232/29 le 32,
+  187.219.157.8/29 le 32,
+  187.219.157.40/29 le 32,
+  187.219.157.72/29 le 32,
+  187.219.157.104/29 le 32,
+  187.219.157.136/29 le 32,
+  187.219.157.168/29 le 32,
+  187.219.157.200/29 le 32,
+  187.219.157.232/29 le 32,
+  187.219.159.8/29 le 32,
+  187.219.159.40/29 le 32,
+  187.219.159.72/29 le 32,
+  187.219.159.104/29 le 32,
+  187.219.159.136/29 le 32,
+  187.219.159.168/29 le 32,
+  187.219.159.200/29 le 32,
+  187.219.159.232/29 le 32,
+  187.219.18.8/29 le 32,
+  187.219.18.40/29 le 32,
+  187.219.18.72/29 le 32,
+  187.219.18.104/29 le 32,
+  187.219.18.136/29 le 32,
+  187.219.18.168/29 le 32,
+  187.219.18.200/29 le 32,
+  187.219.18.232/29 le 32,
+  187.219.189.8/29 le 32,
+  187.219.189.40/29 le 32,
+  187.219.189.72/29 le 32,
+  187.219.189.104/29 le 32,
+  187.219.189.136/29 le 32,
+  187.219.189.168/29 le 32,
+  187.219.189.200/29 le 32,
+  187.219.189.232/29 le 32,
+  187.219.191.8/29 le 32,
+  187.219.191.40/29 le 32,
+  187.219.191.72/29 le 32,
+  187.219.191.104/29 le 32,
+  187.219.191.136/29 le 32,
+  187.219.191.168/29 le 32,
+  187.219.191.200/29 le 32,
+  187.219.191.232/29 le 32,
+  187.219.197.8/29 le 32,
+  187.219.197.40/29 le 32,
+  187.219.197.72/29 le 32,
+  187.219.197.104/29 le 32,
+  187.219.197.136/29 le 32,
+  187.219.197.168/29 le 32,
+  187.219.197.200/29 le 32,
+  187.219.197.232/29 le 32,
+  187.219.2.8/29 le 32,
+  187.219.2.40/29 le 32,
+  187.219.2.72/29 le 32,
+  187.219.2.104/29 le 32,
+  187.219.2.136/29 le 32,
+  187.219.2.168/29 le 32,
+  187.219.2.200/29 le 32,
+  187.219.2.232/29 le 32,
+  187.219.213.8/29 le 32,
+  187.219.213.40/29 le 32,
+  187.219.213.72/29 le 32,
+  187.219.213.104/29 le 32,
+  187.219.213.136/29 le 32,
+  187.219.213.168/29 le 32,
+  187.219.213.200/29 le 32,
+  187.219.213.232/29 le 32,
+  187.219.222.8/29 le 32,
+  187.219.222.40/29 le 32,
+  187.219.222.72/29 le 32,
+  187.219.222.104/29 le 32,
+  187.219.222.136/29 le 32,
+  187.219.222.168/29 le 32,
+  187.219.222.200/29 le 32,
+  187.219.222.232/29 le 32,
+  187.219.223.8/29 le 32,
+  187.219.223.40/29 le 32,
+  187.219.223.72/29 le 32,
+  187.219.223.104/29 le 32,
+  187.219.223.136/29 le 32,
+  187.219.223.168/29 le 32,
+  187.219.223.200/29 le 32,
+  187.219.223.232/29 le 32,
+  187.219.237.8/29 le 32,
+  187.219.237.40/29 le 32,
+  187.219.237.72/29 le 32,
+  187.219.237.104/29 le 32,
+  187.219.237.136/29 le 32,
+  187.219.237.168/29 le 32,
+  187.219.237.200/29 le 32,
+  187.219.237.232/29 le 32,
+  187.219.239.8/29 le 32,
+  187.219.239.40/29 le 32,
+  187.219.239.72/29 le 32,
+  187.219.239.104/29 le 32,
+  187.219.239.136/29 le 32,
+  187.219.239.168/29 le 32,
+  187.219.239.200/29 le 32,
+  187.219.239.232/29 le 32,
+  187.219.30.8/29 le 32,
+  187.219.30.40/29 le 32,
+  187.219.30.72/29 le 32,
+  187.219.30.104/29 le 32,
+  187.219.30.136/29 le 32,
+  187.219.30.168/29 le 32,
+  187.219.30.200/29 le 32,
+  187.219.30.232/29 le 32,
+  187.219.32.8/29 le 32,
+  187.219.32.40/29 le 32,
+  187.219.32.72/29 le 32,
+  187.219.32.104/29 le 32,
+  187.219.32.136/29 le 32,
+  187.219.32.168/29 le 32,
+  187.219.32.200/29 le 32,
+  187.219.32.232/29 le 32,
+  187.219.59.8/29 le 32,
+  187.219.59.40/29 le 32,
+  187.219.59.72/29 le 32,
+  187.219.59.104/29 le 32,
+  187.219.59.136/29 le 32,
+  187.219.59.168/29 le 32,
+  187.219.59.200/29 le 32,
+  187.219.59.232/29 le 32,
+  187.219.71.8/29 le 32,
+  187.219.71.40/29 le 32,
+  187.219.71.72/29 le 32,
+  187.219.71.104/29 le 32,
+  187.219.71.136/29 le 32,
+  187.219.71.168/29 le 32,
+  187.219.71.200/29 le 32,
+  187.219.71.232/29 le 32,
+  187.219.87.8/29 le 32,
+  187.219.87.40/29 le 32,
+  187.219.87.72/29 le 32,
+  187.219.87.104/29 le 32,
+  187.219.87.136/29 le 32,
+  187.219.87.168/29 le 32,
+  187.219.87.200/29 le 32,
+  187.219.87.232/29 le 32,
+  187.219.95.8/29 le 32,
+  187.219.95.40/29 le 32,
+  187.219.95.72/29 le 32,
+  187.219.95.104/29 le 32,
+  187.219.95.136/29 le 32,
+  187.219.95.168/29 le 32,
+  187.219.95.200/29 le 32,
+  187.219.95.232/29 le 32,
+  187.238.157.8/29 le 32,
+  187.238.157.40/29 le 32,
+  187.238.157.72/29 le 32,
+  187.238.157.104/29 le 32,
+  187.238.157.136/29 le 32,
+  187.238.157.168/29 le 32,
+  187.238.157.200/29 le 32,
+  187.238.157.232/29 le 32,
+  187.238.159.8/29 le 32,
+  187.238.159.40/29 le 32,
+  187.238.159.72/29 le 32,
+  187.238.159.104/29 le 32,
+  187.238.159.136/29 le 32,
+  187.238.159.168/29 le 32,
+  187.238.159.200/29 le 32,
+  187.238.159.232/29 le 32,
+  187.238.205.8/29 le 32,
+  187.238.205.40/29 le 32,
+  187.238.205.72/29 le 32,
+  187.238.205.104/29 le 32,
+  187.238.205.136/29 le 32,
+  187.238.205.168/29 le 32,
+  187.238.205.200/29 le 32,
+  187.238.205.232/29 le 32,
+  187.238.220.8/29 le 32,
+  187.238.220.40/29 le 32,
+  187.238.220.72/29 le 32,
+  187.238.220.104/29 le 32,
+  187.238.220.136/29 le 32,
+  187.238.220.168/29 le 32,
+  187.238.220.200/29 le 32,
+  187.238.220.232/29 le 32,
+  187.238.222.8/29 le 32,
+  187.238.222.40/29 le 32,
+  187.238.222.72/29 le 32,
+  187.238.222.104/29 le 32,
+  187.238.222.136/29 le 32,
+  187.238.222.168/29 le 32,
+  187.238.222.200/29 le 32,
+  187.238.222.232/29 le 32,
+  187.238.252.8/29 le 32,
+  187.238.252.40/29 le 32,
+  187.238.252.72/29 le 32,
+  187.238.252.104/29 le 32,
+  187.238.252.136/29 le 32,
+  187.238.252.168/29 le 32,
+  187.238.252.200/29 le 32,
+  187.238.252.232/29 le 32,
+  187.238.254.8/29 le 32,
+  187.238.254.40/29 le 32,
+  187.238.254.72/29 le 32,
+  187.238.254.104/29 le 32,
+  187.238.254.136/29 le 32,
+  187.238.254.168/29 le 32,
+  187.238.254.200/29 le 32,
+  187.238.254.232/29 le 32,
+  187.238.30.8/29 le 32,
+  187.238.30.40/29 le 32,
+  187.238.30.72/29 le 32,
+  187.238.30.104/29 le 32,
+  187.238.30.136/29 le 32,
+  187.238.30.168/29 le 32,
+  187.238.30.200/29 le 32,
+  187.238.30.232/29 le 32,
+  187.238.57.8/29 le 32,
+  187.238.57.40/29 le 32,
+  187.238.57.72/29 le 32,
+  187.238.57.104/29 le 32,
+  187.238.57.136/29 le 32,
+  187.238.57.168/29 le 32,
+  187.238.57.200/29 le 32,
+  187.238.57.232/29 le 32,
+  187.238.61.8/29 le 32,
+  187.238.61.40/29 le 32,
+  187.238.61.72/29 le 32,
+  187.238.61.104/29 le 32,
+  187.238.61.136/29 le 32,
+  187.238.61.168/29 le 32,
+  187.238.61.200/29 le 32,
+  187.238.61.232/29 le 32,
+  187.238.90.8/29 le 32,
+  187.238.90.40/29 le 32,
+  187.238.90.72/29 le 32,
+  187.238.90.104/29 le 32,
+  187.238.90.136/29 le 32,
+  187.238.90.168/29 le 32,
+  187.238.90.200/29 le 32,
+  187.238.90.232/29 le 32,
+  187.238.95.8/29 le 32,
+  187.238.95.40/29 le 32,
+  187.238.95.72/29 le 32,
+  187.238.95.104/29 le 32,
+  187.238.95.136/29 le 32,
+  187.238.95.168/29 le 32,
+  187.238.95.200/29 le 32,
+  187.238.95.232/29 le 32,
+  201.129.47.8/29 le 32,
+  201.129.47.40/29 le 32,
+  201.129.47.72/29 le 32,
+  201.129.47.104/29 le 32,
+  201.129.47.136/29 le 32,
+  201.129.47.168/29 le 32,
+  201.129.47.200/29 le 32,
+  201.129.47.232/29 le 32
+end-set
+!
+prefix-set 4_LINKS_3
+  187.174.0.16/29 le 32,
+  187.174.0.48/29 le 32,
+  187.174.0.80/29 le 32,
+  187.174.0.112/29 le 32,
+  187.174.0.144/29 le 32,
+  187.174.0.176/29 le 32,
+  187.174.0.208/29 le 32,
+  187.174.0.240/29 le 32,
+  187.174.1.16/29 le 32,
+  187.174.1.48/29 le 32,
+  187.174.1.80/29 le 32,
+  187.174.1.112/29 le 32,
+  187.174.1.144/29 le 32,
+  187.174.1.176/29 le 32,
+  187.174.1.208/29 le 32,
+  187.174.1.240/29 le 32,
+  187.174.16.16/29 le 32,
+  187.174.16.48/29 le 32,
+  187.174.16.80/29 le 32,
+  187.174.16.112/29 le 32,
+  187.174.16.144/29 le 32,
+  187.174.16.176/29 le 32,
+  187.174.16.208/29 le 32,
+  187.174.16.240/29 le 32,
+  187.174.18.16/29 le 32,
+  187.174.18.48/29 le 32,
+  187.174.18.80/29 le 32,
+  187.174.18.112/29 le 32,
+  187.174.18.144/29 le 32,
+  187.174.18.176/29 le 32,
+  187.174.18.208/29 le 32,
+  187.174.18.240/29 le 32,
+  187.174.19.16/29 le 32,
+  187.174.19.48/29 le 32,
+  187.174.19.80/29 le 32,
+  187.174.19.112/29 le 32,
+  187.174.19.144/29 le 32,
+  187.174.19.176/29 le 32,
+  187.174.19.208/29 le 32,
+  187.174.19.240/29 le 32,
+  187.174.2.16/29 le 32,
+  187.174.2.48/29 le 32,
+  187.174.2.80/29 le 32,
+  187.174.2.112/29 le 32,
+  187.174.2.144/29 le 32,
+  187.174.2.176/29 le 32,
+  187.174.2.208/29 le 32,
+  187.174.2.240/29 le 32,
+  187.174.20.16/29 le 32,
+  187.174.20.48/29 le 32,
+  187.174.20.80/29 le 32,
+  187.174.20.112/29 le 32,
+  187.174.20.144/29 le 32,
+  187.174.20.176/29 le 32,
+  187.174.20.208/29 le 32,
+  187.174.20.240/29 le 32,
+  187.174.21.16/29 le 32,
+  187.174.21.48/29 le 32,
+  187.174.21.80/29 le 32,
+  187.174.21.112/29 le 32,
+  187.174.21.144/29 le 32,
+  187.174.21.176/29 le 32,
+  187.174.21.208/29 le 32,
+  187.174.21.240/29 le 32,
+  187.174.3.16/29 le 32,
+  187.174.3.48/29 le 32,
+  187.174.3.80/29 le 32,
+  187.174.3.112/29 le 32,
+  187.174.3.144/29 le 32,
+  187.174.3.176/29 le 32,
+  187.174.3.208/29 le 32,
+  187.174.3.240/29 le 32,
+  187.174.6.16/29 le 32,
+  187.174.6.48/29 le 32,
+  187.174.6.80/29 le 32,
+  187.174.6.112/29 le 32,
+  187.174.6.144/29 le 32,
+  187.174.6.176/29 le 32,
+  187.174.6.208/29 le 32,
+  187.174.6.240/29 le 32,
+  187.174.7.16/29 le 32,
+  187.174.7.48/29 le 32,
+  187.174.7.80/29 le 32,
+  187.174.7.112/29 le 32,
+  187.174.7.144/29 le 32,
+  187.174.7.176/29 le 32,
+  187.174.7.208/29 le 32,
+  187.174.7.240/29 le 32,
+  187.196.100.16/29 le 32,
+  187.196.100.48/29 le 32,
+  187.196.100.80/29 le 32,
+  187.196.100.112/29 le 32,
+  187.196.100.144/29 le 32,
+  187.196.100.176/29 le 32,
+  187.196.100.208/29 le 32,
+  187.196.100.240/29 le 32,
+  187.196.109.16/29 le 32,
+  187.196.109.48/29 le 32,
+  187.196.109.80/29 le 32,
+  187.196.109.112/29 le 32,
+  187.196.109.144/29 le 32,
+  187.196.109.176/29 le 32,
+  187.196.109.208/29 le 32,
+  187.196.109.240/29 le 32,
+  187.196.110.16/29 le 32,
+  187.196.110.48/29 le 32,
+  187.196.110.80/29 le 32,
+  187.196.110.112/29 le 32,
+  187.196.110.144/29 le 32,
+  187.196.110.176/29 le 32,
+  187.196.110.208/29 le 32,
+  187.196.110.240/29 le 32,
+  187.196.127.16/29 le 32,
+  187.196.127.48/29 le 32,
+  187.196.127.80/29 le 32,
+  187.196.127.112/29 le 32,
+  187.196.127.144/29 le 32,
+  187.196.127.176/29 le 32,
+  187.196.127.208/29 le 32,
+  187.196.127.240/29 le 32,
+  187.196.30.16/29 le 32,
+  187.196.30.48/29 le 32,
+  187.196.30.80/29 le 32,
+  187.196.30.112/29 le 32,
+  187.196.30.144/29 le 32,
+  187.196.30.176/29 le 32,
+  187.196.30.208/29 le 32,
+  187.196.30.240/29 le 32,
+  187.196.47.16/29 le 32,
+  187.196.47.48/29 le 32,
+  187.196.47.80/29 le 32,
+  187.196.47.112/29 le 32,
+  187.196.47.144/29 le 32,
+  187.196.47.176/29 le 32,
+  187.196.47.208/29 le 32,
+  187.196.47.240/29 le 32,
+  187.196.91.16/29 le 32,
+  187.196.91.48/29 le 32,
+  187.196.91.80/29 le 32,
+  187.196.91.112/29 le 32,
+  187.196.91.144/29 le 32,
+  187.196.91.176/29 le 32,
+  187.196.91.208/29 le 32,
+  187.196.91.240/29 le 32,
+  187.196.99.16/29 le 32,
+  187.196.99.48/29 le 32,
+  187.196.99.80/29 le 32,
+  187.196.99.112/29 le 32,
+  187.196.99.144/29 le 32,
+  187.196.99.176/29 le 32,
+  187.196.99.208/29 le 32,
+  187.196.99.240/29 le 32,
+  187.219.116.16/29 le 32,
+  187.219.116.48/29 le 32,
+  187.219.116.80/29 le 32,
+  187.219.116.112/29 le 32,
+  187.219.116.144/29 le 32,
+  187.219.116.176/29 le 32,
+  187.219.116.208/29 le 32,
+  187.219.116.240/29 le 32,
+  187.219.121.16/29 le 32,
+  187.219.121.48/29 le 32,
+  187.219.121.80/29 le 32,
+  187.219.121.112/29 le 32,
+  187.219.121.144/29 le 32,
+  187.219.121.176/29 le 32,
+  187.219.121.208/29 le 32,
+  187.219.121.240/29 le 32,
+  187.219.124.16/29 le 32,
+  187.219.124.48/29 le 32,
+  187.219.124.80/29 le 32,
+  187.219.124.112/29 le 32,
+  187.219.124.144/29 le 32,
+  187.219.124.176/29 le 32,
+  187.219.124.208/29 le 32,
+  187.219.124.240/29 le 32,
+  187.219.127.16/29 le 32,
+  187.219.127.48/29 le 32,
+  187.219.127.80/29 le 32,
+  187.219.127.112/29 le 32,
+  187.219.127.144/29 le 32,
+  187.219.127.176/29 le 32,
+  187.219.127.208/29 le 32,
+  187.219.127.240/29 le 32,
+  187.219.157.16/29 le 32,
+  187.219.157.48/29 le 32,
+  187.219.157.80/29 le 32,
+  187.219.157.112/29 le 32,
+  187.219.157.144/29 le 32,
+  187.219.157.176/29 le 32,
+  187.219.157.208/29 le 32,
+  187.219.157.240/29 le 32,
+  187.219.159.16/29 le 32,
+  187.219.159.48/29 le 32,
+  187.219.159.80/29 le 32,
+  187.219.159.112/29 le 32,
+  187.219.159.144/29 le 32,
+  187.219.159.176/29 le 32,
+  187.219.159.208/29 le 32,
+  187.219.159.240/29 le 32,
+  187.219.18.16/29 le 32,
+  187.219.18.48/29 le 32,
+  187.219.18.80/29 le 32,
+  187.219.18.112/29 le 32,
+  187.219.18.144/29 le 32,
+  187.219.18.176/29 le 32,
+  187.219.18.208/29 le 32,
+  187.219.18.240/29 le 32,
+  187.219.189.16/29 le 32,
+  187.219.189.48/29 le 32,
+  187.219.189.80/29 le 32,
+  187.219.189.112/29 le 32,
+  187.219.189.144/29 le 32,
+  187.219.189.176/29 le 32,
+  187.219.189.208/29 le 32,
+  187.219.189.240/29 le 32,
+  187.219.191.16/29 le 32,
+  187.219.191.48/29 le 32,
+  187.219.191.80/29 le 32,
+  187.219.191.112/29 le 32,
+  187.219.191.144/29 le 32,
+  187.219.191.176/29 le 32,
+  187.219.191.208/29 le 32,
+  187.219.191.240/29 le 32,
+  187.219.197.16/29 le 32,
+  187.219.197.48/29 le 32,
+  187.219.197.80/29 le 32,
+  187.219.197.112/29 le 32,
+  187.219.197.144/29 le 32,
+  187.219.197.176/29 le 32,
+  187.219.197.208/29 le 32,
+  187.219.197.240/29 le 32,
+  187.219.2.16/29 le 32,
+  187.219.2.48/29 le 32,
+  187.219.2.80/29 le 32,
+  187.219.2.112/29 le 32,
+  187.219.2.144/29 le 32,
+  187.219.2.176/29 le 32,
+  187.219.2.208/29 le 32,
+  187.219.2.240/29 le 32,
+  187.219.213.16/29 le 32,
+  187.219.213.48/29 le 32,
+  187.219.213.80/29 le 32,
+  187.219.213.112/29 le 32,
+  187.219.213.144/29 le 32,
+  187.219.213.176/29 le 32,
+  187.219.213.208/29 le 32,
+  187.219.213.240/29 le 32,
+  187.219.222.16/29 le 32,
+  187.219.222.48/29 le 32,
+  187.219.222.80/29 le 32,
+  187.219.222.112/29 le 32,
+  187.219.222.144/29 le 32,
+  187.219.222.176/29 le 32,
+  187.219.222.208/29 le 32,
+  187.219.222.240/29 le 32,
+  187.219.223.16/29 le 32,
+  187.219.223.48/29 le 32,
+  187.219.223.80/29 le 32,
+  187.219.223.112/29 le 32,
+  187.219.223.144/29 le 32,
+  187.219.223.176/29 le 32,
+  187.219.223.208/29 le 32,
+  187.219.223.240/29 le 32,
+  187.219.237.16/29 le 32,
+  187.219.237.48/29 le 32,
+  187.219.237.80/29 le 32,
+  187.219.237.112/29 le 32,
+  187.219.237.144/29 le 32,
+  187.219.237.176/29 le 32,
+  187.219.237.208/29 le 32,
+  187.219.237.240/29 le 32,
+  187.219.239.16/29 le 32,
+  187.219.239.48/29 le 32,
+  187.219.239.80/29 le 32,
+  187.219.239.112/29 le 32,
+  187.219.239.144/29 le 32,
+  187.219.239.176/29 le 32,
+  187.219.239.208/29 le 32,
+  187.219.239.240/29 le 32,
+  187.219.30.16/29 le 32,
+  187.219.30.48/29 le 32,
+  187.219.30.80/29 le 32,
+  187.219.30.112/29 le 32,
+  187.219.30.144/29 le 32,
+  187.219.30.176/29 le 32,
+  187.219.30.208/29 le 32,
+  187.219.30.240/29 le 32,
+  187.219.32.16/29 le 32,
+  187.219.32.48/29 le 32,
+  187.219.32.80/29 le 32,
+  187.219.32.112/29 le 32,
+  187.219.32.144/29 le 32,
+  187.219.32.176/29 le 32,
+  187.219.32.208/29 le 32,
+  187.219.32.240/29 le 32,
+  187.219.59.16/29 le 32,
+  187.219.59.48/29 le 32,
+  187.219.59.80/29 le 32,
+  187.219.59.112/29 le 32,
+  187.219.59.144/29 le 32,
+  187.219.59.176/29 le 32,
+  187.219.59.208/29 le 32,
+  187.219.59.240/29 le 32,
+  187.219.71.16/29 le 32,
+  187.219.71.48/29 le 32,
+  187.219.71.80/29 le 32,
+  187.219.71.112/29 le 32,
+  187.219.71.144/29 le 32,
+  187.219.71.176/29 le 32,
+  187.219.71.208/29 le 32,
+  187.219.71.240/29 le 32,
+  187.219.87.16/29 le 32,
+  187.219.87.48/29 le 32,
+  187.219.87.80/29 le 32,
+  187.219.87.112/29 le 32,
+  187.219.87.144/29 le 32,
+  187.219.87.176/29 le 32,
+  187.219.87.208/29 le 32,
+  187.219.87.240/29 le 32,
+  187.219.95.16/29 le 32,
+  187.219.95.48/29 le 32,
+  187.219.95.80/29 le 32,
+  187.219.95.112/29 le 32,
+  187.219.95.144/29 le 32,
+  187.219.95.176/29 le 32,
+  187.219.95.208/29 le 32,
+  187.219.95.240/29 le 32,
+  187.238.157.16/29 le 32,
+  187.238.157.48/29 le 32,
+  187.238.157.80/29 le 32,
+  187.238.157.112/29 le 32,
+  187.238.157.144/29 le 32,
+  187.238.157.176/29 le 32,
+  187.238.157.208/29 le 32,
+  187.238.157.240/29 le 32,
+  187.238.159.16/29 le 32,
+  187.238.159.48/29 le 32,
+  187.238.159.80/29 le 32,
+  187.238.159.112/29 le 32,
+  187.238.159.144/29 le 32,
+  187.238.159.176/29 le 32,
+  187.238.159.208/29 le 32,
+  187.238.159.240/29 le 32,
+  187.238.205.16/29 le 32,
+  187.238.205.48/29 le 32,
+  187.238.205.80/29 le 32,
+  187.238.205.112/29 le 32,
+  187.238.205.144/29 le 32,
+  187.238.205.176/29 le 32,
+  187.238.205.208/29 le 32,
+  187.238.205.240/29 le 32,
+  187.238.220.16/29 le 32,
+  187.238.220.48/29 le 32,
+  187.238.220.80/29 le 32,
+  187.238.220.112/29 le 32,
+  187.238.220.144/29 le 32,
+  187.238.220.176/29 le 32,
+  187.238.220.208/29 le 32,
+  187.238.220.240/29 le 32,
+  187.238.222.16/29 le 32,
+  187.238.222.48/29 le 32,
+  187.238.222.80/29 le 32,
+  187.238.222.112/29 le 32,
+  187.238.222.144/29 le 32,
+  187.238.222.176/29 le 32,
+  187.238.222.208/29 le 32,
+  187.238.222.240/29 le 32,
+  187.238.252.16/29 le 32,
+  187.238.252.48/29 le 32,
+  187.238.252.80/29 le 32,
+  187.238.252.112/29 le 32,
+  187.238.252.144/29 le 32,
+  187.238.252.176/29 le 32,
+  187.238.252.208/29 le 32,
+  187.238.252.240/29 le 32,
+  187.238.254.16/29 le 32,
+  187.238.254.48/29 le 32,
+  187.238.254.80/29 le 32,
+  187.238.254.112/29 le 32,
+  187.238.254.144/29 le 32,
+  187.238.254.176/29 le 32,
+  187.238.254.208/29 le 32,
+  187.238.254.240/29 le 32,
+  187.238.30.16/29 le 32,
+  187.238.30.48/29 le 32,
+  187.238.30.80/29 le 32,
+  187.238.30.112/29 le 32,
+  187.238.30.144/29 le 32,
+  187.238.30.176/29 le 32,
+  187.238.30.208/29 le 32,
+  187.238.30.240/29 le 32,
+  187.238.57.16/29 le 32,
+  187.238.57.48/29 le 32,
+  187.238.57.80/29 le 32,
+  187.238.57.112/29 le 32,
+  187.238.57.144/29 le 32,
+  187.238.57.176/29 le 32,
+  187.238.57.208/29 le 32,
+  187.238.57.240/29 le 32,
+  187.238.61.16/29 le 32,
+  187.238.61.48/29 le 32,
+  187.238.61.80/29 le 32,
+  187.238.61.112/29 le 32,
+  187.238.61.144/29 le 32,
+  187.238.61.176/29 le 32,
+  187.238.61.208/29 le 32,
+  187.238.61.240/29 le 32,
+  187.238.90.16/29 le 32,
+  187.238.90.48/29 le 32,
+  187.238.90.80/29 le 32,
+  187.238.90.112/29 le 32,
+  187.238.90.144/29 le 32,
+  187.238.90.176/29 le 32,
+  187.238.90.208/29 le 32,
+  187.238.90.240/29 le 32,
+  187.238.95.16/29 le 32,
+  187.238.95.48/29 le 32,
+  187.238.95.80/29 le 32,
+  187.238.95.112/29 le 32,
+  187.238.95.144/29 le 32,
+  187.238.95.176/29 le 32,
+  187.238.95.208/29 le 32,
+  187.238.95.240/29 le 32,
+  201.129.47.16/29 le 32,
+  201.129.47.48/29 le 32,
+  201.129.47.80/29 le 32,
+  201.129.47.112/29 le 32,
+  201.129.47.144/29 le 32,
+  201.129.47.176/29 le 32,
+  201.129.47.208/29 le 32,
+  201.129.47.240/29 le 32
+end-set
+!
+prefix-set 4_LINKS_4
+  187.174.0.24/29 le 32,
+  187.174.0.56/29 le 32,
+  187.174.0.88/29 le 32,
+  187.174.0.120/29 le 32,
+  187.174.0.152/29 le 32,
+  187.174.0.184/29 le 32,
+  187.174.0.216/29 le 32,
+  187.174.0.248/29 le 32,
+  187.174.1.24/29 le 32,
+  187.174.1.56/29 le 32,
+  187.174.1.88/29 le 32,
+  187.174.1.120/29 le 32,
+  187.174.1.152/29 le 32,
+  187.174.1.184/29 le 32,
+  187.174.1.216/29 le 32,
+  187.174.1.248/29 le 32,
+  187.174.16.24/29 le 32,
+  187.174.16.56/29 le 32,
+  187.174.16.88/29 le 32,
+  187.174.16.120/29 le 32,
+  187.174.16.152/29 le 32,
+  187.174.16.184/29 le 32,
+  187.174.16.216/29 le 32,
+  187.174.16.248/29 le 32,
+  187.174.18.24/29 le 32,
+  187.174.18.56/29 le 32,
+  187.174.18.88/29 le 32,
+  187.174.18.120/29 le 32,
+  187.174.18.152/29 le 32,
+  187.174.18.184/29 le 32,
+  187.174.18.216/29 le 32,
+  187.174.18.248/29 le 32,
+  187.174.19.24/29 le 32,
+  187.174.19.56/29 le 32,
+  187.174.19.88/29 le 32,
+  187.174.19.120/29 le 32,
+  187.174.19.152/29 le 32,
+  187.174.19.184/29 le 32,
+  187.174.19.216/29 le 32,
+  187.174.19.248/29 le 32,
+  187.174.2.24/29 le 32,
+  187.174.2.56/29 le 32,
+  187.174.2.88/29 le 32,
+  187.174.2.120/29 le 32,
+  187.174.2.152/29 le 32,
+  187.174.2.184/29 le 32,
+  187.174.2.216/29 le 32,
+  187.174.2.248/29 le 32,
+  187.174.20.24/29 le 32,
+  187.174.20.56/29 le 32,
+  187.174.20.88/29 le 32,
+  187.174.20.120/29 le 32,
+  187.174.20.152/29 le 32,
+  187.174.20.184/29 le 32,
+  187.174.20.216/29 le 32,
+  187.174.20.248/29 le 32,
+  187.174.21.24/29 le 32,
+  187.174.21.56/29 le 32,
+  187.174.21.88/29 le 32,
+  187.174.21.120/29 le 32,
+  187.174.21.152/29 le 32,
+  187.174.21.184/29 le 32,
+  187.174.21.216/29 le 32,
+  187.174.21.248/29 le 32,
+  187.174.3.24/29 le 32,
+  187.174.3.56/29 le 32,
+  187.174.3.88/29 le 32,
+  187.174.3.120/29 le 32,
+  187.174.3.152/29 le 32,
+  187.174.3.184/29 le 32,
+  187.174.3.216/29 le 32,
+  187.174.3.248/29 le 32,
+  187.174.6.24/29 le 32,
+  187.174.6.56/29 le 32,
+  187.174.6.88/29 le 32,
+  187.174.6.120/29 le 32,
+  187.174.6.152/29 le 32,
+  187.174.6.184/29 le 32,
+  187.174.6.216/29 le 32,
+  187.174.6.248/29 le 32,
+  187.174.7.24/29 le 32,
+  187.174.7.56/29 le 32,
+  187.174.7.88/29 le 32,
+  187.174.7.120/29 le 32,
+  187.174.7.152/29 le 32,
+  187.174.7.184/29 le 32,
+  187.174.7.216/29 le 32,
+  187.174.7.248/29 le 32,
+  187.196.100.24/29 le 32,
+  187.196.100.56/29 le 32,
+  187.196.100.88/29 le 32,
+  187.196.100.120/29 le 32,
+  187.196.100.152/29 le 32,
+  187.196.100.184/29 le 32,
+  187.196.100.216/29 le 32,
+  187.196.100.248/29 le 32,
+  187.196.109.24/29 le 32,
+  187.196.109.56/29 le 32,
+  187.196.109.88/29 le 32,
+  187.196.109.120/29 le 32,
+  187.196.109.152/29 le 32,
+  187.196.109.184/29 le 32,
+  187.196.109.216/29 le 32,
+  187.196.109.248/29 le 32,
+  187.196.110.24/29 le 32,
+  187.196.110.56/29 le 32,
+  187.196.110.88/29 le 32,
+  187.196.110.120/29 le 32,
+  187.196.110.152/29 le 32,
+  187.196.110.184/29 le 32,
+  187.196.110.216/29 le 32,
+  187.196.110.248/29 le 32,
+  187.196.127.24/29 le 32,
+  187.196.127.56/29 le 32,
+  187.196.127.88/29 le 32,
+  187.196.127.120/29 le 32,
+  187.196.127.152/29 le 32,
+  187.196.127.184/29 le 32,
+  187.196.127.216/29 le 32,
+  187.196.127.248/29 le 32,
+  187.196.30.24/29 le 32,
+  187.196.30.56/29 le 32,
+  187.196.30.88/29 le 32,
+  187.196.30.120/29 le 32,
+  187.196.30.152/29 le 32,
+  187.196.30.184/29 le 32,
+  187.196.30.216/29 le 32,
+  187.196.30.248/29 le 32,
+  187.196.47.24/29 le 32,
+  187.196.47.56/29 le 32,
+  187.196.47.88/29 le 32,
+  187.196.47.120/29 le 32,
+  187.196.47.152/29 le 32,
+  187.196.47.184/29 le 32,
+  187.196.47.216/29 le 32,
+  187.196.47.248/29 le 32,
+  187.196.91.24/29 le 32,
+  187.196.91.56/29 le 32,
+  187.196.91.88/29 le 32,
+  187.196.91.120/29 le 32,
+  187.196.91.152/29 le 32,
+  187.196.91.184/29 le 32,
+  187.196.91.216/29 le 32,
+  187.196.91.248/29 le 32,
+  187.196.99.24/29 le 32,
+  187.196.99.56/29 le 32,
+  187.196.99.88/29 le 32,
+  187.196.99.120/29 le 32,
+  187.196.99.152/29 le 32,
+  187.196.99.184/29 le 32,
+  187.196.99.216/29 le 32,
+  187.196.99.248/29 le 32,
+  187.219.116.24/29 le 32,
+  187.219.116.56/29 le 32,
+  187.219.116.88/29 le 32,
+  187.219.116.120/29 le 32,
+  187.219.116.152/29 le 32,
+  187.219.116.184/29 le 32,
+  187.219.116.216/29 le 32,
+  187.219.116.248/29 le 32,
+  187.219.121.24/29 le 32,
+  187.219.121.56/29 le 32,
+  187.219.121.88/29 le 32,
+  187.219.121.120/29 le 32,
+  187.219.121.152/29 le 32,
+  187.219.121.184/29 le 32,
+  187.219.121.216/29 le 32,
+  187.219.121.248/29 le 32,
+  187.219.124.24/29 le 32,
+  187.219.124.56/29 le 32,
+  187.219.124.88/29 le 32,
+  187.219.124.120/29 le 32,
+  187.219.124.152/29 le 32,
+  187.219.124.184/29 le 32,
+  187.219.124.216/29 le 32,
+  187.219.124.248/29 le 32,
+  187.219.127.24/29 le 32,
+  187.219.127.56/29 le 32,
+  187.219.127.88/29 le 32,
+  187.219.127.120/29 le 32,
+  187.219.127.152/29 le 32,
+  187.219.127.184/29 le 32,
+  187.219.127.216/29 le 32,
+  187.219.127.248/29 le 32,
+  187.219.157.24/29 le 32,
+  187.219.157.56/29 le 32,
+  187.219.157.88/29 le 32,
+  187.219.157.120/29 le 32,
+  187.219.157.152/29 le 32,
+  187.219.157.184/29 le 32,
+  187.219.157.216/29 le 32,
+  187.219.157.248/29 le 32,
+  187.219.159.24/29 le 32,
+  187.219.159.56/29 le 32,
+  187.219.159.88/29 le 32,
+  187.219.159.120/29 le 32,
+  187.219.159.152/29 le 32,
+  187.219.159.184/29 le 32,
+  187.219.159.216/29 le 32,
+  187.219.159.248/29 le 32,
+  187.219.18.24/29 le 32,
+  187.219.18.56/29 le 32,
+  187.219.18.88/29 le 32,
+  187.219.18.120/29 le 32,
+  187.219.18.152/29 le 32,
+  187.219.18.184/29 le 32,
+  187.219.18.216/29 le 32,
+  187.219.18.248/29 le 32,
+  187.219.189.24/29 le 32,
+  187.219.189.56/29 le 32,
+  187.219.189.88/29 le 32,
+  187.219.189.120/29 le 32,
+  187.219.189.152/29 le 32,
+  187.219.189.184/29 le 32,
+  187.219.189.216/29 le 32,
+  187.219.189.248/29 le 32,
+  187.219.191.24/29 le 32,
+  187.219.191.56/29 le 32,
+  187.219.191.88/29 le 32,
+  187.219.191.120/29 le 32,
+  187.219.191.152/29 le 32,
+  187.219.191.184/29 le 32,
+  187.219.191.216/29 le 32,
+  187.219.191.248/29 le 32,
+  187.219.197.24/29 le 32,
+  187.219.197.56/29 le 32,
+  187.219.197.88/29 le 32,
+  187.219.197.120/29 le 32,
+  187.219.197.152/29 le 32,
+  187.219.197.184/29 le 32,
+  187.219.197.216/29 le 32,
+  187.219.197.248/29 le 32,
+  187.219.2.24/29 le 32,
+  187.219.2.56/29 le 32,
+  187.219.2.88/29 le 32,
+  187.219.2.120/29 le 32,
+  187.219.2.152/29 le 32,
+  187.219.2.184/29 le 32,
+  187.219.2.216/29 le 32,
+  187.219.2.248/29 le 32,
+  187.219.213.24/29 le 32,
+  187.219.213.56/29 le 32,
+  187.219.213.88/29 le 32,
+  187.219.213.120/29 le 32,
+  187.219.213.152/29 le 32,
+  187.219.213.184/29 le 32,
+  187.219.213.216/29 le 32,
+  187.219.213.248/29 le 32,
+  187.219.222.24/29 le 32,
+  187.219.222.56/29 le 32,
+  187.219.222.88/29 le 32,
+  187.219.222.120/29 le 32,
+  187.219.222.152/29 le 32,
+  187.219.222.184/29 le 32,
+  187.219.222.216/29 le 32,
+  187.219.222.248/29 le 32,
+  187.219.223.24/29 le 32,
+  187.219.223.56/29 le 32,
+  187.219.223.88/29 le 32,
+  187.219.223.120/29 le 32,
+  187.219.223.152/29 le 32,
+  187.219.223.184/29 le 32,
+  187.219.223.216/29 le 32,
+  187.219.223.248/29 le 32,
+  187.219.237.24/29 le 32,
+  187.219.237.56/29 le 32,
+  187.219.237.88/29 le 32,
+  187.219.237.120/29 le 32,
+  187.219.237.152/29 le 32,
+  187.219.237.184/29 le 32,
+  187.219.237.216/29 le 32,
+  187.219.237.248/29 le 32,
+  187.219.239.24/29 le 32,
+  187.219.239.56/29 le 32,
+  187.219.239.88/29 le 32,
+  187.219.239.120/29 le 32,
+  187.219.239.152/29 le 32,
+  187.219.239.184/29 le 32,
+  187.219.239.216/29 le 32,
+  187.219.239.248/29 le 32,
+  187.219.30.24/29 le 32,
+  187.219.30.56/29 le 32,
+  187.219.30.88/29 le 32,
+  187.219.30.120/29 le 32,
+  187.219.30.152/29 le 32,
+  187.219.30.184/29 le 32,
+  187.219.30.216/29 le 32,
+  187.219.30.248/29 le 32,
+  187.219.32.24/29 le 32,
+  187.219.32.56/29 le 32,
+  187.219.32.88/29 le 32,
+  187.219.32.120/29 le 32,
+  187.219.32.152/29 le 32,
+  187.219.32.184/29 le 32,
+  187.219.32.216/29 le 32,
+  187.219.32.248/29 le 32,
+  187.219.59.24/29 le 32,
+  187.219.59.56/29 le 32,
+  187.219.59.88/29 le 32,
+  187.219.59.120/29 le 32,
+  187.219.59.152/29 le 32,
+  187.219.59.184/29 le 32,
+  187.219.59.216/29 le 32,
+  187.219.59.248/29 le 32,
+  187.219.71.24/29 le 32,
+  187.219.71.56/29 le 32,
+  187.219.71.88/29 le 32,
+  187.219.71.120/29 le 32,
+  187.219.71.152/29 le 32,
+  187.219.71.184/29 le 32,
+  187.219.71.216/29 le 32,
+  187.219.71.248/29 le 32,
+  187.219.87.24/29 le 32,
+  187.219.87.56/29 le 32,
+  187.219.87.88/29 le 32,
+  187.219.87.120/29 le 32,
+  187.219.87.152/29 le 32,
+  187.219.87.184/29 le 32,
+  187.219.87.216/29 le 32,
+  187.219.87.248/29 le 32,
+  187.219.95.24/29 le 32,
+  187.219.95.56/29 le 32,
+  187.219.95.88/29 le 32,
+  187.219.95.120/29 le 32,
+  187.219.95.152/29 le 32,
+  187.219.95.184/29 le 32,
+  187.219.95.216/29 le 32,
+  187.219.95.248/29 le 32,
+  187.238.157.24/29 le 32,
+  187.238.157.56/29 le 32,
+  187.238.157.88/29 le 32,
+  187.238.157.120/29 le 32,
+  187.238.157.152/29 le 32,
+  187.238.157.184/29 le 32,
+  187.238.157.216/29 le 32,
+  187.238.157.248/29 le 32,
+  187.238.159.24/29 le 32,
+  187.238.159.56/29 le 32,
+  187.238.159.88/29 le 32,
+  187.238.159.120/29 le 32,
+  187.238.159.152/29 le 32,
+  187.238.159.184/29 le 32,
+  187.238.159.216/29 le 32,
+  187.238.159.248/29 le 32,
+  187.238.205.24/29 le 32,
+  187.238.205.56/29 le 32,
+  187.238.205.88/29 le 32,
+  187.238.205.120/29 le 32,
+  187.238.205.152/29 le 32,
+  187.238.205.184/29 le 32,
+  187.238.205.216/29 le 32,
+  187.238.205.248/29 le 32,
+  187.238.220.24/29 le 32,
+  187.238.220.56/29 le 32,
+  187.238.220.88/29 le 32,
+  187.238.220.120/29 le 32,
+  187.238.220.152/29 le 32,
+  187.238.220.184/29 le 32,
+  187.238.220.216/29 le 32,
+  187.238.220.248/29 le 32,
+  187.238.222.24/29 le 32,
+  187.238.222.56/29 le 32,
+  187.238.222.88/29 le 32,
+  187.238.222.120/29 le 32,
+  187.238.222.152/29 le 32,
+  187.238.222.184/29 le 32,
+  187.238.222.216/29 le 32,
+  187.238.222.248/29 le 32,
+  187.238.252.24/29 le 32,
+  187.238.252.56/29 le 32,
+  187.238.252.88/29 le 32,
+  187.238.252.120/29 le 32,
+  187.238.252.152/29 le 32,
+  187.238.252.184/29 le 32,
+  187.238.252.216/29 le 32,
+  187.238.252.248/29 le 32,
+  187.238.254.24/29 le 32,
+  187.238.254.56/29 le 32,
+  187.238.254.88/29 le 32,
+  187.238.254.120/29 le 32,
+  187.238.254.152/29 le 32,
+  187.238.254.184/29 le 32,
+  187.238.254.216/29 le 32,
+  187.238.254.248/29 le 32,
+  187.238.30.24/29 le 32,
+  187.238.30.56/29 le 32,
+  187.238.30.88/29 le 32,
+  187.238.30.120/29 le 32,
+  187.238.30.152/29 le 32,
+  187.238.30.184/29 le 32,
+  187.238.30.216/29 le 32,
+  187.238.30.248/29 le 32,
+  187.238.57.24/29 le 32,
+  187.238.57.56/29 le 32,
+  187.238.57.88/29 le 32,
+  187.238.57.120/29 le 32,
+  187.238.57.152/29 le 32,
+  187.238.57.184/29 le 32,
+  187.238.57.216/29 le 32,
+  187.238.57.248/29 le 32,
+  187.238.61.24/29 le 32,
+  187.238.61.56/29 le 32,
+  187.238.61.88/29 le 32,
+  187.238.61.120/29 le 32,
+  187.238.61.152/29 le 32,
+  187.238.61.184/29 le 32,
+  187.238.61.216/29 le 32,
+  187.238.61.248/29 le 32,
+  187.238.90.24/29 le 32,
+  187.238.90.56/29 le 32,
+  187.238.90.88/29 le 32,
+  187.238.90.120/29 le 32,
+  187.238.90.152/29 le 32,
+  187.238.90.184/29 le 32,
+  187.238.90.216/29 le 32,
+  187.238.90.248/29 le 32,
+  187.238.95.24/29 le 32,
+  187.238.95.56/29 le 32,
+  187.238.95.88/29 le 32,
+  187.238.95.120/29 le 32,
+  187.238.95.152/29 le 32,
+  187.238.95.184/29 le 32,
+  187.238.95.216/29 le 32,
+  187.238.95.248/29 le 32,
+  201.129.47.24/29 le 32,
+  201.129.47.56/29 le 32,
+  201.129.47.88/29 le 32,
+  201.129.47.120/29 le 32,
+  201.129.47.152/29 le 32,
+  201.129.47.184/29 le 32,
+  201.129.47.216/29 le 32,
+  201.129.47.248/29 le 32
+end-set
+!
+prefix-set VPNSC_GREY_MGMT_ACL
+  187.219.52.216/30 le 32,
+  187.219.176.100/30 le 32,
+  187.219.184.208/30 le 32,
+  187.219.180.148/30 le 32,
+  201.134.123.4/30 le 32,
+  201.118.216.32/30 le 32,
+  187.219.184.192/30 le 32,
+  187.219.183.92/30 le 32,
+  187.238.133.112/30 le 32,
+  187.238.158.56/30 le 32,
+  164.47.74.76/30 le 32,
+  187.238.179.40/30 le 32,
+  187.238.156.208/30 le 32,
+  189.255.183.56/30 le 32,
+  187.219.37.152/30 le 32,
+  187.196.187.252/30 le 32,
+  201.129.28.240/30 le 32,
+  187.196.186.168/30 le 32,
+  187.196.145.192/30 le 32,
+  201.134.123.184/30 le 32,
+  201.134.120.152/30 le 32,
+  187.196.211.224/30 le 32,
+  187.196.229.100/30 le 32,
+  187.173.103.120/30 le 32,
+  187.219.42.196/30 le 32,
+  187.196.46.32/30 le 32,
+  187.196.45.100/30 le 32,
+  187.219.49.20/30 le 32,
+  187.219.40.224/30 le 32,
+  189.255.52.28/30 le 32,
+  187.238.76.84/30 le 32,
+  201.112.48.56/30 le 32,
+  187.219.48.16/30 le 32,
+  201.112.45.216/30 le 32,
+  187.196.40.116/30 le 32,
+  201.112.83.228/30 le 32,
+  201.134.51.116/30 le 32,
+  187.196.150.52/30 le 32,
+  187.219.53.200/30 le 32,
+  201.112.72.240/30 le 32,
+  201.112.85.248/30 le 32,
+  189.255.56.20/30 le 32,
+  187.219.44.52/30 le 32,
+  201.134.57.192/30 le 32,
+  201.115.109.16/30 le 32,
+  201.115.65.168/30 le 32,
+  201.115.53.100/30 le 32,
+  201.115.83.136/30 le 32,
+  201.115.75.20/30 le 32,
+  187.219.39.204/30 le 32,
+  201.115.81.104/30 le 32,
+  187.173.83.20/30 le 32,
+  201.115.44.152/30 le 32,
+  187.238.213.0/30 le 32,
+  201.112.18.120/30 le 32,
+  201.147.63.4/30 le 32,
+  201.115.242.72/30 le 32,
+  201.115.37.148/30 le 32,
+  201.115.46.192/30 le 32,
+  201.115.51.184/30 le 32,
+  187.196.224.120/30 le 32,
+  201.115.76.124/30 le 32,
+  201.112.64.200/30 le 32
+end-set
+!
+community-set 1
+  8151:285
+end-set
+!
+community-set 2
+  8151:286
+end-set
+!
+community-set 3
+  8151:287
+end-set
+!
+community-set 4
+  8151:288
+end-set
+!
+community-set 5
+  8151:289
+end-set
+!
+community-set 6
+  8151:1025
+end-set
+!
+community-set 7
+  8151:1026
+end-set
+!
+community-set 8
+  8151:1027
+end-set
+!
+community-set 9
+  8151:1028
+end-set
+!
+community-set 10
+  8151:1030
+end-set
+!
+community-set 11
+  8151:1031
+end-set
+!
+community-set 12
+  8151:1032
+end-set
+!
+community-set 15
+  8151:1029
+end-set
+!
+community-set 16
+  8151:321
+end-set
+!
+community-set 17
+  8151:322
+end-set
+!
+community-set 18
+  8151:326
+end-set
+!
+community-set 19
+  8151:327
+end-set
+!
+community-set 20
+  8151:331
+end-set
+!
+community-set 21
+  8151:332
+end-set
+!
+community-set 100
+  8151:1060
+end-set
+!
+community-set 101
+  8151:1061
+end-set
+!
+community-set 102
+  8151:1062
+end-set
+!
+community-set 103
+  8151:1063
+end-set
+!
+community-set 104
+  8151:1064
+end-set
+!
+community-set 105
+  ios-regex '8151:105[5-9]',
+  ios-regex '8151:10[6-7][0-9]'
+end-set
+!
+community-set 106
+  ios-regex '8151:105[5-9]',
+  ios-regex '8151:10[6-7][0-9]'
+end-set
+!
+community-set 1055
+  *
+end-set
+!
+route-policy MED
+  set med igp-cost
+  pass
+end-policy
+!
+route-policy PASS
+  pass
+end-policy
+!
+route-policy RTVOIP
+  if extcommunity rt matches-any COMUNIDADES_VOZ then
+    pass
+  else
+    drop
+  endif
+end-policy
+!
+route-policy VPN_INT
+  if (destination in 1) then
+    set community (28513:1281) additive
+  endif
+end-policy
+!
+route-policy NORTVOIP
+  if extcommunity rt matches-any COMUNIDADES_VOZ then
+    drop
+  else
+    pass
+  endif
+end-policy
+!
+route-policy DUAL_HOMED
+  if (community matches-any 1) then
+    set local-preference 100
+  elseif (community matches-any 2) then
+    set local-preference 98
+  elseif (community matches-any 3) then
+    set local-preference 96
+  elseif (community matches-any 4) then
+    set local-preference 94
+  elseif (community matches-any 5) then
+    set local-preference 92
+  elseif (community matches-any 6) then
+    set local-preference 110
+  elseif (community matches-any 7) then
+    set local-preference 108
+  elseif (community matches-any 8) then
+    set local-preference 106
+  elseif (community matches-any 9) then
+    set local-preference 104
+  elseif (community matches-any 15) then
+    set local-preference 102
+  elseif (community matches-any 16) then
+    set local-preference 90
+  elseif (community matches-any 17) then
+    set local-preference 88
+  elseif (community matches-any 18) then
+    set local-preference 80
+  elseif (community matches-any 19) then
+    set local-preference 78
+  elseif (community matches-any 20) then
+    set local-preference 70
+  elseif (community matches-any 21) then
+    set local-preference 68
+  endif
+end-policy
+!
+route-policy VPN_INT_V6
+  if (destination in 1_V6) then
+    set community (28513:1281) additive
+  endif
+end-policy
+!
+route-policy A_4LINKS_E1
+  set med igp-cost
+  pass
+  if destination in 4_LINKS_2 then
+    set med +20
+  endif
+  if destination in 4_LINKS_3 then
+    set med +40
+  endif
+  if destination in 4_LINKS_4 then
+    set med +60
+  else
+    pass
+  endif
+end-policy
+!
+route-policy A_4LINKS_E2
+  set med igp-cost
+  pass
+  if destination in 4_LINKS_1 then
+    set med +20
+  endif
+  if destination in 4_LINKS_3 then
+    set med +40
+  endif
+  if destination in 4_LINKS_4 then
+    set med +60
+  else
+    pass
+  endif
+end-policy
+!
+route-policy A_4LINKS_E3
+  set med igp-cost
+  pass
+  if destination in 4_LINKS_1 then
+    set med +20
+  endif
+  if destination in 4_LINKS_2 then
+    set med +40
+  endif
+  if destination in 4_LINKS_4 then
+    set med +60
+  else
+    pass
+  endif
+end-policy
+!
+route-policy A_4LINKS_E4
+  set med igp-cost
+  pass
+  if destination in 4_LINKS_1 then
+    set med +20
+  endif
+  if destination in 4_LINKS_2 then
+    set med +40
+  endif
+  if destination in 4_LINKS_3 then
+    set med +60
+  else
+    pass
+  endif
+end-policy
+!
+route-policy MAXAS_LIMIT
+  if (as-path length ge 30) then
+    drop
+  else
+    pass
+  endif
+end-policy
+!
+route-policy COMUNIDAD_L2
+  set community (28513:419)
+  pass
+end-policy
+!
+route-policy REDES_A_REMOTOS
+  if (community matches-any 10) then
+    pass
+  elseif (community matches-any 11) then
+    pass
+  elseif (community matches-any 12) then
+    pass
+  endif
+end-policy
+!
+route-policy TRAFICO_CPE_ZONA
+  if (community matches-any 106) then
+    set local-preference 110
+  else
+    pass
+  endif
+end-policy
+!
+route-policy DUAL_HOMED_VPN_INT
+  if (community matches-any 1) then
+    set local-preference 100
+    set community (28513:1281) additive
+  elseif (community matches-any 2) then
+    set local-preference 98
+    set community (28513:1281) additive
+  elseif (community matches-any 3) then
+    set local-preference 96
+    set community (28513:1281) additive
+  elseif (community matches-any 4) then
+    set local-preference 94
+    set community (28513:1281) additive
+  elseif (community matches-any 5) then
+    set local-preference 92
+    set community (28513:1281) additive
+  elseif (community matches-any 6) then
+    set local-preference 110
+    set community (28513:1281) additive
+  elseif (community matches-any 7) then
+    set local-preference 108
+    set community (28513:1281) additive
+  elseif (community matches-any 8) then
+    set local-preference 106
+    set community (28513:1281) additive
+  elseif (community matches-any 9) then
+    set local-preference 104
+    set community (28513:1281) additive
+  elseif (community matches-any 15) then
+    set local-preference 102
+    set community (28513:1281) additive
+  elseif (community matches-any 16) then
+    set local-preference 90
+    set community (28513:1281) additive
+  elseif (community matches-any 17) then
+    set local-preference 88
+    set community (28513:1281) additive
+  elseif (community matches-any 18) then
+    set local-preference 80
+    set community (28513:1281) additive
+  elseif (community matches-any 19) then
+    set local-preference 78
+    set community (28513:1281) additive
+  elseif (community matches-any 20) then
+    set local-preference 70
+    set community (28513:1281) additive
+  elseif (community matches-any 21) then
+    set local-preference 68
+    set community (28513:1281) additive
+  endif
+end-policy
+!
+route-policy TRAFICO_CONTROL_ZONA
+  if (community matches-any 100) then
+    set local-preference 110
+  elseif (community matches-any 101) then
+    set local-preference 108
+  elseif (community matches-any 102) then
+    set local-preference 106
+  elseif (community matches-any 103) then
+    set local-preference 104
+  elseif (community matches-any 104) then
+    set local-preference 102
+  elseif not (community matches-any 105) then
+    pass
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V60399:VPN_CC_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:1197)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V53093:VPN_OEM_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:47856)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V53744:VPN_BBV_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:1040)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V56349:VPN_RAN_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:45503)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V56780:VPN_GEP_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:3607)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V57013:VPN_PGJ_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:8718)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V58444:VPN_IFE_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:41014)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V59092:VPN_CON_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:1234)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V59357:VPN_LALA_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:6603)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V60408:VPN_CMHNK_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:42334)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V53806:VPN_CIFRADO_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:41643)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V56699:VPN_SORIANA_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:1160)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V58193:VPN_PROFEPA_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:41702)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V58258:VPN_LEAR-VZ_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:54132, 28513:51442)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V52779:VPN_IMSS-RPV_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:51550)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V55783:VPN_INAMILIC_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:40832)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V56252:VPN_SEPDGTEC_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:40264)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V56270:VPN_SEP-SEMS_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:54094)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V56418:VPN_ATX_TKIP_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:41168)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V59446:VPN_PFEDERAL_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:43631)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V53104:VPN_P1IMSSSAC_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:45828)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V58524:VPN_LIVERPOOL_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:1274)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V58608:VPN_FOVISSSTE_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:54357)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V59095:VPN_INFONAVIT_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:1250)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V59129:VPN_BANCOPPEL_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:6544)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V52797:VPN_IMSS-VV-DAT_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:40029)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V55054:VPN_PORCELANITE_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:1295, 28513:51232)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V59029:VPN_NUESTRACAJA_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:40480)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V55541:VPN_BT-MOTHER-CM_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:54069, 28513:51416)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V58863:VPN_CORPDINAMICA_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:41592)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V58997:VPN_BANCOCOMPARTA_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:41464)
+  endif
+end-policy
+!
+route-policy grey_mgmt_vpn_Uninet_V55322:VPN_SUCURSALES-HSBC_0
+  if (destination in VPNSC_GREY_MGMT_ACL) then
+    set extcommunity rt (8151:1030, 8151:40822)
+  endif
+end-policy
+!
+router static
+ address-family ipv4 unicast
+  148.233.150.210/32 TenGigE0/0/0/0 189.246.189.170
+  148.233.150.210/32 TenGigE0/1/0/0 189.246.189.174 10
+  148.233.150.211/32 TenGigE0/0/0/0 189.246.189.170
+  148.233.150.211/32 TenGigE0/1/0/0 189.246.189.174 10
+  148.233.150.212/32 TenGigE0/0/0/0 189.246.189.170
+  148.233.150.212/32 TenGigE0/1/0/0 189.246.189.174 10
+  148.235.54.161/32 TenGigE0/0/0/0 189.246.189.170
+  148.235.54.161/32 TenGigE0/1/0/0 189.246.189.174 10
+  172.30.9.0/24 TenGigE0/0/0/0 189.246.189.170
+  172.30.9.0/24 TenGigE0/1/0/0 189.246.189.174 10
+  192.100.232.0/25 TenGigE0/0/0/0 189.246.189.170
+  192.100.232.0/25 TenGigE0/1/0/0 189.246.189.174 10
+  200.4.153.0/24 TenGigE0/0/0/0 189.246.189.170
+  200.4.153.0/24 TenGigE0/1/0/0 189.246.189.174 10
+  200.4.155.0/24 TenGigE0/0/0/0 189.246.189.170
+  200.4.155.0/24 TenGigE0/1/0/0 189.246.189.174 10
+  200.4.157.0/24 TenGigE0/0/0/0 189.246.189.170
+  200.4.157.0/24 TenGigE0/1/0/0 189.246.189.174 10
+  200.33.137.0/24 TenGigE0/0/0/0 189.246.189.170
+  200.33.137.0/24 TenGigE0/1/0/0 189.246.189.174 10
+  200.33.137.128/25 TenGigE0/0/0/0 189.246.189.170
+  200.33.137.128/25 TenGigE0/1/0/0 189.246.189.174 10
+  200.33.150.0/24 TenGigE0/0/0/0 189.246.189.170
+  200.33.150.0/24 TenGigE0/1/0/0 189.246.189.174 10
+  201.125.254.12/32 TenGigE0/0/0/0 189.246.189.170
+  201.125.254.12/32 TenGigE0/1/0/0 189.246.189.174 10
+  201.125.254.31/32 TenGigE0/0/0/0 189.246.189.170
+  201.125.254.31/32 TenGigE0/1/0/0 189.246.189.174 10
+  204.124.104.0/24 TenGigE0/0/0/0 189.246.189.170
+  204.124.104.0/24 TenGigE0/1/0/0 189.246.189.174 10
+  204.124.106.0/24 TenGigE0/0/0/0 189.246.189.170
+  204.124.106.0/24 TenGigE0/1/0/0 189.246.189.174 10
+  204.124.107.0/24 TenGigE0/0/0/0 189.246.189.170
+  204.124.107.0/24 TenGigE0/1/0/0 189.246.189.174 10
+ !
+ vrf VPN_TELMEX_L2_0
+  address-family ipv4 unicast
+   187.238.153.230/32 GigabitEthernet0/1/1/1
+   187.238.154.58/32 GigabitEthernet0/1/1/2
+   201.118.216.34/32 GigabitEthernet0/0/1/2
+  !
+ !
+ vrf V56418:VPN_ATX_TKIP_0
+  address-family ipv4 unicast
+   172.25.8.40/29 GigabitEthernet0/0/1/0.24 201.134.120.154
+   172.25.8.80/29 GigabitEthernet0/1/1/0.1 187.196.46.34
+   172.25.9.8/29 GigabitEthernet0/0/1/0.46 187.219.53.202
+   172.25.10.80/29 GigabitEthernet0/0/1/0.34 187.219.48.18
+   172.25.10.96/29 GigabitEthernet0/0/1/0.35 187.219.49.22
+   172.25.10.120/29 GigabitEthernet0/0/1/0.33 187.219.40.225
+   172.25.10.184/29 GigabitEthernet0/0/1/0.36 201.134.51.118
+   172.25.11.32/29 GigabitEthernet0/0/1/0.48 189.255.56.22
+   172.25.11.184/29 GigabitEthernet0/0/1/0.40 187.196.40.118
+  !
+ !
+ vrf V59029:VPN_NUESTRACAJA_0
+  address-family ipv4 unicast
+   172.31.255.17/32 GigabitEthernet0/0/1/1.1 201.134.57.194
+   192.20.5.0/24 GigabitEthernet0/0/1/1.1 201.134.57.194
+  !
+ !
+!
+router ospf 64512
+ nsr
+ log adjacency changes
+ router-id 201.154.30.134
+ passive enable
+ mpls ldp sync
+ nsf ietf
+ auto-cost reference-bandwidth 1000000
+ area 5.3.37.1
+  authentication message-digest
+  nssa
+  interface Loopback0
+  !
+  interface Loopback42
+  !
+  interface TenGigE0/0/0/0
+   cost 1100
+   message-digest-key 1 md5 encrypted 051B450331410A5F4E0819
+   network point-to-point
+   passive disable
+  !
+  interface TenGigE0/1/0/0
+   cost 1100
+   message-digest-key 1 md5 encrypted 0014500A14564F50582C42
+   network point-to-point
+   passive disable
+  !
+ !
+!
+router bgp 8151
+ nsr
+ bgp router-id 201.154.30.134
+ address-family ipv4 unicast
+  table-policy MAXAS_LIMIT
+ !
+ address-family vpnv4 unicast
+ !
+ address-family ipv6 unicast
+  table-policy MAXAS_LIMIT
+ !
+ address-family vpnv6 unicast
+ !
+ address-family ipv4 mdt
+ !
+ neighbor 201.125.0.232
+  remote-as 8151
+  password encrypted 150705050A793F752A3425
+  description rr-pue-fuertes-63
+  update-source Loopback0
+  address-family vpnv4 unicast
+   route-policy TRAFICO_CONTROL_ZONA in
+   route-policy NORTVOIP out
+  !
+  address-family vpnv6 unicast
+   next-hop-self
+  !
+  address-family ipv4 mdt
+  !
+ !
+ neighbor 201.125.0.233
+  remote-as 8151
+  password encrypted 044E050F0172581F0B1E15
+  description rr-pue-ctp-51
+  update-source Loopback0
+  address-family vpnv4 unicast
+   route-policy TRAFICO_CONTROL_ZONA in
+   route-policy NORTVOIP out
+  !
+  address-family vpnv6 unicast
+   next-hop-self
+  !
+  address-family ipv4 mdt
+  !
+ !
+ neighbor 201.154.253.7
+  remote-as 8151
+  password encrypted 071A2F45405A0D5415151B
+  description rratx-pue-ctp-65
+  update-source Loopback42
+  address-family vpnv4 unicast
+   route-policy RTVOIP out
+  !
+ !
+ neighbor 201.154.253.8
+  remote-as 8151
+  password encrypted 08344247074A1146100C1C
+  description rratx-pue-fuertes-73
+  update-source Loopback42
+  address-family vpnv4 unicast
+   route-policy RTVOIP out
+  !
+ !
+ vrf prueba
+  rd 8151:1
+  address-family ipv4 unicast
+   redistribute connected route-policy VPN_INT
+   redistribute static route-policy VPN_INT
+  !
+ !
+ vrf V60399:VPN_CC_0
+  rd 8151:60399
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf VPN_TELMEX_L2_0
+  rd 8151:33694
+  address-family ipv4 unicast
+   maximum-paths ebgp 6
+   dynamic-med interval 1
+   redistribute connected route-policy COMUNIDAD_L2
+   redistribute static
+   allocate-label all
+  !
+  neighbor 187.238.153.230
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 100
+   update-source GigabitEthernet0/1/1/1
+   address-family ipv4 labeled-unicast
+    send-community-ebgp
+    route-policy COMUNIDAD_L2 in
+    route-policy A_4LINKS_E2 out
+    as-override
+    send-extended-community-ebgp
+    soft-reconfiguration inbound
+   !
+  !
+  neighbor 187.238.154.58
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 100
+   update-source GigabitEthernet0/1/1/2
+   address-family ipv4 labeled-unicast
+    send-community-ebgp
+    route-policy COMUNIDAD_L2 in
+    route-policy A_4LINKS_E3 out
+    as-override
+    send-extended-community-ebgp
+    soft-reconfiguration inbound
+   !
+  !
+  neighbor 201.118.216.34
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 100
+   update-source GigabitEthernet0/0/1/2
+   address-family ipv4 labeled-unicast
+    send-community-ebgp
+    route-policy PASS in
+    route-policy A_4LINKS_E1 out
+    as-override
+    send-extended-community-ebgp
+    soft-reconfiguration inbound
+   !
+  !
+ !
+ vrf V53093:VPN_OEM_0
+  rd 8151:53093
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.219.180.150
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy DUAL_HOMED in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V53744:VPN_BBV_0
+  rd 8151:53744
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.219.37.154
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V56349:VPN_RAN_0
+  rd 8151:56349
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 201.134.123.186
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V56780:VPN_GEP_0
+  rd 8151:56780
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.196.229.102
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V57013:VPN_PGJ_0
+  rd 8151:57013
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.196.45.102
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V58444:VPN_IFE_0
+  rd 8151:58444
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 201.112.48.58
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 201.115.37.150
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy DUAL_HOMED in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 201.115.46.194
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy DUAL_HOMED in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 201.115.51.186
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy DUAL_HOMED in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V59092:VPN_CON_0
+  rd 8151:59092
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 201.115.109.18
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V59357:VPN_LALA_0
+  rd 8151:59357
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 201.115.75.22
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V60408:VPN_CMHNK_0
+  rd 8151:60408
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 201.112.64.202
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy DUAL_HOMED in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V53806:VPN_CIFRADO_0
+  rd 8151:53806
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.219.184.194
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy DUAL_HOMED in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V56699:VPN_SORIANA_0
+  rd 8151:56699
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.173.103.122
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.196.211.226
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.219.42.198
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V58193:VPN_PROFEPA_0
+  rd 8151:58193
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 189.255.52.30
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V58258:VPN_LEAR-VZ_0
+  rd 8151:58258
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected route-policy VPN_INT
+   redistribute static route-policy VPN_INT
+  !
+  neighbor 187.238.76.86
+   remote-as 65216
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V52779:VPN_IMSS-RPV_0
+  rd 8151:52779
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.219.52.218
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.219.176.102
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.219.183.94
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.219.184.210
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.238.158.58
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V55783:VPN_INAMILIC_0
+  rd 8151:55783
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.196.187.254
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 201.129.28.242
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V56252:VPN_SEPDGTEC_0
+  rd 8151:56252
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf V56270:VPN_SEP-SEMS_0
+  rd 8151:56270
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.196.145.194
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.196.186.170
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V56418:VPN_ATX_TKIP_0
+  rd 8151:56418
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf V59446:VPN_PFEDERAL_0
+  rd 8151:59446
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.196.224.122
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.219.39.206
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 201.115.242.74
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V53104:VPN_P1IMSSSAC_0
+  rd 8151:53104
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 201.134.123.6
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V58524:VPN_LIVERPOOL_0
+  rd 8151:58524
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.196.150.54
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 201.112.45.218
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V58608:VPN_FOVISSSTE_0
+  rd 8151:58608
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 201.112.83.230
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy DUAL_HOMED in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V59095:VPN_INFONAVIT_0
+  rd 8151:59095
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 201.115.65.170
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V59129:VPN_BANCOPPEL_0
+  rd 8151:59129
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.173.83.22
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.238.213.2
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 201.112.18.122
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 201.115.44.154
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 201.115.53.102
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 201.115.76.126
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 201.115.81.106
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 201.115.83.138
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 201.147.63.6
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V52797:VPN_IMSS-VV-DAT_0
+  rd 8151:52797
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf V55054:VPN_PORCELANITE_0
+  rd 8151:55054
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected route-policy VPN_INT
+   redistribute static route-policy VPN_INT
+  !
+  neighbor 187.238.133.114
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 187.238.156.210
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 189.255.183.58
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy DUAL_HOMED in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V59029:VPN_NUESTRACAJA_0
+  rd 8151:59029
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+ !
+ vrf V55541:VPN_BT-MOTHER-CM_0
+  rd 8151:55541
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected route-policy VPN_INT
+   redistribute static route-policy VPN_INT
+  !
+  neighbor 187.238.179.42
+   remote-as 64537
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy DUAL_HOMED in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V58863:VPN_CORPDINAMICA_0
+  rd 8151:58863
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 201.112.72.242
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+  neighbor 201.112.85.250
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V58997:VPN_BANCOCOMPARTA_0
+  rd 8151:58997
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 187.219.44.54
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+ vrf V55322:VPN_SUCURSALES-HSBC_0
+  rd 8151:55322
+  address-family ipv4 unicast
+   bgp dampening 1 625 10000 5
+   redistribute connected
+   redistribute static
+  !
+  neighbor 164.47.74.77
+   remote-as 65194
+   bfd fast-detect
+   bfd multiplier 3
+   bfd minimum-interval 999
+   address-family ipv4 unicast
+    send-community-ebgp
+    route-policy PASS in
+    maximum-prefix 100 80 restart 1
+    route-policy PASS out
+    as-override
+   !
+  !
+ !
+!
+mpls oam
+!
+mpls ldp
+ router-id 201.154.30.134
+ graceful-restart
+ interface TenGigE0/0/0/0
+ !
+ interface TenGigE0/1/0/0
+ !
+!
+multicast-routing
+ address-family ipv4
+  interface Loopback0
+   enable
+  !
+  interface TenGigE0/0/0/0
+   enable
+  !
+  interface TenGigE0/1/0/0
+   enable
+  !
+  nsf
+  mdt source Loopback0
+  multipath
+  ssm range Uninet_MDT-SSM
+  rate-per-route
+ !
+!
+mpls label range table 0 16000 1048575
+mpls ip-ttl-propagate disable forwarded
+router pim
+ address-family ipv4
+  interface Loopback0
+   enable
+  !
+  interface TenGigE0/0/0/0
+   enable
+  !
+  interface TenGigE0/1/0/0
+   enable
+  !
+ !
+!
+end
+
+   
+</body>
+</html>
+

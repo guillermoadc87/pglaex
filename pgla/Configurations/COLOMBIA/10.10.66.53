@@ -1,0 +1,17 @@
+terminal length 0
+Tue Mar 20 03:42:40.062 COL
+RP/0/RSP0/CPU0:A9KSOGAMOSO#show configuration running-config
+Tue Mar 20 03:42:40.400 COL
+Building configuration...
+!! IOS XR Configuration 5.3.3
+!! Last configuration change at Sun Feb 11 16:37:17 2018 by gromero
+!
+hostname A9KSOGAMOSO
+clock timezone COL -5
+banner motd ^CC
+
+
+                                              ###
+                                              ###      ###
+       ####      ###                          ###     ###
+    ##########   ###

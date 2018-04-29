@@ -1,0 +1,12 @@
+terminal length 0
+Tue Mar 20 11:44:33.984 COLOMBIA
+RP/0/RSP0/CPU0:THBAINGENIO#show configuration running-config
+Tue Mar 20 11:44:34.230 COLOMBIA
+Building configuration...
+!! IOS XR Configuration 6.2.2
+!! Last configuration change at Fri Mar  9 08:19:32 2018 by arondo
+!
+configuration display interface slot-order
+end
+
+RP/0/RSP0/CPU0:THBAINGENIO#
