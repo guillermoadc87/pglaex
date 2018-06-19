@@ -1,1 +1,3 @@
-pgla/Configuration/
+pgla/configs/
+media/
+pgla/migrations

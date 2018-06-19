@@ -25,7 +25,7 @@ SECRET_KEY = '2rckbt7z+tzn-s8^$=t*(&a2a0(fip2wy$f7(ce5&i&x!0c*wy'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['10.243.198.124', '127.0.0.1']
 
 
 # Application definition
@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'rest_framework',
     'rest_framework_jwt',
+    'import_export',
+    'django_admin_listfilter_dropdown',
     'pgla',
 ]
 
@@ -135,3 +137,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

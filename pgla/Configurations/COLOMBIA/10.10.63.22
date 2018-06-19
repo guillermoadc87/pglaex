@@ -1,12 +1,0 @@
-terminal length 0
-Tue Mar 20 11:41:55.787 COL
-RP/0/RSP0/CPU0:THBASTDQUILICHAO#show configuration running-config
-Tue Mar 20 11:41:56.115 COL
-Building configuration...
-!! IOS XR Configuration 4.3.4
-!! Last configuration change at Thu Feb 15 09:23:59 2018 by cfajardo
-!
-configuration display interface slot-order
-end
-
-RP/0/RSP0/CPU0:THBASTDQUILICHAO#

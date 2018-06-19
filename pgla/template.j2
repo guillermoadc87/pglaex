@@ -1,0 +1,112 @@
+{# INTERFACE #}
+{% if config.interface == 'G703' %}
+!
+{% if config.speed >= 2 %}
+{% for n in range(2, config.speed, 2) %}
+controller E1 0/0/{{ loop.index }}
+  clock source line
+  channel-group 0 unframed
+  no shutdown
+{% endfor %}
+{% else %}
+controller E1 0/0/0
+  clock source line
+  channel-group 0 unframed
+  no shutdown
+{% endif %}
+{% endif %}
+{% if config.interface == 'Ethernet' %}
+!
+interface GigabitEthernet0/0
+ description WAN | {{ config.client }}
+ duplex full
+ speed 100
+ no shutdown
+ {% if config.encap != 'dot1q' %}
+ ip address {{ config.ce_ip }} {{ config.mask|convert_netmask }}
+ {% if config.vrf %}
+ service-policy input rpvm_pb{{ config.profile }}_{{ config.speed|format_speed }}_policer_in
+ service-policy output rpvm_pb{{ config.profile }}_{{ config.speed|format_speed }}_shape_out
+ {% else %}
+ service-policy input rpvm_{{ config.speed|format_speed }}_policer_in
+ service-policy output rpvm_{{ config.speed|format_speed }}_shape_out
+ {% endif %}
+ {% endif %}
+ {% if config.encap == 'dot1q' %}
+!
+interface GigabitEthernet0/0.{{ config.encapID }}
+ description WAN | {{ config.client }}
+ encapsulation dot1Q {{ config.encapID }}
+ ip address {{ config.ce_ip }} {{ config.mask|convert_netmask }}
+ {% if config.vrf %}
+ service-policy input rpvm_p{% if config.profile < 13 %}a{% else %}b{% endif %}{{ config.profile }}_{{ config.speed|format_speed }}_policer_in
+ service-policy output rpvm_p{% if config.profile < 13 %}a{% else %}b{% endif %}{{ config.profile }}_{{ config.speed|format_speed }}_shape_out
+ {% else %}
+ service-policy input rpvm_{{ config.speed|format_speed }}_policer_in
+ service-policy output rpvm_{{ config.speed|format_speed }}_shape_out
+ {% endif %}
+ {% endif %}
+{% elif config.interface == 'V.35' or config.interface == 'G703' %}
+{% if config.speed < 2 %}
+!
+interface Serial0/0/0
+ description WAN | {{ config.client }}
+ encapsulation {{ config.encap }}
+ ip address {{ config.ce_ip }} {{ config.mask }}
+ {% if config.vrf %}
+ service-policy input rpvm_p{% if config.profile < 13 %}a{% else %}b{% endif %}{{ config.profile }}_{{ config.speed|format_speed }}_policer_in
+ service-policy output rpvm_p{% if config.profile < 13 %}a{% else %}b{% endif %}{{ config.profile }}_{{ config.speed|format_speed }}_shape_out
+ {% else %}
+ service-policy input rpvm_{{ config.speed|format_speed }}_policer_in
+ service-policy output rpvm_{{ config.speed|format_speed }}_shape_out
+ {% endif %}
+{%- elif config.speed == 2 %}
+!
+interface Serial0/0/0
+ description WAN | {{ config.client }}
+ encapsulation {{ config.encap }}
+ ip address {{ config.ce_ip }} {{ config.mask|convert_netmask }}
+ {% if config.vrf %}
+ service-policy input rpvm_p{% if config.profile < 13 %}a{% else %}b{% endif %}{{ config.profile }}_in
+ service-policy output rpvm_p{% if config.profile < 13 %}a{% else %}b{% endif %}{{ config.profile }}_out
+ {% endif %}
+{% elif config.speed >= 2 %}
+{% for n in range(2, config.speed, 2) %}
+!
+interface Serial0/0/{{ loop.index }}
+ description WAN | {{ config.client }}
+ no ip address
+ encapsulation ppp
+ ppp multilinkconfig
+ ppp multilink group 1
+{% endfor %}
+!
+interface Multilink1
+ description WAN | {{ config.client }}
+ ip address {{ config.ce_ip }} {{ config.mask|convert_netmask }}
+ ppp multilink
+ ppp multilink group 1
+ {% if config.vrf %}
+ service-policy input rpvm_p{% if config.profile < 13 %}a{% else %}b{% endif %}{{ config.profile }}_in
+ service-policy output rpvm_p{% if config.profile < 13 %}a{% else %}b{% endif %}{{ config.profile }}_out
+ {% endif %}
+{% endif %}
+{% endif %}
+{# ROUTING #}
+!
+{% if config.rp == 'B' %}
+router bgp {{ config.client_as }}
+ no synchronization
+ bgp log-neighbor-changes
+ neighbor {{ config.pe_ip }} remote-as {{ config.telmex_as }}
+ neighbor {{ config.pe_ip }} send-community both
+ neighbor {{ config.pe_ip }} soft-reconfiguration inbound
+ neighbor {{ config.pe_ip }} route-map TELMEX_INT_ROUTES out
+ no auto-summary
+!
+access-list 10 permit any
+!
+route-map TELMEX_INT_ROUTES permit 10
+ match ip address 10
+ set community 28513:1281 {{ config.cm }}
+{% endif %}

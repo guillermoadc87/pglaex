@@ -1,12 +1,0 @@
-terminal length 0
-Tue Mar 20 11:44:28.698 COLOMBIA
-RP/0/RSP0/CPU0:THBAPLAZACLARO#show configuration running-config
-Tue Mar 20 11:44:28.880 COLOMBIA
-Building configuration...
-!! IOS XR Configuration 5.3.4
-!! Last configuration change at Mon Mar 12 22:14:23 2018 by dacortes
-!
-configuration display interface slot-order
-end
-
-RP/0/RSP0/CPU0:THBAPLAZACLARO#

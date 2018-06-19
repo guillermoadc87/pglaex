@@ -1,12 +1,0 @@
-terminal length 0
-Tue Mar 20 11:48:55.545 COLOMBIA
-RP/0/RP0/CPU0:CBOSTON#show configuration running-config
-Tue Mar 20 11:48:55.835 COLOMBIA
-Building configuration...
-!! IOS XR Configuration 4.3.2
-!! Last configuration change at Mon Mar 19 21:11:44 2018 by fpedraza
-!
-configuration display interface slot-order
-end
-
-RP/0/RP0/CPU0:CBOSTON#

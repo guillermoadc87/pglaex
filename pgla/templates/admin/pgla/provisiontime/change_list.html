@@ -10,7 +10,7 @@
 var chart;
 jQuery(document).ready(function() {
   Highcharts.chart('container2', {
-chart: {
+	chart: {
         type: 'column'
     },
     title : { text : `Status` },
@@ -38,8 +38,45 @@ chart: {
     series: [{
         name: 'States',
         colorByPoint: true,
-        data: {{data | safe}}
+        data: {{states | safe}}
     }]
+});
+Highcharts.chart('container3', {
+	chart: {
+                type: 'bar',
+                height: 650
+            },
+            tooltip: {
+                valueSuffix: ' days'
+            },
+            title : { text : `Completion Times` },
+            xAxis: {
+                categories: {{categories | safe}},
+                crosshair: true,
+                labels: {
+                    rotation: -45
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Time to Complete (days)',
+                    align: 'high'
+                },
+                labels: {
+                    overflow: 'justify'
+                }
+            },
+            plotOptions: {
+                bar: {
+                    dataLabels: {
+                        enabled: true,
+                        allowOverlap: true,
+                        format: '{point.y} days'
+                    }
+                }
+            },
+            series: {{series | safe}}
 });
 });
 </script>
@@ -48,5 +85,5 @@ chart: {
 
 {% block content %}{{ block.super }}
 	<div id="container2"></div>
-{{data}}
+	<div id="container3"></div>
 {% endblock %}

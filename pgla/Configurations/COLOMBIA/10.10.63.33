@@ -1,12 +1,0 @@
-terminal length 0
-Tue Mar 20 11:42:58.857 COL
-RP/0/RSP0/CPU0:THBAMEGACENTER#show configuration running-config
-Tue Mar 20 11:42:59.196 COL
-Building configuration...
-!! IOS XR Configuration 4.3.4
-!! Last configuration change at Thu Mar 15 22:51:35 2018 by dacortes
-!
-configuration display interface slot-order
-end
-
-RP/0/RSP0/CPU0:THBAMEGACENTER#

@@ -35,18 +35,17 @@ regexList = {
 class Command(BaseCommand):
     args = '<foo bar ...>'
     help = 'our help string comes here'
-    root = os.path.join('pgla', 'Configurations')
+    root = os.path.join('pgla', 'configs')
 
     def updateHostname(self, pe, pePath, country):
         if "txt" in pe:
             pe = pe.replace(".txt", "")
         hostname, created = Hostname.objects.get_or_create(name=pe)
         regex = regexList.get(country, 0)
-        file = open(pePath, 'r')
-        config = file.read()
-        p = re.compile(regex)
         if regex:
-
+            file = open(pePath, 'r')
+            config = file.read()
+            p = re.compile(regex)
             hostname.local_ids = [local_id.group() for local_id in p.finditer(config)]
             hostname.os = routerIOSFromConfig(config)
             hostname.save()

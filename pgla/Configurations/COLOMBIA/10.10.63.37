@@ -1,12 +1,0 @@
-terminal length 0
-Tue Mar 20 11:43:21.712 COL
-RP/0/RSP0/CPU0:THBATVBUGA#show configuration running-config
-Tue Mar 20 11:43:22.050 COL
-Building configuration...
-!! IOS XR Configuration 4.3.4
-!! Last configuration change at Mon Aug 21 10:24:28 2017 by nlopez
-!
-configuration display interface slot-order
-end
-
-RP/0/RSP0/CPU0:THBATVBUGA#

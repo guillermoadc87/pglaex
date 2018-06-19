@@ -21,6 +21,7 @@
                             {{ field.field }}
                             {% if field.field.value %}
                                 <input style="margin-left: 10px;" type="submit" value="Get Config" name="download_config">
+                                <input style="margin-left: 10px;" type="submit" value="Template" name="template">
                             {% endif %}
                         {% elif field.is_readonly %}
                             <div class="readonly">{{ field.contents }}</div>

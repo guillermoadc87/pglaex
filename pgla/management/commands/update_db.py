@@ -17,88 +17,93 @@ class Command(BaseCommand):
     help = 'our help string comes here'
 
     def _update_from_pgla(self, pgla=None):
-        url = "http://10.192.5.53/portalGlobal/reportes/reporteEjCIAPDetalle.jsp?tipoReporte=1&estatusserv=ENPROCESO&tiposerv=&fechaInicioPen=&fechaFinPen=&fcambioestatus=&cliente=&nombreCAPL=&nombrePM=&nombreIMP=&nombreIS=&estatus="
+        url = "http://10.192.5.53/portalGlobal/reportes/reporteEjCIAPDetalle.jsp?tipoReporte=1&estatusserv=&tiposerv=&fechaInicioPen=&fechaFinPen=&fcambioestatus=&cliente=&nombreCAPL=&nombrePM=&nombreIMP=&nombreIS=&estatus="
+        #url = "http://10.192.5.53/portalGlobal/reportes/reporteEjCIAPDetalle.jsp?tipoReporte=1&estatusserv=ENTREGADOS&tiposerv=&fechaInicioPen=01/01/2018&fechaFinPen=01/12/2018&cliente=&nombreCAPL=&nombrePM=&nombreIMP=&nombreIS=&estatus=%27ACTIVO%20SIN%20FACTURACION%27"
 
         keys = [
-            'number', 'client', 'client_segment', 'pm', 'imp', 'ise', 'capl', 'pgla', 'nsr', 'local_ids', 'service', 'carrier',
+            'number', 'client', 'client_segment', 'pm', 'imp', 'ise', 'capl', 'pgla', 'nsr', 'local_ids', 'service', 'tr', 'carrier', 'te',
             'movement',
             'state', 'motive', 'country_a', 'country_b', 'duedate_ciap', 'duedate_acc', 'entraga_ciap',
             'loop-ready', 'recepcion_ciap', 'billing_date', 'cnr', 'ddf', 'daf', 'observation', 'duration',
-            'duracion_contract',
+            'duracion_contract', 'nrc', 'mrc'
         ]
 
         collection = []
 
         html = getHTMLContentFromPGLA(url)
-        html = html[html.find(
-            '<table width="100%" ID="reporte" border="0" cellpadding="1" cellspacing="1" class="bordeTabla">'):]
+
         soup = BeautifulSoup(html, 'html.parser')
+        table = soup.find('table', attrs={"class": "bordeTabla", "id": "reporte"})
+        table_body = table.find('tbody')
+        rows = table_body.find_all('tr')
 
-        # nsr = re.compile(nsr)
+        for row in rows[2:]:
+            td_count = 0
+            document = Link()
+            cols = row.find_all('td')
+            cols = [ele.text.strip() for ele in cols]
+            for ele in cols:
+                if len(keys) > td_count:
+                    if document.local_id:
+                        try:
+                            if document.country:
+                                p = re.compile(local_id_regex.get(document.country, 0))
+                                m = p.search(document.local_id)
+                                document.local_id = m.group()
+                        except:
+                            pass
+                    elif keys[td_count] == 'cnr':
+                        pass
+                    elif keys[td_count] == 'country_a':
+                        country, created = Country.objects.get_or_create(name=ele)
+                        if created:
+                            country.save()
+                        document.country = country
+                    elif keys[td_count] == 'pgla':
+                        try:
+                            setattr(document, keys[td_count], int(ele))
+                        except ValueError:
+                            pass
+                    elif keys[td_count] == 'client':
+                        client, created = Client.objects.get_or_create(name=ele)
+                        if created:
+                            client.save()
+                        document.client = client
+                    elif keys[td_count] in ['billing_date', 'duedate_ciap', 'recepcion_ciap', 'entraga_ciap',
+                                            'duedate_acc']:
+                        if ele:
+                            # print(keys[td_count] + ": ", td_count, " "+td.string)
+                            date = datetime.strptime(ele, '%d/%m/%Y')
+                            if keys[td_count] == 'billing_date':
+                                document.billing_date = date
+                            elif keys[td_count] == 'duedate_ciap':
+                                document.duedate_ciap = date
+                            elif keys[td_count] == 'recepcion_ciap':
+                                document.reception_ciap = date
+                            elif keys[td_count] == 'entraga_ciap':
+                                document.entraga_ciap = date
+                            elif keys[td_count] == 'duedate_acc':
+                                document.duedate_acc = date
+                    elif keys[td_count] in ['pm', 'imp', 'is', 'capl']:
+                        newString = ' '.join(ele.split())
+                        setattr(document, keys[td_count], newString)
+                    elif keys[td_count] in ['nrc', 'mrc']:
+                        ele = ele.replace('\n', '').replace(',', '').replace('$', '').replace(' ', '')
+                        setattr(document, keys[td_count], float(ele))
+                    else:
+                        # print(keys[td_count], td.string)
+                        setattr(document, keys[td_count], ele)
+                    # print(td_count, keys[td_count], keys[td_count] in ['billing_date', 'duedate_ciap', 'recepcion_ciap'])
+                    td_count += 1
 
-        for table in soup.table.contents:
-            for tbody in table:
-                for tr in tbody:
-                    td_count = 0
-                    document = Link()
-                    for td in tr:
-                        if isinstance(td, Tag) and len(keys) > td_count:
-                            if document.local_id:
-                                try:
-                                    if document.country:
-                                        p = re.compile(local_id_regex.get(document.country, 0))
-                                        m = p.search(document.local_id)
-                                        document.local_id = m.group()
-                                except:
-                                    pass
-                            elif keys[td_count] == 'country_a':
-                                country, created = Country.objects.get_or_create(name=td.string)
-                                if created:
-                                    country.save()
-                                document.country = country
-                            elif keys[td_count] == 'pgla':
-                                try:
-                                    setattr(document, keys[td_count], int(td.string))
-                                except ValueError:
-                                    pass
-                            elif keys[td_count] == 'client':
-                                client, created = Client.objects.get_or_create(name=td.string)
-                                if created:
-                                    client.save()
-                                document.client = client
-                            elif keys[td_count] == 'cnr':
-                                pass
-                            elif keys[td_count] in ['billing_date', 'duedate_ciap', 'recepcion_ciap', 'entraga_ciap', 'duedate_acc']:
-                                if td.string:
-                                    #print(keys[td_count] + ": ", td_count, " "+td.string)
-                                    date = datetime.strptime(td.string, '%d/%m/%Y')
-                                    if keys[td_count] == 'billing_date':
-                                        document.billing_date = date
-                                    elif keys[td_count] == 'duedate_ciap':
-                                        document.duedate_ciap = date
-                                    elif keys[td_count] == 'recepcion_ciap':
-                                        document.reception_ciap = date
-                                    elif keys[td_count] == 'entraga_ciap':
-                                        document.entraga_ciap = date
-                                    elif keys[td_count] == 'duedate_acc':
-                                        document.duedate_acc = date
-                            elif keys[td_count] in ['pm', 'imp', 'is', 'capl']:
-                                newString = ' '.join(td.string.split())
-                                setattr(document, keys[td_count], newString)
-                            else:
-                                #print(keys[td_count], td.string)
-                                setattr(document, keys[td_count], td.string)
-                            #print(td_count, keys[td_count], keys[td_count] in ['billing_date', 'duedate_ciap', 'recepcion_ciap'])
-                            td_count += 1
-
-                    if document.imp in imp_list:
-                        if pgla:
-                            if document.nsr == pgla:
-                                collection.append(document)
-                                break
-                        else:
-                            if not re.search("-A[0-9]", document.nsr):
-                                collection.append(document)
+            if document.imp in imp_list:
+                if pgla:
+                    if document.nsr == pgla:
+                        collection.append(document)
+                        break
+                else:
+                    if not re.search("[-A|\-Q][0-9]", document.nsr):
+                        collection.append(document)
 
         for document in collection:
             asip = getAddressSpeedInterfaceProfileFromPGLA(str(document.pgla), document.nsr)
@@ -110,7 +115,6 @@ class Command(BaseCommand):
                 if asip.get('links'):
                     [setattr(document, key, value) for key, value in asip['links'][0].items()]
 
-            print(document)
             document, created = document.saveMod()
 
             participants = getParticipansWithPGLA(str(document.pgla))

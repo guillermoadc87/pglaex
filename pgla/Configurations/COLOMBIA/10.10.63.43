@@ -1,12 +1,0 @@
-terminal length 0
-Tue Mar 20 11:43:57.850 COL
-RP/0/RSP0/CPU0:THBATVESTADIO2#show configuration running-config
-Tue Mar 20 11:43:58.168 COL
-Building configuration...
-!! IOS XR Configuration 4.3.4
-!! Last configuration change at Fri Nov 17 02:20:38 2017 by fpedraza
-!
-configuration display interface slot-order
-end
-
-RP/0/RSP0/CPU0:THBATVESTADIO2#

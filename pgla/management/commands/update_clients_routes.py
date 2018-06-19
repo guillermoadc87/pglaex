@@ -12,7 +12,7 @@ from pgla.models import Client, Project, Country
 class Command(BaseCommand):
     args = '<foo bar ...>'
     help = 'our help string comes here'
-    root = os.path.join('pgla', 'Configurations')
+    root = os.path.join('pgla', 'configs')
     config_files_dirs = {
         'MEXICO': os.path.join(os.getcwd(), 'pgla', 'Configuration', 'MEXICO'),
         'BRASIL': os.path.join(os.getcwd(), 'pgla', 'Configuration', 'BRASIL'),

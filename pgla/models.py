@@ -91,6 +91,8 @@ class Link(models.Model):
     duration_contract = models.CharField(max_length=120, null=True)
     participants = models.ManyToManyField(User)
     address = models.CharField(max_length=200, blank=True, null=True)
+    nrc = models.FloatField(blank=True, null=True)
+    mrc = models.FloatField(blank=True, null=True)
     relatedLink = models.ForeignKey('Link', on_delete=models.CASCADE, blank=True, null=True)
 
     def __init__(self, *args, **kwargs):
@@ -143,8 +145,12 @@ class Link(models.Model):
         try:
             link = Link.objects.get(pgla=self.pgla, nsr=self.nsr)
 
-            link.local_id = self.local_id
+            if self.local_id:
+                link.local_id = self.local_id
             link.state = self.state
+            link.billing_date = self.billing_date
+            link.nrc = self.nrc
+            link.mrc = self.mrc
             link.save()
             return link, False
         except:
@@ -152,11 +158,10 @@ class Link(models.Model):
             if relatedLinks:
                 self.relatedLink = relatedLinks[0]
 
-            self.channel_id = create_channel_with(self.channel_name)
+            #self.channel_id = create_channel_with(self.channel_name)
+            print(self.nsr, self.pgla, self.mrc, self.nrc)
             self.save()
             return self, True
-
-
 
     def save(self, *args, **kwargs):
         if self.old_state == 'INSTALACION SUSPENDIDA' and self.state != 'INSTALACION SUSPENDIDA':
@@ -176,11 +181,21 @@ class ProvisionTime(Link):
         verbose_name = 'Provisioning Time'
         verbose_name_plural = 'Provisioning Times'
 
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return '{0}/{1}/{2}'.format(instance.link.pgla, instance.link.nsr, filename)
+
+class Photo(models.Model):
+    link = models.ForeignKey('Link', on_delete=models.CASCADE, related_name='photos')
+    image = models.FileField(upload_to=user_directory_path)
+
+
 class Configuration(models.Model):
     link = models.OneToOneField('Link', on_delete=models.CASCADE, related_name='config')
     hostname = models.ForeignKey('Hostname', on_delete=models.CASCADE)
-    pe_ip = models.CharField("PE IP", max_length=120, blank=True, null=True)
-    ce_ip = models.CharField("CE IP", max_length=120, blank=True, null=True)
+    mgnt_ip = models.GenericIPAddressField("MGNT IP", blank=True, null=True)
+    pe_ip = models.GenericIPAddressField("PE IP", blank=True, null=True)
+    ce_ip = models.GenericIPAddressField("CE IP", max_length=120, blank=True, null=True)
     mask = models.CharField(max_length=120, blank=True, null=True)
     rp = models.CharField("RP", max_length=120, blank=True, null=True)
     speed = models.CharField(max_length=120, blank=True, null=True)
@@ -191,6 +206,7 @@ class Configuration(models.Model):
     vrf = models.CharField("VRF", max_length=120, blank=True, null=True)
     client_as = models.CharField(max_length=120, blank=True, null=True)
     telmex_as = models.CharField(max_length=120, blank=True, null=True)
+    managed = models.BooleanField(default=False)
 
     def update(self, dic):
         [setattr(self, key, value) for key, value in dic.items()]
@@ -207,6 +223,11 @@ class Country(models.Model):
     def __str__(self):
         return self.name
 
+class Credentials(models.Model):
+    lg = models.ForeignKey('LookingGlass', on_delete=models.CASCADE, related_name='credentials')
+    username = models.CharField(max_length=120)
+    password = models.CharField(max_length=120)
+
 class LookingGlass(models.Model):
     protocols = (
         ('ssh', 'SSH'),
@@ -219,7 +240,7 @@ class LookingGlass(models.Model):
     password = models.CharField(max_length=120)
     protocol = models.CharField(max_length=120, choices=protocols)
     port = models.IntegerField(default=80)
-    extras = HStoreField(blank=True, null=True)
+    lg = models.ForeignKey('LookingGlass', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.name

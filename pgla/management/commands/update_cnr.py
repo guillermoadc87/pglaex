@@ -11,7 +11,7 @@ class Command(BaseCommand):
 
     def _update_cnr(self, nsr=None):
         bar = progressbar.ProgressBar()
-        projects = Link.objects.filter(Q(billing_date__gt=datetime.now()) | Q(billing_date__isnull=True))
+        projects = Link.objects.all()
         [project.update_cnr() for project in bar(projects)]
 
     def handle(self, *args, **options):

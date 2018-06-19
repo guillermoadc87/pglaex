@@ -3,11 +3,13 @@ import sys
 import os
 import re
 import time
+from ipaddress import IPv4Network
 from pymongo import MongoClient
 from datetime import datetime
 import paramiko
 from fpdf import FPDF, HTMLMixin
 import xlrd
+from openpyxl.workbook import Workbook
 import requests
 from requests.auth import HTTPBasicAuth
 from requests_ntlm import HttpNtlmAuth
@@ -17,20 +19,14 @@ from bs4.element import Tag
 from bs4.element import NavigableString
 from bs4 import BeautifulSoup
 from django.conf import settings
-from io import BytesIO
-
-try:
-    from io import StringIO
-except ImportError:
-    import StringIO
-
-class MyFPDF(FPDF, HTMLMixin):
-    pass
+from io import StringIO, BytesIO
 
 import shutil
 
 CONNECTION_PROBLEM = -1
 INVALID_HOSTNAME = 0
+INVALID_AUTH = 1
+INVALID_COMMAND = 2
 
 local_id_regex = {
             'MEXICO': "(A|C|D|F|S)([B|T]\d{1}|\d{2})-\d{4}-\d{4}",
@@ -93,8 +89,8 @@ colo_host_to_ip = {
 hostname_test_brasil = 'GACC01.FNS' # IOS
 hostname_test_mexico = 'vpn-yuc-plaza-32' # XR
 
-def getProvider(project):
-    return providers[project.country_a] if providers.get(project.country_a, 0) else 'CLARO'
+def getProvider(link):
+    return providers[link.country] if providers.get(link.country, 0) else 'CLARO'
 
 
 def countCountry(list, country):
@@ -229,48 +225,73 @@ def getToPrompt(chan, path, protocol, username, password, extra=''):
 
     return 1
 
-def getToLastDevice(hostname, password, chan):
-    chan.send('ssh' + ' ' + hostname + '\n')
-    buff = ''
-    while buff.find('login as: ') < 0 and buff.find('Username: ') < 0 and buff.find('password: ') < 0 and buff.find(
-            '(yes/no)? ') < 0 and buff.rfind('Connection refused') < 0 and buff.rfind('Connection closed') < 0 \
-            and buff.rfind('known_hosts') < 0:
-        #print('looking for prompt')
-        resp = chan.recv(9999)
-        buff += str(resp, errors='ignore')
-    if buff.find('Username: ') != -1:
-        #print('is user')
-        chan.send('' + '\n')
-        while not buff.endswith('Password: '):
-            #print('is password after user')
-            resp = chan.recv(9999)
-            buff += str(resp, errors='ignore')
-        chan.send(password + '\n')
-    elif buff.find('password: ') != -1:
-        #print('is password')
-        chan.send(password + '\n')
-    elif buff.find('(yes/no)? ') != -1:
-        #print('is encryp keys')
-        chan.send("yes\n")
-        while not buff.endswith('password: '):
-            #print('is pass after encryp keys')
-            resp = chan.recv(9999)
-            buff += str(resp, errors='ignore')
-        chan.send(password + '\n')
-    elif buff.find('Connection refused') == -1:
-        return False
-    elif buff.find('Connection closed') == -1:
-        return False
-    elif buff.find('known_hosts') == -1:
-        print('known_hosts')
-        return False
+def get_output(channel):
+    chunk = ''
+    time.sleep(2)
+    while channel.recv_ready():
+        chunk += channel.recv(9999).decode('ISO-8859-1')
+        time.sleep(1)
+    #print(chunk)
+    return chunk
 
-    buff = ''
-    while not buff.endswith('#') and buff.find('RP/0/RSP0/CPU0') == -1 and not buff.endswith('$'):
-        resp = chan.recv(9999)
-        buff += str(resp, errors='ignore')
-    if buff.endswith('$'):
+def auth_to(hostname, username, password, chan):
+    #print('connecting')
+    chan.send('ssh ' + hostname + '\n')
+    output = get_output(chan)
+    #print(output, 'Connection refused' in output, hostname == '187.128.3.74')
+    if 'Connection refused' in output and hostname == '187.128.3.74':
+        chan.send('telnet ' + hostname + '\n')
+        output = get_output(chan)
+    elif 'Invalid input' in output:
+        print('CHILE_NET')
+        chan.send('telnet ' + hostname + ' /vrf CHILE_NET /source-interface lo0\n')
+        output = get_output(chan)
+
+        3815
+    if 'Connection refused' in output:
         return False
+    print('connected')
+    if output.find('Connection refused') != -1 or output.find('known_hosts') != -1 or output.find('Connection closed') != -1:
+        print('refused')
+        return False
+    elif output.find('Username: ') != -1:
+        print('user')
+        chan.send(username + '\n')
+        output = get_output(chan)
+        print(output)
+        if output.find('Password: ') != -1:
+            chan.send(password + '\n')
+            output = get_output(chan)
+            print(output)
+            if output.find('Permission denied') != -1:
+                return False
+        else:
+            return False
+    elif output.find('password: ') != -1:
+        print('pass')
+        chan.send(password + '\n')
+        output = get_output(chan)
+        if output.find('Permission denied') != -1:
+            return False
+    elif output.find('(yes/no)? ') != -1:
+        print('key')
+        chan.send("yes\n")
+        output = get_output(chan)
+        if output.find('Username: ') != -1:
+            chan.send(username + '\n')
+            output = get_output(chan)
+            if output.find('Password: ') != -1:
+                chan.send(password + '\n')
+                output = get_output(chan)
+                if output.find('Permission denied') == -1:
+                    return False
+            else:
+                return False
+        elif output.find('password: ') != -1:
+            chan.send(password + '\n')
+            output = get_output(chan)
+            if output.find('Permission denied') == -1:
+                return False
 
     return True
 
@@ -291,7 +312,15 @@ def connectToPE(lg, country_name, hostname, chan):
 
     return 1
 
-def getConfigurationFrom(country, hostname, command='show running-config', list=True):
+def open_ssh_session(hostname, username, password, port, channel=None):
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+    ssh.connect(hostname, username=username, password=password, port=port, sock=channel)
+
+    return ssh
+
+def get_config_from(country, hostname, command='show running-config', l=True):
     lg = country.lg
     config = ''
     if not lg:
@@ -303,9 +332,13 @@ def getConfigurationFrom(country, hostname, command='show running-config', list=
             r = requests.post(lg.path, auth=(lg.username, lg.password),
                               data=values, timeout=2000)
             config = r.text
-            p = re.compile("(Invalid)")
-            if p.search(config):
-                return 0
+
+            if 'Invalid&nbsp;command' in config:
+                return INVALID_COMMAND
+            elif 'Invalid&nbsp;source&nbsp;address' in config:
+                return INVALID_HOSTNAME
+            elif 'do not have access authorization for account' in config:
+                return INVALID_AUTH
 
             config = re.sub("<font color='\#111111\'>", ' ', config, flags=re.IGNORECASE)
             config = re.sub("</font>", ' ', config, flags=re.IGNORECASE)
@@ -316,10 +349,11 @@ def getConfigurationFrom(country, hostname, command='show running-config', list=
             config = re.sub("<br>", "\n", config, flags=re.IGNORECASE)
 
         elif country.name == 'BRASIL':
+            print('brasil')
             try:
                 response = requests.post(lg.path + '&eqpto=' + hostname, auth=HTTPBasicAuth(lg.username, lg.password), timeout=2000)
             except requests.exceptions.ConnectionError as e:
-                return 1  # No connection to Looking Glass
+                return CONNECTION_PROBLEM
 
             html = response.text
 
@@ -331,7 +365,11 @@ def getConfigurationFrom(country, hostname, command='show running-config', list=
                 arg = arg[arg.find('=') + 1:]
                 args.append(arg)
 
-            command_code = brasil_code_for_command.get(command.split(' ')[0], '')
+            command_code = brasil_code_for_command.get(command.split(' ')[0], 0)
+
+            if not command_code:
+                return INVALID_COMMAND
+
             command = command_code + command
 
             if len(args) == 3:
@@ -345,39 +383,63 @@ def getConfigurationFrom(country, hostname, command='show running-config', list=
                 return 0
 
     elif lg.protocol == 'ssh':
-        ssh = paramiko.SSHClient()
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-
         try:
-            ssh.connect(lg.path, username=lg.username, password=lg.password, port=lg.port)
-        except:
-            return 1
+            ssh = open_ssh_session(lg.path, username=lg.username, password=lg.password, port=lg.port)
+        except paramiko.ssh_exception.AuthenticationException:
+            return INVALID_AUTH
+        except TimeoutError:
+            return CONNECTION_PROBLEM
+
+        #transport = ssh.get_transport()
+        #local_addr = ('127.0.0.1', 10022)
+        #dest_addr = (hostname, 22)
+
+        #try:
+        #    channel = transport.open_channel('direct-tcpip', dest_addr, local_addr)
+        #except paramiko.ssh_exception.ChannelException:
+        #    return CONNECTION_PROBLEM
 
         chan = ssh.invoke_shell()
-        time.sleep(1)
+        get_output(chan)
+        creds = lg.credentials.all()
 
-        if lg.extras.get('password'):
-            password = lg.extras.get('password')
-            if getToLastDevice(hostname, password, chan):
-                print('connected')
-                chan.send('terminal length 0' + '\n')
-                chan.send(command + '\n')
-
-                buff = ''
-                time.sleep(1)
-                while not buff.endswith('#'):
-                    resp = chan.recv(9999)
-                    buff += str(resp, errors='ignore')
-                print('config downloaded')
-                config = buff
+        if lg.lg:
+            if auth_to(lg.lg.path, lg.lg.username, lg.lg.password, chan):
+                creds = lg.lg.credentials.all()
             else:
-                print('Cant connect')
+                return INVALID_AUTH
+
+        for cred in creds:
+            if auth_to(hostname, cred.username, cred.password, chan):
+                print('connected')
+                chan.send('terminal length 0\n')
+                print(get_output(chan))
+                chan.send(command + '\n')
+                config = get_output(chan)
+                print()
+                print('config downloaded')
+                ssh.close()
+                break
+            #try:
+            #    print('connecting to tunnel')
+            #    ssh1 = open_ssh_session(hostname, username=cred.username, password=cred.password, port=lg.port, channel=channel)
+            #    print('connected')
+            #    stdin, stdout, stderr = ssh1.exec_command(command)
+            #    config = stdout.readlines()
+            #    ssh.close()
+            #    break
+            #except (paramiko.ssh_exception.SSHException, EOFError):
+            #    print('no tunnel')
+
         else:
-            print('Define the PE password in the LG object')
+            return INVALID_AUTH
 
-        ssh.close()
+    if not isinstance(config, list) and l:
+        config = config.split("\n")
+    elif isinstance(config, list) and not l:
+        config = ''.join(config)
 
-    return config.split("\n") if list else config
+    return config
 
 
 def get_config(country, hostname, command='show running-config', list=True):
@@ -588,7 +650,7 @@ def correctSpeed(speed):
 
 def extract_policy_speed(data, link, policy):
     policy = policy.split('_')
-    if link.country == "BRASIL":
+    if link.country.name == "BRASIL":
         if len(policy) > 5:
             data["profile"] = policy[3][2:]
             data["speed"] = correctSpeed(policy[2])
@@ -597,7 +659,7 @@ def extract_policy_speed(data, link, policy):
             if speed > 1:
                 speed = round(speed)
             data["speed"] = str(speed)
-    if link.country == "MEXICO" or link.country == "COLOMBIA":
+    if link.country.name == "MEXICO" or link.country.name == "COLOMBIA":
         if link.service == "RPV Multiservicios":
             if len(policy) == 5:
                 data["profile"] = policy[2][2:]
@@ -606,7 +668,7 @@ def extract_policy_speed(data, link, policy):
                 print(policy)
                 data["profile"] = policy[-2][2:]
         else:
-            if link.country == "COLOMBIA":
+            if link.country.name == "COLOMBIA":
                 data["speed"] = policy[0].split('-')[-1]
                 if data["speed"].find("M") != -1:
                     data["speed"] = data["speed"][:-1]
@@ -617,7 +679,7 @@ def extract_policy_speed(data, link, policy):
                     data["speed"] = policy[-2][:-1]
                 except:
                     pass
-    if link.country == "CHILE":
+    if link.country.name == "CHILE":
         if link.service == "RPV Multiservicios":
             data["profile"] = policy[3]
             data["speed"] = policy[0][:-1]
@@ -629,26 +691,26 @@ def binary(decimal) :
         decimal    //=  2
     return otherBase
 
-def convertMasktoSlashFormat(decimalMask):
-    binaryBits = ''
-
-    for octec in decimalMask.split('.'):
-        binaryBits = binaryBits + binary(int(octec))
-
-    return str(binaryBits.count('1'))
+def convert_netmask(mask, netmask=True):
+    try:
+        ip = IPv4Network("0.0.0.0/" + str(mask))
+        if netmask:
+            return ip.netmask
+        return ip.prefixlen
+    except Exception:
+        return False
 
 def getRoutingProtocolWithHost(data, link, hostname, country):
-    print(link.service)
+
     if link.service == 'RPV Multiservicios':
-        command = 'show ip route vrf ' + data['vrf'] + ' | inc ' + data['ce_ip']
+        command = 'show ip route vrf ' + data['vrf']
     else:
-        command = 'show ip route | inc ' + data['ce_ip']
+        command = 'show ip route'
 
-    output = getConfigurationFrom(country, hostname, command=command)
+    output = get_config_from(country, hostname, command=command, l=False)
 
-    for line in output:
-        if 'via ' + data['ce_ip'] in line:
-            return line[0]
+    if output.count('B') > 3:
+        return 'B'
     return 'S'
 
 def extract_info(config, link, hostname, country):
@@ -663,14 +725,14 @@ def extract_info(config, link, hostname, country):
     }
 
     parse = CiscoConfParse(config)
-    print(link.local_id)
+    #print(link.local_id)
     try:
         interface = parse.find_parents_w_child("^interface", link.local_id)[0]
     except:
         return None
-    print(interface)
+    #print(interface)
     inter_config = parse.find_all_children("^%s$" % interface)
-    print(inter_config)
+    #print(inter_config)
     #print(inter_config)
     interface = interface.split(' ')[1]
     p = re.compile('[a-zA-Z][0-9]')
@@ -704,11 +766,11 @@ def extract_info(config, link, hostname, country):
         if 'address' in line and not 'no' in line:
             if hostname.os == 'ios':
                 data["pe_ip"] = line[-2]
-                data["mask"] = convertMasktoSlashFormat(line[-1])
+                data["mask"] = convert_netmask(line[-1], netmask=False)
             elif hostname.os == 'xr':
                 data["pe_ip"] = line[-2]
-                data["mask"] = convertMasktoSlashFormat(line[-1])
-            print(data["pe_ip"])
+                data["mask"] = convert_netmask(line[-1], netmask=False)
+            #print(data["pe_ip"])
             data["ce_ip"] = generate_ip(data["pe_ip"])
         elif 'vrf' in line:
             data["vrf"] = line[-1]
@@ -727,6 +789,7 @@ def extract_info(config, link, hostname, country):
             data["encap"] = 'hdlc'
         elif 'service-policy' and 'input' in line:
             policy = line[-1]
+            print(policy)
             try:
                 extract_policy_speed(data, link, policy)
             except:
@@ -876,7 +939,7 @@ def create_template(link, configuration):
 
     return perfil + policer + inter + routing
 
-def create_template_excel(project, link, template):
+def create_template_excel(link, template):
     #if not os.access('X:\CustomerCare\ENGINEERING SUPPORT', os.W_OK):
     #    print("No esta conectado a la VPN o no tiene accesso a la carpeta de los templates")
     #    sys.exit()
@@ -889,7 +952,7 @@ def create_template_excel(project, link, template):
     #template_file.write(template)
     #template_file.close()
 
-    output = StringIO.StringIO()
+    output = StringIO()
 
     workbook = xlsxwriter.Workbook(output)
     format1 = workbook.add_format({'text_wrap': True, 'bold': 1, 'border': 1, 'border_color': 'black', 'bg_color': 'blue', 'font_color': 'white', 'align': 'center'})
@@ -901,11 +964,11 @@ def create_template_excel(project, link, template):
 
     worksheet.merge_range('A1:B1', 'Template Main Circuit', format1)
 
-    worksheet.write(1, 1, project.site_name, format2)
+    worksheet.write(1, 1, link.site_name, format2)
     worksheet.write(2, 1, link.nsr, format2)
     worksheet.write(3, 1, link.local_id, format2)
-    worksheet.write(4, 1, getProvider(project), format2)
-    worksheet.write(5, 1, 'MPLS' if project.service == 'RPV Multiservicios' else 'Internet', format2)
+    worksheet.write(4, 1, getProvider(link), format2)
+    worksheet.write(5, 1, link.service, format2)
     worksheet.write(6, 1, link.interface, format2)
     worksheet.write(7, 1, link.config.encap, format2)
     worksheet.write(8, 1, link.config.ce_ip + '/' + link.config.mask, format2)
@@ -1105,8 +1168,12 @@ def getSpeedInterfaceProfile(pgla, addressNumber, nsr):
                         profile_number = info.split(" ")[-1][1:-1]
                     else:
                         profile_number = info.split(" ")[-2][1:-1]
-                    if int(profile_number) < 10:
-                        profile_number = "0" + profile_number
+                    print(pgla, nsr, profile_number)
+                    try:
+                        if int(profile_number) < 10:
+                            profile_number = "0" + profile_number
+                    except:
+                        pass
                 elif baja.search(info):
                     if speed:
                         data_baja['speed'] = speed
@@ -1225,7 +1292,7 @@ def getParticipansWithPGLA(pgla):
                         first_name, last_name = member_info[0].lower().strip().split(' ', 1)
                         username = first_name+last_name.replace(' ', '')
                         user, created = User.objects.get_or_create(username=username)
-                        print(user.username)
+                        #print(user.username)
                         if not created:
                             participans.append(user)
                             continue
@@ -1495,7 +1562,7 @@ def downloadBrasilConfigs():
 
     for match_region in p.finditer(html):
         region = match_region.group()
-        print('Downloading Configurations for '+region)
+        print('Downloading configs for '+region)
         html = returnBrasilList('LATAM', region)
 
         p = re.compile("[A-Z]+[0-9]+.[A-Z]+")
