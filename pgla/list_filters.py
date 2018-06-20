@@ -23,13 +23,9 @@ class YearListFilter(admin.SimpleListFilter):
                 completed = queryset.filter(billing_date__year=value)
 
                 if year == value:
-                    on_hold = queryset.filter(state='INSTALACION SUSPENDIDA', billing_date__isnull=True)
+                    provisioning = queryset.filter(billing_date__isnull=True)
 
-                    provisioning = queryset.filter(state='ACCESO SOLICITADO (ACSO)', billing_date__isnull=True)
-
-                    disconnected = queryset.filter(state='DESCONEXION SOLICITADA (DXSO)', billing_date__isnull=True)
-
-                    completed = completed | on_hold | provisioning | disconnected
+                    completed = completed | provisioning
 
                 states = set(completed.values_list('state', flat=True))
                 #print(states)
