@@ -295,23 +295,6 @@ def auth_to(hostname, username, password, chan):
 
     return True
 
-def connectToPE(lg, country_name, hostname, chan):
-    if lg.nextlevel:
-        print('nextlevel')
-        if getToPrompt(chan, lg.nextlevel.path, lg.nextlevel.protocol, lg.nextlevel.username, lg.nextlevel.password):
-            print('ready for next')
-            connectToPE(lg.nextlevel, country_name, hostname, chan)
-        else:
-            return 0
-    else:
-        print('pe')
-        if country_name == 'CHILE':
-            getToPrompt(chan, hostname, 'telnet', 'ciap', 'c16p_grc', extra='/vrf CHILE_NET /source-interface lo0')
-        elif country_name == 'COLOMBIA':
-            getToPrompt(chan, hostname, 'ssh', 'None', '7U$UJrLe!')
-
-    return 1
-
 def open_ssh_session(hostname, username, password, port, channel=None):
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -420,16 +403,6 @@ def get_config_from(country, hostname, command='show running-config', l=True):
                 print('config downloaded')
                 ssh.close()
                 break
-            #try:
-            #    print('connecting to tunnel')
-            #    ssh1 = open_ssh_session(hostname, username=cred.username, password=cred.password, port=lg.port, channel=channel)
-            #    print('connected')
-            #    stdin, stdout, stderr = ssh1.exec_command(command)
-            #    config = stdout.readlines()
-            #    ssh.close()
-            #    break
-            #except (paramiko.ssh_exception.SSHException, EOFError):
-            #    print('no tunnel')
 
         else:
             return INVALID_AUTH
@@ -1168,7 +1141,7 @@ def getSpeedInterfaceProfile(pgla, addressNumber, nsr):
                         profile_number = info.split(" ")[-1][1:-1]
                     else:
                         profile_number = info.split(" ")[-2][1:-1]
-                    print(pgla, nsr, profile_number)
+                    #print(pgla, nsr, profile_number)
                     try:
                         if int(profile_number) < 10:
                             profile_number = "0" + profile_number

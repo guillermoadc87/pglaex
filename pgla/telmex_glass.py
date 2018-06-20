@@ -1,5 +1,4 @@
 import cmd
-import re
 import time
 import paramiko
 import requests

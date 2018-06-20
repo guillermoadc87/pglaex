@@ -17,8 +17,8 @@ class Command(BaseCommand):
     help = 'our help string comes here'
 
     def _update_from_pgla(self, pgla=None):
-        url = "http://10.192.5.53/portalGlobal/reportes/reporteEjCIAPDetalle.jsp?tipoReporte=1&estatusserv=&tiposerv=&fechaInicioPen=&fechaFinPen=&fcambioestatus=&cliente=&nombreCAPL=&nombrePM=&nombreIMP=&nombreIS=&estatus="
-        #url = "http://10.192.5.53/portalGlobal/reportes/reporteEjCIAPDetalle.jsp?tipoReporte=1&estatusserv=ENTREGADOS&tiposerv=&fechaInicioPen=01/01/2018&fechaFinPen=01/12/2018&cliente=&nombreCAPL=&nombrePM=&nombreIMP=&nombreIS=&estatus=%27ACTIVO%20SIN%20FACTURACION%27"
+        #url = "http://10.192.5.53/portalGlobal/reportes/reporteEjCIAPDetalle.jsp?tipoReporte=1&estatusserv=&tiposerv=&fechaInicioPen=&fechaFinPen=&fcambioestatus=&cliente=&nombreCAPL=&nombrePM=&nombreIMP=&nombreIS=&estatus="
+        url = "http://10.192.5.53/portalGlobal/reportes/reporteEjCIAPDetalle.jsp?tipoReporte=1&estatusserv=ENTREGADOS&tiposerv=&fechaInicioPen=01/01/2018&fechaFinPen=01/07/2018&cliente=&nombreCAPL=&nombrePM=&nombreIMP=&nombreIS=&estatus=%27ACTIVO%20SIN%20FACTURACION%27"
 
         keys = [
             'number', 'client', 'client_segment', 'pm', 'imp', 'ise', 'capl', 'pgla', 'nsr', 'local_ids', 'service', 'tr', 'carrier', 'te',
@@ -102,10 +102,11 @@ class Command(BaseCommand):
                         collection.append(document)
                         break
                 else:
-                    if not re.search("[-A|\-Q][0-9]", document.nsr):
+                    if not re.search("-Q[0-9]|-A[0-9]", document.nsr):
                         collection.append(document)
 
         for document in collection:
+            print(document.pgla, document.nsr)
             asip = getAddressSpeedInterfaceProfileFromPGLA(str(document.pgla), document.nsr)
             #print(asip)
             if asip:

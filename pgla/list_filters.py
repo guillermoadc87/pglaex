@@ -1,7 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 from datetime import datetime
 from django.contrib import admin
-from django.db.models import Q
+from collections import OrderedDict
 
 year = datetime.now().year
 states = {}
@@ -41,13 +41,12 @@ class YearListFilter(admin.SimpleListFilter):
 class QuarterListFilter(admin.SimpleListFilter):
     title = 'Quarters'
     parameter_name = 'quarter'
-    quarters = {
+    quarters = OrderedDict({
         'Q1': {'billing_date__month__gte': 1, 'billing_date__month__lte': 3},
         'Q2': {'billing_date__month__gte': 4, 'billing_date__month__lte': 6},
         'Q3': {'billing_date__month__gte': 7, 'billing_date__month__lte': 9},
         'Q4': {'billing_date__month__gte': 10, 'billing_date__month__lte': 12}
-        }
-    years = [(year, year) for year in range(year - 4, year + 1)]
+        })
 
     def lookups(self, request, model_admin):
         return [(quarter, quarter) for quarter in self.quarters.keys()]
