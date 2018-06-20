@@ -57,6 +57,7 @@ class RelatedInline(admin.TabularInline):
 class ConfigurationInline(admin.StackedInline):
     model = Configuration
     verbose_name_plural = 'configs'
+    template = 'admin/pgla/link/edit_inline/stacked.html'
 
 class PhotoInline(admin.StackedInline):
     model = Photo
@@ -64,6 +65,7 @@ class PhotoInline(admin.StackedInline):
 
 class NoteInline(admin.TabularInline):
     model = Note
+    fields = ('text',)
     extra = 1
 
 class LinkAdmin(ImportExportModelAdmin):
@@ -170,16 +172,17 @@ class LinkAdmin(ImportExportModelAdmin):
                 template = env.get_template('template.j2')
                 config = obj.config
                 config.client = obj.client.name
+
                 if obj.nsr[-1] == 'P':
                     config.cm = '28513:285'
                 else:
                     config.cm = '28513:286'
 
-                output = template.render(config=config)
-                #output = create_template_excel(obj, template)
-                file = StringIO(output)
-                response = StreamingHttpResponse(FileWrapper(file), content_type="application/config")
-                response['Content-Disposition'] = "attachment; filename=%d-%s.config" % (obj.pgla, obj.nsr)
+                template = template.render(config=config)
+                print(type(template))
+                output = create_template_excel(obj, template)
+                response = StreamingHttpResponse(FileWrapper(output), content_type="application/vnd.ms-excel")
+                response['Content-Disposition'] = "attachment; filename=%s-%d-%s.xlsx" % (obj.site_name, obj.pgla, obj.nsr)
                 return response
             else:
                 self.message_user(request, "Upload or manually enter the configuration specs", level=messages.ERROR)

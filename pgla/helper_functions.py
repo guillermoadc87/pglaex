@@ -952,7 +952,7 @@ def create_template_excel(link, template):
     #template_file.write(template)
     #template_file.close()
 
-    output = StringIO()
+    output = BytesIO()
 
     workbook = xlsxwriter.Workbook(output)
     format1 = workbook.add_format({'text_wrap': True, 'bold': 1, 'border': 1, 'border_color': 'black', 'bg_color': 'blue', 'font_color': 'white', 'align': 'center'})
@@ -975,7 +975,7 @@ def create_template_excel(link, template):
     worksheet.write(9, 1, link.config.pe_ip + '/' + link.config.mask, format2)
     worksheet.write(10, 1, link.config.client_as if link.config.rp == 'B' else 'None', format2)
     worksheet.write(11, 1, link.config.telmex_as if link.config.rp == 'B' else "None", format2)
-    worksheet.write(12, 1, link.config.speed, format2)
+    worksheet.write(12, 1, format_speed(link.config.speed), format2)
     worksheet.write(13, 1, link.config.profile, format2)
     worksheet.write(14, 1, link.config.vrf, format2)
     worksheet.write(15, 1, link.config.encapID if link.config.encapID else 'None', format2)

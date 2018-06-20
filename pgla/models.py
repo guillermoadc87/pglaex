@@ -55,6 +55,7 @@ class Link(models.Model):
         ('INSTALACION SUSPENDIDA', 'INSTALACION SUSPENDIDA'),
         ('ACCESO SOLICITADO (ACSO)', 'ACCESO SOLICITADO (ACSO)'),
         ('ACCESO LISTO (ACLI)', 'ACCESO LISTO (ACLI)'),
+        ('ACTIVO SIN FACTURACION', 'ACTIVO SIN FACTURACION'),
     )
 
     circuit_id = models.CharField(max_length=120, editable=False, blank=True, null=True)
@@ -247,7 +248,7 @@ class LookingGlass(models.Model):
 
 class Note(models.Model):
     text = models.CharField(max_length=120)
-    created = models.DateField()
+    created = models.DateField(auto_now=True)
     link = models.ForeignKey('Link', on_delete=models.CASCADE)
 
     def __str__(self):

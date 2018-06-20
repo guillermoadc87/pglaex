@@ -14,16 +14,13 @@
                     {% else %}
                         {{ field.label_tag }}
                         {% if field.is_readonly %}
-                            <div class="readonly">
-                                {{ field.contents }}
-                                {% if 'CNR' in field.label_tag %}
-                                    <input style="margin-left: 10px;" type="submit" value="Update" name="update_cnr">
-                                {% endif %}
-                            </div>
+                            <div class="readonly">{{ field.contents }}</div>
+                        {% elif field.label_tag == 'HOSTNAME'%}
+                            {{ field.field }}
                         {% else %}
                             {{ field.field }}
-                            {% if 'Local-ID' in field.label_tag and field.field.value %}
-                                <input style="margin-left: 10px;" type="submit" value="Get Config" name="download_config">
+                            {% if 'Hostname' in field.label_tag and field.field.value %}
+                                <input style="margin-left: 10px;" type="submit" value="Template" name="template">
                             {% endif %}
                         {% endif %}
                     {% endif %}
