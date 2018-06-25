@@ -4,5 +4,5 @@ from . import views
 
 urlpatterns = [
     path('links/', views.links, name='links'),
-    path('connect/<hostname>/', views.connect_to_pe, name='connect_to_pe'),
+    path('exec_command/<pk>/<command>', views.exec_command, name='exec_command'),
 ]

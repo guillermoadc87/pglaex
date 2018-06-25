@@ -162,7 +162,7 @@ class Command(BaseCommand):
         print(totalMin)
 
     def handle(self, *args, **options):
-        self.downloadBrasilConfigs()
+        #self.downloadBrasilConfigs()
         #self.downloadColombiaConfigs()
-        #self.downloadMexicoConfigs()
+        self.downloadMexicoConfigs()
         #self.downloadChileConfigs()

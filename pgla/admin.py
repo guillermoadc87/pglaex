@@ -14,6 +14,7 @@ from django.db.models import F, Q
 from django.contrib import messages
 
 from .helper_functions import local_id_regex, get_config_from, extract_info, placeholderReplace, convert_netmask, format_speed, create_template_excel
+from .helper_functions import INVALID_COMMAND, INVALID_AUTH, INVALID_HOSTNAME, CONNECTION_PROBLEM
 from .list_filters import YearListFilter, QuarterListFilter
 from .resources import LinkResource
 from django_admin_listfilter_dropdown.filters import DropdownFilter, RelatedDropdownFilter
@@ -104,25 +105,46 @@ class LinkAdmin(ImportExportModelAdmin):
             self.message_user(request, "The CNR was updated")
             return HttpResponseRedirect(".")
         elif "connect" in request.POST:
-                try:
-                    replacements = {
-                        '[HOSTNAME]': obj.config.hostname.name,
-                        '[COUNTRY]': obj.country.name,
-                        '[PATH]': obj.country.lg.path,
-                        '[USERNAME]': obj.country.lg.username,
-                        '[PASSWORD]': obj.country.lg.password,
-                        '[PROTOCOL]': obj.country.lg.protocol,
-                        '[PORT]': str(obj.country.lg.port)
-                    }
-                    file_path = os.path.join('pgla', 'telmex_glass.py')
-                    file_content = placeholderReplace(file_path, replacements)
-                    file = StringIO(file_content)
-                    response = StreamingHttpResponse(FileWrapper(file), content_type="application/py")
-                    response['Content-Disposition'] = "attachment; filename=telmex_glass.py"
-                    return response
-                except:
-                    self.message_user(request, "This service's has no configuration assign (use Get Config)", level=messages.ERROR)
-                    return HttpResponseRedirect(".")
+                if obj.config.hostname:
+
+                    if obj.country.name == 'COLOMBIA' and obj.config.hostname.os == 'xr':
+                        config = get_config_from(obj.country, obj.config.hostname.name, command='show configuration running-config')
+                    elif obj.country.name == 'COLOMBIA' and obj.config.hostname.os == 'ios':
+                        config = get_config_from(obj.country, obj.config.hostname.name, command='show configuration')
+                    elif obj.country.name == 'CHILE':
+                        config = get_config_from(obj.country, obj.config.hostname.name, command='show star')
+                    else:
+                        config = get_config_from(obj.country, obj.config.hostname.name)
+
+                    if config == INVALID_HOSTNAME:
+                        self.message_user(request, "Incorrect the hostname", level=messages.ERROR)
+                    elif config == CONNECTION_PROBLEM:
+                        self.message_user(request, "No VPN connection", level=messages.ERROR)
+                    elif config == INVALID_AUTH:
+                        self.message_user(request, "Wrong credentials", level=messages.ERROR)
+                    elif config == INVALID_COMMAND:
+                        self.message_user(request, "Invalid command", level=messages.ERROR)
+                    else:
+                        from ciscoconfparse import CiscoConfParse
+                        parser = CiscoConfParse(config)
+
+                        vrf_list = ()
+                        if obj.config.hostname.os == 'ios':
+                            for line in parser.find_parents_w_child("^ip vrf", "rd"):
+                                vrf = line.split(" ")[-1]
+                                vrf_list = vrf_list + (vrf,)
+                        elif obj.config.hostname.os == 'xr':
+                            for line in parser.find_parents_w_child("^vrf", "address-family"):
+                                vrf = line.split(" ")[-1]
+                                vrf_list = vrf_list + (vrf,)
+                        file_loader = FileSystemLoader(os.path.join(os.path.dirname(__file__)))
+                        env = Environment(loader=file_loader, trim_blocks=True, lstrip_blocks=True)
+                        template = env.get_template('telmex_glass.py')
+                        template = template.render(pk=obj.pk, hostname=obj.config.hostname.name, os=obj.config.hostname.os, vrf_list=vrf_list)
+
+                        response = StreamingHttpResponse(template, content_type="application/py")
+                        response['Content-Disposition'] = "attachment; filename=telmex_glass.py"
+                        return response
         elif "download_config" in request.POST:
             if obj.local_id:
                 if obj.country.lg:
@@ -136,13 +158,19 @@ class LinkAdmin(ImportExportModelAdmin):
                         config = get_config_from(obj.country, hostname.name, command='show configuration running-config')
                     elif obj.country.name == 'COLOMBIA' and hostname.os == 'ios':
                         config = get_config_from(obj.country, hostname.name, command='show configuration')
+                    elif obj.country.name == 'CHILE':
+                        config = get_config_from(obj.country, hostname.name, command='show star')
                     else:
-                        config = get_config_from(obj.country, hostname.name, command='show running-config')
+                        config = get_config_from(obj.country, hostname.name)
 
-                    if config == 0:
+                    if config == INVALID_HOSTNAME:
                         self.message_user(request, "Incorrect the hostname", level=messages.ERROR)
-                    elif config == 1:
+                    elif config == CONNECTION_PROBLEM:
                         self.message_user(request, "No VPN connection", level=messages.ERROR)
+                    elif config == INVALID_AUTH:
+                        self.message_user(request, "Wrong credentials", level=messages.ERROR)
+                    elif config == INVALID_COMMAND:
+                        self.message_user(request, "Invalid command", level=messages.ERROR)
                     else:
                         print('extracting config')
                         interface_config = extract_info(config, obj, hostname, obj.country)
@@ -169,7 +197,7 @@ class LinkAdmin(ImportExportModelAdmin):
                 env = Environment(loader=file_loader, trim_blocks=True, lstrip_blocks=True)
                 env.filters["convert_netmask"] = convert_netmask
                 env.filters["format_speed"] = format_speed
-                template = env.get_template('template.j2')
+
                 config = obj.config
                 config.client = obj.client.name
 
@@ -178,8 +206,7 @@ class LinkAdmin(ImportExportModelAdmin):
                 else:
                     config.cm = '28513:286'
 
-                template = template.render(config=config)
-                print(type(template))
+                template = env.get_template('template.j2').render(config=config)
                 output = create_template_excel(obj, template)
                 response = StreamingHttpResponse(FileWrapper(output), content_type="application/vnd.ms-excel")
                 response['Content-Disposition'] = "attachment; filename=%s-%d-%s.xlsx" % (obj.site_name, obj.pgla, obj.nsr)

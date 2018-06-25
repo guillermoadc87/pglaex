@@ -231,7 +231,6 @@ def get_output(channel):
     while channel.recv_ready():
         chunk += channel.recv(9999).decode('ISO-8859-1')
         time.sleep(1)
-    #print(chunk)
     return chunk
 
 def auth_to(hostname, username, password, chan):
@@ -246,8 +245,6 @@ def auth_to(hostname, username, password, chan):
         print('CHILE_NET')
         chan.send('telnet ' + hostname + ' /vrf CHILE_NET /source-interface lo0\n')
         output = get_output(chan)
-
-        3815
     if 'Connection refused' in output:
         return False
     print('connected')
@@ -394,12 +391,12 @@ def get_config_from(country, hostname, command='show running-config', l=True):
 
         for cred in creds:
             if auth_to(hostname, cred.username, cred.password, chan):
-                print('connected')
+                print('authenticated')
                 chan.send('terminal length 0\n')
-                print(get_output(chan))
+                get_output(chan)
+                print(command)
                 chan.send(command + '\n')
                 config = get_output(chan)
-                print()
                 print('config downloaded')
                 ssh.close()
                 break
@@ -654,7 +651,7 @@ def extract_policy_speed(data, link, policy):
                     pass
     if link.country.name == "CHILE":
         if link.service == "RPV Multiservicios":
-            data["profile"] = policy[3]
+            data["profile"] = policy[2]
             data["speed"] = policy[0][:-1]
 
 def binary(decimal) :
@@ -665,6 +662,8 @@ def binary(decimal) :
     return otherBase
 
 def convert_netmask(mask, netmask=True):
+    if isinstance(mask, str) and ('\n' in mask or '\r' in mask):
+        mask = mask[:-1]
     try:
         ip = IPv4Network("0.0.0.0/" + str(mask))
         if netmask:
@@ -698,15 +697,14 @@ def extract_info(config, link, hostname, country):
     }
 
     parse = CiscoConfParse(config)
-    #print(link.local_id)
+
     try:
         interface = parse.find_parents_w_child("^interface", link.local_id)[0]
     except:
         return None
-    #print(interface)
+
     inter_config = parse.find_all_children("^%s$" % interface)
-    #print(inter_config)
-    #print(inter_config)
+
     interface = interface.split(' ')[1]
     p = re.compile('[a-zA-Z][0-9]')
     int_num_cut = p.search(interface).start() + 1
@@ -739,6 +737,7 @@ def extract_info(config, link, hostname, country):
         if 'address' in line and not 'no' in line:
             if hostname.os == 'ios':
                 data["pe_ip"] = line[-2]
+                print(line[-1])
                 data["mask"] = convert_netmask(line[-1], netmask=False)
             elif hostname.os == 'xr':
                 data["pe_ip"] = line[-2]
@@ -773,9 +772,10 @@ def extract_info(config, link, hostname, country):
     else:
         return None
 
-    if link.country == "BRASIL" and hostname.os == "xr" and data['rp'] == "B":
-        config += getRoutingProtocolWithHost(data, link, country, command="show configuration running-config router bgp 4230 vrf " + data["vrf"])
-    #print(config)
+    if link.country.name == "BRASIL" and hostname.os == "xr" and data['rp'] == "B":
+        print('new parse')
+        config += get_config_from(country, hostname.name, command="show configuration running-config router bgp 4230 vrf " + data["vrf"])
+        parse = CiscoConfParse(config)
 
     if data['rp'] == "B":
         if hostname.os == "xr":

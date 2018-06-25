@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import re
+import io
 import pickle
 from pgla.models import Hostname
 from pgla.helper_functions import routerIOSFromConfig
@@ -43,7 +44,7 @@ class Command(BaseCommand):
         hostname, created = Hostname.objects.get_or_create(name=pe)
         regex = regexList.get(country, 0)
         if regex:
-            file = open(pePath, 'r')
+            file = io.open(pePath, 'r', encoding="utf-8")
             config = file.read()
             p = re.compile(regex)
             hostname.local_ids = [local_id.group() for local_id in p.finditer(config)]

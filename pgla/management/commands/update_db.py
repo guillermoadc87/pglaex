@@ -5,10 +5,7 @@ from django.core.management.base import BaseCommand
 from pgla.helper_functions import getHTMLContentFromPGLA, getAddressSpeedInterfaceProfileFromPGLA, \
                                                 getParticipansWithPGLA, fixLocalID, safe_list_get, imp_list, local_id_regex
 from bs4 import BeautifulSoup
-from bs4.element import Tag
-import progressbar
 from pgla.models import Client, Link, Country
-from django.contrib.auth.models import User
 
 google_api_key = 'AIzaSyDPeDvtjxlZmY7UaVyZepnlZ_oj2M9uccQAIzaSyDPeDvtjxlZmY7UaVyZepnlZ_oj2M9uccQAIzaSyDPeDvtjxlZmY7UaVyZepnlZ_oj2M9uccQ'
 
