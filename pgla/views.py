@@ -1,8 +1,8 @@
 import json
-from django.http import HttpResponse, StreamingHttpResponse
-from wsgiref.util import FileWrapper
+import urllib
+from django.http import HttpResponse
 from .helper_functions import placeholderReplace, get_config_from
-from .models import Link
+from .models import Link, LookingGlass, Country
 from .serializers import LinkSerializer
 
 # Create your views here.
@@ -14,7 +14,7 @@ def links(request):
 
     return HttpResponse(json.dumps(serializer.data), content_type="application/json")
 
-def exec_command(request, pk, command):
+def exec_command(request, pk, command, cpe=False):
     try:
         link = Link.objects.get(pk=pk)
     except Link.DoesNotExist:
@@ -23,6 +23,10 @@ def exec_command(request, pk, command):
     if not link.config:
         return HttpResponse('Download Link Config')
 
-    output = get_config_from(link.country, link.config.hostname.name, command=" ".join(command.split("_")), l=False)
+    if not cpe:
+        output = get_config_from(link.country, link.config.hostname.name, command=urllib.parse.unquote_plus(command), l=False)
+    else:
+        country = Country.objects.get(name='CPE')
+        output = get_config_from(country, link.config.ce_ip, command=urllib.parse.unquote_plus(command), l=False)
 
     return HttpResponse(output)

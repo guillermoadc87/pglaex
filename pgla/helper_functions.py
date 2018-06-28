@@ -701,31 +701,20 @@ def extract_info(config, link, hostname, country):
     try:
         interface = parse.find_parents_w_child("^interface", link.local_id)[0]
     except:
+        print("local_id not found")
         return None
 
     inter_config = parse.find_all_children("^%s$" % interface)
 
     interface = interface.split(' ')[1]
-    p = re.compile('[a-zA-Z][0-9]')
-    int_num_cut = p.search(interface).start() + 1
-    interface = interface[:int_num_cut]
+    data['interface'] = interface
 
-    interface_switcher = {
-        'GigabitEthernet': 'Ethernet',
-        'FastEthernet': 'Ethernet',
-        'Ethernet': 'Ethernet',
-    }
     speed_switcher = {
         'GigabitEthernet': '1000',
         'FastEthernet': '100',
         'Ethernet': '10',
         'Serial': '2',
     }
-    if interface in interface_switcher.keys():
-        data['interface'] = interface_switcher[interface]
-    else:
-        data['interface'] = interface
-
 
     try:
         data["speed"] = speed_switcher[interface]
@@ -737,12 +726,10 @@ def extract_info(config, link, hostname, country):
         if 'address' in line and not 'no' in line:
             if hostname.os == 'ios':
                 data["pe_ip"] = line[-2]
-                print(line[-1])
                 data["mask"] = convert_netmask(line[-1], netmask=False)
             elif hostname.os == 'xr':
                 data["pe_ip"] = line[-2]
                 data["mask"] = convert_netmask(line[-1], netmask=False)
-            #print(data["pe_ip"])
             data["ce_ip"] = generate_ip(data["pe_ip"])
         elif 'vrf' in line:
             data["vrf"] = line[-1]
@@ -761,30 +748,31 @@ def extract_info(config, link, hostname, country):
             data["encap"] = 'hdlc'
         elif 'service-policy' and 'input' in line:
             policy = line[-1]
-            print(policy)
             try:
                 extract_policy_speed(data, link, policy)
             except:
                 pass
 
-    if data.get("pe_ip", 0) and data.get("mask", 0):
-        data['rp'] = getRoutingProtocolWithHost(data, link, hostname.name, country)
-    else:
-        return None
-
     if link.country.name == "BRASIL" and hostname.os == "xr" and data['rp'] == "B":
-        print('new parse')
         config += get_config_from(country, hostname.name, command="show configuration running-config router bgp 4230 vrf " + data["vrf"])
         parse = CiscoConfParse(config)
 
-    if data['rp'] == "B":
+    if data.get("pe_ip", 0) and data.get("mask", 0):
         if hostname.os == "xr":
-            search_string = "neighbor " + data['ce_ip']
-            data["client_as"] = parse.find_all_children(search_string)[1].split(' ')[-1]
+            try:
+                search_string = "neighbor " + data['ce_ip']
+                data["client_as"] = parse.find_all_children(search_string)[1].split(' ')[-1]
+                data['rp'] = 'B'
+                data['telmex_as'] = parse.find_lines('router bgp')[0].split(' ')[-1]
+            except:
+                data['rp'] = 'S'
         elif hostname.os == "ios":
-            search_string = "neighbor " + data['ce_ip'] + " remote-as"
-            data["client_as"] = parse.find_lines(search_string)[0].split(' ')[-1]
-        data['telmex_as'] = parse.find_lines('router bgp')[0].split(' ')[-1]
+            try:
+                search_string = "neighbor " + data['ce_ip'] + " remote-as"
+                data["client_as"] = parse.find_lines(search_string)[0].split(' ')[-1]
+                data['telmex_as'] = parse.find_lines('router bgp')[0].split(' ')[-1]
+            except:
+                data['rp'] = 'S'
 
     return data
 

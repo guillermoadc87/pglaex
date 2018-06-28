@@ -41,7 +41,7 @@ class Command(BaseCommand):
                     m = p1.search(config)
                     if m:
                         hostname = config[m.end():]
-                        hostname = hostname.replace(";", "")
+                        hostname = hostname.replace("-RE0;", "")
                         hostname = hostname[:hostname.find('\n')]
                     else:
                         continue
@@ -94,14 +94,14 @@ class Command(BaseCommand):
 
         start = datetime.now()
 
-        lp_list = get_config_from(self.country['COLOMBIA'], 'A9KSANDIEGO',
-                                       command='show ip route ospf | inc /32',
-                                       l=False)
+        #lp_list = get_config_from(self.country['COLOMBIA'], 'A9KSANDIEGO',
+                                       #command='show ip route ospf | inc /32',
+                                       #l=False)
 
-        p = re.compile("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\/32")
+        #p = re.compile("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\/32")
 
-        for match_pe in p.finditer(lp_list):
-            pe = match_pe.group()[:-3]
+        for match_pe in ['10.10.66.173', '10.10.66.252']:
+            pe = match_pe
             #print(pe)
             if pe in ['10.160.31.145', '10.160.31.146', '10.244.138.1', '35.200123']:
                 continue
@@ -161,8 +161,17 @@ class Command(BaseCommand):
         totalMin = (end - start).total_seconds() / 60
         print(totalMin)
 
+    def add_arguments(self, parser):
+        parser.add_argument('country')
+
     def handle(self, *args, **options):
-        #self.downloadBrasilConfigs()
-        #self.downloadColombiaConfigs()
-        self.downloadMexicoConfigs()
-        #self.downloadChileConfigs()
+        if options['country'] == 'brasil':
+            self.downloadBrasilConfigs()
+        elif options['country'] == 'colombia':
+            self.downloadColombiaConfigs()
+        elif options['country'] == 'mexico':
+            self.downloadMexicoConfigs()
+        elif options['country'] == 'chile':
+            self.downloadChileConfigs()
+        else:
+            print('country not supported')

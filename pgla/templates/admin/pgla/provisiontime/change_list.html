@@ -11,7 +11,8 @@ var chart;
 jQuery(document).ready(function() {
   Highcharts.chart('container2', {
 	chart: {
-        type: 'column'
+        type: 'column',
+        height: 650
     },
     title : { text : `Status` },
     xAxis: {
@@ -51,7 +52,7 @@ Highcharts.chart('container3', {
             },
             title : { text : `Completion Times` },
             xAxis: {
-                categories: {{categories | safe}},
+                categories: {{ct_categories | safe}},
                 crosshair: true,
                 labels: {
                     rotation: -45
@@ -76,7 +77,61 @@ Highcharts.chart('container3', {
                     }
                 }
             },
-            series: {{series | safe}}
+            series: {{ct_series | safe}}
+});
+Highcharts.chart('container4', {
+	chart: {
+                zoomType: 'xy'
+             },
+        title : { text : `Completion Times` },
+        xAxis: {
+                categories: {{ms_categories | safe}},
+                crosshair: true
+            },
+        yAxis: [{ // Primary yAxis
+                labels: {
+                    format: '{value}'
+                },
+                title: {
+                    text: 'Completed'
+                },
+                opposite: true
+
+            }, { // Secondary yAxis
+                gridLineWidth: 0,
+                title: {
+                    text: 'Time to Complete'
+                },
+                labels: {
+                    format: '{value} days'
+                }
+
+            }, { // Tertiary yAxis
+                gridLineWidth: 0,
+                title: {
+                    text: 'In Due Date'
+                },
+                labels: {
+                    formatter: function () {
+                        return this.value;
+                    }
+                },
+                opposite: true
+            }],
+            tooltip: {
+                hared: true
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        allowOverlap: true,
+                        format: '{point.y}'
+                    }
+                }
+            },
+            series: {{ms_series | safe}}
 });
 });
 </script>
@@ -86,4 +141,5 @@ Highcharts.chart('container3', {
 {% block content %}{{ block.super }}
 	<div id="container2"></div>
 	<div id="container3"></div>
+    <div id="container4"></div>
 {% endblock %}

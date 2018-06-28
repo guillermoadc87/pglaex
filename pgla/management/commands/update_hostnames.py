@@ -14,7 +14,7 @@ regexList = {
     'HONDURAS': "\d{6}",
     'GUATEMALA': "\d{8}",
     'CHILE': "\d{2}-\d{2}-\d{10}",
-    'COLOMBIA': "\w{3}\d{4}",
+    'COLOMBIA': "\w{5}\d{2}",
     'EL SALVADOR': "IP\d{7}",
     'ESTADOS UNIDOS': 'ITFS\-\d{11}',
     'ARGENTINA': '\d{7}',

@@ -1,5 +1,6 @@
 import os
-from io import StringIO
+from datetime import datetime
+import calendar
 from wsgiref.util import FileWrapper
 from jinja2 import Environment, FileSystemLoader, Markup
 from import_export.admin import ImportExportModelAdmin
@@ -7,7 +8,7 @@ from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from .models import Link, Profile, ProvisionTime, Configuration, Hostname, Photo, LookingGlass, Credentials, Note
+from .models import Link, Profile, ProvisionTime, Configuration, Hostname, Photo, LookingGlass, Credentials, Note, Country
 
 from django.http import HttpResponseRedirect, StreamingHttpResponse
 from django.db.models import F, Q
@@ -71,17 +72,17 @@ class NoteInline(admin.TabularInline):
 
 class LinkAdmin(ImportExportModelAdmin):
     resource_class = LinkResource
-    inlines = (NoteInline, RelatedInline, ConfigurationInline, PhotoInline)
+    inlines = (PhotoInline, ConfigurationInline, RelatedInline, NoteInline)
     empty_value_display = '-empty-'
-    list_display = ('pgla', 'nsr', 'movement', 'local_id', 'duedate_ciap', 'billing_date')
-    readonly_fields = ('pgla', 'nsr', 'movement', 'country', 'address', 'cnr')
+    list_display = ('client', 'pgla', 'nsr', 'movement', 'local_id', 'duedate_ciap', 'billing_date')
+    readonly_fields = ('client', 'pgla', 'nsr', 'movement', 'country', 'address', 'cnr')
     search_fields = ('pgla', 'nsr', 'client__name', 'country__name', 'local_id', 'participants__first_name')
     ordering = ('-pgla',)
     list_per_page = 20
     list_filter = (YearListFilter, QuarterListFilter, ('client', RelatedDropdownFilter),)
     fieldsets = (
         ('Circuit', {
-            'fields': ('pgla', 'nsr', 'movement', 'local_id', 'country', 'address', 'state', 'cnr')
+            'fields': ('client', 'pgla', 'nsr', 'movement', 'local_id', 'country', 'address', 'state', 'cnr')
         }),
         ('Technical Details', {
             'fields': ('interface', 'profile', 'speed'),
@@ -106,45 +107,36 @@ class LinkAdmin(ImportExportModelAdmin):
             return HttpResponseRedirect(".")
         elif "connect" in request.POST:
                 if obj.config.hostname:
+                    import socket
+                    from ciscoconfparse import CiscoConfParse
+                    config = open(os.path.join('pgla', 'configs', obj.country.name, obj.config.hostname.name + '.txt'))
+                    parser = CiscoConfParse(config)
 
-                    if obj.country.name == 'COLOMBIA' and obj.config.hostname.os == 'xr':
-                        config = get_config_from(obj.country, obj.config.hostname.name, command='show configuration running-config')
-                    elif obj.country.name == 'COLOMBIA' and obj.config.hostname.os == 'ios':
-                        config = get_config_from(obj.country, obj.config.hostname.name, command='show configuration')
-                    elif obj.country.name == 'CHILE':
-                        config = get_config_from(obj.country, obj.config.hostname.name, command='show star')
-                    else:
-                        config = get_config_from(obj.country, obj.config.hostname.name)
+                    server_ip = socket.gethostbyname(socket.gethostname())
+                    vrf_list = ()
 
-                    if config == INVALID_HOSTNAME:
-                        self.message_user(request, "Incorrect the hostname", level=messages.ERROR)
-                    elif config == CONNECTION_PROBLEM:
-                        self.message_user(request, "No VPN connection", level=messages.ERROR)
-                    elif config == INVALID_AUTH:
-                        self.message_user(request, "Wrong credentials", level=messages.ERROR)
-                    elif config == INVALID_COMMAND:
-                        self.message_user(request, "Invalid command", level=messages.ERROR)
-                    else:
-                        from ciscoconfparse import CiscoConfParse
-                        parser = CiscoConfParse(config)
+                    if obj.config.hostname.os == 'ios':
+                        for line in parser.find_parents_w_child("^ip vrf", "rd"):
+                            vrf = line.split(" ")[-1]
+                            vrf_list = vrf_list + (vrf,)
+                    elif obj.config.hostname.os == 'xr':
+                        for line in parser.find_parents_w_child("^vrf", "address-family"):
+                            vrf = line.split(" ")[-1]
+                            vrf_list = vrf_list + (vrf,)
 
-                        vrf_list = ()
-                        if obj.config.hostname.os == 'ios':
-                            for line in parser.find_parents_w_child("^ip vrf", "rd"):
-                                vrf = line.split(" ")[-1]
-                                vrf_list = vrf_list + (vrf,)
-                        elif obj.config.hostname.os == 'xr':
-                            for line in parser.find_parents_w_child("^vrf", "address-family"):
-                                vrf = line.split(" ")[-1]
-                                vrf_list = vrf_list + (vrf,)
-                        file_loader = FileSystemLoader(os.path.join(os.path.dirname(__file__)))
-                        env = Environment(loader=file_loader, trim_blocks=True, lstrip_blocks=True)
-                        template = env.get_template('telmex_glass.py')
-                        template = template.render(pk=obj.pk, hostname=obj.config.hostname.name, os=obj.config.hostname.os, vrf_list=vrf_list)
+                    file_loader = FileSystemLoader(os.path.join(os.path.dirname(__file__)))
+                    env = Environment(loader=file_loader, trim_blocks=True, lstrip_blocks=True)
+                    template = env.get_template('telmex_glass.py')
+                    template = template.render(pk=obj.pk,
+                                            hostname=obj.config.hostname.name,
+                                            os=obj.config.hostname.os,
+                                            vrf_list=vrf_list,
+                                            server_ip=server_ip)
 
-                        response = StreamingHttpResponse(template, content_type="application/py")
-                        response['Content-Disposition'] = "attachment; filename=telmex_glass.py"
-                        return response
+                    response = StreamingHttpResponse(template, content_type="application/py")
+                    response['Content-Disposition'] = "attachment; filename=%s.py" % (obj.config.hostname.name,)
+
+                    return response
         elif "download_config" in request.POST:
             if obj.local_id:
                 if obj.country.lg:
@@ -268,8 +260,8 @@ class ProvisionTimeAdmin(admin.ModelAdmin):
 
         # Completion Times
 
-        categories = []
-        series = [{'name': 'Fastest', 'data': []}, {'name': 'Average', 'data': []}, {'name': 'Slowest', 'data': []}]
+        ct_categories = []
+        ct_series = [{'name': 'Fastest', 'data': []}, {'name': 'Average', 'data': []}, {'name': 'Slowest', 'data': []}]
 
         for country in set(qs.values_list('country__name', flat=True)):
             fastest = float("inf")
@@ -287,13 +279,62 @@ class ProvisionTimeAdmin(admin.ModelAdmin):
 
             if len(average) > 0:
                 average = sum(average) // len(average)
-                categories.append(country)
-                series[0]['data'].append(fastest)
-                series[1]['data'].append(average)
-                series[2]['data'].append(slowest)
+                ct_categories.append(country)
+                ct_series[0]['data'].append(fastest)
+                ct_series[1]['data'].append(average)
+                ct_series[2]['data'].append(slowest)
 
-        response.context_data['categories'] = categories
-        response.context_data['series'] = series
+        response.context_data['ct_categories'] = ct_categories
+        response.context_data['ct_series'] = ct_series
+
+        # Mothly Stats
+
+        ms_series = [
+            {'name': 'Completed', 'type': 'column', 'yAxis': 0, 'data': []},
+            {'name': 'Time to Complete', 'type': 'spline', 'yAxis': 1, 'data': [], 'tooltip': {'valueSuffix': ' days'}},
+            {'name': 'In Due Date', 'type': 'spline', 'yAxis': 2, 'data': [], 'tooltip': {'valueSuffix': '%'}},
+        ]
+
+        ms_categories = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+        completed = {}
+        year = qs.dates('billing_date', 'year')[0].year
+
+        for month in ms_categories:
+            month_number = dict((v, k) for k, v in enumerate(calendar.month_abbr))[month]
+            weekday, total_days = calendar.monthrange(year, month_number)
+            start = datetime(year, month_number, 1)
+            end = datetime(year, month_number, total_days)
+
+            links_completed = qs.filter(billing_date__gte=start, billing_date__lte=end)
+
+            not_in_duedate = 0
+            average = []
+            for link in links_completed:
+                if link.reception_ciap and link.billing_date:
+                    provision_days = (link.billing_date - link.reception_ciap).days
+                    if link.cnr:
+                        provision_days -= link.cnr
+                    average.append(provision_days)
+                    if link.duedate_ciap and link.billing_date > link.duedate_ciap:
+                        not_in_duedate += 1
+
+            if len(average) > 0:
+                average = sum(average) // len(average)
+                number_links_completed = links_completed.count()
+                porcentage_in_duedate = int((1 - float(not_in_duedate) / float(number_links_completed)) * 100)
+            else:
+                average = 0
+                number_links_completed = 0
+                porcentage_in_duedate = 100
+
+            ms_series[0]['data'].append(number_links_completed)
+            ms_series[1]['data'].append(average)
+            ms_series[2]['data'].append(porcentage_in_duedate)
+
+        response.context_data['ms_categories'] = ms_categories
+        response.context_data['ms_series'] = ms_series
+
         return response
 
     def real_time_to_provision(self, obj):
@@ -316,3 +357,5 @@ class LookingGlassAdmin(ImportExportModelAdmin):
     list_display = ('name', 'path', 'username', 'password', 'protocol', 'port')
 
 admin.site.register(LookingGlass, LookingGlassAdmin)
+
+admin.site.register(Country)

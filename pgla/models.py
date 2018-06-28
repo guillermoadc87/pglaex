@@ -224,6 +224,9 @@ class Country(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = 'Countries'
+
 class Credentials(models.Model):
     lg = models.ForeignKey('LookingGlass', on_delete=models.CASCADE, related_name='credentials')
     username = models.CharField(max_length=120)

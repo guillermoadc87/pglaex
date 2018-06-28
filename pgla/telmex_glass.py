@@ -1,10 +1,23 @@
 import cmd
+import urllib
 import requests
 
 pk = '{{ pk }}'
 os = '{{ os }}'
 hostname = '{{ hostname }}'
 vrf_list = {{ vrf_list }}
+
+CONNECTION_PROBLEM = -1
+INVALID_HOSTNAME = 0
+INVALID_AUTH = 1
+INVALID_COMMAND = 2
+
+print_statement = {
+    CONNECTION_PROBLEM: 'Connection Problem',
+    INVALID_HOSTNAME: 'Invalid Hostname',
+    INVALID_AUTH: 'Invalid Authentication',
+    INVALID_COMMAND: 'Invalid Command'
+}
 
 class TelmexGlass(cmd.Cmd):
     """Simple command processor example."""
@@ -56,7 +69,7 @@ class TelmexGlass(cmd.Cmd):
 
     def __init__(self, pk, hostname, os, vrf_list=''):
         cmd.Cmd.__init__(self)
-        self.url = 'http://127.0.0.1:8000/pgla/exec_command'
+        self.url = 'http://{{ server_ip }}:82/pgla/exec_command'
         self.pk = pk
         self.prompt = "%s#" % hostname
         self.hostname = hostname
@@ -67,19 +80,16 @@ class TelmexGlass(cmd.Cmd):
         """
         For Executing show Commands
         """
-        line = "show " + line
-        r = requests.get('%s/%s/%s' % (self.url, self.pk, line.replace(" ", "_")))
-        print(r.text)
+        command = urllib.parse.quote_plus("show " + line)
+        self.exec_command(command)
 
     def do_ping(self, line):
-        line = "ping "+ line
-        r = requests.get('%s/%s/%s' % (self.url, self.pk, line.replace(" ", "_")))
-        print(r.text)
+        command = urllib.parse.quote_plus("ping "+ line)
+        self.exec_command(command)
 
     def do_traceroute(self, line):
-        line = "traceroute "+ line
-        r = requests.get('%s/%s/%s' % (self.url, self.pk, line.replace(" ", "_")))
-        print(r.text)
+        command = urllib.parse.quote_plus("traceroute "+ line)
+        self.exec_command(command)
 
     def completedefault(self, text, line, begidx, endidx):
         if line.split(" ")[-2] == "vrf":
@@ -90,6 +100,14 @@ class TelmexGlass(cmd.Cmd):
 
     def do_exit(self, line):
         return True
+
+    def exec_command(self, command):
+        output = requests.get('%s/%s/%s' % (self.url, self.pk, command)).text
+
+        if output.isdigit() and print_statement.get(int(output), 0):
+            print(print_statement.get(int(output)))
+        else:
+            print(output)
 
     def cmdloop(self):
         try:
