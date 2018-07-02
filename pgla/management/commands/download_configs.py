@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import re, os
-import io
+import re, os, io
+from django.conf import settings
 from datetime import datetime
 from django.core.management.base import BaseCommand
 from django.db.models import Q
@@ -165,13 +165,18 @@ class Command(BaseCommand):
         parser.add_argument('country')
 
     def handle(self, *args, **options):
-        if options['country'] == 'brasil':
-            self.downloadBrasilConfigs()
-        elif options['country'] == 'colombia':
-            self.downloadColombiaConfigs()
-        elif options['country'] == 'mexico':
-            self.downloadMexicoConfigs()
-        elif options['country'] == 'chile':
-            self.downloadChileConfigs()
+        if settings.CONFIG_PATH:
+            path = settings.CONFIG_PATH.split('/')
+            Command.root = os.path.join(os.sep, *path)
+            if options['country'] == 'brasil':
+                self.downloadBrasilConfigs()
+            elif options['country'] == 'colombia':
+                self.downloadColombiaConfigs()
+            elif options['country'] == 'mexico':
+                self.downloadMexicoConfigs()
+            elif options['country'] == 'chile':
+                self.downloadChileConfigs()
+            else:
+                print('country not supported')
         else:
-            print('country not supported')
+            print('configure in settings were to save the configs')

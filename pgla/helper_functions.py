@@ -1,6 +1,8 @@
 # -*- coding:utf-8 -*-
 import sys
 import os
+import signal
+import pexpect
 import re
 import time
 from ipaddress import IPv4Network
@@ -363,6 +365,11 @@ def get_config_from(country, hostname, command='show running-config', l=True):
                 return 0
 
     elif lg.protocol == 'ssh':
+        if country.name in ['GUATEMALA', 'HONDURAS', 'NICARAGUA', 'COSTA RICA']:
+            child = pexpect.spawn('./vpn_script.sh')
+            child.expect('gdiaz: ')
+            child.sendline('Wktkm1987#')
+
         try:
             ssh = open_ssh_session(lg.path, username=lg.username, password=lg.password, port=lg.port)
         except paramiko.ssh_exception.AuthenticationException:
@@ -408,6 +415,9 @@ def get_config_from(country, hostname, command='show running-config', l=True):
         config = config.split("\n")
     elif isinstance(config, list) and not l:
         config = ''.join(config)
+
+    if country.name in ['GUATEMALA', 'HONDURAS', 'NICARAGUA', 'COSTA RICA']:
+        os.killpg(os.getpgid(child.pid), signal.SIGTERM)
 
     return config
 
