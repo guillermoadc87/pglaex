@@ -61,7 +61,6 @@ class Link(models.Model):
     circuit_id = models.CharField(max_length=120, editable=False, blank=True, null=True)
     channel_id = models.CharField(max_length=120, editable=False, blank=True, null=True)
     pgla = models.IntegerField('PGLA', blank=True, null=True)
-    #pgec = models.IntegerField(blank=True, null=True)
     nsr = models.CharField('NSR', max_length=120, blank=True, null=True)
     site_name = models.CharField(max_length=200, blank=True, null=True)
     client = models.ForeignKey('Client', on_delete=models.CASCADE)
