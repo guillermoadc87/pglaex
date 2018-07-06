@@ -1,3 +1,4 @@
 pgla/configs/
 media/
 pgla/migrations/
+*.pickel
