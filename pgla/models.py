@@ -71,7 +71,7 @@ class Link(models.Model):
     ise = models.CharField(max_length=120, blank=True, null=True)
     capl = models.CharField(max_length=120, blank=True, null=True)
     service = models.CharField(max_length=120, blank=True, null=True)
-    movement = models.CharField(max_length=120, blank=True, null=True)
+    movement = models.ForeignKey('Movement', on_delete=models.PROTECT)
     country = models.ForeignKey('Country', on_delete=models.CASCADE)
     local_id = models.CharField('Local-ID', max_length=120, blank=True, null=True)
     interface = models.CharField(max_length=120, blank=True, null=True)
@@ -148,6 +148,7 @@ class Link(models.Model):
 
             if self.local_id:
                 link.local_id = self.local_id
+
             link.state = self.state
             link.billing_date = self.billing_date
             link.nrc = self.nrc
@@ -160,6 +161,8 @@ class Link(models.Model):
                 self.relatedLink = relatedLinks[0]
 
             #self.channel_id = create_channel_with(self.channel_name)
+            #self.invite_users_to_slack()
+
             print(self.nsr, self.pgla, self.mrc, self.nrc)
             self.save()
             return self, True
@@ -175,6 +178,13 @@ class Link(models.Model):
 
     def __str__(self):
         return "PGLA: %d | NSR: %s" % (self.pgla, self.nsr)
+
+class Movement(models.Model):
+    name = models.CharField(max_length=120, blank=True, null=True)
+    days = models.IntegerField('Delivery Days', default=0)
+
+    def __str__(self):
+        return self.name
 
 class ProvisionTime(Link):
     class Meta:

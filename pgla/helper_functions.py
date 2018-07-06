@@ -1434,7 +1434,7 @@ def createRFS(document):
     data = {}
     #filepath = "%s\Templates\%s\%s\PGLA-%s-%s-%s.xlsx" % (os.getcwd(), data['pgla'], data['nsr'],
     #                                             data['pgla'], data['nsr'], data['movement'])
-    output = StringIO.StringIO()
+    output = BytesIO()
     #print(filepath)
     header = "INFORMACION PARA PROGRAMACION DE ACTIVIDAD IMPLEMENTACIONES"
 

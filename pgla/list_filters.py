@@ -49,7 +49,7 @@ class QuarterListFilter(admin.SimpleListFilter):
         })
 
     def lookups(self, request, model_admin):
-        return [(quarter, quarter) for quarter in self.quarters.keys()]
+        return [('Q1', 'Q1'), ('Q2', 'Q2'),  ('Q3', 'Q3'),  ('Q4', 'Q4')]
 
     def queryset(self, request, queryset):
         quarter = self.value()

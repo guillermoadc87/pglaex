@@ -1,4 +1,5 @@
 import os
+from django.utils import timezone
 from datetime import datetime
 import calendar
 from wsgiref.util import FileWrapper
@@ -8,13 +9,14 @@ from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from .models import Link, Profile, ProvisionTime, Configuration, Hostname, Photo, LookingGlass, Credentials, Note, Country
+from .models import Link, Profile, ProvisionTime, Configuration, Hostname, Photo, LookingGlass, Credentials, Note, Country, Movement
 
 from django.http import HttpResponseRedirect, StreamingHttpResponse
 from django.db.models import F, Q
 from django.contrib import messages
+from django.utils.safestring import mark_safe
 
-from .helper_functions import local_id_regex, get_config_from, extract_info, placeholderReplace, convert_netmask, format_speed, create_template_excel
+from .helper_functions import local_id_regex, get_config_from, extract_info, placeholderReplace, convert_netmask, format_speed, create_template_excel, createRFS
 from .helper_functions import INVALID_COMMAND, INVALID_AUTH, INVALID_HOSTNAME, CONNECTION_PROBLEM
 from .list_filters import YearListFilter, QuarterListFilter
 from .resources import LinkResource
@@ -206,6 +208,10 @@ class LinkAdmin(ImportExportModelAdmin):
             else:
                 self.message_user(request, "Upload or manually enter the configuration specs", level=messages.ERROR)
                 return HttpResponseRedirect(".")
+        elif "rfs" in request.POST:
+            rfs_excel = createRFS(obj)
+            response = StreamingHttpResponse(FileWrapper(rfs_excel), content_type="application/vnd.ms-excel")
+            response['Content-Disposition'] = "attachment; filename=PGLA-" + obj.pgla + "-" + obj.nsr + "-" + obj.movement + ".xlsx"
         return super().response_change(request, obj)
 
     def get_queryset(self, request):
@@ -218,7 +224,7 @@ class LinkAdmin(ImportExportModelAdmin):
 admin.site.register(Link, LinkAdmin)
 
 class ProvisionTimeAdmin(admin.ModelAdmin):
-    list_display = ('pgla', 'nsr', 'reception_ciap', 'billing_date', 'cnr', 'real_time_to_provision')
+    list_display = ('pgla', 'nsr', 'movement', 'reception_ciap', 'billing_date', 'total', 'cnr', 'cycle_time')
     search_fields = ('pgla', 'nsr')
     ordering = ('-pgla',)
     list_per_page = 20
@@ -228,7 +234,7 @@ class ProvisionTimeAdmin(admin.ModelAdmin):
         return False
 
     def get_queryset(self, request):
-        qs = super().get_queryset(request).annotate(time_to_provision=F('billing_date')-F('reception_ciap'))
+        qs = super().get_queryset(request).annotate(total=F('billing_date')-F('reception_ciap'))
         if request.user.is_superuser:
             return qs
         else:
@@ -238,112 +244,125 @@ class ProvisionTimeAdmin(admin.ModelAdmin):
         response = super(ProvisionTimeAdmin, self).changelist_view(request, extra_context=extra_context)
 
         qs = response.context_data['cl'].queryset
+        if qs:
+            # States
 
-        # States
+            links_completed = qs.filter(~Q(state="INSTALACION SUSPENDIDA"), billing_date__isnull=False)
 
-        links_completed = qs.filter(~Q(state="INSTALACION SUSPENDIDA"), billing_date__isnull=False)
+            links_on_hold = qs.filter(state='INSTALACION SUSPENDIDA')
 
-        links_on_hold = qs.filter(state='INSTALACION SUSPENDIDA')
+            links_provisioning = qs.filter(~Q(state='DESCONEXION SOLICITADA (DXSO)'), ~Q(state="INSTALACION SUSPENDIDA"),
+                                              billing_date__isnull=True)
+            links_disconnected = qs.filter(state='DESCONEXION SOLICITADA (DXSO)')
 
-        links_provisioning = qs.filter(~Q(state='DESCONEXION SOLICITADA (DXSO)'), ~Q(state="INSTALACION SUSPENDIDA"),
-                                          billing_date__isnull=True)
-        links_disconnected = qs.filter(state='DESCONEXION SOLICITADA (DXSO)')
+            states = [
+                {"name": 'Completed', "y": links_completed.count(), "drilldown": 'Completed'},
+                {'name': 'On Hold', 'y': links_on_hold.count(), "drilldown": 'On_Hold'},
+                {'name': 'Provisioning', 'y': links_provisioning.count(), "drilldown": 'Provisioning'},
+                {'name': 'Disconnection', 'y': links_disconnected.count(), "drilldown": 'Disconnection'}
+            ]
 
-        states = [
-            {"name": 'Completed', "y": links_completed.count(), "drilldown": 'Completed'},
-            {'name': 'On Hold', 'y': links_on_hold.count(), "drilldown": 'On_Hold'},
-            {'name': 'Provisioning', 'y': links_provisioning.count(), "drilldown": 'Provisioning'},
-            {'name': 'Disconnection', 'y': links_disconnected.count(), "drilldown": 'Disconnection'}
-        ]
+            response.context_data['states'] = states
 
-        response.context_data['states'] = states
+            # Completion Times
 
-        # Completion Times
+            ct_categories = []
+            ct_series = [{'name': 'Fastest', 'data': []}, {'name': 'Average', 'data': []}, {'name': 'Slowest', 'data': []}]
 
-        ct_categories = []
-        ct_series = [{'name': 'Fastest', 'data': []}, {'name': 'Average', 'data': []}, {'name': 'Slowest', 'data': []}]
+            for country in set(qs.values_list('country__name', flat=True)):
+                fastest = float("inf")
+                slowest = 0
+                average = []
+                links_for_country = qs.filter(country__name=country)
+                for link in links_for_country:
+                    if link.reception_ciap and link.billing_date:
+                        provision_days = (link.billing_date - link.reception_ciap).days
+                        average.append(provision_days)
+                        if provision_days < fastest:
+                            fastest = provision_days
+                        if provision_days > slowest:
+                            slowest = provision_days
 
-        for country in set(qs.values_list('country__name', flat=True)):
-            fastest = float("inf")
-            slowest = 0
-            average = []
-            links_for_country = qs.filter(country__name=country)
-            for link in links_for_country:
-                if link.reception_ciap and link.billing_date:
-                    provision_days = (link.billing_date - link.reception_ciap).days
-                    average.append(provision_days)
-                    if provision_days < fastest:
-                        fastest = provision_days
-                    if provision_days > slowest:
-                        slowest = provision_days
+                if len(average) > 0:
+                    average = sum(average) // len(average)
+                    ct_categories.append(country)
+                    ct_series[0]['data'].append(fastest)
+                    ct_series[1]['data'].append(average)
+                    ct_series[2]['data'].append(slowest)
 
-            if len(average) > 0:
-                average = sum(average) // len(average)
-                ct_categories.append(country)
-                ct_series[0]['data'].append(fastest)
-                ct_series[1]['data'].append(average)
-                ct_series[2]['data'].append(slowest)
+            response.context_data['ct_categories'] = ct_categories
+            response.context_data['ct_series'] = ct_series
 
-        response.context_data['ct_categories'] = ct_categories
-        response.context_data['ct_series'] = ct_series
+            # Mothly Stats
 
-        # Mothly Stats
+            ms_series = [
+                {'name': 'Completed', 'type': 'column', 'yAxis': 0, 'data': []},
+                {'name': 'Time to Complete', 'type': 'spline', 'yAxis': 1, 'data': [], 'tooltip': {'valueSuffix': ' days'}},
+                {'name': 'In Due Date', 'type': 'spline', 'yAxis': 2, 'data': [], 'tooltip': {'valueSuffix': '%'}},
+            ]
 
-        ms_series = [
-            {'name': 'Completed', 'type': 'column', 'yAxis': 0, 'data': []},
-            {'name': 'Time to Complete', 'type': 'spline', 'yAxis': 1, 'data': [], 'tooltip': {'valueSuffix': ' days'}},
-            {'name': 'In Due Date', 'type': 'spline', 'yAxis': 2, 'data': [], 'tooltip': {'valueSuffix': '%'}},
-        ]
+            ms_categories = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
-        ms_categories = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            year = qs.dates('billing_date', 'year')[0].year
 
-        completed = {}
-        year = qs.dates('billing_date', 'year')[0].year
+            for month in ms_categories:
+                month_number = dict((v, k) for k, v in enumerate(calendar.month_abbr))[month]
+                weekday, total_days = calendar.monthrange(year, month_number)
+                start = datetime(year, month_number, 1)
+                end = datetime(year, month_number, total_days)
 
-        for month in ms_categories:
-            month_number = dict((v, k) for k, v in enumerate(calendar.month_abbr))[month]
-            weekday, total_days = calendar.monthrange(year, month_number)
-            start = datetime(year, month_number, 1)
-            end = datetime(year, month_number, total_days)
+                links_completed = qs.filter(billing_date__gte=start, billing_date__lte=end)
 
-            links_completed = qs.filter(billing_date__gte=start, billing_date__lte=end)
+                not_in_duedate = 0
+                average = []
+                for link in links_completed:
+                    if link.reception_ciap and link.billing_date:
+                        provision_days = (link.billing_date - link.reception_ciap).days
+                        if link.cnr:
+                            provision_days -= link.cnr
+                        average.append(provision_days)
+                        if link.duedate_ciap and link.billing_date > link.duedate_ciap:
+                            not_in_duedate += 1
 
-            not_in_duedate = 0
-            average = []
-            for link in links_completed:
-                if link.reception_ciap and link.billing_date:
-                    provision_days = (link.billing_date - link.reception_ciap).days
-                    if link.cnr:
-                        provision_days -= link.cnr
-                    average.append(provision_days)
-                    if link.duedate_ciap and link.billing_date > link.duedate_ciap:
-                        not_in_duedate += 1
+                if len(average) > 0:
+                    average = sum(average) // len(average)
+                    number_links_completed = links_completed.count()
+                    porcentage_in_duedate = int((1 - float(not_in_duedate) / float(number_links_completed)) * 100)
+                else:
+                    average = 0
+                    number_links_completed = 0
+                    porcentage_in_duedate = 100
 
-            if len(average) > 0:
-                average = sum(average) // len(average)
-                number_links_completed = links_completed.count()
-                porcentage_in_duedate = int((1 - float(not_in_duedate) / float(number_links_completed)) * 100)
-            else:
-                average = 0
-                number_links_completed = 0
-                porcentage_in_duedate = 100
+                ms_series[0]['data'].append(number_links_completed)
+                ms_series[1]['data'].append(average)
+                ms_series[2]['data'].append(porcentage_in_duedate)
 
-            ms_series[0]['data'].append(number_links_completed)
-            ms_series[1]['data'].append(average)
-            ms_series[2]['data'].append(porcentage_in_duedate)
-
-        response.context_data['ms_categories'] = ms_categories
-        response.context_data['ms_series'] = ms_series
+            response.context_data['ms_categories'] = ms_categories
+            response.context_data['ms_series'] = ms_series
 
         return response
 
-    def real_time_to_provision(self, obj):
-        if obj.time_to_provision and obj.cnr:
-            return obj.time_to_provision.days - obj.cnr
-        elif obj.time_to_provision:
-            return obj.time_to_provision.days
+    def total(self, obj):
+        if obj.total:
+            return obj.total.days
         else:
-            return "Provisioning"
+            today = timezone.datetime.now().date()
+            return (today - obj.reception_ciap).days
+
+    @mark_safe
+    def cycle_time(self, obj):
+        total = self.total(obj)
+
+        if obj.cnr:
+            total -= obj.cnr
+
+        if obj.movement.days and total > obj.movement.days:
+            return '<div style="width:100%%; height:100%%; background-color:red;"><span>%s</span></div>' % total
+        elif obj.movement.days and total + 15 > obj.movement.days:
+            return '<div style="width:100%%; height:100%%; background-color:orange;"><span>%s</span></div>' % total
+
+        return total - obj.cnr if obj.cnr else total
+    cycle_time.allow_tags = True
 
 admin.site.register(ProvisionTime, ProvisionTimeAdmin)
 
@@ -359,3 +378,5 @@ class LookingGlassAdmin(ImportExportModelAdmin):
 admin.site.register(LookingGlass, LookingGlassAdmin)
 
 admin.site.register(Country)
+
+admin.site.register(Movement)

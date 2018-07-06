@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand
 from pgla.helper_functions import getHTMLContentFromPGLA, getAddressSpeedInterfaceProfileFromPGLA, \
                                                 getParticipansWithPGLA, fixLocalID, safe_list_get, imp_list, local_id_regex
 from bs4 import BeautifulSoup
-from pgla.models import Client, Link, Country
+from pgla.models import Client, Link, Country, Movement
 
 google_api_key = 'AIzaSyDPeDvtjxlZmY7UaVyZepnlZ_oj2M9uccQAIzaSyDPeDvtjxlZmY7UaVyZepnlZ_oj2M9uccQAIzaSyDPeDvtjxlZmY7UaVyZepnlZ_oj2M9uccQ'
 
@@ -13,10 +13,13 @@ class Command(BaseCommand):
     args = '<foo bar ...>'
     help = 'our help string comes here'
 
-    def _update_from_pgla(self, pgla=None):
-        #url = "http://10.192.5.53/portalGlobal/reportes/reporteEjCIAPDetalle.jsp?tipoReporte=1&estatusserv=&tiposerv=&fechaInicioPen=&fechaFinPen=&fcambioestatus=&cliente=&nombreCAPL=&nombrePM=&nombreIMP=&nombreIS=&estatus="
-        url = "http://10.192.5.53/portalGlobal/reportes/reporteEjCIAPDetalle.jsp?tipoReporte=1&estatusserv=ENTREGADOS&tiposerv=&fechaInicioPen=01/01/2018&fechaFinPen=01/07/2018&cliente=&nombreCAPL=&nombrePM=&nombreIMP=&nombreIS=&estatus=%27ACTIVO%20SIN%20FACTURACION%27"
+    def _update_from_pgla(self, state, start_date='', end_date=''):
+        if state != 'ENTREGADOS':
+            state = ''
 
+        #url = "http://10.192.5.53/portalGlobal/reportes/reporteEjCIAPDetalle.jsp?tipoReporte=1&estatusserv=&tiposerv=&fechaInicioPen=&fechaFinPen=&fcambioestatus=&cliente=&nombreCAPL=&nombrePM=&nombreIMP=&nombreIS=&estatus="
+        url = "http://10.192.5.53/portalGlobal/reportes/reporteEjCIAPDetalle.jsp?tipoReporte=1&estatusserv=" + state + "&tiposerv=&fechaInicioPen=" + start_date + "&fechaFinPen=" + end_date + "&cliente=&nombreCAPL=&nombrePM=&nombreIMP=&nombreIS=&estatus="
+        print(url)
         keys = [
             'number', 'client', 'client_segment', 'pm', 'imp', 'ise', 'capl', 'pgla', 'nsr', 'local_ids', 'service', 'tr', 'carrier', 'te',
             'movement',
@@ -66,6 +69,11 @@ class Command(BaseCommand):
                         if created:
                             client.save()
                         document.client = client
+                    elif keys[td_count] == 'movement':
+                        movement, created = Movement.objects.get_or_create(name=ele)
+                        if created:
+                            movement.save()
+                        document.movement = movement
                     elif keys[td_count] in ['billing_date', 'duedate_ciap', 'recepcion_ciap', 'entraga_ciap',
                                             'duedate_acc']:
                         if ele:
@@ -94,13 +102,8 @@ class Command(BaseCommand):
                     td_count += 1
 
             if document.imp in imp_list:
-                if pgla:
-                    if document.nsr == pgla:
-                        collection.append(document)
-                        break
-                else:
-                    if not re.search("-Q[0-9]|-A[0-9]", document.nsr):
-                        collection.append(document)
+                if not re.search("-Q[0-9]|-A[0-9]", document.nsr):
+                    collection.append(document)
 
         for document in collection:
             print(document.pgla, document.nsr)
@@ -119,11 +122,19 @@ class Command(BaseCommand):
 
             if created:
                 [document.participants.add(participant) for participant in participants]
-                document.invite_users_to_slack()
+
+    def add_arguments(self, parser):
+        parser.add_argument('state')
+        parser.add_argument('--start_date', dest='start_date')
+        parser.add_argument('--end_date', dest='end_date')
 
     def handle(self, *args, **options):
-        pgla = safe_list_get(args, 0, 0)
-        if not pgla:
-            self._update_from_pgla()
+
+        if options['state'] and options['start_date'] and options['end_date']:
+            self._update_from_pgla(options['state'], start_date=options['start_date'], end_date=options['end_date'])
+        elif options['state'] and options['start_date']:
+            self._update_from_pgla(options['state'], start_date=options['start_date'])
+        elif options['state']:
+            self._update_from_pgla(options['state'])
         else:
-            self._update_from_pgla(pgla=pgla)
+            self.stdout.write('Specify if entrago or not')

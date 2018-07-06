@@ -94,14 +94,14 @@ class Command(BaseCommand):
 
         start = datetime.now()
 
-        #lp_list = get_config_from(self.country['COLOMBIA'], 'A9KSANDIEGO',
-                                       #command='show ip route ospf | inc /32',
-                                       #l=False)
+        lp_list = get_config_from(self.country['COLOMBIA'], 'A9KSANDIEGO',
+                                       command='show ip route ospf | inc /32',
+                                       l=False)
 
-        #p = re.compile("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\/32")
+        p = re.compile("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\/32")
 
-        for match_pe in ['10.10.66.173', '10.10.66.252']:
-            pe = match_pe
+        for match_pe in p.finditer(lp_list):
+            pe = match_pe.group()
             #print(pe)
             if pe in ['10.160.31.145', '10.160.31.146', '10.244.138.1', '35.200123']:
                 continue
