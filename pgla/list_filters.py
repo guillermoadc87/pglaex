@@ -57,18 +57,17 @@ class QuarterListFilter(admin.SimpleListFilter):
             return queryset.filter(**self.quarters[quarter])
         return queryset
 
-
 class StateListFilter(admin.SimpleListFilter):
-    template = 'filter_billing.html'
-    title = 'state'
+    title = 'State'
     parameter_name = 'state'
-
 
     def lookups(self, request, model_admin):
         print(states)
-        return ''
+        return [('PROVISIONING', 'PROVISIONING')]
 
     def queryset(self, request, queryset):
-        if self.value():
-            return queryset.filter(state=self.value())
+        value = self.value()
+        if value:
+            if value == 'PROVISIONING':
+                return queryset.filter(billing_date__isnull=True)
         return queryset

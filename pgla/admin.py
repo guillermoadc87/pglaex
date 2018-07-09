@@ -18,7 +18,7 @@ from django.utils.safestring import mark_safe
 
 from .helper_functions import local_id_regex, get_config_from, extract_info, placeholderReplace, convert_netmask, format_speed, create_template_excel, createRFS
 from .helper_functions import INVALID_COMMAND, INVALID_AUTH, INVALID_HOSTNAME, CONNECTION_PROBLEM
-from .list_filters import YearListFilter, QuarterListFilter
+from .list_filters import YearListFilter, QuarterListFilter, StateListFilter
 from .resources import LinkResource
 from django_admin_listfilter_dropdown.filters import DropdownFilter, RelatedDropdownFilter
 
@@ -228,7 +228,7 @@ class ProvisionTimeAdmin(admin.ModelAdmin):
     search_fields = ('pgla', 'nsr')
     ordering = ('-pgla',)
     list_per_page = 20
-    list_filter = (YearListFilter, QuarterListFilter, ('client', RelatedDropdownFilter),)
+    list_filter = (('client', RelatedDropdownFilter), YearListFilter, QuarterListFilter, StateListFilter)
 
     def has_add_permission(self, request):
         return False
@@ -361,7 +361,7 @@ class ProvisionTimeAdmin(admin.ModelAdmin):
         elif obj.movement.days and total + 15 > obj.movement.days:
             return '<div style="width:100%%; height:100%%; background-color:orange;"><span>%s</span></div>' % total
 
-        return total - obj.cnr if obj.cnr else total
+        return total
     cycle_time.allow_tags = True
 
 admin.site.register(ProvisionTime, ProvisionTimeAdmin)

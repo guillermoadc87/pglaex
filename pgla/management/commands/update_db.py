@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
-from datetime import datetime, date, timedelta
+from datetime import datetime, timedelta
 from django.core.management.base import BaseCommand
 from pgla.helper_functions import getHTMLContentFromPGLA, getAddressSpeedInterfaceProfileFromPGLA, \
                                                 getParticipansWithPGLA, fixLocalID, safe_list_get, imp_list, local_id_regex
@@ -13,14 +13,16 @@ class Command(BaseCommand):
     args = '<foo bar ...>'
     help = 'our help string comes here'
 
-    def _update_from_pgla(self, state):
-        if state != 'ENTREGADOS':
+    def _update_from_pgla(self, delivered):
+        from datetime import date
+        if delivered:
+            state = 'ENTREGADOS'
+            start_date = (date.today() - timedelta(1)).strftime('%d/%m/%Y')
+            end_date = date.today().strftime('%d/%m/%Y')
+        else:
+            state = ''
             start_date = ''
             end_date = ''
-        else:
-            start_date = date.today()
-            end_date = (date.today() - timedelta(1)).strftime('%d/%m/%y')
-
 
         #url = "http://10.192.5.53/portalGlobal/reportes/reporteEjCIAPDetalle.jsp?tipoReporte=1&estatusserv=&tiposerv=&fechaInicioPen=&fechaFinPen=&fcambioestatus=&cliente=&nombreCAPL=&nombrePM=&nombreIMP=&nombreIS=&estatus="
         url = "http://10.192.5.53/portalGlobal/reportes/reporteEjCIAPDetalle.jsp?tipoReporte=1&estatusserv=" + state + "&tiposerv=&fechaInicioPen=" + start_date + "&fechaFinPen=" + end_date + "&cliente=&nombreCAPL=&nombrePM=&nombreIMP=&nombreIS=&estatus="
@@ -129,10 +131,7 @@ class Command(BaseCommand):
                 [document.participants.add(participant) for participant in participants]
 
     def add_arguments(self, parser):
-        parser.add_argument('state')
+        parser.add_argument('--delivered', dest='delivered', action='store_const', const=True)
 
     def handle(self, *args, **options):
-        if options['state']:
-            self._update_from_pgla(options['state'])
-        else:
-            self.stdout.write('Specify if ENTREGADOS or not')
+        self._update_from_pgla(options['delivered'])
