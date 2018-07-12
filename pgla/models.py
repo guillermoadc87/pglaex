@@ -56,6 +56,7 @@ class Link(models.Model):
         ('ACCESO SOLICITADO (ACSO)', 'ACCESO SOLICITADO (ACSO)'),
         ('ACCESO LISTO (ACLI)', 'ACCESO LISTO (ACLI)'),
         ('ACTIVO SIN FACTURACION', 'ACTIVO SIN FACTURACION'),
+        ('PRUEBAS CON EL CLIENTE', 'PRUEBAS CON EL CLIENTE'),
     )
 
     circuit_id = models.CharField(max_length=120, editable=False, blank=True, null=True)
