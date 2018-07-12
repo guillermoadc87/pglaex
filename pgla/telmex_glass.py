@@ -69,7 +69,7 @@ class TelmexGlass(cmd.Cmd):
 
     def __init__(self, pk, hostname, os, vrf_list=''):
         cmd.Cmd.__init__(self)
-        self.url = 'http://{{ server_ip }}:82/pgla/exec_command'
+        self.url = 'http://{{ server_ip }}:{{ port }}/pgla/exec_command'
         self.pk = pk
         self.prompt = "%s#" % hostname
         self.hostname = hostname

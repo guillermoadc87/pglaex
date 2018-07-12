@@ -9,10 +9,9 @@ class Command(BaseCommand):
     args = '<foo bar ...>'
     help = 'our help string comes here'
 
-    def _update_cnr(self, nsr=None):
-        bar = progressbar.ProgressBar()
-        projects = Link.objects.all()
-        [project.update_cnr() for project in bar(projects)]
+    def _update_cnr(self):
+        links = Link.objects.filter(billing_date__isnull=False)
+        [link.update_cnr() for link in links]
 
     def handle(self, *args, **options):
         self._update_cnr()

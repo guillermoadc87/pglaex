@@ -4,34 +4,8 @@ import re
 import io
 import pickle
 from pgla.models import Hostname
-from pgla.helper_functions import routerIOSFromConfig
+from pgla.helper_functions import routerIOSFromConfig, regex_list
 from django.core.management.base import BaseCommand
-
-regexList = {
-    'MEXICO': "(A|C|D|F|S)([B|T]\d{1}|\d{2})-\d{4}-\d{4}",
-    'BRASIL': "(HORT|CSL|CEM|SBS|MBB|LDA|MGA|SJC|SOO|GNA|SGO|PAS|PGE|RPO|ULA|GRS|SPO|PAE|CAS|RJO|SJP|SDR|BPI|ITU|CTA|MNS|SOC|CBO|MCO|UPS|FLA|JBO|SRR|PSO|RCO|LNS|VGA|ABS|CSC|YCA|ETA|JVE|LNA|BRU|JAI|SPA|AMA|STB|NTL|MCL|CBM|NHO|PLT|BRE|LGS|GAMA|PTA|FSA|PTS|SBO|CE|FLA|PWM)\/(IP|MULTI|FAST)\/(\d{5})",
-    'PERU': "\d{7}",
-    'HONDURAS': "\d{6}",
-    'GUATEMALA': "\d{8}",
-    'CHILE': "\d{2}-\d{2}-\d{10}",
-    'COLOMBIA': "\w{5}\d{2}",
-    'EL SALVADOR': "IP\d{7}",
-    'ESTADOS UNIDOS': 'ITFS\-\d{11}',
-    'ARGENTINA': '\d{7}',
-    'VENEZUELA': '',
-    'ECUADOR': "",
-    'AUSTRIA': "",
-    'PARAGUAY': "",
-    'NICARAGUA': "",
-    'ESPAÑA': "",
-    "URUGUAY": "",
-    'BOLIVIA': "",
-    'BERMUDAS': "",
-    'CANADA': "",
-    'TRINIDAD Y TOBAGO': "",
-    'REPUBLICA DOMINICANA': "\d{3}-\d{3}-\d{4}",
-    'COSTA RICA': "",
-}
 
 class Command(BaseCommand):
     args = '<foo bar ...>'
@@ -42,7 +16,7 @@ class Command(BaseCommand):
         if "txt" in pe:
             pe = pe.replace(".txt", "")
         hostname, created = Hostname.objects.get_or_create(name=pe)
-        regex = regexList.get(country, 0)
+        regex = regex_list.get(country, 0)
         if regex:
             file = io.open(pePath, 'r', encoding="utf-8")
             config = file.read()

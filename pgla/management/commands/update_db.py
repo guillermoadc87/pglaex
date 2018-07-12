@@ -112,6 +112,8 @@ class Command(BaseCommand):
                 if not re.search("-Q[0-9]|-A[0-9]", document.nsr):
                     collection.append(document)
 
+        collection.reverse()
+
         for document in collection:
             print(document.pgla, document.nsr)
             asip = getAddressSpeedInterfaceProfileFromPGLA(str(document.pgla), document.nsr)

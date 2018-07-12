@@ -16,10 +16,10 @@ from django.db.models import F, Q
 from django.contrib import messages
 from django.utils.safestring import mark_safe
 
-from .helper_functions import local_id_regex, get_config_from, extract_info, placeholderReplace, convert_netmask, format_speed, create_template_excel, createRFS
+from .helper_functions import get_config_from, extract_info, convert_netmask, format_speed, create_template_excel, createRFS
 from .helper_functions import INVALID_COMMAND, INVALID_AUTH, INVALID_HOSTNAME, CONNECTION_PROBLEM
 from .list_filters import YearListFilter, QuarterListFilter, StateListFilter
-from .resources import LinkResource
+from .resources import LinkResource, ProvisionTimeResource
 from django_admin_listfilter_dropdown.filters import DropdownFilter, RelatedDropdownFilter
 
 admin.site.site_header = 'PGLAEX'
@@ -81,7 +81,7 @@ class LinkAdmin(ImportExportModelAdmin):
     search_fields = ('pgla', 'nsr', 'client__name', 'country__name', 'local_id', 'participants__first_name')
     ordering = ('-pgla',)
     list_per_page = 20
-    list_filter = (YearListFilter, QuarterListFilter, ('client', RelatedDropdownFilter),)
+    list_filter = (('client', RelatedDropdownFilter), YearListFilter, QuarterListFilter, StateListFilter)
     fieldsets = (
         ('Circuit', {
             'fields': ('client', 'pgla', 'nsr', 'movement', 'local_id', 'country', 'address', 'state', 'cnr')
@@ -111,29 +111,35 @@ class LinkAdmin(ImportExportModelAdmin):
                 if obj.config.hostname:
                     import socket
                     from ciscoconfparse import CiscoConfParse
-                    config = open(os.path.join('pgla', 'configs', obj.country.name, obj.config.hostname.name + '.txt'))
-                    parser = CiscoConfParse(config)
+                    try:
+                        config = open(os.path.join('pgla', 'configs', obj.country.name, obj.config.hostname.name + '.txt'))
+                        parser = CiscoConfParse(config)
+
+                        vrf_list = ()
+
+                        if obj.config.hostname.os == 'ios':
+                            for line in parser.find_parents_w_child("^ip vrf", "rd"):
+                                vrf = line.split(" ")[-1]
+                                vrf_list = vrf_list + (vrf,)
+                        elif obj.config.hostname.os == 'xr':
+                            for line in parser.find_parents_w_child("^vrf", "address-family"):
+                                vrf = line.split(" ")[-1]
+                                vrf_list = vrf_list + (vrf,)
+                    except FileNotFoundError:
+                        pass
 
                     server_ip = socket.gethostbyname(socket.gethostname())
-                    vrf_list = ()
-
-                    if obj.config.hostname.os == 'ios':
-                        for line in parser.find_parents_w_child("^ip vrf", "rd"):
-                            vrf = line.split(" ")[-1]
-                            vrf_list = vrf_list + (vrf,)
-                    elif obj.config.hostname.os == 'xr':
-                        for line in parser.find_parents_w_child("^vrf", "address-family"):
-                            vrf = line.split(" ")[-1]
-                            vrf_list = vrf_list + (vrf,)
+                    port = request.META['SERVER_PORT']
 
                     file_loader = FileSystemLoader(os.path.join(os.path.dirname(__file__)))
                     env = Environment(loader=file_loader, trim_blocks=True, lstrip_blocks=True)
                     template = env.get_template('telmex_glass.py')
                     template = template.render(pk=obj.pk,
-                                            hostname=obj.config.hostname.name,
-                                            os=obj.config.hostname.os,
-                                            vrf_list=vrf_list,
-                                            server_ip=server_ip)
+                                                hostname=obj.config.hostname.name,
+                                                os=obj.config.hostname.os,
+                                                vrf_list=vrf_list,
+                                                server_ip=server_ip,
+                                                port=port)
 
                     response = StreamingHttpResponse(template, content_type="application/py")
                     response['Content-Disposition'] = "attachment; filename=%s.py" % (obj.config.hostname.name,)
@@ -223,8 +229,10 @@ class LinkAdmin(ImportExportModelAdmin):
 
 admin.site.register(Link, LinkAdmin)
 
-class ProvisionTimeAdmin(admin.ModelAdmin):
+class ProvisionTimeAdmin(ImportExportModelAdmin):
+    resource_class = ProvisionTimeResource
     list_display = ('pgla', 'nsr', 'movement', 'reception_ciap', 'billing_date', 'total', 'cnr', 'cycle_time')
+    empty_value_display = '-empty-'
     search_fields = ('pgla', 'nsr')
     ordering = ('-pgla',)
     list_per_page = 20

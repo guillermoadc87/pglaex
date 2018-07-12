@@ -150,8 +150,6 @@ class Link(models.Model):
 
             link.state = self.state
             link.billing_date = self.billing_date
-            link.nrc = self.nrc
-            link.mrc = self.mrc
             link.save()
             return link, False
         except:

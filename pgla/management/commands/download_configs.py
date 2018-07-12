@@ -101,9 +101,9 @@ class Command(BaseCommand):
         p = re.compile("\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\/32")
 
         for match_pe in p.finditer(lp_list):
-            pe = match_pe.group()
-            #print(pe)
-            if pe in ['10.160.31.145', '10.160.31.146', '10.244.138.1', '35.200123']:
+            pe = match_pe.group()[:-3]
+            print(pe)
+            if pe in ['10.160.31.145', '10.160.31.146', '10.244.138.1', '35.200123', '10.10.63.34']:
                 continue
 
             config = get_config_from(self.country['COLOMBIA'], pe,
@@ -119,6 +119,7 @@ class Command(BaseCommand):
                 continue
 
             if len(config) > 2000:
+                print('saved')
                 with io.open(os.path.join(path, pe) + '.txt', 'w', encoding="utf-8") as file:
                         file.write(config)
 
