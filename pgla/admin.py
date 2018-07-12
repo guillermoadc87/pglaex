@@ -232,7 +232,7 @@ admin.site.register(Link, LinkAdmin)
 class ProvisionTimeAdmin(ImportExportModelAdmin):
     change_list_template = 'admin/pgla/provisiontime/change_list.html'
     resource_class = ProvisionTimeResource
-    list_display = ('pgla', 'nsr', 'movement', 'reception_ciap', 'billing_date', 'total', 'cnr', 'cycle_time')
+    list_display = ('pgla', 'nsr', 'state', 'movement', 'reception_ciap', 'billing_date', 'total', 'cnr', 'cycle_time')
     empty_value_display = '-empty-'
     search_fields = ('pgla', 'nsr')
     ordering = ('-pgla',)

@@ -61,7 +61,7 @@ class StateListFilter(admin.SimpleListFilter):
 
     def lookups(self, request, model_admin):
         print(states)
-        return [('PROVISIONING', 'PROVISIONING'), ('PENDING ACTIVATION', 'PENDING ACTIVATION')]
+        return [('PROVISIONING', 'PROVISIONING'), ('PENDING ACTIVATION', 'PENDING ACTIVATION'), ('COMPLETED', 'COMPLETED')]
 
     def queryset(self, request, queryset):
         value = self.value()
@@ -70,4 +70,6 @@ class StateListFilter(admin.SimpleListFilter):
                 return queryset.filter(billing_date__isnull=True)
             elif value == 'PENDING ACTIVATION':
                 return queryset.filter(activation_date__isnull=True)
+            elif value == 'COMPLETED':
+                return queryset.filter(billing_date__isnull=False)
         return queryset
