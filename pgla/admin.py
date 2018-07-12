@@ -312,39 +312,42 @@ class ProvisionTimeAdmin(ImportExportModelAdmin):
 
             ms_categories = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
-            year = qs.dates('billing_date', 'year')[0].year
+            try:
+                year = qs.dates('billing_date', 'year')[0].year
 
-            for month in ms_categories:
-                month_number = dict((v, k) for k, v in enumerate(calendar.month_abbr))[month]
-                weekday, total_days = calendar.monthrange(year, month_number)
-                start = datetime(year, month_number, 1)
-                end = datetime(year, month_number, total_days)
+                for month in ms_categories:
+                    month_number = dict((v, k) for k, v in enumerate(calendar.month_abbr))[month]
+                    weekday, total_days = calendar.monthrange(year, month_number)
+                    start = datetime(year, month_number, 1)
+                    end = datetime(year, month_number, total_days)
 
-                links_completed = qs.filter(billing_date__gte=start, billing_date__lte=end)
+                    links_completed = qs.filter(billing_date__gte=start, billing_date__lte=end)
 
-                not_in_duedate = 0
-                average = []
-                for link in links_completed:
-                    if link.reception_ciap and link.billing_date:
-                        provision_days = (link.billing_date - link.reception_ciap).days
-                        if link.cnr:
-                            provision_days -= link.cnr
-                        average.append(provision_days)
-                        if link.duedate_ciap and link.billing_date > link.duedate_ciap:
-                            not_in_duedate += 1
+                    not_in_duedate = 0
+                    average = []
+                    for link in links_completed:
+                        if link.reception_ciap and link.billing_date:
+                            provision_days = (link.billing_date - link.reception_ciap).days
+                            if link.cnr:
+                                provision_days -= link.cnr
+                            average.append(provision_days)
+                            if link.duedate_ciap and link.billing_date > link.duedate_ciap:
+                                not_in_duedate += 1
 
-                if len(average) > 0:
-                    average = sum(average) // len(average)
-                    number_links_completed = links_completed.count()
-                    porcentage_in_duedate = int((1 - float(not_in_duedate) / float(number_links_completed)) * 100)
-                else:
-                    average = 0
-                    number_links_completed = 0
-                    porcentage_in_duedate = 100
+                    if len(average) > 0:
+                        average = sum(average) // len(average)
+                        number_links_completed = links_completed.count()
+                        porcentage_in_duedate = int((1 - float(not_in_duedate) / float(number_links_completed)) * 100)
+                    else:
+                        average = 0
+                        number_links_completed = 0
+                        porcentage_in_duedate = 100
 
-                ms_series[0]['data'].append(number_links_completed)
-                ms_series[1]['data'].append(average)
-                ms_series[2]['data'].append(porcentage_in_duedate)
+                    ms_series[0]['data'].append(number_links_completed)
+                    ms_series[1]['data'].append(average)
+                    ms_series[2]['data'].append(porcentage_in_duedate)
+            except:
+                pass
 
             response.context_data['ms_categories'] = ms_categories
             response.context_data['ms_series'] = ms_series

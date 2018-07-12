@@ -17,18 +17,16 @@ class YearListFilter(admin.SimpleListFilter):
 
     def queryset(self, request, queryset):
         if self.value():
-            global states
             value = int(self.value())
             if value in self.years:
                 completed = queryset.filter(billing_date__year=value)
 
                 if year == value:
+
                     provisioning = queryset.filter(billing_date__isnull=True)
 
                     completed = completed | provisioning
 
-                states = set(completed.values_list('state', flat=True))
-                #print(states)
                 return completed
         return queryset
 
