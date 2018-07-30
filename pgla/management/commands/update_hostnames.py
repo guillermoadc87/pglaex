@@ -18,7 +18,7 @@ class Command(BaseCommand):
         hostname, created = Hostname.objects.get_or_create(name=pe)
         regex = regex_list.get(country, 0)
         if regex:
-            file = io.open(pePath, 'r', encoding="utf-8")
+            file = io.open(pePath, 'r', encoding="ISO-8859-1")
             config = file.read()
             p = re.compile(regex)
             hostname.local_ids = [local_id.group() for local_id in p.finditer(config)]

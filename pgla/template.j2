@@ -109,4 +109,6 @@ access-list 10 permit any
 route-map TELMEX_INT_ROUTES permit 10
  match ip address 10
  set community 28513:1281 {{ config.cm }}
+{% else %}
+ip route 0.0.0.0 0.0.0.0 {{ config.pe_ip }}
 {% endif %}

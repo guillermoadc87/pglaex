@@ -59,6 +59,12 @@ class Link(models.Model):
         ('PRUEBAS CON EL CLIENTE', 'PRUEBAS CON EL CLIENTE'),
     )
 
+    interfaces = (
+        ('Ethernet', 'Ethernet'),
+        ('V.35', 'V.35'),
+        ('G703', 'G703'),
+    )
+
     circuit_id = models.CharField(max_length=120, editable=False, blank=True, null=True)
     channel_id = models.CharField(max_length=120, editable=False, blank=True, null=True)
     pgla = models.IntegerField('PGLA', blank=True, null=True)
@@ -74,7 +80,7 @@ class Link(models.Model):
     movement = models.ForeignKey('Movement', on_delete=models.PROTECT)
     country = models.ForeignKey('Country', on_delete=models.CASCADE)
     local_id = models.CharField('Local-ID', max_length=120, blank=True, null=True)
-    interface = models.CharField(max_length=120, blank=True, null=True)
+    interface = models.CharField(max_length=120, choices=interfaces, blank=True, null=True)
     profile = models.CharField(max_length=120, blank=True, null=True)
     speed = models.CharField(max_length=120, blank=True, null=True)
     state = models.CharField(max_length=120, choices=states, blank=True, null=True)
@@ -185,6 +191,7 @@ class Movement(models.Model):
         return self.name
 
 class ProvisionTime(Link):
+
     class Meta:
         proxy = True
         verbose_name = 'Provisioning Time'
@@ -207,7 +214,7 @@ class Configuration(models.Model):
     ce_ip = models.GenericIPAddressField("CE IP", max_length=120, blank=True, null=True)
     mask = models.CharField(max_length=120, blank=True, null=True)
     rp = models.CharField("RP", max_length=120, blank=True, null=True)
-    speed = models.CharField(max_length=120, blank=True, null=True)
+    speed = models.FloatField(blank=True, null=True)
     interface = models.CharField(max_length=120, blank=True, null=True)
     profile = models.CharField(max_length=120, blank=True, null=True)
     encap = models.CharField("Encapsulation", max_length=120, blank=True, null=True)
@@ -247,11 +254,13 @@ class LookingGlass(models.Model):
         ('url', 'URL'),
     )
     name = models.CharField(max_length=120)
-    path = models.CharField(max_length=120)
+    path = models.CharField(max_length=120, blank=True, null=True)
     username = models.CharField(max_length=120)
     password = models.CharField(max_length=120)
     protocol = models.CharField(max_length=120, choices=protocols)
     port = models.IntegerField(default=80)
+    vrf = models.CharField('VRF', max_length=120, blank=True, null=True)
+    source_interface = models.CharField('Source Interface', max_length=120, blank=True, null=True)
     lg = models.ForeignKey('LookingGlass', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):

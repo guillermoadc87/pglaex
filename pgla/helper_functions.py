@@ -29,6 +29,7 @@ CONNECTION_PROBLEM = -1
 INVALID_HOSTNAME = 0
 INVALID_AUTH = 1
 INVALID_COMMAND = 2
+NO_PE_LG = 3
 
 regex_list = {
     'MEXICO': "(A|C|D|F|S)([B|T]\d{1}|\d{2})-\d{4}-\d{4}",
@@ -235,31 +236,46 @@ def get_output(channel):
         time.sleep(1)
     return chunk
 
-def auth_to(hostname, username, password, chan):
-    #print('connecting')
-    chan.send('ssh ' + hostname + '\n')
+def run_command(chan, hostname, lg):
+    if not lg.path:
+        print('PE')
+        print(hostname, lg.username, lg.password)
+        return auth_to(chan, hostname, lg)
+    else:
+        print('Jump')
+        print(lg.path, lg.username, lg.password)
+        if not lg.lg:
+            print('NO_PE_LG')
+            return NO_PE_LG
+        elif auth_to(chan, lg.path, lg):
+            run_command(chan, hostname, lg.lg)
+        else:
+            return False
+
+def auth_to(chan, hostname, lg):
+    print('connecting')
+    command = '%s %s' % (lg.protocol, hostname,)
+    if lg.vrf:
+        if lg.protocol == 'ssh':
+            command += '-vrf %s' % (lg.vrf)
+        else:
+            command += '/vrf %s' % (lg.vrf)
+    if lg.source_interface and lg.protocol == 'telnet':
+        command += '/source-interface %s' % (lg.vrf)
+    print(command)
+    chan.send(command + '\n')
     output = get_output(chan)
-    #print(output, 'Connection refused' in output, hostname == '187.128.3.74')
-    if 'Connection refused' in output and hostname == '187.128.3.74':
-        chan.send('telnet ' + hostname + '\n')
-        output = get_output(chan)
-    elif 'Invalid input' in output:
-        print('CHILE_NET')
-        chan.send('telnet ' + hostname + ' /vrf CHILE_NET /source-interface lo0\n')
-        output = get_output(chan)
-    if 'Connection refused' in output:
-        return False
+    print(output, '<- output')
     print('connected')
-    if output.find('Connection refused') != -1 or output.find('known_hosts') != -1 or output.find('Connection closed') != -1:
-        print('refused')
+    if output.find('Connection') != -1 or output.find('Invalid') != -1:
         return False
     elif output.find('Username: ') != -1:
         print('user')
-        chan.send(username + '\n')
+        chan.send(lg.username + '\n')
         output = get_output(chan)
         print(output)
         if output.find('Password: ') != -1:
-            chan.send(password + '\n')
+            chan.send(lg.password + '\n')
             output = get_output(chan)
             print(output)
             if output.find('Permission denied') != -1:
@@ -268,7 +284,7 @@ def auth_to(hostname, username, password, chan):
             return False
     elif output.find('password: ') != -1:
         print('pass')
-        chan.send(password + '\n')
+        chan.send(lg.password + '\n')
         output = get_output(chan)
         if output.find('Permission denied') != -1:
             return False
@@ -277,17 +293,17 @@ def auth_to(hostname, username, password, chan):
         chan.send("yes\n")
         output = get_output(chan)
         if output.find('Username: ') != -1:
-            chan.send(username + '\n')
+            chan.send(lg.username + '\n')
             output = get_output(chan)
             if output.find('Password: ') != -1:
-                chan.send(password + '\n')
+                chan.send(lg.password + '\n')
                 output = get_output(chan)
                 if output.find('Permission denied') == -1:
                     return False
             else:
                 return False
         elif output.find('password: ') != -1:
-            chan.send(password + '\n')
+            chan.send(lg.password + '\n')
             output = get_output(chan)
             if output.find('Permission denied') == -1:
                 return False
@@ -308,7 +324,7 @@ def get_config_from(country, hostname, command='show running-config', l=True):
     if not lg:
         return 2
     if lg.protocol == 'url':
-        if country.name == 'MEXICO':
+        if country.name == 'MEXICO' or country.name == 'ESTADOS UNIDOS':
             print('Mexico')
             values = {'ip': hostname, 'cmd': command, 'submit': 'Submit'}
             r = requests.post(lg.path, auth=(lg.username, lg.password),
@@ -388,28 +404,20 @@ def get_config_from(country, hostname, command='show running-config', l=True):
 
         chan = ssh.invoke_shell()
         get_output(chan)
-        creds = lg.credentials.all()
 
-        if lg.lg:
-            if auth_to(lg.lg.path, lg.lg.username, lg.lg.password, chan):
-                creds = lg.lg.credentials.all()
-            else:
-                return INVALID_AUTH
-
-        for cred in creds:
-            if auth_to(hostname, cred.username, cred.password, chan):
+        if not lg.lg:
+            return NO_PE_LG
+        else:
+            if run_command(chan, hostname, lg.lg):
                 print('authenticated')
                 chan.send('terminal length 0\n')
                 get_output(chan)
-                print(command)
                 chan.send(command + '\n')
                 config = get_output(chan)
                 print('config downloaded')
                 ssh.close()
-                break
-
-        else:
-            return INVALID_AUTH
+            else:
+                return INVALID_AUTH
 
     if not isinstance(config, list) and l:
         config = config.split("\n")
@@ -664,6 +672,11 @@ def extract_policy_speed(data, link, policy):
             data["profile"] = policy[2]
             data["speed"] = policy[0][:-1]
 
+    if data["speed"].isdigit():
+        data["speed"] = int(data["speed"])
+    else:
+        data["speed"] = None
+
 def binary(decimal) :
     otherBase = ""
     while decimal != 0:
@@ -720,10 +733,10 @@ def extract_info(config, link, hostname, country):
     data['interface'] = interface
 
     speed_switcher = {
-        'GigabitEthernet': '1000',
-        'FastEthernet': '100',
-        'Ethernet': '10',
-        'Serial': '2',
+        'GigabitEthernet': 1000,
+        'FastEthernet': 100,
+        'Ethernet': 10,
+        'Serial': 2,
     }
 
     try:

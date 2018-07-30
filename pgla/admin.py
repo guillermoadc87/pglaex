@@ -53,7 +53,7 @@ class RelatedInline(admin.TabularInline):
     model = Link
     extra = 0
     fields = ('pgla', 'nsr', 'billing_date')
-    readonly_fields = ['pgla', 'nsr', 'billing_date']
+    readonly_fields = ('pgla', 'nsr', 'billing_date')
 
     def has_add_permission(self, request):
         return False
@@ -77,14 +77,14 @@ class LinkAdmin(ImportExportModelAdmin):
     inlines = (PhotoInline, ConfigurationInline, RelatedInline, NoteInline)
     empty_value_display = '-empty-'
     list_display = ('client', 'pgla', 'nsr', 'movement', 'local_id', 'duedate_ciap', 'billing_date')
-    readonly_fields = ('client', 'pgla', 'nsr', 'movement', 'country', 'address', 'cnr')
+    readonly_fields = ('client', 'pgla', 'nsr', 'movement', 'country', 'address', 'cnr', 'participants')
     search_fields = ('pgla', 'nsr', 'client__name', 'country__name', 'local_id', 'participants__first_name')
     ordering = ('-pgla',)
     list_per_page = 20
     list_filter = (('client', RelatedDropdownFilter), YearListFilter, QuarterListFilter, StateListFilter)
     fieldsets = (
         ('Circuit', {
-            'fields': ('client', 'pgla', 'nsr', 'movement', 'local_id', 'country', 'address', 'state', 'cnr')
+            'fields': ('client', 'pgla', 'nsr', 'site_name', 'movement', 'local_id', 'country', 'address', 'state', 'cnr')
         }),
         ('Technical Details', {
             'fields': ('interface', 'profile', 'speed'),
@@ -200,6 +200,7 @@ class LinkAdmin(ImportExportModelAdmin):
 
                 config = obj.config
                 config.client = obj.client.name
+                config.interface = obj.interface
 
                 if obj.nsr[-1] == 'P':
                     config.cm = '28513:285'

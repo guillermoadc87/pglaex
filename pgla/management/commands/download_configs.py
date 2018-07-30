@@ -13,6 +13,7 @@ class Command(BaseCommand):
     root = os.path.join('pgla', 'configs')
     country = {
         "MEXICO": Country.objects.get(name='MEXICO'),
+        "ESTADOS UNIDOS": Country.objects.get(name='ESTADOS UNIDOS'),
         "BRASIL": Country.objects.get(name='BRASIL'),
         "COLOMBIA": Country.objects.get(name='COLOMBIA'),
         "CHILE": Country.objects.get(name='CHILE'),
@@ -47,6 +48,45 @@ class Command(BaseCommand):
                         continue
                     print(hostname)
                     path = os.path.join(self.root, self.country["MEXICO"].name)
+                    if not os.path.exists(path):
+                        os.makedirs(path)
+
+                    with io.open(os.path.join(path, hostname) + '.txt', 'w', encoding="utf-8") as file:
+                        print('Saved')
+                        file.write(config)
+                    print('Configuration downoloaded for ' + pe)
+        end = datetime.now()
+        totalMin = (end - start).total_seconds() / 60
+        print(totalMin)
+
+    def downloadUSAConfigs(self):
+        start = datetime.now()
+        pe_list = get_config_from(self.country['ESTADOS UNIDOS'], 'vpn-miami-americas-29', command='show ip route ospf | inc /32', l=False)
+        p = re.compile("(148|187|189|200|201)\.\d{1,3}\.\d{1,3}\.\d{1,3}\/32")
+        print(Country.objects.get(name='ESTADOS UNIDOS').lg)
+        for match_pe in p.finditer(pe_list):
+            pe = match_pe.group()[:-3]
+            print(pe)
+            # if pe == '10.160.31.145' or pe == '172.22.115.108' or pe == '201.125.254.0' or pe == '201.125.255.0':
+            #    continue
+
+            config = get_config_from(self.country['ESTADOS UNIDOS'], pe, l=False)
+            if not type(config) == int and "juniper" in config:
+                self.hostnameRegex = "host-name "
+                config = get_config_from(self.country['ESTADOS UNIDOS'], pe, command="show configuration", l=False)
+
+            if not type(config) == int:
+                if config.find('Command authorization failed') == -1 or len(config) > 500:
+                    p1 = re.compile(self.hostnameRegex)
+                    m = p1.search(config)
+                    if m:
+                        hostname = config[m.end():]
+                        hostname = hostname.replace("-RE0;", "")
+                        hostname = hostname[:hostname.find('\n')]
+                    else:
+                        continue
+                    print(hostname)
+                    path = os.path.join(self.root, self.country["ESTADOS UNIDOS"].name)
                     if not os.path.exists(path):
                         os.makedirs(path)
 
@@ -177,6 +217,8 @@ class Command(BaseCommand):
                 self.downloadMexicoConfigs()
             elif options['country'] == 'chile':
                 self.downloadChileConfigs()
+            elif options['country'] == 'usa':
+                self.downloadUSAConfigs()
             else:
                 print('country not supported')
         else:

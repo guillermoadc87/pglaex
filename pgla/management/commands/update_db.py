@@ -3,7 +3,7 @@ import re
 from datetime import datetime, timedelta
 from django.core.management.base import BaseCommand
 from pgla.helper_functions import getHTMLContentFromPGLA, getAddressSpeedInterfaceProfileFromPGLA, \
-                                                getParticipansWithPGLA, fixLocalID, safe_list_get, imp_list, local_id_regex
+                                                getParticipansWithPGLA, fixLocalID, safe_list_get, imp_list, regex_list
 from bs4 import BeautifulSoup
 from pgla.models import Client, Link, Country, Movement
 
@@ -17,7 +17,7 @@ class Command(BaseCommand):
         from datetime import date
         if delivered:
             state = 'ENTREGADOS'
-            start_date = (date.today() - timedelta(1)).strftime('%d/%m/%Y')
+            start_date = (date.today() - timedelta(2)).strftime('%d/%m/%Y')
             end_date = date.today().strftime('%d/%m/%Y')
         else:
             state = ''
@@ -54,7 +54,7 @@ class Command(BaseCommand):
                     if document.local_id:
                         try:
                             if document.country:
-                                p = re.compile(local_id_regex.get(document.country, 0))
+                                p = re.compile(regex_list.get(document.country, 0))
                                 m = p.search(document.local_id)
                                 document.local_id = m.group()
                         except:
