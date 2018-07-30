@@ -257,27 +257,27 @@ def auth_to(chan, hostname, lg):
     command = '%s %s' % (lg.protocol, hostname,)
     if lg.vrf:
         if lg.protocol == 'ssh':
-            command += '-vrf %s' % (lg.vrf)
+            command += ' -vrf %s' % (lg.vrf)
         else:
-            command += '/vrf %s' % (lg.vrf)
+            command += ' /vrf %s' % (lg.vrf)
     if lg.source_interface and lg.protocol == 'telnet':
-        command += '/source-interface %s' % (lg.vrf)
+        command += ' /source-interface %s' % (lg.vrf)
     print(command)
     chan.send(command + '\n')
     output = get_output(chan)
-    print(output, '<- output')
+    #print(output, '<- output')
     print('connected')
     if output.find('Connection') != -1 or output.find('Invalid') != -1:
         return False
     elif output.find('Username: ') != -1:
         print('user')
         chan.send(lg.username + '\n')
-        output = get_output(chan)
+        #output = get_output(chan)
         print(output)
         if output.find('Password: ') != -1:
             chan.send(lg.password + '\n')
             output = get_output(chan)
-            print(output)
+            #print(output)
             if output.find('Permission denied') != -1:
                 return False
         else:
