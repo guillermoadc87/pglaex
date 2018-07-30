@@ -237,6 +237,7 @@ def get_output(channel):
     return chunk
 
 def run_command(chan, hostname, lg):
+    print('running')
     if not lg.path:
         print('PE')
         print(hostname, lg.username, lg.password)
@@ -248,7 +249,7 @@ def run_command(chan, hostname, lg):
             print('NO_PE_LG')
             return NO_PE_LG
         elif auth_to(chan, lg.path, lg):
-            run_command(chan, hostname, lg.lg)
+            return run_command(chan, hostname, lg.lg)
         else:
             return False
 
@@ -261,7 +262,7 @@ def auth_to(chan, hostname, lg):
         else:
             command += ' /vrf %s' % (lg.vrf)
     if lg.source_interface and lg.protocol == 'telnet':
-        command += ' /source-interface %s' % (lg.vrf)
+        command += ' /source-interface %s' % (lg.source_interface)
     print(command)
     chan.send(command + '\n')
     output = get_output(chan)
@@ -272,12 +273,13 @@ def auth_to(chan, hostname, lg):
     elif output.find('Username: ') != -1:
         print('user')
         chan.send(lg.username + '\n')
-        #output = get_output(chan)
-        print(output)
+        output = get_output(chan)
+        #print(output)
         if output.find('Password: ') != -1:
+            print('pass')
             chan.send(lg.password + '\n')
             output = get_output(chan)
-            #print(output)
+            #print(output, '<- output')
             if output.find('Permission denied') != -1:
                 return False
         else:
@@ -307,7 +309,6 @@ def auth_to(chan, hostname, lg):
             output = get_output(chan)
             if output.find('Permission denied') == -1:
                 return False
-
     return True
 
 def open_ssh_session(hostname, username, password, port, channel=None):
