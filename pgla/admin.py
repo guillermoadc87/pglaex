@@ -233,12 +233,29 @@ admin.site.register(Link, LinkAdmin)
 class ProvisionTimeAdmin(ImportExportModelAdmin):
     change_list_template = 'admin/pgla/provisiontime/change_list.html'
     resource_class = ProvisionTimeResource
-    list_display = ('pgla', 'nsr', 'state', 'movement', 'reception_ciap', 'billing_date', 'total', 'cnr', 'cycle_time')
+    list_display = ('site_name', 'pgla', 'nsr', 'state', 'movement', 'reception_ciap', 'billing_date', 'total', 'cnr', 'cycle_time')
     empty_value_display = '-empty-'
     search_fields = ('pgla', 'nsr')
     ordering = ('-pgla',)
     list_per_page = 20
     list_filter = (('client', RelatedDropdownFilter), YearListFilter, QuarterListFilter, StateListFilter)
+    fieldsets = (
+        ('Circuit', {
+            'fields': (
+            'client', 'pgla', 'nsr', 'site_name', 'movement', 'local_id', 'country', 'address', 'state', 'cnr')
+        }),
+        ('Technical Details', {
+            'fields': ('interface', 'profile', 'speed'),
+        }),
+        ('Participants', {
+            'fields': ('participants',),
+        }),
+        ('Dates', {
+            'classes': ('collapse',),
+            'fields': (
+                ('reception_ciap', 'duedate_ciap', 'billing_date'), ('entraga_ciap', 'duedate_acc', 'activation_date')),
+        }),
+    )
 
     def has_add_permission(self, request):
         return False

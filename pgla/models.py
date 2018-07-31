@@ -77,7 +77,7 @@ class Link(models.Model):
     ise = models.CharField(max_length=120, blank=True, null=True)
     capl = models.CharField(max_length=120, blank=True, null=True)
     service = models.CharField(max_length=120, blank=True, null=True)
-    movement = models.ForeignKey('Movement', on_delete=models.PROTECT)
+    movement = models.ForeignKey('Movement', on_delete=models.PROTECT, blank=True, null=True)
     country = models.ForeignKey('Country', on_delete=models.CASCADE)
     local_id = models.CharField('Local-ID', max_length=120, blank=True, null=True)
     interface = models.CharField(max_length=120, choices=interfaces, blank=True, null=True)

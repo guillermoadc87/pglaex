@@ -82,7 +82,16 @@ telmex_as_list = {
     'ECUADOR': '23487',
     'CHILE': '100',
     'ARGENTINA': '11664',
-    }
+}
+
+states = (
+    'DESCONEXION SOLICITADA (DXSO)',
+    'INSTALACION SUSPENDIDA',
+    'ACCESO SOLICITADO (ACSO)',
+    'ACCESO LISTO (ACLI)',
+    'ACTIVO SIN FACTURACION',
+    'PRUEBAS CON EL CLIENTE',
+)
 
 colo_host_to_ip = {
     'A9KBUCARAMANGA': '10.10.66.236',
@@ -1897,7 +1906,7 @@ def totalTimeSpan(pgla, nsr):
     for date, state in data_list:
         if state == 'INSTALACION SUSPENDIDA':
             onHoldDate = date
-        elif onHoldDate and state == 0:
+        elif onHoldDate and state in states:
             days = (date - onHoldDate).days
             total_days = total_days + days
             onHoldDate = 0
@@ -1924,21 +1933,20 @@ def downloadOnHoldJSP(pgla, nsr):
     soup = BeautifulSoup(html, 'html.parser')
     date_list = []
 
-    table = soup.find_all('table')[3]
+    table = soup.find('table', attrs={"class": "bordeTabla3"})
+    rows = table.find_all('tr')
 
-    for table in table.children:
-        for tbody in table:
-            for tr in tbody:
-                # print(tr)
-                match = re.match('\d{2}\/\d{2}\/\d{4}', tr)
-                if match:
-                    date = match.group()
-                    date_list.append([datetime.strptime(date, '%d/%m/%Y'), 0])
-                else:
-                    match = re.match('INSTALACION SUSPENDIDA', tr)
-                    if match:
-                        date_list[-1][-1] = 'INSTALACION SUSPENDIDA'
-    # print(date_list)
+    for row in rows[2:]:
+        cols = row.find_all('td')
+        cols = [ele.text.strip() for ele in cols]
+        for ele in cols[:2]:
+            match = re.match('\d{2}\/\d{2}\/\d{4}', ele)
+            if match:
+                date = match.group()
+                date_list.append([datetime.strptime(date, '%d/%m/%Y'), 0])
+            else:
+                date_list[-1][-1] = ele
+
     return date_list
 
 def suspender(link):
