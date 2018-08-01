@@ -233,7 +233,8 @@ admin.site.register(Link, LinkAdmin)
 class ProvisionTimeAdmin(ImportExportModelAdmin):
     change_list_template = 'admin/pgla/provisiontime/change_list.html'
     resource_class = ProvisionTimeResource
-    list_display = ('site_name', 'pgla', 'nsr', 'state', 'movement', 'reception_ciap', 'billing_date', 'total', 'cnr', 'cycle_time')
+    list_display = ('site_name', 'pgla', 'nsr', 'movement', 'eorder_date', 'reception_ciap', 'eorder_confirm_time', 'billing_date', 'total', 'cnr', 'cycle_time')
+    readonly_fields = ('client', 'pgla', 'nsr', 'movement', 'country', 'address', 'cnr', 'participants')
     empty_value_display = '-empty-'
     search_fields = ('pgla', 'nsr')
     ordering = ('-pgla',)
@@ -371,6 +372,11 @@ class ProvisionTimeAdmin(ImportExportModelAdmin):
             response.context_data['ms_series'] = ms_series
 
         return response
+
+    def eorder_confirm_time(self, obj):
+        if obj.eorder_date and obj.reception_ciap:
+            return (obj.reception_ciap - obj.eorder_date).days
+        return 0
 
     def total(self, obj):
         if obj.total:

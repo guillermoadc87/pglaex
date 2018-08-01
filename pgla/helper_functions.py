@@ -1003,6 +1003,18 @@ def create_template_excel(link, template):
 
     return output
 
+def get_eorder_date(pgla):
+    url = "http://10.192.5.53/portalGlobal/app/proy_Detalle.jsp?$screen=1280&corpEmpCve=0007571&cve=" + str(pgla) + "&moduloCaller=VENTA%20-%20IMPLANTACION"
+    html = getHTMLContentFromPGLA(url)
+
+    soup = BeautifulSoup(html, 'html.parser')
+    tds = soup.findAll('td', attrs={"class": "textoL"})
+
+    eorder_date = tds[17].string.replace('\r', '').replace('\n', '').replace('\t', '')
+
+    return datetime.strptime(eorder_date, '%d/%m/%Y')
+
+
 def getHTMLContentFromPGLA(url, method='get', username='ggutierrez', password='pgla', data=''):
     cookies = {
         "cve_paisUsuario": "USA",

@@ -3,7 +3,7 @@ import re
 from datetime import datetime, timedelta
 from django.core.management.base import BaseCommand
 from pgla.helper_functions import getHTMLContentFromPGLA, getAddressSpeedInterfaceProfileFromPGLA, \
-                                                getParticipansWithPGLA, fixLocalID, safe_list_get, imp_list, regex_list
+                                                getParticipansWithPGLA, fixLocalID, safe_list_get, imp_list, regex_list, get_eorder_date
 from bs4 import BeautifulSoup
 from pgla.models import Client, Link, Country, Movement
 
@@ -124,6 +124,8 @@ class Command(BaseCommand):
                 document.address = asip.get('address')
                 if asip.get('links'):
                     [setattr(document, key, value) for key, value in asip['links'][0].items()]
+
+            document.eorder_date = get_eorder_date(document.pgla)
 
             document, created = document.saveMod()
 
