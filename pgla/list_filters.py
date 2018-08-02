@@ -60,7 +60,6 @@ class StateListFilter(admin.SimpleListFilter):
     parameter_name = 'state'
 
     def lookups(self, request, model_admin):
-        print(states)
         return [('PROVISIONING', 'PROVISIONING'), ('PENDING ACTIVATION', 'PENDING ACTIVATION'), ('COMPLETED', 'COMPLETED')]
 
     def queryset(self, request, queryset):
@@ -72,4 +71,21 @@ class StateListFilter(admin.SimpleListFilter):
                 return queryset.filter(activation_date__isnull=True)
             elif value == 'COMPLETED':
                 return queryset.filter(billing_date__isnull=False)
+        return queryset
+
+class CountryListFilter(admin.SimpleListFilter):
+    title = 'Country'
+    parameter_name = 'country'
+
+    def lookups(self, request, model_admin):
+        qs = model_admin.get_queryset(request)
+
+        return [(country, country)
+                for country in qs.order_by('country__name').values_list('country__name', flat=True).distinct()]
+
+    def queryset(self, request, queryset):
+        value = self.value()
+        if value:
+            print(value)
+            return queryset.filter(country__name=value)
         return queryset

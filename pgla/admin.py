@@ -18,7 +18,7 @@ from django.utils.safestring import mark_safe
 
 from .helper_functions import get_config_from, extract_info, convert_netmask, format_speed, create_template_excel, createRFS
 from .helper_functions import INVALID_COMMAND, INVALID_AUTH, INVALID_HOSTNAME, CONNECTION_PROBLEM
-from .list_filters import YearListFilter, QuarterListFilter, StateListFilter
+from .list_filters import YearListFilter, QuarterListFilter, StateListFilter, CountryListFilter
 from .resources import LinkResource, ProvisionTimeResource
 from django_admin_listfilter_dropdown.filters import DropdownFilter, RelatedDropdownFilter
 
@@ -53,7 +53,7 @@ class RelatedInline(admin.TabularInline):
     model = Link
     extra = 0
     fields = ('pgla', 'nsr', 'billing_date')
-    readonly_fields = ('pgla', 'nsr', 'billing_date')
+    can_delete = False
 
     def has_add_permission(self, request):
         return False
@@ -101,6 +101,11 @@ class LinkAdmin(ImportExportModelAdmin):
 
     def has_add_permission(self, request):
         return False
+
+    def get_readonly_fields(self, request, obj=None):
+        if request.user.is_superuser:
+            return self.readonly_fields
+        return self.readonly_fields + ('movement',)
 
     def response_change(self, request, obj):
         if "update_cnr" in request.POST:
@@ -233,13 +238,13 @@ admin.site.register(Link, LinkAdmin)
 class ProvisionTimeAdmin(ImportExportModelAdmin):
     change_list_template = 'admin/pgla/provisiontime/change_list.html'
     resource_class = ProvisionTimeResource
-    list_display = ('site_name', 'pgla', 'nsr', 'movement', 'eorder_date', 'reception_ciap', 'eorder_confirm_time', 'billing_date', 'total', 'cnr', 'cycle_time')
-    readonly_fields = ('client', 'pgla', 'nsr', 'movement', 'country', 'address', 'cnr', 'participants')
+    list_display = ('site_name', 'pgla', 'nsr', 'state', 'movement', 'eorder_date', 'reception_ciap', 'eorder_confirm_time', 'duedate_ciap', 'local_order_date', 'local_order_days', 'billing_date', 'total', 'cnr', 'cycle_time')
+    readonly_fields = ('client', 'pgla', 'nsr', 'country', 'address', 'cnr', 'participants')
     empty_value_display = '-empty-'
     search_fields = ('pgla', 'nsr')
     ordering = ('-pgla',)
     list_per_page = 20
-    list_filter = (('client', RelatedDropdownFilter), YearListFilter, QuarterListFilter, StateListFilter)
+    list_filter = (('client', RelatedDropdownFilter), YearListFilter, QuarterListFilter, StateListFilter, CountryListFilter)
     fieldsets = (
         ('Circuit', {
             'fields': (
@@ -261,8 +266,13 @@ class ProvisionTimeAdmin(ImportExportModelAdmin):
     def has_add_permission(self, request):
         return False
 
+    def get_readonly_fields(self, request, obj=None):
+        if request.user.is_superuser:
+            return self.readonly_fields
+        return self.readonly_fields + ('movement',)
+
     def get_queryset(self, request):
-        qs = super().get_queryset(request).annotate(total=F('billing_date')-F('reception_ciap'))
+        qs = super().get_queryset(request).filter(~Q(movement__name='BAJA')).annotate(total=F('billing_date')-F('reception_ciap'))
         if request.user.is_superuser:
             return qs
         else:
@@ -376,6 +386,17 @@ class ProvisionTimeAdmin(ImportExportModelAdmin):
     def eorder_confirm_time(self, obj):
         if obj.eorder_date and obj.reception_ciap:
             return (obj.reception_ciap - obj.eorder_date).days
+        elif obj.eorder_date:
+            today = timezone.datetime.now().date()
+            return (today - obj.eorder_date).days
+        return 0
+
+    def local_order_days(self, obj):
+        if obj.eorder_date and obj.local_order_date:
+            return (obj.reception_ciap - obj.eorder_date).days
+        elif obj.eorder_date:
+            today = timezone.datetime.now().date()
+            return (today - obj.eorder_date).days
         return 0
 
     def total(self, obj):

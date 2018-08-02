@@ -86,6 +86,7 @@ class Link(models.Model):
     state = models.CharField(max_length=120, choices=states, blank=True, null=True)
     motive = models.CharField(max_length=120, null=True)
     eorder_date = models.DateField(blank=True, null=True)
+    local_order_date = models.DateField(blank=True, null=True)
     duedate_acc = models.DateField(blank=True, null=True)
     entraga_ciap = models.DateField(blank=True, null=True)
     reception_ciap = models.DateField(blank=True, null=True)

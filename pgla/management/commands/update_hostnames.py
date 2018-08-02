@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-import os
-import re
-import io
-import pickle
+import os, re, io, pickle
+from django.conf import settings
 from pgla.models import Hostname
 from pgla.helper_functions import routerIOSFromConfig, regex_list
 from django.core.management.base import BaseCommand
@@ -64,4 +62,7 @@ class Command(BaseCommand):
                     pickle.dump(pickleDic, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
     def handle(self, *args, **options):
+        if settings.CONFIG_PATH:
+            path = settings.CONFIG_PATH.split('/')
+            Command.root = os.path.join(os.sep, *path)
         self._update_hostnames()
