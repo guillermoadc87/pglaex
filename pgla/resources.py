@@ -12,4 +12,4 @@ class ProvisionTimeResource(resources.ModelResource):
 
     class Meta:
         model = ProvisionTime
-        fields = ('state', 'site_name', 'pgla', 'nsr', 'cnr')
+        fields = ('site_name', 'pgla', 'nsr', 'state', 'movement__name', 'eorder_date', 'reception_ciap', 'eorder_days', 'local_order_date', 'local_order_days', 'billing_date', 'total', 'cnr', 'cycle_time')

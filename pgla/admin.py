@@ -84,7 +84,7 @@ class LinkAdmin(ImportExportModelAdmin):
     list_filter = (('client', RelatedDropdownFilter), YearListFilter, QuarterListFilter, StateListFilter)
     fieldsets = (
         ('Circuit', {
-            'fields': ('client', 'pgla', 'nsr', 'site_name', 'movement', 'local_id', 'country', 'address', 'state', 'cnr')
+            'fields': ('client', 'pgla', 'nsr', 'site_name', 'movement', 'local_id', 'country', 'address', 'state', 'cnr', 'special_project')
         }),
         ('Technical Details', {
             'fields': ('interface', 'profile', 'speed'),
@@ -236,19 +236,19 @@ class LinkAdmin(ImportExportModelAdmin):
 admin.site.register(Link, LinkAdmin)
 
 class ProvisionTimeAdmin(ImportExportModelAdmin):
-    change_list_template = 'admin/pgla/provisiontime/change_list.html'
     resource_class = ProvisionTimeResource
-    list_display = ('site_name', 'pgla', 'nsr', 'state', 'movement', 'eorder_date', 'reception_ciap', 'eorder_confirm_time', 'duedate_ciap', 'local_order_date', 'local_order_days', 'billing_date', 'total', 'cnr', 'cycle_time')
+    list_display = ('site_name', 'pgla', 'nsr', 'state', 'movement', 'eorder_date', 'reception_ciap', 'eorder_days', 'local_order_date', 'local_order_days', 'billing_date', 'total', 'cnr', 'cycle_time')
     readonly_fields = ('client', 'pgla', 'nsr', 'country', 'address', 'cnr', 'participants')
     empty_value_display = '-empty-'
     search_fields = ('pgla', 'nsr')
     ordering = ('-pgla',)
     list_per_page = 20
     list_filter = (('client', RelatedDropdownFilter), YearListFilter, QuarterListFilter, StateListFilter, CountryListFilter)
+    date_hierarchy = 'billing_date'
     fieldsets = (
         ('Circuit', {
             'fields': (
-            'client', 'pgla', 'nsr', 'site_name', 'movement', 'local_id', 'country', 'address', 'state', 'cnr')
+            'client', 'pgla', 'nsr', 'site_name', 'movement', 'local_id', 'country', 'address', 'state', 'cnr', 'special_project')
         }),
         ('Technical Details', {
             'fields': ('interface', 'profile', 'speed'),
@@ -259,7 +259,7 @@ class ProvisionTimeAdmin(ImportExportModelAdmin):
         ('Dates', {
             'classes': ('collapse',),
             'fields': (
-                ('reception_ciap', 'duedate_ciap', 'billing_date'), ('entraga_ciap', 'duedate_acc', 'activation_date')),
+                ('reception_ciap', 'duedate_ciap', 'billing_date', 'local_order_date', 'eorder_date'), ('entraga_ciap', 'duedate_acc', 'activation_date')),
         }),
     )
 
@@ -272,7 +272,7 @@ class ProvisionTimeAdmin(ImportExportModelAdmin):
         return self.readonly_fields + ('movement',)
 
     def get_queryset(self, request):
-        qs = super().get_queryset(request).filter(~Q(movement__name='BAJA')).annotate(total=F('billing_date')-F('reception_ciap'))
+        qs = super().get_queryset(request).filter(~Q(movement__name='BAJA'), special_project=False)
         if request.user.is_superuser:
             return qs
         else:
@@ -383,42 +383,13 @@ class ProvisionTimeAdmin(ImportExportModelAdmin):
 
         return response
 
-    def eorder_confirm_time(self, obj):
-        if obj.eorder_date and obj.reception_ciap:
-            return (obj.reception_ciap - obj.eorder_date).days
-        elif obj.eorder_date:
-            today = timezone.datetime.now().date()
-            return (today - obj.eorder_date).days
-        return 0
-
-    def local_order_days(self, obj):
-        if obj.eorder_date and obj.local_order_date:
-            return (obj.reception_ciap - obj.eorder_date).days
-        elif obj.eorder_date:
-            today = timezone.datetime.now().date()
-            return (today - obj.eorder_date).days
-        return 0
-
-    def total(self, obj):
-        if obj.total:
-            return obj.total.days
-        else:
-            today = timezone.datetime.now().date()
-            return (today - obj.reception_ciap).days
-
     @mark_safe
     def cycle_time(self, obj):
-        total = self.total(obj)
+        if obj.movement.days and obj.cycle_time > obj.movement.days:
+            return '<div style="width:100%%; height:100%%; background-color:#FF7575;"><span>%s</span></div>' % obj.cycle_time
+        elif obj.movement.days and obj.cycle_time + 15 > obj.movement.days:
+            return '<div style="width:100%%; height:100%%; background-color:orange;"><span>%s</span></div>' % obj.cycle_time
 
-        if obj.cnr:
-            total -= obj.cnr
-
-        if obj.movement.days and total > obj.movement.days:
-            return '<div style="width:100%%; height:100%%; background-color:red;"><span>%s</span></div>' % total
-        elif obj.movement.days and total + 15 > obj.movement.days:
-            return '<div style="width:100%%; height:100%%; background-color:orange;"><span>%s</span></div>' % total
-
-        return total
     cycle_time.allow_tags = True
 
 admin.site.register(ProvisionTime, ProvisionTimeAdmin)

@@ -21,6 +21,7 @@ from bs4.element import Tag
 from bs4.element import NavigableString
 from bs4 import BeautifulSoup
 from django.conf import settings
+from django.utils import timezone
 from io import StringIO, BytesIO
 
 import shutil
@@ -100,6 +101,15 @@ colo_host_to_ip = {
 
 hostname_test_brasil = 'GACC01.FNS' # IOS
 hostname_test_mexico = 'vpn-yuc-plaza-32' # XR
+
+
+def subtract_days(day1, day2):
+    if day1 and day2:
+        return (day1 - day2).days
+    elif day2:
+        today = timezone.datetime.now().date()
+        return (today - day2).days
+    return 0
 
 def getProvider(link):
     return providers[link.country] if providers.get(link.country, 0) else 'CLARO'

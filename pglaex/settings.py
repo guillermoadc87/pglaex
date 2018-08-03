@@ -31,7 +31,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -43,6 +42,7 @@ INSTALLED_APPS = [
     'import_export',
     'django_admin_listfilter_dropdown',
     'pgla',
+    'django.contrib.admin',
 ]
 
 MIDDLEWARE = [

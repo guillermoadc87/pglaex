@@ -5,7 +5,7 @@ from django.dispatch import receiver
 from django.contrib.postgres.fields import ArrayField, HStoreField
 from django.template.defaultfilters import default
 
-from .helper_functions import totalTimeSpan, reactivar, suspender
+from .helper_functions import totalTimeSpan, reactivar, suspender, subtract_days
 from . slackAPI import create_channel_with, invite_user
 
 class Profile(models.Model):
@@ -103,10 +103,32 @@ class Link(models.Model):
     nrc = models.FloatField(blank=True, null=True)
     mrc = models.FloatField(blank=True, null=True)
     relatedLink = models.ForeignKey('Link', on_delete=models.CASCADE, blank=True, null=True)
+    special_project = models.BooleanField(default=False)
 
     def __init__(self, *args, **kwargs):
         super(Link, self).__init__(*args, **kwargs)
         self.old_state = self.state
+
+    @property
+    def eorder_days(self):
+        return subtract_days(self.reception_ciap, self.eorder_date)
+
+    @property
+    def local_order_days(self):
+        return subtract_days(self.local_order_date, self.reception_ciap)
+
+    @property
+    def total(self):
+        return subtract_days(self.billing_date, self.reception_ciap)
+
+    @property
+    def cycle_time(self):
+        total = self.total
+
+        if self.cnr:
+            total -= self.cnr
+
+        return total
 
     @property
     def channel_name(self):
