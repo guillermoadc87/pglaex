@@ -9,36 +9,52 @@
 <script>
 var chart;
 jQuery(document).ready(function() {
+// Radialize the colors
+Highcharts.setOptions({
+    colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
+        return {
+            radialGradient: {
+                cx: 0.5,
+                cy: 0.3,
+                r: 0.7
+            },
+            stops: [
+                [0, color],
+                [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+            ]
+        };
+    })
+});
   Highcharts.chart('container2', {
 	chart: {
-        type: 'column',
-        height: 650
+        type: 'pie',
+        height: 400
     },
     title : { text : `Status` },
-    xAxis: {
-        type: 'category'
-    },
-    yAxis: {
-        title: {
-            text: 'States'
-        }
-
-    },
     legend: {
         enabled: false
     },
+    tooltip: {
+        pointFormat: '<b>{point.percentage:.1f}%</b>'
+    },
     plotOptions: {
-        series: {
-            borderWidth: 0,
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
             dataLabels: {
                 enabled: true,
-                format: '{point.y}'
+                format: '<b>{point.name}</b><br>{point.percentage:.1f} %',
+                useHTML: true,
+                distance: -70,
+                style: {
+                    fontSize: 25
+                },
+                connectorColor: 'silver'
             }
         }
     },
     series: [{
         name: 'States',
-        colorByPoint: true,
         data: {{states | safe}}
     }]
 });
@@ -133,12 +149,47 @@ Highcharts.chart('container4', {
             },
             series: {{ms_series | safe}}
 });
+Highcharts.chart('container5', {
+    chart: {
+        type: 'bar'
+    },
+    title: {
+        text: 'Delivery Responsibility'
+    },
+    xAxis: {
+        categories: ['']
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Total fruit consumption'
+        }
+    },
+    legend: {
+        reversed: true
+    },
+    plotOptions: {
+        series: {
+            stacking: 'normal'
+        },
+        bar: {
+        	dataLabels: {
+        		enabled: true,
+        		format: '{point.y} %'
+        	}
+        }
+    },
+    series: {{dr_series | safe}}
+});
 });
 </script>
 {% endblock %}
 
 {% block content %}{{ block.super }}
-	<div id="container2"></div>
-	<div id="container3"></div>
-    <div id="container4"></div>
+<div>
+	<div id="container2" style="display:inline-block"></div>
+	<div id="container5" style="display:inline-block"></div>
+</div>
+<div id="container3"></div>
+<div id="container4"></div>
 {% endblock %}

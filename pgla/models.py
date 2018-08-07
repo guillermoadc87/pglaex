@@ -118,8 +118,16 @@ class Link(models.Model):
         return subtract_days(self.local_order_date, self.reception_ciap)
 
     @property
+    def activation_days(self):
+        return subtract_days(self.billing_date, self.activation_date)
+
+    @property
     def total(self):
         return subtract_days(self.billing_date, self.reception_ciap)
+
+    @property
+    def total_with_activation_days(self):
+        return subtract_days(self.activation_date, self.reception_ciap)
 
     @property
     def cycle_time(self):

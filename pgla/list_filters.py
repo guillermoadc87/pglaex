@@ -1,6 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 from datetime import datetime
 from django.contrib import admin
+from django.db.models import Q
 from collections import OrderedDict
 
 year = datetime.now().year
@@ -60,17 +61,22 @@ class StateListFilter(admin.SimpleListFilter):
     parameter_name = 'state'
 
     def lookups(self, request, model_admin):
-        return [('PROVISIONING', 'PROVISIONING'), ('PENDING ACTIVATION', 'PENDING ACTIVATION'), ('COMPLETED', 'COMPLETED')]
+        return [('PROVISIONING', 'PROVISIONING'),
+                ('PENDING ACTIVATION', 'PENDING ACTIVATION'),
+                ('COMPLETED', 'COMPLETED'),
+                ('DISCONNECTION', 'DISCONNECTION')]
 
     def queryset(self, request, queryset):
         value = self.value()
         if value:
             if value == 'PROVISIONING':
-                return queryset.filter(billing_date__isnull=True)
+                return queryset.filter(~Q(movement__name='BAJA'), billing_date__isnull=True)
             elif value == 'PENDING ACTIVATION':
-                return queryset.filter(activation_date__isnull=True)
+                return queryset.filter(~Q(movement__name='BAJA'), billing_date__isnull=False, activation_date__isnull=True)
             elif value == 'COMPLETED':
-                return queryset.filter(billing_date__isnull=False)
+                return queryset.filter(~Q(movement__name='BAJA'), billing_date__isnull=False)
+            elif value == 'DISCONNECTION':
+                return queryset.filter(movement__name='BAJA')
         return queryset
 
 class CountryListFilter(admin.SimpleListFilter):

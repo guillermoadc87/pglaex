@@ -1925,19 +1925,21 @@ def totalTimeSpan(pgla, nsr):
 
     data_list = downloadOnHoldJSP(pgla, nsr)
 
-    for date, state in data_list:
-        if state == 'INSTALACION SUSPENDIDA':
-            onHoldDate = date
-        elif onHoldDate and state in states:
-            days = (date - onHoldDate).days
+    if data_list:
+        for date, state in data_list:
+            if state == 'INSTALACION SUSPENDIDA':
+                onHoldDate = date
+            elif onHoldDate and state in states:
+                days = (date - onHoldDate).days
+                total_days = total_days + days
+                onHoldDate = 0
+
+        if data_list[-1][-1] == 'INSTALACION SUSPENDIDA':
+            days = (datetime.now() - data_list[-1][0]).days
             total_days = total_days + days
-            onHoldDate = 0
 
-    if data_list[-1][-1] == 'INSTALACION SUSPENDIDA':
-        days = (datetime.now() - data_list[-1][0]).days
-        total_days = total_days + days
-
-    return total_days
+        return total_days
+    return 0
 
 def downloadOnHoldJSP(pgla, nsr):
 

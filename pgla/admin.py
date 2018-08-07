@@ -1,5 +1,4 @@
 import os
-from django.utils import timezone
 from datetime import datetime
 import calendar
 from wsgiref.util import FileWrapper
@@ -20,6 +19,7 @@ from .helper_functions import get_config_from, extract_info, convert_netmask, fo
 from .helper_functions import INVALID_COMMAND, INVALID_AUTH, INVALID_HOSTNAME, CONNECTION_PROBLEM
 from .list_filters import YearListFilter, QuarterListFilter, StateListFilter, CountryListFilter
 from .resources import LinkResource, ProvisionTimeResource
+from .actions import duplicate_service
 from django_admin_listfilter_dropdown.filters import DropdownFilter, RelatedDropdownFilter
 
 admin.site.site_header = 'PGLAEX'
@@ -72,19 +72,18 @@ class NoteInline(admin.TabularInline):
     fields = ('text',)
     extra = 1
 
-class LinkAdmin(ImportExportModelAdmin):
-    resource_class = LinkResource
+class ParentAdmin(ImportExportModelAdmin):
+    actions = [duplicate_service]
     inlines = (PhotoInline, ConfigurationInline, RelatedInline, NoteInline)
-    empty_value_display = '-empty-'
-    list_display = ('client', 'pgla', 'nsr', 'movement', 'local_id', 'duedate_ciap', 'billing_date')
-    readonly_fields = ('client', 'pgla', 'nsr', 'movement', 'country', 'address', 'cnr', 'participants')
+    readonly_fields = ('client', 'pgla', 'nsr', 'country', 'address', 'cnr', 'participants')
     search_fields = ('pgla', 'nsr', 'client__name', 'country__name', 'local_id', 'participants__first_name')
     ordering = ('-pgla',)
     list_per_page = 20
-    list_filter = (('client', RelatedDropdownFilter), YearListFilter, QuarterListFilter, StateListFilter)
     fieldsets = (
         ('Circuit', {
-            'fields': ('client', 'pgla', 'nsr', 'site_name', 'movement', 'local_id', 'country', 'address', 'state', 'cnr', 'special_project')
+            'fields': (
+                'client', 'pgla', 'nsr', 'site_name', 'movement', 'local_id', 'country', 'address', 'state', 'cnr',
+                'special_project')
         }),
         ('Technical Details', {
             'fields': ('interface', 'profile', 'speed'),
@@ -95,7 +94,8 @@ class LinkAdmin(ImportExportModelAdmin):
         ('Dates', {
             'classes': ('collapse',),
             'fields': (
-                ('reception_ciap', 'duedate_ciap', 'billing_date'), ('entraga_ciap', 'duedate_acc', 'activation_date')),
+                ('reception_ciap', 'duedate_ciap', 'billing_date', 'local_order_date', 'eorder_date'),
+                ('entraga_ciap', 'duedate_acc', 'activation_date')),
         }),
     )
 
@@ -106,6 +106,17 @@ class LinkAdmin(ImportExportModelAdmin):
         if request.user.is_superuser:
             return self.readonly_fields
         return self.readonly_fields + ('movement',)
+
+    def get_actions(self, request):
+        actions = super(ParentAdmin, self).get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+
+class LinkAdmin(ParentAdmin):
+    resource_class = LinkResource
+    list_display = ('client', 'pgla', 'nsr', 'movement', 'local_id', 'duedate_ciap', 'billing_date')
+    list_filter = (('client', RelatedDropdownFilter), YearListFilter, QuarterListFilter, StateListFilter)
 
     def response_change(self, request, obj):
         if "update_cnr" in request.POST:
@@ -235,44 +246,14 @@ class LinkAdmin(ImportExportModelAdmin):
 
 admin.site.register(Link, LinkAdmin)
 
-class ProvisionTimeAdmin(ImportExportModelAdmin):
+class ProvisionTimeAdmin(ParentAdmin):
     resource_class = ProvisionTimeResource
-    list_display = ('site_name', 'pgla', 'nsr', 'state', 'movement', 'eorder_date', 'reception_ciap', 'eorder_days', 'local_order_date', 'local_order_days', 'billing_date', 'total', 'cnr', 'cycle_time')
-    readonly_fields = ('client', 'pgla', 'nsr', 'country', 'address', 'cnr', 'participants')
-    empty_value_display = '-empty-'
-    search_fields = ('pgla', 'nsr')
-    ordering = ('-pgla',)
-    list_per_page = 20
-    list_filter = (('client', RelatedDropdownFilter), YearListFilter, QuarterListFilter, StateListFilter, CountryListFilter)
+    list_display = ('client', 'site_name', 'pgla', 'nsr', 'state', 'movement', 'eorder_date', 'reception_ciap', 'eorder_days', 'local_order_date', 'local_order_days', 'billing_date', 'activation_days', 'total', 'cnr', 'cycle_time')
+    list_filter = (('client', RelatedDropdownFilter), YearListFilter, QuarterListFilter, StateListFilter)
     date_hierarchy = 'billing_date'
-    fieldsets = (
-        ('Circuit', {
-            'fields': (
-            'client', 'pgla', 'nsr', 'site_name', 'movement', 'local_id', 'country', 'address', 'state', 'cnr', 'special_project')
-        }),
-        ('Technical Details', {
-            'fields': ('interface', 'profile', 'speed'),
-        }),
-        ('Participants', {
-            'fields': ('participants',),
-        }),
-        ('Dates', {
-            'classes': ('collapse',),
-            'fields': (
-                ('reception_ciap', 'duedate_ciap', 'billing_date', 'local_order_date', 'eorder_date'), ('entraga_ciap', 'duedate_acc', 'activation_date')),
-        }),
-    )
-
-    def has_add_permission(self, request):
-        return False
-
-    def get_readonly_fields(self, request, obj=None):
-        if request.user.is_superuser:
-            return self.readonly_fields
-        return self.readonly_fields + ('movement',)
 
     def get_queryset(self, request):
-        qs = super().get_queryset(request).filter(~Q(movement__name='BAJA'), special_project=False)
+        qs = super().get_queryset(request).filter(special_project=False)
         if request.user.is_superuser:
             return qs
         else:
@@ -281,7 +262,11 @@ class ProvisionTimeAdmin(ImportExportModelAdmin):
     def changelist_view(self, request, extra_context=None):
         response = super(ProvisionTimeAdmin, self).changelist_view(request, extra_context=extra_context)
 
-        qs = response.context_data['cl'].queryset
+        try:
+            qs = response.context_data['cl'].queryset
+        except (AttributeError, KeyError):
+            return response
+
         if qs:
             # States
 
@@ -293,14 +278,38 @@ class ProvisionTimeAdmin(ImportExportModelAdmin):
                                               billing_date__isnull=True)
             links_disconnected = qs.filter(state='DESCONEXION SOLICITADA (DXSO)')
 
+            total = links_completed.count() + links_on_hold.count() + links_provisioning.count() + links_disconnected.count()
+
             states = [
-                {"name": 'Completed', "y": links_completed.count(), "drilldown": 'Completed'},
-                {'name': 'On Hold', 'y': links_on_hold.count(), "drilldown": 'On_Hold'},
-                {'name': 'Provisioning', 'y': links_provisioning.count(), "drilldown": 'Provisioning'},
-                {'name': 'Disconnection', 'y': links_disconnected.count(), "drilldown": 'Disconnection'}
+                {'name': 'Completed', "y": (links_completed.count() / total) * 100},
+                {'name': 'On Hold', 'y': (links_on_hold.count() / total) * 100},
+                {'name': 'Provisioning', 'y': (links_provisioning.count() / total) * 100},
+                {'name': 'Disconnection', 'y': (links_disconnected.count() / total) * 100}
             ]
 
             response.context_data['states'] = states
+
+            # Delivery Responsibility
+
+            claro = []
+            cnr = []
+            client = []
+            for link in qs:
+                claro.append((link.cycle_time / link.total_with_activation_days) * 100)
+                if link.cnr:
+                    cnr.append((link.cnr / link.total_with_activation_days) * 100)
+                else:
+                    cnr.append(0 / link.total_with_activation_days)
+                client.append((link.activation_days / link.total_with_activation_days) * 100)
+
+            claro = sum(claro) // len(claro)
+            cnr = sum(cnr) // len(cnr)
+            client = sum(client) // len(client)
+
+            dr_series = [{'name': 'Claro', 'data': [claro]}, {'name': 'CNR', 'data': [cnr]}, {'name': 'Client', 'data': [client]}]
+
+            #print(dr_series)
+            response.context_data['dr_series'] = dr_series
 
             # Completion Times
 
@@ -389,6 +398,7 @@ class ProvisionTimeAdmin(ImportExportModelAdmin):
             return '<div style="width:100%%; height:100%%; background-color:#FF7575;"><span>%s</span></div>' % obj.cycle_time
         elif obj.movement.days and obj.cycle_time + 15 > obj.movement.days:
             return '<div style="width:100%%; height:100%%; background-color:orange;"><span>%s</span></div>' % obj.cycle_time
+        return obj.cycle_time
 
     cycle_time.allow_tags = True
 
