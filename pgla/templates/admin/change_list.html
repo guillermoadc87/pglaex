@@ -30,7 +30,7 @@ Highcharts.setOptions({
         type: 'pie',
         height: 400
     },
-    title : { text : `Status` },
+    title : { text : `Current Status` },
     legend: {
         enabled: false
     },
@@ -99,7 +99,7 @@ Highcharts.chart('container4', {
 	chart: {
                 zoomType: 'xy'
              },
-        title : { text : `Mothly Stats` },
+        title : { text : `Monthly Status` },
         xAxis: {
                 categories: {{ms_categories | safe}},
                 crosshair: true
@@ -154,16 +154,14 @@ Highcharts.chart('container5', {
         type: 'bar'
     },
     title: {
-        text: 'Delivery Responsibility'
+        text: 'Implementation Cycle Time'
     },
     xAxis: {
         categories: ['']
     },
     yAxis: {
         min: 0,
-        title: {
-            text: 'Total fruit consumption'
-        }
+		max: 100
     },
     legend: {
         reversed: true

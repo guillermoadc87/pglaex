@@ -63,10 +63,14 @@ class StateListFilter(admin.SimpleListFilter):
     def lookups(self, request, model_admin):
         return [('PROVISIONING', 'PROVISIONING'),
                 ('PENDING ACTIVATION', 'PENDING ACTIVATION'),
-                ('COMPLETED', 'COMPLETED'),
-                ('DISCONNECTION', 'DISCONNECTION')]
+                ('COMPLETED', 'COMPLETED')]
 
     def queryset(self, request, queryset):
+        year_list_filter_value = request.GET.get('billing_date')
+
+        if not year_list_filter_value:
+            year_list_filter_value = year
+            
         value = self.value()
         if value:
             if value == 'PROVISIONING':
@@ -74,9 +78,7 @@ class StateListFilter(admin.SimpleListFilter):
             elif value == 'PENDING ACTIVATION':
                 return queryset.filter(~Q(movement__name='BAJA'), billing_date__isnull=False, activation_date__isnull=True)
             elif value == 'COMPLETED':
-                return queryset.filter(~Q(movement__name='BAJA'), billing_date__isnull=False)
-            elif value == 'DISCONNECTION':
-                return queryset.filter(movement__name='BAJA')
+                return queryset.filter(~Q(movement__name='BAJA'), billing_date__year=year_list_filter_value)
         return queryset
 
 class CountryListFilter(admin.SimpleListFilter):

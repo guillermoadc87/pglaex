@@ -75,14 +75,14 @@ class NoteInline(admin.TabularInline):
 class ParentAdmin(ImportExportModelAdmin):
     actions = [duplicate_service]
     inlines = (PhotoInline, ConfigurationInline, RelatedInline, NoteInline)
-    readonly_fields = ('client', 'pgla', 'nsr', 'country', 'address', 'cnr', 'participants')
-    search_fields = ('site_name', 'pgla', 'nsr', 'client__name', 'country__name', 'local_id', 'participants__first_name')
+    readonly_fields = ('customer', 'pgla', 'nsr', 'country', 'address', 'cnr', 'participants')
+    search_fields = ('site_name', 'pgla', 'nsr', 'customer__name', 'country__name', 'local_id', 'participants__first_name')
     ordering = ('-pgla',)
     list_per_page = 20
     fieldsets = (
         ('Circuit', {
             'fields': (
-                'client', 'pgla', 'nsr', 'site_name', 'movement', 'local_id', 'country', 'address', 'state', 'cnr',
+                'customer', 'pgla', 'nsr', 'site_name', 'movement', 'local_id', 'country', 'address', 'state', 'cnr',
                 'special_project')
         }),
         ('Technical Details', {
@@ -92,10 +92,10 @@ class ParentAdmin(ImportExportModelAdmin):
             'fields': ('participants',),
         }),
         ('Dates', {
-            'classes': ('collapse',),
             'fields': (
-                ('reception_ciap', 'duedate_ciap', 'billing_date', 'local_order_date', 'eorder_date'),
-                ('entraga_ciap', 'duedate_acc', 'activation_date')),
+                ('eorder_date', 'reception_ciap', 'local_order_date'),
+                ('duedate_ciap', 'billing_date', 'activation_date'),
+            )
         }),
     )
 
@@ -115,8 +115,8 @@ class ParentAdmin(ImportExportModelAdmin):
 
 class LinkAdmin(ParentAdmin):
     resource_class = LinkResource
-    list_display = ('client', 'pgla', 'nsr', 'movement', 'local_id', 'duedate_ciap', 'billing_date')
-    list_filter = (('client', RelatedDropdownFilter), YearListFilter, QuarterListFilter, StateListFilter)
+    list_display = ('customer', 'pgla', 'nsr', 'movement', 'local_id', 'duedate_ciap', 'billing_date')
+    list_filter = (('customer', RelatedDropdownFilter), YearListFilter, QuarterListFilter, StateListFilter)
 
     def response_change(self, request, obj):
         if "update_cnr" in request.POST:
@@ -200,7 +200,7 @@ class LinkAdmin(ParentAdmin):
                                 obj.configuration = config_model
                                 obj.save()
 
-                            obj.client.add_vrf(config_model.vrf)
+                            obj.customer.add_vrf(config_model.vrf)
                             print('saved')
                 else:
                     self.message_user(request, "This service's country doesnt have a LG", level=messages.ERROR)
@@ -215,7 +215,7 @@ class LinkAdmin(ParentAdmin):
                 env.filters["format_speed"] = format_speed
 
                 config = obj.config
-                config.client = obj.client.name
+                config.customer = obj.customer.name
                 config.interface = obj.interface
 
                 if obj.nsr[-1] == 'P':
@@ -248,8 +248,8 @@ admin.site.register(Link, LinkAdmin)
 
 class ProvisionTimeAdmin(ParentAdmin):
     resource_class = ProvisionTimeResource
-    list_display = ('client', 'site_name', 'pgla', 'nsr', 'state', 'movement', 'eorder_date', 'reception_ciap', 'eorder_days', 'local_order_date', 'local_order_days', 'billing_date', 'activation_days', 'total', 'cnr', 'cycle_time')
-    list_filter = (('client', RelatedDropdownFilter), YearListFilter, QuarterListFilter, StateListFilter)
+    list_display = ('customer', 'site_name', 'pgla', 'nsr', 'state', 'movement', 'eorder_date', 'reception_ciap', 'eorder_days', 'local_order_date', 'local_order_days', 'billing_date', 'activation_days', 'total', 'cnr', 'cycle_time')
+    list_filter = (('customer', RelatedDropdownFilter), YearListFilter, QuarterListFilter, StateListFilter)
     date_hierarchy = 'billing_date'
 
     def get_queryset(self, request):
@@ -270,7 +270,8 @@ class ProvisionTimeAdmin(ParentAdmin):
         date = safe_list_get(qs.dates('billing_date', 'year').order_by('-billing_date'), 0, False)
         if date:
             year = date.year
-            # States
+
+            # Current States
 
             links_completed = qs.filter(~Q(state="INSTALACION SUSPENDIDA"), Q(billing_date__year=year))
 
@@ -291,30 +292,40 @@ class ProvisionTimeAdmin(ParentAdmin):
 
             # Implementation cycle time
 
-            claro = []
-            cnr = []
-            client = []
+            ict_series = [
+                {'name': 'Pending CutOver', 'data': [], 'color': 'green'},
+                {'name': 'On Hold', 'data': [], 'color': 'orange'},
+                {'name': 'Provisioning', 'data': [], 'color': 'blue'}
+            ]
 
             ict_qs = qs.filter(billing_date__isnull=False, activation_date__isnull=False)
 
             if ict_qs:
+                provision = []
+                on_hold = []
+                pending_cut_over = []
+                total_act = []
+
                 for link in ict_qs:
-                    claro.append((link.cycle_time / link.total_with_activation_days) * 100)
+                    provision.append((link.cycle_time / link.total_with_activation_days) * 100)
                     if link.cnr:
-                        cnr.append((link.cnr / link.total_with_activation_days) * 100)
+                        on_hold.append((link.cnr / link.total_with_activation_days) * 100)
                     else:
-                        cnr.append(0 / link.total_with_activation_days)
-                    client.append((link.activation_days / link.total_with_activation_days) * 100)
+                        on_hold.append(0 / link.total_with_activation_days)
+                    pending_cut_over.append((link.activation_days / link.total_with_activation_days) * 100)
+                    total_act.append(link.total_with_activation_days)
 
-                claro = sum(claro) / len(claro)
-                cnr = sum(cnr) / len(cnr)
-                client = sum(client) / len(client)
+                provision = sum(provision) / len(provision)
+                on_hold = sum(on_hold) / len(on_hold)
+                pending_cut_over = sum(pending_cut_over) / len(pending_cut_over)
+                total_act = sum(total_act) / len(total_act)
 
-            ict_series = [
-                {'name': 'Client', 'data': [client], 'color': 'green'},
-                {'name': 'CNR', 'data': [cnr], 'color': 'orange'},
-                {'name': 'Claro', 'data': [claro], 'color': 'blue'}
-            ]
+                ict_series[0]['name'] += ' (%s days)' % (int((pending_cut_over/100)*total_act),)
+                ict_series[0]['data'] = [pending_cut_over]
+                ict_series[1]['name'] += ' (%s days)' % (int((on_hold/100)*total_act),)
+                ict_series[1]['data'] = [on_hold]
+                ict_series[2]['name'] += ' (%s days)' % (int((total_act/100)*total_act),)
+                ict_series[2]['data'] = [provision]
 
             #print(ict_series)
             response.context_data['ict_series'] = ict_series

@@ -1499,7 +1499,7 @@ def createRFS(document):
                 data['ce_ip'] += document.links[link_number]['ce_ip'] + ' '
                 data['vrf'] += document.links[link_number]['vrf'] + ' '
 
-        if document.client == "PEPSICO INC":
+        if document.customer.name == "PEPSICO INC":
             tier = get_info_for_site_name(document.nsr, 'tier')
             metal = get_info_for_site_name(document.nsr, 'metal')
             data['sla'] = 'Tier %s (%s)' % (tier, metal)
@@ -1530,7 +1530,7 @@ def createRFS(document):
                        u"Contacto Cliente", u"Teléfono contacto", u"Contacto de cliente que valido activacion de servicio:",
                        u"VRF cliente:", u"IP LAN CLIENTE:", u"PROTOCOLO IGP:", u"Observaciones:"]
         data = [document.movement, document.loop_ready, document.pgla, "", document.loop_ready, "", document.pm,
-                "MAURICIO DAVALOS", document.client, "", document.address, document.country_a, document.site_name, "", document.nsr,
+                "MAURICIO DAVALOS", document.customer.name, "", document.address, document.country_a, document.site_name, "", document.nsr,
                 data['local_id'], getProvider(document), data['pe_ip'], data['ce_ip'], data['hostname'], document.alta[0].get('speed')+"Mbps" if document.alta[0].get('speed') else document.alta[0].get('speed'),
                 document.service, data['scheme'], "", "", "", data['sla'], "3", document.alta[0].get('profile', 'None'), "", "", "", "", "",
                 "", "", data['vrf'], "", "", "Sin Observaciones"]
@@ -1546,7 +1546,7 @@ def createRFS(document):
                        u"POP Uninet:", u"Ancho de banda (Actual):", u"Ancho de banda (Nuevo):", u"SLA (Disponibilidad):", u"Version QoS:", u"Perfil QoS:",
                        u"default (Version 2.5)", u"datos_criticos (Version 2.5)", "voz (Version 2.5)",
                        u"Contacto Uninet", "Observaciones:"]
-        data = [document.movement, document.loop_ready, document.pgla, "", document.loop_ready, "", document.pm, "MAURICIO DAVALOS", document.client, "",
+        data = [document.movement, document.loop_ready, document.pgla, "", document.loop_ready, "", document.pm, "MAURICIO DAVALOS", document.customer.name, "",
                 document.site_name, document.nsr, data['local_id'], getProvider(document), document.nsr,     data['local_id'], getProvider(document), "",data['ce_ip'], data['hostname'],
                 format_speed(document.baja.get('speed', 0)), format_speed(document.alta[0].get('speed', 0)), data['sla'], "3", document.alta[0].get('profile', 0), "", "", "", "", "Sin Observaciones"]
         createEXCEL(output, header, information, data)
@@ -2021,7 +2021,7 @@ def reactivar(link):
     html = getHTMLContentFromPGLA(url, method='post', username='ldiaz', password='12345', data=data)
 
 def generatePDF(link):
-    pdfPath = os.path.join('CN', 'COMPLETION_NOTICE_' + link.client.name + '_PGLA_' + str(link.pgla) + '_NSR_' + link.nsr + '.pdf')
+    pdfPath = os.path.join('CN', 'COMPLETION_NOTICE_' + link.customer.name + '_PGLA_' + str(link.pgla) + '_NSR_' + link.nsr + '.pdf')
     pdf = FPDF()
     pdf.add_page()
     pdf.ln(0)

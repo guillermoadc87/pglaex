@@ -28,7 +28,7 @@ class Command(BaseCommand):
         url = "http://10.192.5.53/portalGlobal/reportes/reporteEjCIAPDetalle.jsp?tipoReporte=1&estatusserv=" + state + "&tiposerv=&fechaInicioPen=" + start_date + "&fechaFinPen=" + end_date + "&cliente=&nombreCAPL=&nombrePM=&nombreIMP=&nombreIS=&estatus="
         print(url)
         keys = [
-            'number', 'client', 'client_segment', 'pm', 'imp', 'ise', 'capl', 'pgla', 'nsr', 'local_ids', 'service', 'tr', 'carrier', 'te',
+            'number', 'customer', 'client_segment', 'pm', 'imp', 'ise', 'capl', 'pgla', 'nsr', 'local_ids', 'service', 'tr', 'carrier', 'te',
             'movement',
             'state', 'motive', 'country_a', 'country_b', 'duedate_ciap', 'duedate_acc', 'entraga_ciap',
             'loop-ready', 'recepcion_ciap', 'billing_date', 'cnr', 'ddf', 'daf', 'observation', 'duration',
@@ -71,11 +71,11 @@ class Command(BaseCommand):
                             setattr(document, keys[td_count], int(ele))
                         except ValueError:
                             pass
-                    elif keys[td_count] == 'client':
-                        client, created = Client.objects.get_or_create(name=ele)
+                    elif keys[td_count] == 'customer':
+                        customer, created = Client.objects.get_or_create(name=ele)
                         if created:
-                            client.save()
-                        document.client = client
+                            customer.save()
+                        document.customer = customer
                     elif keys[td_count] == 'movement':
                         movement, created = Movement.objects.get_or_create(name=ele)
                         if created:
