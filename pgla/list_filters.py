@@ -20,7 +20,7 @@ class YearListFilter(admin.SimpleListFilter):
         if self.value():
             value = int(self.value())
             if value in self.years:
-                completed = queryset.filter(Q(billing_date__year=value) | Q(activation_date__year=value))
+                completed = queryset.filter(billing_date__year=value)
 
                 if year == value:
 
@@ -70,7 +70,7 @@ class StateListFilter(admin.SimpleListFilter):
 
         if not year_list_filter_value:
             year_list_filter_value = year
-            
+
         value = self.value()
         if value:
             if value == 'PROVISIONING':

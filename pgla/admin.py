@@ -268,12 +268,13 @@ class ProvisionTimeAdmin(ParentAdmin):
             return response
 
         date = safe_list_get(qs.dates('billing_date', 'year').order_by('-billing_date'), 0, False)
+
         if date:
             year = date.year
 
             # Current States
 
-            links_completed = qs.filter(~Q(state="INSTALACION SUSPENDIDA"), Q(billing_date__year=year))
+            links_completed = qs.filter(~Q(state="INSTALACION SUSPENDIDA"))
 
             links_on_hold = qs.filter(state='INSTALACION SUSPENDIDA')
 
@@ -314,6 +315,12 @@ class ProvisionTimeAdmin(ParentAdmin):
                         on_hold.append(0 / link.total_with_activation_days)
                     pending_cut_over.append((link.activation_days / link.total_with_activation_days) * 100)
                     total_act.append(link.total_with_activation_days)
+
+                pco_qs = Link.objects.filter(billing_date__year__lt=year, activation_date__year=year)
+                
+                if pco_qs:
+                    for link in pco_qs:
+                        pending_cut_over.append((link.activation_days / link.total_with_activation_days) * 100)
 
                 provision = sum(provision) / len(provision)
                 on_hold = sum(on_hold) / len(on_hold)
@@ -371,7 +378,6 @@ class ProvisionTimeAdmin(ParentAdmin):
 
             try:
 
-
                 for month in ms_categories:
                     month_number = dict((v, k) for k, v in enumerate(calendar.month_abbr))[month]
                     weekday, total_days = calendar.monthrange(year, month_number)
@@ -409,6 +415,7 @@ class ProvisionTimeAdmin(ParentAdmin):
             response.context_data['ms_categories'] = ms_categories
             response.context_data['ms_series'] = ms_series
 
+            response.context_data['cl'].queryset = qs.filter(Q(billing_date__year=year) | Q(billing_date__isnull=True))
         return response
 
     @mark_safe
