@@ -20,11 +20,11 @@ class YearListFilter(admin.SimpleListFilter):
         if self.value():
             value = int(self.value())
             if value in self.years:
-                completed = queryset.filter(billing_date__year=value)
+                completed = queryset.filter(Q(billing_date__year=value) | Q(activation_date__year=value))
 
                 if year == value:
 
-                    provisioning = queryset.filter(billing_date__isnull=True)
+                    provisioning = queryset.filter(Q(billing_date__isnull=True) | Q(activation_date__isnull=True))
 
                     completed = completed | provisioning
 

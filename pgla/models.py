@@ -89,7 +89,7 @@ class Link(models.Model):
     local_order_date = models.DateField(blank=True, null=True)
     duedate_acc = models.DateField(blank=True, null=True)
     entraga_ciap = models.DateField(blank=True, null=True)
-    reception_ciap = models.DateField(blank=True, null=True)
+    reception_ciap = models.DateField('PGLA Assignment', blank=True, null=True)
     billing_date = models.DateField(blank=True, null=True)
     duedate_ciap = models.DateField(blank=True, null=True)
     activation_date = models.DateField(blank=True, null=True)
@@ -119,7 +119,7 @@ class Link(models.Model):
 
     @property
     def activation_days(self):
-        return subtract_days(self.billing_date, self.activation_date)
+        return subtract_days(self.activation_date, self.billing_date)
 
     @property
     def total(self):

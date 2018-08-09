@@ -175,11 +175,11 @@ Highcharts.chart('container5', {
         bar: {
         	dataLabels: {
         		enabled: true,
-        		format: '{point.y} %'
+        		format: '{series.name}<br>{point.y:.1f} %'
         	}
         }
     },
-    series: {{dr_series | safe}}
+    series: {{ict_series | safe}}
 });
 });
 </script>

@@ -15,7 +15,7 @@ from django.db.models import F, Q
 from django.contrib import messages
 from django.utils.safestring import mark_safe
 
-from .helper_functions import get_config_from, extract_info, convert_netmask, format_speed, create_template_excel, createRFS
+from .helper_functions import get_config_from, extract_info, convert_netmask, format_speed, create_template_excel, createRFS, safe_list_get
 from .helper_functions import INVALID_COMMAND, INVALID_AUTH, INVALID_HOSTNAME, CONNECTION_PROBLEM
 from .list_filters import YearListFilter, QuarterListFilter, StateListFilter, CountryListFilter
 from .resources import LinkResource, ProvisionTimeResource
@@ -76,7 +76,7 @@ class ParentAdmin(ImportExportModelAdmin):
     actions = [duplicate_service]
     inlines = (PhotoInline, ConfigurationInline, RelatedInline, NoteInline)
     readonly_fields = ('client', 'pgla', 'nsr', 'country', 'address', 'cnr', 'participants')
-    search_fields = ('pgla', 'nsr', 'client__name', 'country__name', 'local_id', 'participants__first_name')
+    search_fields = ('site_name', 'pgla', 'nsr', 'client__name', 'country__name', 'local_id', 'participants__first_name')
     ordering = ('-pgla',)
     list_per_page = 20
     fieldsets = (
@@ -253,7 +253,7 @@ class ProvisionTimeAdmin(ParentAdmin):
     date_hierarchy = 'billing_date'
 
     def get_queryset(self, request):
-        qs = super().get_queryset(request).filter(special_project=False)
+        qs = super().get_queryset(request).filter(~Q(movement__name='BAJA'), special_project=False)
         if request.user.is_superuser:
             return qs
         else:
@@ -267,49 +267,57 @@ class ProvisionTimeAdmin(ParentAdmin):
         except (AttributeError, KeyError):
             return response
 
-        if qs:
+        date = safe_list_get(qs.dates('billing_date', 'year').order_by('-billing_date'), 0, False)
+        if date:
+            year = date.year
             # States
 
-            links_completed = qs.filter(~Q(state="INSTALACION SUSPENDIDA"), billing_date__isnull=False)
+            links_completed = qs.filter(~Q(state="INSTALACION SUSPENDIDA"), Q(billing_date__year=year))
 
             links_on_hold = qs.filter(state='INSTALACION SUSPENDIDA')
 
             links_provisioning = qs.filter(~Q(state='DESCONEXION SOLICITADA (DXSO)'), ~Q(state="INSTALACION SUSPENDIDA"),
                                               billing_date__isnull=True)
-            links_disconnected = qs.filter(state='DESCONEXION SOLICITADA (DXSO)')
 
-            total = links_completed.count() + links_on_hold.count() + links_provisioning.count() + links_disconnected.count()
+            total = links_completed.count() + links_on_hold.count() + links_provisioning.count()
 
             states = [
-                {'name': 'Completed', "y": (links_completed.count() / total) * 100},
-                {'name': 'On Hold', 'y': (links_on_hold.count() / total) * 100},
-                {'name': 'Provisioning', 'y': (links_provisioning.count() / total) * 100},
-                {'name': 'Disconnection', 'y': (links_disconnected.count() / total) * 100}
+                {'name': 'Completed', "y": (links_completed.count() / total) * 100, 'color': 'green'},
+                {'name': 'On Hold', 'y': (links_on_hold.count() / total) * 100, 'color': 'orange'},
+                {'name': 'Provisioning', 'y': (links_provisioning.count() / total) * 100, 'color': 'blue'}
             ]
 
             response.context_data['states'] = states
 
-            # Delivery Responsibility
+            # Implementation cycle time
 
             claro = []
             cnr = []
             client = []
-            for link in qs:
-                claro.append((link.cycle_time / link.total_with_activation_days) * 100)
-                if link.cnr:
-                    cnr.append((link.cnr / link.total_with_activation_days) * 100)
-                else:
-                    cnr.append(0 / link.total_with_activation_days)
-                client.append((link.activation_days / link.total_with_activation_days) * 100)
 
-            claro = sum(claro) // len(claro)
-            cnr = sum(cnr) // len(cnr)
-            client = sum(client) // len(client)
+            ict_qs = qs.filter(billing_date__isnull=False, activation_date__isnull=False)
 
-            dr_series = [{'name': 'Claro', 'data': [claro]}, {'name': 'CNR', 'data': [cnr]}, {'name': 'Client', 'data': [client]}]
+            if ict_qs:
+                for link in ict_qs:
+                    claro.append((link.cycle_time / link.total_with_activation_days) * 100)
+                    if link.cnr:
+                        cnr.append((link.cnr / link.total_with_activation_days) * 100)
+                    else:
+                        cnr.append(0 / link.total_with_activation_days)
+                    client.append((link.activation_days / link.total_with_activation_days) * 100)
 
-            #print(dr_series)
-            response.context_data['dr_series'] = dr_series
+                claro = sum(claro) / len(claro)
+                cnr = sum(cnr) / len(cnr)
+                client = sum(client) / len(client)
+
+            ict_series = [
+                {'name': 'Client', 'data': [client], 'color': 'green'},
+                {'name': 'CNR', 'data': [cnr], 'color': 'orange'},
+                {'name': 'Claro', 'data': [claro], 'color': 'blue'}
+            ]
+
+            #print(ict_series)
+            response.context_data['ict_series'] = ict_series
 
             # Completion Times
 
@@ -351,7 +359,7 @@ class ProvisionTimeAdmin(ParentAdmin):
             ms_categories = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
             try:
-                year = qs.dates('billing_date', 'year')[0].year
+
 
                 for month in ms_categories:
                     month_number = dict((v, k) for k, v in enumerate(calendar.month_abbr))[month]
