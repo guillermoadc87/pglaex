@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import re, os, io
-from django.conf import settings
+from pgla.settings import CONFIG_PATH
 from datetime import datetime
 from django.core.management.base import BaseCommand
 from django.db.models import Q
@@ -10,7 +10,7 @@ from pgla.helper_functions import get_config_from, returnBrasilList
 class Command(BaseCommand):
     args = '<foo bar ...>'
     help = 'our help string comes here'
-    root = os.path.join('pgla', 'configs')
+    root = CONFIG_PATH
     country = {
         "MEXICO": Country.objects.get(name='MEXICO'),
         "ESTADOS UNIDOS": Country.objects.get(name='ESTADOS UNIDOS'),
@@ -206,20 +206,15 @@ class Command(BaseCommand):
         parser.add_argument('country')
 
     def handle(self, *args, **options):
-        if settings.CONFIG_PATH:
-            path = settings.CONFIG_PATH.split('/')
-            Command.root = os.path.join(os.sep, *path)
-            if options['country'] == 'brasil':
-                self.downloadBrasilConfigs()
-            elif options['country'] == 'colombia':
-                self.downloadColombiaConfigs()
-            elif options['country'] == 'mexico':
-                self.downloadMexicoConfigs()
-            elif options['country'] == 'chile':
-                self.downloadChileConfigs()
-            elif options['country'] == 'usa':
-                self.downloadUSAConfigs()
-            else:
-                print('country not supported')
+        if options['country'] == 'brasil':
+            self.downloadBrasilConfigs()
+        elif options['country'] == 'colombia':
+            self.downloadColombiaConfigs()
+        elif options['country'] == 'mexico':
+            self.downloadMexicoConfigs()
+        elif options['country'] == 'chile':
+            self.downloadChileConfigs()
+        elif options['country'] == 'usa':
+            self.downloadUSAConfigs()
         else:
-            print('configure in settings were to save the configs')
+            print('country not supported')

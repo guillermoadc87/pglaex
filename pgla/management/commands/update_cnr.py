@@ -10,7 +10,7 @@ class Command(BaseCommand):
     help = 'our help string comes here'
 
     def _update_cnr(self):
-        links = Link.objects.filter(billing_date__isnull=False)
+        links = Link.objects.filter(billing_date__isnull=True)
         [link.update_cnr() for link in links]
 
     def handle(self, *args, **options):

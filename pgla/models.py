@@ -55,8 +55,8 @@ class Link(models.Model):
         ('INSTALACION SUSPENDIDA', 'INSTALACION SUSPENDIDA'),
         ('ACCESO SOLICITADO (ACSO)', 'ACCESO SOLICITADO (ACSO)'),
         ('ACCESO LISTO (ACLI)', 'ACCESO LISTO (ACLI)'),
-        ('ACTIVO SIN FACTURACION', 'ACTIVO SIN FACTURACION'),
         ('PRUEBAS CON EL CLIENTE', 'PRUEBAS CON EL CLIENTE'),
+        ('ACTIVO SIN FACTURACION', 'ACTIVO SIN FACTURACION'),
     )
 
     interfaces = (
@@ -182,15 +182,16 @@ class Link(models.Model):
 
     def saveMod(self):
         try:
-            link = Link.objects.get(pgla=self.pgla, nsr=self.nsr)
+            links = Link.objects.filter(pgla=self.pgla, nsr=self.nsr)
 
-            if self.local_id:
-                link.local_id = self.local_id
+            for link in links:
+                if self.local_id:
+                    link.local_id = self.local_id
 
-            link.state = self.state
-            link.billing_date = self.billing_date
-            link.save()
-            return link, False
+                link.state = self.state
+                link.billing_date = self.billing_date
+                link.save()
+            return links[0], False
         except:
             relatedLinks = Link.objects.filter(pgla__lt=self.pgla, nsr=self.nsr).order_by('-pgla')
             if relatedLinks:
@@ -322,8 +323,9 @@ class Hostname(models.Model):
         ('junos', 'Junos OS'),
     )
     name = models.CharField(max_length=120)
+    mtime = models.DateField(blank=True, null=True)
     local_ids = ArrayField(models.CharField(max_length=120), blank=True, null=True)
     os = models.CharField(max_length=120, choices=oSystems)
 
     def __str__(self):
-        return self.name
+        return "%s (%s)" % (self.name, self.mtime)

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os, re, io, pickle
-from django.conf import settings
+from datetime import datetime
+from pgla.settings import CONFIG_PATH
 from pgla.models import Hostname
 from pgla.helper_functions import routerIOSFromConfig, regex_list
 from django.core.management.base import BaseCommand
@@ -8,7 +9,7 @@ from django.core.management.base import BaseCommand
 class Command(BaseCommand):
     args = '<foo bar ...>'
     help = 'our help string comes here'
-    root = os.path.join('pgla', 'configs')
+    root = CONFIG_PATH
 
     def updateHostname(self, pe, pePath, country):
         if "txt" in pe:
@@ -20,6 +21,7 @@ class Command(BaseCommand):
             config = file.read()
             p = re.compile(regex)
             hostname.local_ids = [local_id.group() for local_id in p.finditer(config)]
+            hostname.mtime = datetime.fromtimestamp(os.path.getmtime(pePath))
             hostname.os = routerIOSFromConfig(config)
             hostname.save()
             print('updated ', pe)
@@ -62,7 +64,4 @@ class Command(BaseCommand):
                     pickle.dump(pickleDic, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
     def handle(self, *args, **options):
-        if settings.CONFIG_PATH:
-            path = settings.CONFIG_PATH.split('/')
-            Command.root = os.path.join(os.sep, *path)
         self._update_hostnames()

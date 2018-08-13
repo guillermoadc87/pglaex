@@ -1939,7 +1939,7 @@ def totalTimeSpan(pgla, nsr):
             total_days = total_days + days
 
         return total_days
-    return 0
+    return 0        
 
 def downloadOnHoldJSP(pgla, nsr):
 

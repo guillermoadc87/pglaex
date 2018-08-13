@@ -1,9 +1,10 @@
-import os
+import os, io
 from datetime import datetime
 import calendar
 from wsgiref.util import FileWrapper
 from jinja2 import Environment, FileSystemLoader, Markup
 from import_export.admin import ImportExportModelAdmin
+from pgla.settings import CONFIG_PATH
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
@@ -235,6 +236,21 @@ class LinkAdmin(ParentAdmin):
             rfs_excel = createRFS(obj)
             response = StreamingHttpResponse(FileWrapper(rfs_excel), content_type="application/vnd.ms-excel")
             response['Content-Disposition'] = "attachment; filename=PGLA-" + obj.pgla + "-" + obj.nsr + "-" + obj.movement + ".xlsx"
+        elif "update" in request.POST:
+            hostname = obj.config.hostname
+            file_path = os.path.join(CONFIG_PATH, obj.country.name, obj.config.hostname.name) + '.txt'
+
+            if obj.config.hostname.os == 'junos':
+                config = get_config_from(obj.country, hostname.name, l=False)
+            else:
+                config = get_config_from(obj.country, hostname.name, command="show configuration", l=False)
+
+            with io.open(file_path, 'w', encoding="ISO-8859-1") as file:
+                print('Saved')
+                file.write(config)
+
+            hostname.mtime = datetime.fromtimestamp(os.path.getmtime(file_path))
+            hostname.save()
         return super().response_change(request, obj)
 
     def get_queryset(self, request):
@@ -299,40 +315,42 @@ class ProvisionTimeAdmin(ParentAdmin):
                 {'name': 'Provisioning', 'data': [], 'color': 'blue'}
             ]
 
-            ict_qs = qs.filter(billing_date__isnull=False, activation_date__isnull=False)
+            ict_qs = qs.filter(billing_date__year=year)
 
             if ict_qs:
-                provision = []
-                on_hold = []
-                pending_cut_over = []
-                total_act = []
-
+                provision = 0
+                on_hold = 0
+                pco = 0
+                pco_total = 0
                 for link in ict_qs:
-                    provision.append((link.cycle_time / link.total_with_activation_days) * 100)
+                    provision += link.cycle_time
+
                     if link.cnr:
-                        on_hold.append((link.cnr / link.total_with_activation_days) * 100)
-                    else:
-                        on_hold.append(0 / link.total_with_activation_days)
-                    pending_cut_over.append((link.activation_days / link.total_with_activation_days) * 100)
-                    total_act.append(link.total_with_activation_days)
+                        on_hold += link.cnr
+
+                    if link.activation_date:
+                        pco += link.activation_days
+                        pco_total += 1
 
                 pco_qs = Link.objects.filter(billing_date__year__lt=year, activation_date__year=year)
-                
+
                 if pco_qs:
                     for link in pco_qs:
-                        pending_cut_over.append((link.activation_days / link.total_with_activation_days) * 100)
+                        pco += link.activation_days
+                        pco_total += 1
 
-                provision = sum(provision) / len(provision)
-                on_hold = sum(on_hold) / len(on_hold)
-                pending_cut_over = sum(pending_cut_over) / len(pending_cut_over)
-                total_act = sum(total_act) / len(total_act)
+                provision = provision / ict_qs.count()
+                on_hold = on_hold / ict_qs.count()
+                if pco:
+                    pco = pco / pco_total
+                total_act = provision + on_hold + pco
 
-                ict_series[0]['name'] += ' (%s days)' % (int((pending_cut_over/100)*total_act),)
-                ict_series[0]['data'] = [pending_cut_over]
-                ict_series[1]['name'] += ' (%s days)' % (int((on_hold/100)*total_act),)
-                ict_series[1]['data'] = [on_hold]
-                ict_series[2]['name'] += ' (%s days)' % (int((total_act/100)*total_act),)
-                ict_series[2]['data'] = [provision]
+                ict_series[0]['name'] += ' (%s days)' % (int(pco),)
+                ict_series[0]['data'] = [(pco/total_act)*100]
+                ict_series[1]['name'] += ' (%s days)' % (int(on_hold),)
+                ict_series[1]['data'] = [(on_hold/total_act)*100]
+                ict_series[2]['name'] += ' (%s days)' % (int(provision),)
+                ict_series[2]['data'] = [(provision/total_act)*100]
 
             #print(ict_series)
             response.context_data['ict_series'] = ict_series

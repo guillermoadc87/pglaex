@@ -109,7 +109,7 @@ class Command(BaseCommand):
                     td_count += 1
 
             if document.imp in imp_list:
-                if not re.search("-Q[0-9]|-A[0-9]", document.nsr):
+                if not re.search("-Q[0-9]|-A[0-9]", document.nsr) and document.pgla == 49318:
                     collection.append(document)
 
         collection.reverse()
@@ -129,9 +129,8 @@ class Command(BaseCommand):
 
             document, created = document.saveMod()
 
-            participants = getParticipansWithPGLA(str(document.pgla))
-
             if created:
+                participants = getParticipansWithPGLA(str(document.pgla))
                 [document.participants.add(participant) for participant in participants]
 
     def add_arguments(self, parser):

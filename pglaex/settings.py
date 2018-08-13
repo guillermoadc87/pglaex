@@ -143,5 +143,3 @@ IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
-CONFIG_PATH = 'Users/Guillermo.Diaz/PycharmProjects/pglaex/pgla/configs'
