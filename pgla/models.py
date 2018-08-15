@@ -90,6 +90,7 @@ class Link(models.Model):
     duedate_acc = models.DateField(blank=True, null=True)
     entraga_ciap = models.DateField(blank=True, null=True)
     reception_ciap = models.DateField('PGLA Date', blank=True, null=True)
+    loop_ready = models.DateField('PGLA Date', blank=True, null=True)
     billing_date = models.DateField(blank=True, null=True)
     duedate_ciap = models.DateField(blank=True, null=True)
     activation_date = models.DateField(blank=True, null=True)
@@ -190,6 +191,7 @@ class Link(models.Model):
 
                 link.state = self.state
                 link.billing_date = self.billing_date
+                link.loop_ready = self.loop_ready
                 link.save()
             return links[0], False
         except:

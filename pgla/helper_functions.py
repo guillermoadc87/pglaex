@@ -164,7 +164,7 @@ def safe_list_get(l, idx, default):
         return default
 
 def downloadPepsicoTracker(path):
-    url = "http://telmexusaintra/sites/CustomerCare/_layouts/download.aspx?SourceUrl=%2Fsites%2FCustomerCare%2FSpecial%20Reports%2FPepsico%20Source%2FPEPSICO%20Source%20Internal%20v3%2Exlsx&Source=http%3A%2F%2Ftelmexusaintra%2Fsites%2FCustomerCare%2FSpecial%2520Reports%2FForms%2FAllItems%2Easpx%3FRootFolder%3D%252fsites%252fCustomerCare%252fSpecial%2520Reports%252fPepsico%2520Source%26FolderCTID%3D%26View%3D%257b3C3015E1%252d486B%252d499C%252dB1A5%252dED2ED111A595%257d&FldUrl="
+    url = "http://telmexusaintra/sites/CustomerCare/_layouts/download.aspx?SourceUrl=%2Fsites%2FCustomerCare%2FSpecial%20Reports%2FPepsico%20Source%2FPEPSICO%20Source%20Internal%20v4%2Exlsx&Source=http%3A%2F%2Ftelmexusaintra%2Fsites%2FCustomerCare%2FSpecial%2520Reports%2FForms%2FAllItems%2Easpx%3FRootFolder%3D%252fsites%252fCustomerCare%252fSpecial%2520Reports%252fPepsico%2520Source%26FolderCTID%3D%26View%3D%257b3C3015E1%252d486B%252d499C%252dB1A5%252dED2ED111A595%257d&FldUrl="
     username = "telmex-usa\\guillermo.diaz"
     password = "Motorola1987$"
     r = requests.get(url, auth=HttpNtlmAuth(username, password), stream=True)
@@ -178,7 +178,7 @@ def downloadPepsicoTracker(path):
 
 def get_info_for_site_name(nsr, column, link_type='Primary'):
     info = str()
-    path = "%s/PEPSICO Source Internal v3.xlsx" % settings.BASE_DIR
+    path = "%s/PEPSICO Source Internal v4.xlsx" % settings.BASE_DIR
     columns = {
         "site_name": 0,
         "as": 3,
@@ -186,8 +186,8 @@ def get_info_for_site_name(nsr, column, link_type='Primary'):
         "nsr": 11,
         "pgla": 12,
         "interface": 19,
-        "metal": 25,
-        "tier": 26
+        "metal": 26,
+        "tier": 27
     }
 
     #downloadPepsicoTracker(path)
@@ -1465,17 +1465,14 @@ def createEXCEL(output, header, information, data):
         worksheet.write(row+1, 0, value, format1)
 
     for row, value in enumerate(data):
-        if type(value) != unicode or type(value) != str:
-            worksheet.write(row + 1, 1, value, format2)
-        else:
-            worksheet.write(row+1, 1, value.encode('utf-8'), format2)
+        worksheet.write(row+1, 1, value, format2)
 
     workbook.close()
 
     output.seek(0)
     return output
 
-def createRFS(document):
+def create_rfs(document):
     data = {}
     #filepath = "%s\Templates\%s\%s\PGLA-%s-%s-%s.xlsx" % (os.getcwd(), data['pgla'], data['nsr'],
     #                                             data['pgla'], data['nsr'], data['movement'])
@@ -1484,40 +1481,19 @@ def createRFS(document):
     header = "INFORMACION PARA PROGRAMACION DE ACTIVIDAD IMPLEMENTACIONES"
 
     if not document.movement == 'BAJA':
-        data['local_id'] = ''
-        data['hostname'] = ''
-        data['pe_ip'] = ''
-        data['ce_ip'] = ''
-        data['vrf'] = ''
-        data['scheme'] = ''
-        for link_number, circuit in enumerate(document.alta):
-            if safe_list_get(document.links, link_number, 0):
-                print(link_number, document.links[link_number])
-                data['local_id'] += circuit['local_id'] + ' '
-                data['hostname'] += document.links[link_number]['hostname'] + ' '
-                data['pe_ip'] += document.links[link_number]['pe_ip'] + ' '
-                data['ce_ip'] += document.links[link_number]['ce_ip'] + ' '
-                data['vrf'] += document.links[link_number]['vrf'] + ' '
-
         if document.customer.name == "PEPSICO INC":
             tier = get_info_for_site_name(document.nsr, 'tier')
             metal = get_info_for_site_name(document.nsr, 'metal')
-            data['sla'] = 'Tier %s (%s)' % (tier, metal)
-            if len(document.alta) >= 2:
-                data['scheme'] += 'Primary/Secondary'
-            else:
-                data['scheme'] += 'Primary'
+            document.sla = 'Tier %s (%s)' % (tier, metal)
         else:
-            if len(document.alta) >= 2:
-                data['scheme'] += 'Primary/Secondary'
-                data['sla'] = '99.80%'
-            else:
-                data['scheme'] += 'Primary'
-                data['sla'] = '99.50%'
+            document.sla = '99.50%'
 
-    #print(data)
+        if document.nsr[:-1] == 'P':
+            document.scheme = 'Primary'
+        else:
+            document.scheme = 'Secondary'
 
-    if document.movement == "ALTA":
+    if document.movement.name == "ALTA":
 
         information = [u"Tipo de cambio:", u"Fecha y hora de preactivacion:", u"Cambio Uninet Aprobado/PGLA:",
                        u"No. De Cambio", u"Fecha y Hora entrega de implementacion:", u"Supervisor/Analista CNOC:",
@@ -1529,14 +1505,14 @@ def createRFS(document):
                        u"default (Version 2.5)", u"datos_criticos (Version 2.5)", u"voz (Version 2.5)", u"voz (Version 2.5)",
                        u"Contacto Cliente", u"Teléfono contacto", u"Contacto de cliente que valido activacion de servicio:",
                        u"VRF cliente:", u"IP LAN CLIENTE:", u"PROTOCOLO IGP:", u"Observaciones:"]
-        data = [document.movement, document.loop_ready, document.pgla, "", document.loop_ready, "", document.pm,
+        data = [document.movement.name, document.loop_ready, document.pgla, "", document.loop_ready, "", document.pm,
                 "MAURICIO DAVALOS", document.customer.name, "", document.address, document.country_a, document.site_name, "", document.nsr,
-                data['local_id'], getProvider(document), data['pe_ip'], data['ce_ip'], data['hostname'], document.alta[0].get('speed')+"Mbps" if document.alta[0].get('speed') else document.alta[0].get('speed'),
-                document.service, data['scheme'], "", "", "", data['sla'], "3", document.alta[0].get('profile', 'None'), "", "", "", "", "",
-                "", "", data['vrf'], "", "", "Sin Observaciones"]
+                document.local_id, getProvider(document), document.config.pe_ip, document.config.ce_ip, document.config.hostname.name, format_speed(document.config.speed),
+                document.service, document.scheme, "", "", "", document.sla, "3", document.config.profile, "", "", "", "", "",
+                "", "", document.config.vrf, "", "", "Sin Observaciones"]
 
         createEXCEL(output, header, information, data)
-    elif document.movement == "CAMBIO":
+    elif document.movement.name == "CAMBIO":
         information = [u"Tipo de cambio:", u"Fecha y hora de preactivacion:", u"Cambio Uninet Aprobado/PGLA:",
                        u"No. De Cambio", u"Fecha y Hora entrega de implementacion:", u"Supervisor/Analista CNOC:",
                        u"Administrador de proyecto:", u"Supervisor de Ingenieria:", u"CLIENTE:", u"Nombre del Sitio:",
@@ -1546,18 +1522,18 @@ def createRFS(document):
                        u"POP Uninet:", u"Ancho de banda (Actual):", u"Ancho de banda (Nuevo):", u"SLA (Disponibilidad):", u"Version QoS:", u"Perfil QoS:",
                        u"default (Version 2.5)", u"datos_criticos (Version 2.5)", "voz (Version 2.5)",
                        u"Contacto Uninet", "Observaciones:"]
-        data = [document.movement, document.loop_ready, document.pgla, "", document.loop_ready, "", document.pm, "MAURICIO DAVALOS", document.customer.name, "",
-                document.site_name, document.nsr, data['local_id'], getProvider(document), document.nsr,     data['local_id'], getProvider(document), "",data['ce_ip'], data['hostname'],
-                format_speed(document.baja.get('speed', 0)), format_speed(document.alta[0].get('speed', 0)), data['sla'], "3", document.alta[0].get('profile', 0), "", "", "", "", "Sin Observaciones"]
+        data = [document.movement.name, document.loop_ready, document.pgla, "", document.loop_ready, "", document.pm, "MAURICIO DAVALOS", document.customer.name, "",
+                document.site_name, document.nsr, document.local_id, getProvider(document), document.nsr, document.local_id, getProvider(document), "",document.config.ce_ip, document.config.hostname.name,
+                format_speed(document.config.speed), format_speed(document.config.speed), document.sla, "3", document.profile, "", "", "", "", "Sin Observaciones"]
         createEXCEL(output, header, information, data)
-    elif document.movement == "BAJA":
+    elif document.movement.name == "BAJA":
         information = [u"Tipo de cambio:", u"Cambio Uninet Aprobado/PGLA:",
                        u"No. De Cambio", u"FecreateEXCELcha y Hora baja de servicio:", u"Supervisor/Analista CNOC:",
                        u"Administrador de proyecto:", u"Supervisor de Ingenieria:", u"CLIENTE:", u"Pais", u"SID:",
                        u"Referencia (NSR): ", u"ID LOCAL:", u"Proveedor del Servicio", u"Domicilio Fisico",
                        u"Contacto Uninet", u"Observaciones:"]
-        data = [document.movement, document.pgla, '', document.loop_ready, '', document.pm, "MAURICIO DAVALOS", document.client, document.country_a,
-                '', document.nsr, data['local_id'], getProvider(document), document.address, '', "Sin Observaciones"]
+        data = [document.movement.name, document.pgla, '', document.loop_ready, '', document.pm, "MAURICIO DAVALOS", document.client, document.country_a,
+                '', document.nsr, document.local_id, getProvider(document), document.address, '', "Sin Observaciones"]
         output = createEXCEL(output, header, information, data)
 
     return output

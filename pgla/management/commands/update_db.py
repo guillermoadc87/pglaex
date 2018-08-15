@@ -31,7 +31,7 @@ class Command(BaseCommand):
             'number', 'customer', 'client_segment', 'pm', 'imp', 'ise', 'capl', 'pgla', 'nsr', 'local_ids', 'service', 'tr', 'carrier', 'te',
             'movement',
             'state', 'motive', 'country_a', 'country_b', 'duedate_ciap', 'duedate_acc', 'entraga_ciap',
-            'loop-ready', 'recepcion_ciap', 'billing_date', 'cnr', 'ddf', 'daf', 'observation', 'duration',
+            'loop_ready', 'recepcion_ciap', 'billing_date', 'cnr', 'ddf', 'daf', 'observation', 'duration',
             'duracion_contract', 'nrc', 'mrc'
         ]
 
@@ -82,7 +82,7 @@ class Command(BaseCommand):
                             movement.save()
                         document.movement = movement
                     elif keys[td_count] in ['billing_date', 'duedate_ciap', 'recepcion_ciap', 'entraga_ciap',
-                                            'duedate_acc']:
+                                            'duedate_acc', 'loop_ready']:
                         if ele:
                             # print(keys[td_count] + ": ", td_count, " "+td.string)
                             date = datetime.strptime(ele, '%d/%m/%Y')
@@ -96,6 +96,8 @@ class Command(BaseCommand):
                                 document.entraga_ciap = date
                             elif keys[td_count] == 'duedate_acc':
                                 document.duedate_acc = date
+                            elif keys[td_count] == 'loop_ready':
+                                document.loop_ready = date
                     elif keys[td_count] in ['pm', 'imp', 'is', 'capl']:
                         newString = ' '.join(ele.split())
                         setattr(document, keys[td_count], newString)
@@ -109,7 +111,7 @@ class Command(BaseCommand):
                     td_count += 1
 
             if document.imp in imp_list:
-                if not re.search("-Q[0-9]|-A[0-9]", document.nsr) and document.pgla == 49318:
+                if not re.search("-Q[0-9]|-A[0-9]", document.nsr):
                     collection.append(document)
 
         collection.reverse()

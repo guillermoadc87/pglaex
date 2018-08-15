@@ -16,11 +16,12 @@ from django.db.models import F, Q
 from django.contrib import messages
 from django.utils.safestring import mark_safe
 
-from .helper_functions import get_config_from, extract_info, convert_netmask, format_speed, create_template_excel, createRFS, safe_list_get
+from .helper_functions import get_config_from, extract_info, convert_netmask, format_speed, create_template_excel, create_rfs, safe_list_get
 from .helper_functions import INVALID_COMMAND, INVALID_AUTH, INVALID_HOSTNAME, CONNECTION_PROBLEM
 from .list_filters import YearListFilter, QuarterListFilter, StateListFilter, CountryListFilter
 from .resources import LinkResource, ProvisionTimeResource
 from .actions import duplicate_service
+from .forms import LinkForm
 from django_admin_listfilter_dropdown.filters import DropdownFilter, RelatedDropdownFilter
 
 admin.site.site_header = 'PGLAEX'
@@ -74,6 +75,7 @@ class NoteInline(admin.TabularInline):
     extra = 1
 
 class ParentAdmin(ImportExportModelAdmin):
+    form = LinkForm
     actions = [duplicate_service]
     inlines = (PhotoInline, ConfigurationInline, RelatedInline, NoteInline)
     readonly_fields = ('customer', 'pgla', 'nsr', 'country', 'address', 'cnr', 'participants')
@@ -113,11 +115,6 @@ class ParentAdmin(ImportExportModelAdmin):
         if 'delete_selected' in actions:
             del actions['delete_selected']
         return actions
-
-class LinkAdmin(ParentAdmin):
-    resource_class = LinkResource
-    list_display = ('customer', 'pgla', 'nsr', 'movement', 'local_id', 'duedate_ciap', 'billing_date')
-    list_filter = (('customer', RelatedDropdownFilter), YearListFilter, QuarterListFilter, StateListFilter)
 
     def response_change(self, request, obj):
         if "update_cnr" in request.POST:
@@ -233,9 +230,10 @@ class LinkAdmin(ParentAdmin):
                 self.message_user(request, "Upload or manually enter the configuration specs", level=messages.ERROR)
                 return HttpResponseRedirect(".")
         elif "rfs" in request.POST:
-            rfs_excel = createRFS(obj)
+            rfs_excel = create_rfs(obj)
             response = StreamingHttpResponse(FileWrapper(rfs_excel), content_type="application/vnd.ms-excel")
-            response['Content-Disposition'] = "attachment; filename=PGLA-" + obj.pgla + "-" + obj.nsr + "-" + obj.movement + ".xlsx"
+            response['Content-Disposition'] = "attachment; filename=PGLA-" + str(obj.pgla) + "-" + obj.nsr + "-" + obj.movement.name + ".xlsx"
+            return response
         elif "update" in request.POST:
             hostname = obj.config.hostname
             file_path = os.path.join(CONFIG_PATH, obj.country.name, obj.config.hostname.name) + '.txt'
@@ -251,7 +249,14 @@ class LinkAdmin(ParentAdmin):
 
             hostname.mtime = datetime.fromtimestamp(os.path.getmtime(file_path))
             hostname.save()
-        return super().response_change(request, obj)
+            return HttpResponseRedirect(".")
+        else:
+            return super().response_change(request, obj)
+
+class LinkAdmin(ParentAdmin):
+    resource_class = LinkResource
+    list_display = ('customer', 'pgla', 'nsr', 'movement', 'local_id', 'duedate_ciap', 'billing_date')
+    list_filter = (('customer', RelatedDropdownFilter), YearListFilter, QuarterListFilter, StateListFilter)
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
