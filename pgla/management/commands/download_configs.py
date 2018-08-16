@@ -42,7 +42,7 @@ class Command(BaseCommand):
                     m = p1.search(config)
                     if m:
                         hostname = config[m.end():]
-                        hostname = hostname.replace("-RE0;", "")
+                        hostname = hostname.replace("-RE0;", "").replace("-RE1;", "").replace(";", "").replace("RE0;", "")
                         hostname = hostname[:hostname.find('\n')]
                     else:
                         continue

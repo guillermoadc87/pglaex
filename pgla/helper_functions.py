@@ -152,7 +152,7 @@ def is_xr(config):
 def routerIOSFromConfig(config):
     if "IOS XR" in config:
         return "xr"
-    elif "juniper" in config:
+    elif "routing-options {" in config:
         return "junos"
     else:
         return "ios"

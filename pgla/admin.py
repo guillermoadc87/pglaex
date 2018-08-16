@@ -250,6 +250,16 @@ class ParentAdmin(ImportExportModelAdmin):
             hostname.mtime = datetime.fromtimestamp(os.path.getmtime(file_path))
             hostname.save()
             return HttpResponseRedirect(".")
+        elif "view_config" in request.POST:
+            if obj.config.hostname:
+                try:
+                    with open(os.path.join(CONFIG_PATH, obj.country.name, obj.config.hostname.name + ".txt")) as file:
+                        response = StreamingHttpResponse(file, content_type="application/txt")
+                        response['Content-Disposition'] = "attachment; filename=%s.txt" % (obj.config.hostname.name,)
+                        return response
+                except FileNotFoundError:
+                    self.message_user(request, "The config file was not found", level=messages.ERROR)
+                    return HttpResponseRedirect(".")
         else:
             return super().response_change(request, obj)
 
