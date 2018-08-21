@@ -1,4 +1,4 @@
-import os, io
+import os, io, copy
 from datetime import datetime
 import calendar
 from wsgiref.util import FileWrapper
@@ -9,7 +9,7 @@ from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from .models import Link, Profile, ProvisionTime, Configuration, Hostname, Photo, LookingGlass, Credentials, Note, Country, Movement
+from .models import Link, Profile, ProvisionTime, Configuration, Hostname, Photo, LookingGlass, Credentials, Note, Country, Movement, Email
 
 from django.http import HttpResponseRedirect, StreamingHttpResponse
 from django.db.models import F, Q
@@ -18,10 +18,10 @@ from django.utils.safestring import mark_safe
 
 from .helper_functions import get_config_from, extract_info, convert_netmask, format_speed, create_template_excel, create_rfs, safe_list_get
 from .helper_functions import INVALID_COMMAND, INVALID_AUTH, INVALID_HOSTNAME, CONNECTION_PROBLEM
-from .list_filters import YearListFilter, QuarterListFilter, StateListFilter, CountryListFilter
+from .list_filters import YearListFilter, QuarterListFilter, StateListFilter
 from .resources import LinkResource, ProvisionTimeResource
-from .actions import duplicate_service
-from .forms import LinkForm
+from .actions import duplicate_service, export_to_excel
+from .forms import LinkForm, EmailForm
 from django_admin_listfilter_dropdown.filters import DropdownFilter, RelatedDropdownFilter
 
 admin.site.site_header = 'PGLAEX'
@@ -51,7 +51,7 @@ class CustomUserAdmin(UserAdmin):
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
 
-class RelatedInline(admin.TabularInline):
+class RelatedInline(admin.StackedInline):
     model = Link
     extra = 0
     fields = ('pgla', 'nsr', 'billing_date')
@@ -64,6 +64,22 @@ class ConfigurationInline(admin.StackedInline):
     model = Configuration
     verbose_name_plural = 'configs'
     template = 'admin/pgla/link/edit_inline/stacked.html'
+    fieldsets = (
+        ('', {
+            'fields': [
+                'hostname', 'mgnt_ip', 'pe_ip', 'ce_ip', 'mask', 'rp', 'speed', 'interface', 'profile', 'encap',
+                'encapID', 'vrf', 'client_as', 'telmex_as', 'managed']
+        }),
+    )
+
+    def get_fieldsets(self, request, obj=None):
+        if obj.service != 'RPV Multiservicios':
+            return ('', {
+            'fields': [
+                'hostname', 'mgnt_ip', 'pe_ip', 'ce_ip', 'mask', 'rp', 'speed', 'interface', 'encap',
+                'encapID', 'client_as', 'telmex_as', 'managed']
+            }),
+        return self.fieldsets
 
 class PhotoInline(admin.StackedInline):
     model = Photo
@@ -76,7 +92,7 @@ class NoteInline(admin.TabularInline):
 
 class ParentAdmin(ImportExportModelAdmin):
     form = LinkForm
-    actions = [duplicate_service]
+    actions = [duplicate_service, export_to_excel]
     inlines = (PhotoInline, ConfigurationInline, RelatedInline, NoteInline)
     readonly_fields = ('customer', 'pgla', 'nsr', 'country', 'address', 'cnr', 'participants')
     search_fields = ('site_name', 'pgla', 'nsr', 'customer__name', 'country__name', 'local_id', 'participants__first_name')
@@ -116,6 +132,13 @@ class ParentAdmin(ImportExportModelAdmin):
             del actions['delete_selected']
         return actions
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        else:
+            return qs.filter(participants=request.user)
+
     def response_change(self, request, obj):
         if "update_cnr" in request.POST:
             obj.update_cnr()
@@ -126,7 +149,8 @@ class ParentAdmin(ImportExportModelAdmin):
                     import socket
                     from ciscoconfparse import CiscoConfParse
                     try:
-                        config = open(os.path.join('pgla', 'configs', obj.country.name, obj.config.hostname.name + '.txt'))
+                        print(os.path.join(CONFIG_PATH, obj.country.name, obj.config.hostname.name + '.txt'))
+                        config = open(os.path.join(CONFIG_PATH, obj.country.name, obj.config.hostname.name + '.txt'))
                         parser = CiscoConfParse(config)
 
                         vrf_list = ()
@@ -139,26 +163,27 @@ class ParentAdmin(ImportExportModelAdmin):
                             for line in parser.find_parents_w_child("^vrf", "address-family"):
                                 vrf = line.split(" ")[-1]
                                 vrf_list = vrf_list + (vrf,)
+
+                        server_ip = socket.gethostbyname(socket.gethostname())
+                        port = request.META['SERVER_PORT']
+
+                        file_loader = FileSystemLoader(os.path.join(os.path.dirname(__file__)))
+                        env = Environment(loader=file_loader, trim_blocks=True, lstrip_blocks=True)
+                        template = env.get_template('telmex_glass.py')
+                        template = template.render(pk=obj.pk,
+                                                   hostname=obj.config.hostname.name,
+                                                   os=obj.config.hostname.os,
+                                                   vrf_list=vrf_list,
+                                                   server_ip=server_ip,
+                                                   port=port)
+
+                        response = StreamingHttpResponse(template, content_type="application/py")
+                        response['Content-Disposition'] = "attachment; filename=%s.py" % (obj.config.hostname.name,)
+
+                        return response
                     except FileNotFoundError:
-                        pass
-
-                    server_ip = socket.gethostbyname(socket.gethostname())
-                    port = request.META['SERVER_PORT']
-
-                    file_loader = FileSystemLoader(os.path.join(os.path.dirname(__file__)))
-                    env = Environment(loader=file_loader, trim_blocks=True, lstrip_blocks=True)
-                    template = env.get_template('telmex_glass.py')
-                    template = template.render(pk=obj.pk,
-                                                hostname=obj.config.hostname.name,
-                                                os=obj.config.hostname.os,
-                                                vrf_list=vrf_list,
-                                                server_ip=server_ip,
-                                                port=port)
-
-                    response = StreamingHttpResponse(template, content_type="application/py")
-                    response['Content-Disposition'] = "attachment; filename=%s.py" % (obj.config.hostname.name,)
-
-                    return response
+                        self.message_user(request, "Config not found", level=messages.ERROR)
+                        return HttpResponseRedirect(".")
         elif "download_config" in request.POST:
             if obj.local_id:
                 if obj.country.lg:
@@ -254,7 +279,8 @@ class ParentAdmin(ImportExportModelAdmin):
             if obj.config.hostname:
                 try:
                     with open(os.path.join(CONFIG_PATH, obj.country.name, obj.config.hostname.name + ".txt")) as file:
-                        response = StreamingHttpResponse(file, content_type="application/txt")
+                        data = file.readlines()
+                        response = StreamingHttpResponse(data, content_type="application/txt")
                         response['Content-Disposition'] = "attachment; filename=%s.txt" % (obj.config.hostname.name,)
                         return response
                 except FileNotFoundError:
@@ -268,27 +294,17 @@ class LinkAdmin(ParentAdmin):
     list_display = ('customer', 'pgla', 'nsr', 'movement', 'local_id', 'duedate_ciap', 'billing_date')
     list_filter = (('customer', RelatedDropdownFilter), YearListFilter, QuarterListFilter, StateListFilter)
 
-    def get_queryset(self, request):
-        qs = super().get_queryset(request)
-        if request.user.is_superuser:
-            return qs
-        else:
-            return qs.filter(participants=request.user)
-
 admin.site.register(Link, LinkAdmin)
 
 class ProvisionTimeAdmin(ParentAdmin):
     resource_class = ProvisionTimeResource
-    list_display = ('customer', 'site_name', 'pgla', 'nsr', 'state', 'movement', 'eorder_date', 'reception_ciap', 'eorder_days', 'local_order_date', 'local_order_days', 'billing_date', 'activation_days', 'total', 'cnr', 'cycle_time')
+    list_display = ('site_name', 'customer', 'pgla', 'nsr', 'state', 'movement', 'eorder_date', 'reception_ciap', 'eorder_days', 'lo', 'lo_days', 'billing_date', 'activation_days', 'total', 'cnr', 'cycle_time')
     list_filter = (('customer', RelatedDropdownFilter), YearListFilter, QuarterListFilter, StateListFilter)
     date_hierarchy = 'billing_date'
 
     def get_queryset(self, request):
         qs = super().get_queryset(request).filter(~Q(movement__name='BAJA'), special_project=False)
-        if request.user.is_superuser:
-            return qs
-        else:
-            return qs.filter(participants=request.user)
+        return qs
 
     def changelist_view(self, request, extra_context=None):
         response = super(ProvisionTimeAdmin, self).changelist_view(request, extra_context=extra_context)
@@ -305,7 +321,7 @@ class ProvisionTimeAdmin(ParentAdmin):
 
             # Current States
 
-            links_completed = qs.filter(~Q(state="INSTALACION SUSPENDIDA"))
+            links_completed = qs.filter(~Q(state="INSTALACION SUSPENDIDA"), billing_date__year=year)
 
             links_on_hold = qs.filter(state='INSTALACION SUSPENDIDA')
 
@@ -372,31 +388,23 @@ class ProvisionTimeAdmin(ParentAdmin):
 
             # Completion Times
 
-            ct_categories = []
-            ct_series = [{'name': 'Fastest', 'data': []}, {'name': 'Average', 'data': []}, {'name': 'Slowest', 'data': []}]
+            #ct_categories = []
+            ct_series = [{'name': 'Countries', 'data': []}]
 
             for country in set(qs.values_list('country__name', flat=True)):
-                fastest = float("inf")
-                slowest = 0
                 average = []
                 links_for_country = qs.filter(country__name=country)
                 for link in links_for_country:
                     if link.reception_ciap and link.billing_date:
                         provision_days = (link.billing_date - link.reception_ciap).days
                         average.append(provision_days)
-                        if provision_days < fastest:
-                            fastest = provision_days
-                        if provision_days > slowest:
-                            slowest = provision_days
 
                 if len(average) > 0:
                     average = sum(average) // len(average)
-                    ct_categories.append(country)
-                    ct_series[0]['data'].append(fastest)
-                    ct_series[1]['data'].append(average)
-                    ct_series[2]['data'].append(slowest)
+                    #ct_categories.append(country)
+                    ct_series[0]['data'].append({'name': country, 'y': average})
 
-            response.context_data['ct_categories'] = ct_categories
+            #response.context_data['ct_categories'] = ct_categories
             response.context_data['ct_series'] = ct_series
 
             # Mothly Stats
@@ -461,6 +469,12 @@ class ProvisionTimeAdmin(ParentAdmin):
 
     cycle_time.allow_tags = True
 
+    def lo(self, obj):
+        return obj.local_order_date
+
+    def lo_days(self, obj):
+        return obj.local_order_days
+
 admin.site.register(ProvisionTime, ProvisionTimeAdmin)
 
 class CredentialsInline(admin.StackedInline):
@@ -473,6 +487,26 @@ class LookingGlassAdmin(ImportExportModelAdmin):
     list_display = ('name', 'path', 'username', 'password', 'protocol', 'port')
 
 admin.site.register(LookingGlass, LookingGlassAdmin)
+
+class EmailAdmin(admin.ModelAdmin):
+    form = EmailForm
+    list_display = ('subject', 'to', 'state')
+    fieldsets = (
+        (None, {'fields': ('state', 'subject', 'to', 'body')}),
+        )
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        else:
+            return qs.filter(user=request.user)
+
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        super().save_model(request, obj, form, change)
+
+admin.site.register(Email, EmailAdmin)
 
 admin.site.register(Country)
 

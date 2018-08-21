@@ -30,7 +30,7 @@ class Command(BaseCommand):
         keys = [
             'number', 'customer', 'client_segment', 'pm', 'imp', 'ise', 'capl', 'pgla', 'nsr', 'local_ids', 'service', 'tr', 'carrier', 'te',
             'movement',
-            'state', 'motive', 'country_a', 'country_b', 'duedate_ciap', 'duedate_acc', 'entraga_ciap',
+            '_state', 'motive', 'country_a', 'country_b', 'duedate_ciap', 'duedate_acc', 'entraga_ciap',
             'loop_ready', 'recepcion_ciap', 'billing_date', 'cnr', 'ddf', 'daf', 'observation', 'duration',
             'duracion_contract', 'nrc', 'mrc'
         ]

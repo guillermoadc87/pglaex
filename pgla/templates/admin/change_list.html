@@ -60,7 +60,7 @@ Highcharts.setOptions({
 });
 Highcharts.chart('container3', {
 	chart: {
-                type: 'bar',
+                type: 'column',
                 height: 650
             },
             tooltip: {
@@ -68,14 +68,9 @@ Highcharts.chart('container3', {
             },
             title : { text : `Completion Times` },
             xAxis: {
-                categories: {{ct_categories | safe}},
-                crosshair: true,
-                labels: {
-                    rotation: -45
-                }
+                type: 'category'
             },
             yAxis: {
-                min: 0,
                 title: {
                     text: 'Time to Complete (days)',
                     align: 'high'
@@ -85,7 +80,7 @@ Highcharts.chart('container3', {
                 }
             },
             plotOptions: {
-                bar: {
+                column: {
                     dataLabels: {
                         enabled: true,
                         allowOverlap: true,

@@ -1506,7 +1506,7 @@ def create_rfs(document):
                        u"Contacto Cliente", u"Teléfono contacto", u"Contacto de cliente que valido activacion de servicio:",
                        u"VRF cliente:", u"IP LAN CLIENTE:", u"PROTOCOLO IGP:", u"Observaciones:"]
         data = [document.movement.name, document.loop_ready, document.pgla, "", document.loop_ready, "", document.pm,
-                "MAURICIO DAVALOS", document.customer.name, "", document.address, document.country_a, document.site_name, "", document.nsr,
+                "MAURICIO DAVALOS", document.customer.name, "", document.address, document.country.name, document.site_name, "", document.nsr,
                 document.local_id, getProvider(document), document.config.pe_ip, document.config.ce_ip, document.config.hostname.name, format_speed(document.config.speed),
                 document.service, document.scheme, "", "", "", document.sla, "3", document.config.profile, "", "", "", "", "",
                 "", "", document.config.vrf, "", "", "Sin Observaciones"]
@@ -1532,7 +1532,7 @@ def create_rfs(document):
                        u"Administrador de proyecto:", u"Supervisor de Ingenieria:", u"CLIENTE:", u"Pais", u"SID:",
                        u"Referencia (NSR): ", u"ID LOCAL:", u"Proveedor del Servicio", u"Domicilio Fisico",
                        u"Contacto Uninet", u"Observaciones:"]
-        data = [document.movement.name, document.pgla, '', document.loop_ready, '', document.pm, "MAURICIO DAVALOS", document.client, document.country_a,
+        data = [document.movement.name, document.pgla, '', document.loop_ready, '', document.pm, "MAURICIO DAVALOS", document.client, document.country.name,
                 '', document.nsr, document.local_id, getProvider(document), document.address, '', "Sin Observaciones"]
         output = createEXCEL(output, header, information, data)
 

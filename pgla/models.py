@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.postgres.fields import ArrayField, HStoreField
-from django.template.defaultfilters import default
 
 from .helper_functions import totalTimeSpan, reactivar, suspender, subtract_days
 from . slackAPI import create_channel_with, invite_user
@@ -50,11 +49,18 @@ class Client(models.Model):
     #            return client
 
 class Link(models.Model):
-    states = (
-        ('DESCONEXION SOLICITADA (DXSO)', 'DESCONEXION SOLICITADA (DXSO)'),
+    states_alta = (
         ('INSTALACION SUSPENDIDA', 'INSTALACION SUSPENDIDA'),
         ('ACCESO SOLICITADO (ACSO)', 'ACCESO SOLICITADO (ACSO)'),
         ('ACCESO LISTO (ACLI)', 'ACCESO LISTO (ACLI)'),
+        ('PRUEBAS CON EL CLIENTE', 'PRUEBAS CON EL CLIENTE'),
+        ('ACTIVO SIN FACTURACION', 'ACTIVO SIN FACTURACION'),
+    )
+
+    states_baja = (
+        ('INSTALACION SUSPENDIDA', 'INSTALACION SUSPENDIDA'),
+        ('DESCONEXION SOLICITADA (DXSO)', 'DESCONEXION SOLICITADA (DXSO)'),
+        ('DESCONEXION LISTA (DXLI)', 'DESCONEXION LISTA (DXLI)'),
         ('PRUEBAS CON EL CLIENTE', 'PRUEBAS CON EL CLIENTE'),
         ('ACTIVO SIN FACTURACION', 'ACTIVO SIN FACTURACION'),
     )
@@ -83,7 +89,7 @@ class Link(models.Model):
     interface = models.CharField(max_length=120, choices=interfaces, blank=True, null=True)
     profile = models.CharField(max_length=120, blank=True, null=True)
     speed = models.CharField(max_length=120, blank=True, null=True)
-    state = models.CharField(max_length=120, choices=states, blank=True, null=True)
+    state = models.CharField(max_length=120, choices=states_alta, blank=True, null=True)
     motive = models.CharField(max_length=120, null=True)
     eorder_date = models.DateField(blank=True, null=True)
     local_order_date = models.DateField(blank=True, null=True)
@@ -109,6 +115,8 @@ class Link(models.Model):
     def __init__(self, *args, **kwargs):
         super(Link, self).__init__(*args, **kwargs)
         self.old_state = self.state
+        if self.movement and self.movement.name == 'BAJA':
+            self._meta.get_field('state').choices = self.states_baja
 
     @property
     def eorder_days(self):
@@ -331,3 +339,20 @@ class Hostname(models.Model):
 
     def __str__(self):
         return "%s (%s)" % (self.name, self.mtime)
+
+class Email(models.Model):
+    states = (
+        ('INSTALACION SUSPENDIDA', 'INSTALACION SUSPENDIDA'),
+        ('ACCESO SOLICITADO (ACSO)', 'ACCESO SOLICITADO (ACSO)'),
+        ('ACCESO LISTO (ACLI)', 'ACCESO LISTO (ACLI)'),
+        ('DESCONEXION SOLICITADA (DXSO)', 'DESCONEXION SOLICITADA (DXSO)'),
+        ('DESCONEXION LISTA (DXLI)', 'DESCONEXION LISTA (DXLI)'),
+        ('PRUEBAS CON EL CLIENTE', 'PRUEBAS CON EL CLIENTE'),
+        ('ACTIVO SIN FACTURACION', 'ACTIVO SIN FACTURACION'),
+    )
+
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='emails', null=True)
+    state = models.CharField(max_length=120, choices=states)
+    subject = models.CharField(max_length=120)
+    to = models.CharField(max_length=120)
+    body = models.TextField(max_length=1000)
