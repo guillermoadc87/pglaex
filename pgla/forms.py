@@ -1,5 +1,5 @@
 from django import forms
-from .models import Link, Email
+from .models import Link
 
 class LinkForm(forms.ModelForm):
 
@@ -18,21 +18,9 @@ class LinkForm(forms.ModelForm):
         model = Link
         exclude = []
 
-class EmailForm(forms.ModelForm):
-
-    def clean(self):
-        cleaned_data = super().clean()
-        user = cleaned_data.get("user")
-
-        if not user.email:
-            raise forms.ValidationError(
-                "You need to have an email address set in your profile"
-            )
-
-    class Meta:
-        model = Email
-        exclude = []
-
-
-
+class ProfileAdminForm(forms.ModelForm):
+    report = forms.MultipleChoiceField(
+        required=False,
+        choices=[(f.name, f.name) for f in Link._meta.get_fields()],
+    )
 

@@ -17,7 +17,7 @@ class Command(BaseCommand):
         from datetime import date
         if delivered:
             state = 'ENTREGADOS'
-            start_date = (date.today() - timedelta(2)).strftime('%d/%m/%Y')
+            start_date = (date.today() - timedelta(20)).strftime('%d/%m/%Y')
             end_date = date.today().strftime('%d/%m/%Y')
         else:
             state = ''
@@ -30,7 +30,7 @@ class Command(BaseCommand):
         keys = [
             'number', 'customer', 'client_segment', 'pm', 'imp', 'ise', 'capl', 'pgla', 'nsr', 'local_ids', 'service', 'tr', 'carrier', 'te',
             'movement',
-            '_state', 'motive', 'country_a', 'country_b', 'duedate_ciap', 'duedate_acc', 'entraga_ciap',
+            'state', 'motive', 'country_a', 'country_b', 'duedate_ciap', 'duedate_acc', 'entraga_ciap',
             'loop_ready', 'recepcion_ciap', 'billing_date', 'cnr', 'ddf', 'daf', 'observation', 'duration',
             'duracion_contract', 'nrc', 'mrc'
         ]

@@ -1,3 +1,4 @@
+from datetime import timedelta
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -89,14 +90,14 @@ class Link(models.Model):
     interface = models.CharField(max_length=120, choices=interfaces, blank=True, null=True)
     profile = models.CharField(max_length=120, blank=True, null=True)
     speed = models.CharField(max_length=120, blank=True, null=True)
-    state = models.CharField(max_length=120, choices=states_alta, blank=True, null=True)
+    state = models.CharField(max_length=120, blank=True, null=True)
     motive = models.CharField(max_length=120, null=True)
     eorder_date = models.DateField(blank=True, null=True)
     local_order_date = models.DateField(blank=True, null=True)
     duedate_acc = models.DateField(blank=True, null=True)
     entraga_ciap = models.DateField(blank=True, null=True)
     reception_ciap = models.DateField('PGLA Date', blank=True, null=True)
-    loop_ready = models.DateField('PGLA Date', blank=True, null=True)
+    loop_ready = models.DateField(blank=True, null=True)
     billing_date = models.DateField(blank=True, null=True)
     duedate_ciap = models.DateField(blank=True, null=True)
     activation_date = models.DateField(blank=True, null=True)
@@ -117,6 +118,8 @@ class Link(models.Model):
         self.old_state = self.state
         if self.movement and self.movement.name == 'BAJA':
             self._meta.get_field('state').choices = self.states_baja
+        else:
+            self._meta.get_field('state').choices = self.states_alta
 
     @property
     def eorder_days(self):
@@ -146,6 +149,18 @@ class Link(models.Model):
             total -= self.cnr
 
         return total
+
+    @property
+    def adjusted_due_date(self):
+        if self.cnr and self.duedate_ciap:
+            return self.duedate_ciap + timedelta(days=self.cnr)
+        return self.duedate_ciap
+
+    @property
+    def otp(self):
+        if self.billing_date > self.adjusted_due_date:
+            return True
+        return False
 
     @property
     def channel_name(self):
@@ -251,7 +266,7 @@ class Photo(models.Model):
 
 class Configuration(models.Model):
     link = models.OneToOneField('Link', on_delete=models.CASCADE, related_name='config')
-    hostname = models.ForeignKey('Hostname', on_delete=models.CASCADE)
+    hostname = models.ForeignKey('Hostname', on_delete=models.SET_NULL, blank=True, null=True)
     mgnt_ip = models.GenericIPAddressField("MGNT IP", blank=True, null=True)
     pe_ip = models.GenericIPAddressField("PE IP", blank=True, null=True)
     ce_ip = models.GenericIPAddressField("CE IP", max_length=120, blank=True, null=True)
@@ -259,7 +274,7 @@ class Configuration(models.Model):
     rp = models.CharField("RP", max_length=120, blank=True, null=True)
     speed = models.FloatField(blank=True, null=True)
     interface = models.CharField(max_length=120, blank=True, null=True)
-    profile = models.CharField(max_length=120, blank=True, null=True)
+    profile = models.IntegerField(max_length=120, blank=True, null=True)
     encap = models.CharField("Encapsulation", max_length=120, blank=True, null=True)
     encapID = models.CharField("Encapsulation ID", max_length=120, blank=True, null=True)
     vrf = models.CharField("VRF", max_length=120, blank=True, null=True)
@@ -340,7 +355,7 @@ class Hostname(models.Model):
     def __str__(self):
         return "%s (%s)" % (self.name, self.mtime)
 
-class Email(models.Model):
+class Report(models.Model):
     states = (
         ('INSTALACION SUSPENDIDA', 'INSTALACION SUSPENDIDA'),
         ('ACCESO SOLICITADO (ACSO)', 'ACCESO SOLICITADO (ACSO)'),
@@ -351,8 +366,8 @@ class Email(models.Model):
         ('ACTIVO SIN FACTURACION', 'ACTIVO SIN FACTURACION'),
     )
 
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='emails', null=True)
-    state = models.CharField(max_length=120, choices=states)
-    subject = models.CharField(max_length=120)
-    to = models.CharField(max_length=120)
-    body = models.TextField(max_length=1000)
+    user = models.ManyToManyField(User, related_name='reports')
+    fields = ArrayField(models.CharField(max_length=120))
+    from_date = models.DateField(blank=True, null=True)
+    to_date = models.DateField(blank=True, null=True)
+    schedule = models.TextField(max_length=1000)

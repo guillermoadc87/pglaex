@@ -34,7 +34,7 @@ NO_PE_LG = 3
 
 regex_list = {
     'MEXICO': "(A|C|D|F|S)([B|T]\d{1}|\d{2})-\d{4}-\d{4}",
-    'BRASIL': "\w{3,4}\/\w{2,4}\/\d{5}",
+    'BRASIL': "\w{3,4}\/\w{2,5}\/\d{5}",
     'PERU': "\d{7}",
     'HONDURAS': "\d{6}",
     'GUATEMALA': "\d{8}",
@@ -796,7 +796,7 @@ def extract_info(config, link, hostname, country):
             except:
                 pass
 
-    if link.country.name == "BRASIL" and hostname.os == "xr" and data['rp'] == "B":
+    if link.country.name == "BRASIL" and hostname.os == "xr":
         config += get_config_from(country, hostname.name, command="show configuration running-config router bgp 4230 vrf " + data["vrf"])
         parse = CiscoConfParse(config)
 

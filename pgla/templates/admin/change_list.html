@@ -161,6 +161,9 @@ Highcharts.chart('container5', {
     legend: {
         reversed: true
     },
+    tooltip: {
+        pointFormat: '{series.name}<br><b>{point.y:.1f} %</b>'
+    },
     plotOptions: {
         series: {
             stacking: 'normal'

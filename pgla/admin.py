@@ -9,7 +9,7 @@ from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from .models import Link, Profile, ProvisionTime, Configuration, Hostname, Photo, LookingGlass, Credentials, Note, Country, Movement, Email
+from .models import Link, Profile, ProvisionTime, Configuration, Hostname, Photo, LookingGlass, Credentials, Note, Country, Movement
 
 from django.http import HttpResponseRedirect, StreamingHttpResponse
 from django.db.models import F, Q
@@ -20,18 +20,13 @@ from .helper_functions import get_config_from, extract_info, convert_netmask, fo
 from .helper_functions import INVALID_COMMAND, INVALID_AUTH, INVALID_HOSTNAME, CONNECTION_PROBLEM
 from .list_filters import YearListFilter, QuarterListFilter, StateListFilter
 from .resources import LinkResource, ProvisionTimeResource
-from .actions import duplicate_service, export_to_excel
-from .forms import LinkForm, EmailForm
+from .actions import duplicate_service, all_days_report, ct_report
+from .forms import LinkForm, ProfileAdminForm
 from django_admin_listfilter_dropdown.filters import DropdownFilter, RelatedDropdownFilter
 
 admin.site.site_header = 'PGLAEX'
 
-# Register your models here.
-class ProfileAdminForm(forms.ModelForm):
-    report = forms.MultipleChoiceField(
-        required=False,
-        choices=[(f.name, f.name) for f in Link._meta.get_fields()],
-    )
+
 
 class ProfileInline(admin.StackedInline):
     model = Profile
@@ -92,7 +87,7 @@ class NoteInline(admin.TabularInline):
 
 class ParentAdmin(ImportExportModelAdmin):
     form = LinkForm
-    actions = [duplicate_service, export_to_excel]
+    actions = [duplicate_service, all_days_report, ct_report]
     inlines = (PhotoInline, ConfigurationInline, RelatedInline, NoteInline)
     readonly_fields = ('customer', 'pgla', 'nsr', 'country', 'address', 'cnr', 'participants')
     search_fields = ('site_name', 'pgla', 'nsr', 'customer__name', 'country__name', 'local_id', 'participants__first_name')
@@ -396,12 +391,10 @@ class ProvisionTimeAdmin(ParentAdmin):
                 links_for_country = qs.filter(country__name=country)
                 for link in links_for_country:
                     if link.reception_ciap and link.billing_date:
-                        provision_days = (link.billing_date - link.reception_ciap).days
-                        average.append(provision_days)
+                        average.append(link.cycle_time)
 
                 if len(average) > 0:
                     average = sum(average) // len(average)
-                    #ct_categories.append(country)
                     ct_series[0]['data'].append({'name': country, 'y': average})
 
             #response.context_data['ct_categories'] = ct_categories
@@ -487,26 +480,6 @@ class LookingGlassAdmin(ImportExportModelAdmin):
     list_display = ('name', 'path', 'username', 'password', 'protocol', 'port')
 
 admin.site.register(LookingGlass, LookingGlassAdmin)
-
-class EmailAdmin(admin.ModelAdmin):
-    form = EmailForm
-    list_display = ('subject', 'to', 'state')
-    fieldsets = (
-        (None, {'fields': ('state', 'subject', 'to', 'body')}),
-        )
-
-    def get_queryset(self, request):
-        qs = super().get_queryset(request)
-        if request.user.is_superuser:
-            return qs
-        else:
-            return qs.filter(user=request.user)
-
-    def save_model(self, request, obj, form, change):
-        obj.user = request.user
-        super().save_model(request, obj, form, change)
-
-admin.site.register(Email, EmailAdmin)
 
 admin.site.register(Country)
 
