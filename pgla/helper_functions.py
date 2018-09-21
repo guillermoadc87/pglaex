@@ -734,7 +734,6 @@ def extract_info(config, link, hostname, country):
         'vrf': '',
         'encap': '',
         'encapID': '',
-        'profile': '',
         'client_as': '',
         'telmex_as': ''
     }
@@ -1512,7 +1511,7 @@ def create_rfs(document):
                 "", "", document.config.vrf, "", "", "Sin Observaciones"]
 
         createEXCEL(output, header, information, data)
-    elif document.movement.name == "CAMBIO":
+    elif document.movement.name == "CAMBIO" or document.movement.name == "CAMBIO FISICO":
         information = [u"Tipo de cambio:", u"Fecha y hora de preactivacion:", u"Cambio Uninet Aprobado/PGLA:",
                        u"No. De Cambio", u"Fecha y Hora entrega de implementacion:", u"Supervisor/Analista CNOC:",
                        u"Administrador de proyecto:", u"Supervisor de Ingenieria:", u"CLIENTE:", u"Nombre del Sitio:",
